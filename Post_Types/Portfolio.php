@@ -2,11 +2,7 @@
 
 namespace THFW_Portfolio\Post_Types;
 
-/**
- * @package THFWPortfolio
- */
-
-class Post_Types
+class Portfolio
 {
     public function __construct()
     {
@@ -70,7 +66,36 @@ class Post_Types
         flush_rewrite_rules();
     }
 
-
+    function add_custom_meta_boxes()
+    {
+        add_meta_box(
+            "post_metadata_project_button",
+            "Project Button",
+            [$this, 'post_meta_box_project_button'],
+            "projects",
+            "side",
+            "low"
+        );
+    }
+    
+    function post_meta_box_project_button()
+    {
+        $postID = get_the_ID();
+        $projectButton = get_post_meta($postID, '_project_button', true); ?>
+    
+        <input type='text' name="_project_button" value="<?php echo esc_attr($projectButton); ?>" placeholder="Project Button">
+    <?php }
+    
+    function save_post_project_button($postID)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+    
+        $projectButton = isset($_POST["_project_button"]) ? sanitize_text_field($_POST["_project_button"]) : '';
+        update_post_meta($postID, "_project_button", $projectButton);
+    }
+        
     // add event date field to events post type
     function add_post_meta_boxes()
     {
@@ -82,26 +107,5 @@ class Post_Types
             "normal", // location on the screen
             "low" // placement priority
         );
-    }
-
-    function save_post_project_button()
-    {
-        global $post;
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-        // if ( get_post_status( $post->ID ) === 'auto-draft' ) {
-        //     return;
-        // }
-        update_post_meta($post->ID, "_project_button", sanitize_text_field($_POST["_project_button"]));
-    }
-
-    function post_meta_box_project_button()
-    {
-        global $post;
-        $custom = get_post_custom($post->ID);
-        $projectButton = $custom["_project_button"][0];
-
-        echo "<input type=\"text\" name=\"_project_button\" value=\"" . $projectButton . "\" placeholder=\"Project Button\">";
     }
 }

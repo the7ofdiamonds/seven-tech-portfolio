@@ -1,7 +1,9 @@
 <?php
 
+namespace THFW_Portfolio;
+
 /**
- * @package THFWPortfolio
+ * @package THFW_Portfolio
  */
 /*
 Plugin Name: THFW Portfolio
@@ -28,7 +30,7 @@ use THFW_Portfolio\CSS\CSS;
 use THFW_Portfolio\JS\JS;
 use THFW_Portfolio\Menus\Menus;
 use THFW_Portfolio\Pages\Pages;
-use THFW_Portfolio\Post_Types\Post_Types;
+use THFW_Portfolio\Post_Types\Portfolio;
 use THFW_Portfolio\Shortcodes\Shortcodes;
 use THFW_Portfolio\Taxonomies\Taxonomies;
 use THFW_Portfolio\Templates\Templates;
@@ -40,7 +42,7 @@ class THFW_Portfolio
         new CSS;
         new JS;
         new Pages;
-        new Post_Types;
+        new Portfolio;
         new Shortcodes;
         new Taxonomies;
         new Templates;

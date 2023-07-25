@@ -14,7 +14,7 @@ class Pages
     function get_custom_archive_template($archive_template)
     {
         if (is_post_type_archive('portfolio')) {
-            $archive_template = WP_PLUGIN_DIR . '/thfw-portfolio/pages/archive-portfolio.php';
+            $archive_template = THFW_PORTFOLIO . 'pages/archive-portfolio.php';
         }
 
         return $archive_template;
@@ -25,7 +25,7 @@ class Pages
         global $post;
 
         if ($post->post_type == 'portfolio') {
-            $single_template = WP_PLUGIN_DIR . '/thfw-portfolio/pages/single-portfolio.php';
+            $single_template = THFW_PORTFOLIO . 'pages/single-portfolio.php';
         }
 
         return $single_template;

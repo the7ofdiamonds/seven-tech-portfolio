@@ -9,15 +9,15 @@
 <?php get_header(); ?>
     <section id="project" class="project">
 
-        <?php include WP_PLUGIN_DIR . '/thfw-portfolio/includes/part-project-gallery.php'; ?>
+        <?php include THFW_PORTFOLIO . 'includes/part-project-gallery.php'; ?>
         
         <h2 class="title"><?php the_title(); ?></h2>
 
         <div class="project-info">
 
-            <?php include WP_PLUGIN_DIR . '/thfw-portfolio/includes/part-project-type.php'; ?>
+            <?php include THFW_PORTFOLIO . 'includes/part-project-type.php'; ?>
             
-            <?php include WP_PLUGIN_DIR . '/thfw-portfolio/includes/part-project-status.php'; ?>
+            <?php include THFW_PORTFOLIO . 'includes/part-project-status.php'; ?>
 
         </div>
 
@@ -26,14 +26,14 @@
         <?php do_shortcode('[awards]'); ?>
 
         <?php
-            if (is_plugin_active('orb-services/orb-services.php')) { 
+            if (is_plugin_active('orb-services/ORB-Services.php')) { 
                 do_shortcode('[testimonials]');
             }
         ?>
         
-        <?php include WP_PLUGIN_DIR . '/thfw-portfolio/includes/part-project-author.php'; ?>
+        <?php include THFW_PORTFOLIO . 'includes/part-project-author.php'; ?>
 
-        <?php include WP_PLUGIN_DIR . '/thfw-portfolio/includes/part-project-tag.php'; ?>
+        <?php include THFW_PORTFOLIO . 'includes/part-project-tag.php'; ?>
 
         <div class="project-action-button">
             <button class="project-button">

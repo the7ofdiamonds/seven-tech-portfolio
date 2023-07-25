@@ -13,6 +13,6 @@ class JS
     //Load Plugin JS
     function load_js()
     {
-        wp_enqueue_script('thfw_portfolio_js', WP_PLUGIN_URL . '/thfw-portfolio/js/thfw-portfolio.js', array('jquery'), false, false);
+        wp_enqueue_script('thfw_portfolio_js', THFW_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
     }
 }
