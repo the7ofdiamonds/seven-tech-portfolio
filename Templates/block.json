@@ -1,0 +1,83 @@
+"<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:paragraph -->\n
+<p>Describe client</p>\n
+<!-- /wp:paragraph -->\n\n
+<!-- wp:paragraph -->\n
+<p>Explain role</p>\n
+<!-- /wp:paragraph -->\n\n
+<!-- wp:paragraph -->\n
+<p>Present results</p>\n
+<!-- /wp:paragraph -->\n\n
+<!-- wp:paragraph -->\n
+<p>List key takeaways</p>\n
+<!-- /wp:paragraph --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group -->\n\n
+<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:heading {\"level\":3} -->\n<h3>The Process</h3>\n
+<!-- /wp:heading -->\n\n
+<!-- wp:list {\"ordered\":true} -->\n
+<ol><!-- wp:list-item -->\n
+<li>Business Requirements</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Research Analysis</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Design</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Development</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Testing</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Deployment</li>\n
+<!-- /wp:list-item -->\n\n
+<!-- wp:list-item -->\n
+<li>Operations</li>\n
+<!-- /wp:list-item --></ol>\n
+<!-- /wp:list --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group -->\n\n
+<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:heading {\"level\":3} -->\n<h3>The Goal</h3>\n
+<!-- /wp:heading -->\n\n
+<!-- wp:paragraph -->\n
+<p>Mission/Challenge</p>\n
+<!-- /wp:paragraph --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group -->\n\n
+<!-- wp:group {\"layout\":{\"type\":\"default\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:heading {\"level\":3} -->\n<h3>The Problem</h3>\n
+<!-- /wp:heading -->\n\n
+<!-- wp:paragraph -->\n
+<p>Present the design problem</p>\n
+<!-- /wp:paragraph --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group -->\n\n
+<!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} -->\n
+<div class=\"wp-block-group\"><!-- wp:heading {\"level\":3} -->\n
+<h3>The Solution</h3>\n
+<!-- /wp:heading -->\n\n
+<!-- wp:paragraph -->\n
+<p>Share the solution</p>\n
+<!-- /wp:paragraph --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group --></div>\n
+<!-- /wp:group -->"

@@ -1,0 +1,16 @@
+{
+    "name": "the7ofdiamonds.tech/thfw_portfolio",
+    "description": "THFW Portfolio Plugin",
+    "authors": [
+        {
+            "name": "Jamel Lyons",
+            "email": "jclyonsenterprises@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "THFW_Portfolio\\": ""
+        }
+    }
+}

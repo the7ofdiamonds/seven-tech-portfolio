@@ -1,0 +1,23 @@
+.project {
+  .project-info,
+  .project-status,
+  .project-type,
+  .project-tags {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .project-info {
+    width: 100%;
+  }
+
+  progress {
+    height: 2rem;
+    background-color: green;
+  }
+}

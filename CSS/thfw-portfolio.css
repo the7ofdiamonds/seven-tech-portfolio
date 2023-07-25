@@ -1,0 +1,111 @@
+@charset "UTF-8";
+.project-card .project-featured-image a {
+  font-size: 0;
+}
+.project-card .project-featured-image a img {
+  width: 100%;
+  max-height: 12.5rem;
+}
+.project-card .project-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.project-card .project-type {
+  width: 100%;
+}
+
+.project .project-info,
+.project .project-status,
+.project .project-type,
+.project .project-tags {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.project .project-info {
+  width: 100%;
+}
+.project progress {
+  height: 2rem;
+  background-color: green;
+}
+
+.author-card.card {
+  height: fit-content;
+}
+.author-card.card .left {
+  grid-area: Left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.375rem;
+  height: 100%;
+}
+.author-card.card .left .author-pic {
+  width: 100%;
+}
+.author-card.card .left .author-pic a {
+  font-size: 0;
+}
+.author-card.card .left .author-pic a img {
+  width: 100%;
+  height: auto;
+}
+.author-card.card .right {
+  grid-area: Right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  height: 100%;
+}
+.author-card.card .right p {
+  text-align: left;
+  height: 100%;
+}
+.author-card.card .right button {
+  align-self: center;
+}
+
+@media screen and (min-width: 700px) {
+  .author-card.card {
+    display: grid;
+    grid-template-areas: "Left Right";
+    grid-template-columns: 1fr 2fr;
+  }
+}
+.project-tags .tag {
+  background-color: unset;
+  box-shadow: none;
+  color: black;
+}
+.project-tags .tag:hover {
+  background-color: black;
+  color: white;
+  border-radius: 1.5em;
+}
+
+details summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+details summary::after {
+  content: "►";
+  /* Unicode arrow symbol */
+  margin-left: 5px;
+  /* Adjust the value as needed */
+}
+details summary::after {
+  display: none;
+}
+
+/*# sourceMappingURL=thfw-portfolio.css.map */

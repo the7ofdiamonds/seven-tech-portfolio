@@ -1,0 +1,13 @@
+.project-tags {
+    .tag {
+        background-color: unset;
+        box-shadow: none;
+        color: black;
+    }
+
+    .tag:hover {
+        background-color: black;
+        color: white;
+        border-radius: 1.5em;
+    }
+}
