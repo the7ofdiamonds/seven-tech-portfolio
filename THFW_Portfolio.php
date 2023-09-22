@@ -58,6 +58,10 @@ $thfw_portfolio = new THFW_Portfolio();
 register_activation_hook(__FILE__, array($thfw_portfolio, 'activate'));
 // register_deactivation_hook( __FILE__, array( $thfw_portfolio, 'deactivate' ) );
 
+$thfw_portfolio_pages = new Pages();
+register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_services_on_boarding']);
+register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_on_boarding_problem']);
+
 $thfw_portfolio_menus = new Menus();
 register_activation_hook(__FILE__, [$thfw_portfolio_menus, 'create_mobile_menu']);
 register_activation_hook(__FILE__, [$thfw_portfolio_menus, 'create_left_menu']);

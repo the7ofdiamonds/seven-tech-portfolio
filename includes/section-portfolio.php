@@ -1,4 +1,4 @@
-<section id="portfolio" class="portfolio">
+<section class="thfw_portfolio" id="thfw_portfolio">
 
     <h2 class="title">PORTFOLIO</h2>
 
