@@ -3,6 +3,7 @@
 namespace THFW_Portfolio\Database;
 
 use THFW_Portfolio\Database\OnboardingDatabase;
+use THFW_Portfolio\Database\TheProblemDatabase;
 
 class Database
 {
@@ -16,11 +17,13 @@ class Database
         $this->createTables();
 
         new OnboardingDatabase;
+        new TheProblemDatabase;
     }
 
     function createTables()
     {
         $this->create_onboarding_table();
+        $this->create_problem_table();
     }
 
     function create_onboarding_table()
@@ -57,6 +60,34 @@ class Database
             what_business VARCHAR(255) DEFAULT NULL,
             plan VARCHAR(255) DEFAULT NULL,
             plan_url VARCHAR(255) DEFAULT NULL,
+            PRIMARY KEY (id)
+        ) $charset_collate;";
+
+        dbDelta($sql);
+    }
+
+    function create_problem_table()
+    {
+        $table_name = '7tech_problem';
+        $charset_collate = $this->wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE {$table_name} (
+            id INT NOT NULL AUTO_INCREMENT,
+            created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            client_id VARCHAR(255) DEFAULT NULL,
+            customers_impacted VARCHAR(255) DEFAULT NULL,
+            primary_stackholders VARCHAR(255) DEFAULT NULL,
+            problem_affected VARCHAR(255) DEFAULT NULL,
+            challenges VARCHAR(255) DEFAULT NULL,
+            affected_operations VARCHAR(255) DEFAULT NULL,
+            change_event VARCHAR(255) DEFAULT NULL,
+            factors_contributed VARCHAR(255) DEFAULT NULL,
+            patterns_trends VARCHAR(255) DEFAULT NULL,
+            first_notice_date VARCHAR(255) DEFAULT NULL,
+            recurring_issue VARCHAR(255) DEFAULT NULL,
+            tried_solutions VARCHAR(255) DEFAULT NULL,
+            tried_solutions_results VARCHAR(255) DEFAULT NULL,
+            ideal_resolution VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id)
         ) $charset_collate;";
 

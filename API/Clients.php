@@ -6,10 +6,12 @@ use Exception;
 use WP_REST_Request;
 
 use THFW_Portfolio\Database\OnboardingDatabase;
+use THFW_Portfolio\Database\TheProblemDatabase;
 
 class Clients
 {
     private $onboarding_database;
+    private $the_problem_database;
 
     public function __construct()
     {
@@ -22,6 +24,16 @@ class Clients
         });
 
         $this->onboarding_database = new OnBoardingDatabase;
+
+        add_action('rest_api_init', function () {
+            register_rest_route('thfw/v1', '/users/client/problem', array(
+                'methods' => 'POST',
+                'callback' => array($this, 'client_problem'),
+                'permission_callback' => '__return_true',
+            ));
+        });
+
+        $this->the_problem_database = new TheProblemDatabase;
     }
 
 
@@ -59,6 +71,44 @@ class Clients
 
             $onboarding_id = $this->onboarding_database->saveOnboarding($onboarding);
             return rest_ensure_response($onboarding_id);
+        } catch (Exception $e) {
+            $error_message = $e->getMessage();
+            $status_code = $e->getCode();
+
+            $response_data = [
+                'message' => $error_message,
+                'status' => $status_code
+            ];
+
+            $response = rest_ensure_response($response_data);
+            $response->set_status($status_code);
+
+            return $response;
+        }
+    }
+
+    function client_problem(WP_REST_Request $request)
+    {
+        try {
+            $problem = [
+                'client_id' => $request['client_id'],
+                'customers_impacted' => $request['customers_impacted'],
+                'primary_stackholders' => $request['primary_stackholders'],
+                'problem_affected' => $request['problem_affected'],
+                'challenges' => $request['challenges'],
+                'affected_operations' => $request['affected_operations'],
+                'change_event' => $request['change_event'],
+                'factors_contributed' => $request['factors_contributed'],
+                'patterns_trends' => $request['patterns_trends'],
+                'first_notice_date' => $request['first_notice_date'],
+                'recurring_issue' => $request['recurring_issue'],
+                'tried_solutions' => $request['tried_solutions'],
+                'tried_solutions_results' => $request['tried_solutions_results'],
+                'ideal_resolution' => $request['ideal_resolution'],
+            ];
+
+            $problem_id = $this->the_problem_database->saveProblem($problem);
+            return rest_ensure_response($problem_id);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();

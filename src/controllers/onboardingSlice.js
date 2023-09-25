@@ -4,11 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
     loading: false,
     error: '',
-    client_id: '',
-    stripe_customer_id: '',
-    user_email: sessionStorage.getItem('user_email'),
-    first_name: '',
-    last_name: '',
+    onboarding_id: '',
 };
 
 export const createOnboarding = createAsyncThunk('onboarding/createOnboarding', async (formData) => {

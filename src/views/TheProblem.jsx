@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { createTheProblem } from '../controllers/definingTheProblemSlice';
+
 function TheProblemComponent() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,8 +39,7 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-  };
+    dispatch(createTheProblem(formData));  };
 
   return (
     <>
