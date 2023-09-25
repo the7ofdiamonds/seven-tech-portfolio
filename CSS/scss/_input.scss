@@ -1,0 +1,25 @@
+.input-radio {
+  width: fit-content;
+  box-shadow: none;
+}
+
+.options-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+
+  label {
+    margin: 0;
+  }
+
+  input.other,
+  .input-social {
+    width: 50%;
+  }
+}

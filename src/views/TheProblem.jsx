@@ -87,11 +87,31 @@ function TheProblemComponent() {
               </tr>
               <tr>
                 <td>
-                  <label for="recurringIssue">
+                  <label for="recurring_issue">
                     Is this a recurring issue, or is it a one-time occurrence?
                   </label>
-                  <input type="radio" name="affirmative" value="yes" />
-                  <input type="radio" name="negative" value="no" />
+                  <div className="options-column">
+                    <span className="option">
+                      <input
+                        type="radio"
+                        id="recurring_issue_yes"
+                        name="recurring_issue"
+                        value="yes"
+                        className="input-radio"
+                      />
+                      <label for="recurring_issue_yes">Yes</label>
+                    </span>
+                    <span className="option">
+                      <input
+                        type="radio"
+                        id="recurring_issue_no"
+                        name="recurring_issue"
+                        value="no"
+                        className="input-radio"
+                      />
+                      <label for="recurring_issue_no">No</label>
+                    </span>
+                  </div>
                 </td>
               </tr>
               <tr>
