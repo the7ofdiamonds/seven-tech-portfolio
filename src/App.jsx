@@ -14,7 +14,10 @@ function App() {
       <Router basename="/">
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
-            <Route path="services/service/on-boarding/the-problem" element={<TheProblemComponent />} />
+            <Route
+              path="services/service/on-boarding/the-problem"
+              element={<TheProblemComponent />}
+            />
             <Route
               index
               path="services/service/on-boarding"

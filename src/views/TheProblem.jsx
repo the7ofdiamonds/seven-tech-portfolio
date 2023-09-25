@@ -3,8 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 function TheProblemComponent() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [messageType, setMessageType] = useState('info');
+  const [message, setMessage] = useState(
+    'To enhance our service to you, kindly complete the form provided below.'
+  );
+
   return (
     <>
+      {message && (
+        <div className={`status-bar card ${messageType}`}>
+          <span>{message}</span>
+        </div>
+      )}
+      
       <div className="card">
         <form className="the-problem" action="">
           <table>
