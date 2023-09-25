@@ -135,4 +135,9 @@ details summary::after {
   margin: 0 0 0.25em 0;
 }
 
+.the-problem td label {
+  text-transform: none;
+  margin: 0 0 0.25em 0;
+}
+
 /*# sourceMappingURL=thfw-portfolio.css.map */

@@ -5,11 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 function TheProblemComponent() {
   return (
     <>
-      <h2 className="title">THE PROBLEM</h2>
-
       <div className="card">
-        <form action="">
+        <form className="the-problem" action="">
           <table>
+            <thead>
+              <tr>
+                <th>
+                  <h3 className="title">Defining the Problem</h3>
+                </th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td>

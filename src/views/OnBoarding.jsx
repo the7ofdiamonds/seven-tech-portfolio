@@ -10,9 +10,9 @@ function OnBoardingComponent() {
           <table>
             <thead>
               <tr>
-                <td>
-                  <h3 className="title">Client On Boarding</h3>
-                </td>
+                <th>
+                  <h3 className="title">Client Onboarding</h3>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -247,8 +247,8 @@ function OnBoardingComponent() {
                 <td>
                   <label htmlFor="">
                     Does your brick & mortar location(s) of (your company or
-                    organization) have signage? If Yes, provide a link to it
-                    below.
+                    organization) have signage? If Yes, provide a link to a
+                    picture of them below.
                   </label>
                   <div className="options-column">
                     <span className="option">
