@@ -11,6 +11,35 @@ function TheProblemComponent() {
     'To enhance our service to you, kindly complete the form provided below.'
   );
 
+  const [formData, setFormData] = useState({
+    customers_impacted: '',
+    primary_stackholders: '',
+    problem_affected: '',
+    challenges: '',
+    affected_operations: '',
+    change_event: '',
+    factors_contributed: '',
+    patterns_trends: '',
+    first_notice_date: '',
+    recurring_issue: '',
+    tried_solutions: '',
+    tried_solutions_results: '',
+    ideal_resolution: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form Data:', formData);
+  };
+
   return (
     <>
       {message && (
@@ -18,7 +47,7 @@ function TheProblemComponent() {
           <span>{message}</span>
         </div>
       )}
-      
+
       <div className="card">
         <form className="the-problem" action="">
           <table>
@@ -35,7 +64,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     How are customers or clients impacted by this problem?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="customers_impacted"
+                    onChange={handleInputChange}
+                    value={formData.customers_impacted}></textarea>
                 </td>
               </tr>
               <tr>
@@ -43,7 +75,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     Who are the primary stakeholders in this issue?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="primary_stackholders"
+                    onChange={handleInputChange}
+                    value={formData.primary_stackholders}></textarea>
                 </td>
               </tr>
               <tr>
@@ -51,7 +86,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     Who else is affected by this problem?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="problem_affected"
+                    onChange={handleInputChange}
+                    value={formData.problem_affected}></textarea>
                 </td>
               </tr>
               <tr>
@@ -59,7 +97,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     What are the key challenges you're encountering?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="challenges"
+                    onChange={handleInputChange}
+                    value={formData.challenges}></textarea>
                 </td>
               </tr>
               <tr>
@@ -67,7 +108,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     How has this problem affected your operations or outcomes?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="affected_operations"
+                    onChange={handleInputChange}
+                    value={formData.affected_operations}></textarea>
                 </td>
               </tr>
               <tr>
@@ -76,7 +120,10 @@ function TheProblemComponent() {
                     Has there been any significant change or event that
                     coincided with the problem's emergence?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="change_event"
+                    onChange={handleInputChange}
+                    value={formData.change_event}></textarea>
                 </td>
               </tr>
               <tr>
@@ -84,7 +131,10 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     What factors contributed to this issue?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="factors_contributed"
+                    onChange={handleInputChange}
+                    value={formData.factors_contributed}></textarea>
                 </td>
               </tr>
               <tr>
@@ -93,7 +143,10 @@ function TheProblemComponent() {
                     Have you identified any patterns or trends related to this
                     problem?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="patterns_trends"
+                    onChange={handleInputChange}
+                    value={formData.patterns_trends}></textarea>{' '}
                 </td>
               </tr>
               <tr>
@@ -101,7 +154,12 @@ function TheProblemComponent() {
                   <label htmlFor="">
                     When did you first notice this problem?
                   </label>
-                  <input type="date" />
+                  <input
+                    type="date"
+                    name="first_notice_date"
+                    onChange={handleInputChange}
+                    value={formData.first_notice_date}
+                  />
                 </td>
               </tr>
               <tr>
@@ -115,8 +173,10 @@ function TheProblemComponent() {
                         type="radio"
                         id="recurring_issue_yes"
                         name="recurring_issue"
-                        value="yes"
                         className="input-radio"
+                        value={'yes'}
+                        onChange={handleInputChange}
+                        checked={formData.recurring_issue === 'yes'}
                       />
                       <label for="recurring_issue_yes">Yes</label>
                     </span>
@@ -125,8 +185,10 @@ function TheProblemComponent() {
                         type="radio"
                         id="recurring_issue_no"
                         name="recurring_issue"
-                        value="no"
                         className="input-radio"
+                        value={'no'}
+                        onChange={handleInputChange}
+                        checked={formData.recurring_issue === 'no'}
                       />
                       <label for="recurring_issue_no">No</label>
                     </span>
@@ -136,23 +198,66 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    Have you tried any solutions to address this issue? If so,
-                    what were the results?
+                    Have you tried any solutions to address this issue?
                   </label>
-                  <textarea></textarea>
+                  <span className="option">
+                    <input
+                      type="radio"
+                      id="tried_solutions_yes"
+                      name="tried_solutions"
+                      value="yes"
+                      className="input-radio"
+                      onChange={handleInputChange}
+                      checked={formData.tried_solutions === 'yes'}
+                    />
+                    <label htmlFor="tried_solutions_yes">Yes</label>
+                  </span>
+                  <span className="option">
+                    <input
+                      type="radio"
+                      id="tried_solutions_no"
+                      name="tried_solutions"
+                      value="no"
+                      className="input-radio"
+                      onChange={handleInputChange}
+                      checked={formData.tried_solutions === 'no'}
+                    />
+                    <label htmlFor="tried_solutions_no">No</label>
+                  </span>
                 </td>
               </tr>
+              {formData.tried_solutions === 'yes' && (
+                <tr>
+                  <td>
+                    <label htmlFor="">
+                      Have you tried any solutions to address this issue? If so,
+                      what were the results?
+                    </label>
+                    <textarea
+                      name="tried_solutions_results"
+                      onChange={handleInputChange}
+                      value={formData.tried_solutions_results}></textarea>
+                  </td>
+                </tr>
+              )}
               <tr>
                 <td>
                   <label htmlFor="">
                     What would an ideal resolution to this problem look like for
                     you?
                   </label>
-                  <textarea></textarea>
+                  <textarea
+                    name="ideal_resolution"
+                    onChange={handleInputChange}
+                    value={formData.ideal_resolution}></textarea>
                 </td>
               </tr>
             </tbody>
           </table>
+
+          <button type="submit" onClick={handleSubmit}>
+            <h3>SAVE</h3>
+          </button>
         </form>
       </div>
     </>

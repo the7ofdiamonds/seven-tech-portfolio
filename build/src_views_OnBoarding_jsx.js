@@ -51,13 +51,6 @@ function OnBoardingComponent() {
     plan: '',
     plan_url: ''
   });
-  const {
-    first_name,
-    last_name,
-    email,
-    subject,
-    msg
-  } = formData;
   const handleInputChange = e => {
     const {
       name,
