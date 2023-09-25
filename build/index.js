@@ -8475,7 +8475,7 @@ const definingTheProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addClient: function() { return /* binding */ addClient; },
+/* harmony export */   createOnboarding: function() { return /* binding */ createOnboarding; },
 /* harmony export */   getClient: function() { return /* binding */ getClient; },
 /* harmony export */   onboardingSlice: function() { return /* binding */ onboardingSlice; }
 /* harmony export */ });
@@ -8493,45 +8493,14 @@ const initialState = {
   first_name: '',
   last_name: ''
 };
-const addClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('client/addClient', async (_, {
-  getState
-}) => {
-  const {
-    user_email
-  } = getState().client;
-  const {
-    company_name,
-    tax_id,
-    first_name,
-    last_name,
-    phone,
-    address_line_1,
-    address_line_2,
-    city,
-    state,
-    zipcode,
-    country
-  } = getState().customer;
+const createOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('onboarding/createOnboarding', async formData => {
   try {
-    const response = await fetch('/wp-json/orb/v1/users/clients', {
+    const response = await fetch('/wp-json/thfw/v1/users/client/onboarding', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        company_name: company_name,
-        tax_id: tax_id,
-        first_name: first_name,
-        last_name: last_name,
-        user_email: user_email,
-        phone: phone,
-        address_line_1: address_line_1,
-        address_line_2: address_line_2,
-        city: city,
-        state: state,
-        zipcode: zipcode,
-        country: country
-      })
+      body: JSON.stringify(formData)
     });
     if (!response.ok) {
       const errorData = await response.json();
@@ -8575,32 +8544,35 @@ const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createS
   name: 'onboarding',
   initialState,
   extraReducers: builder => {
-    builder.addCase(addClient.pending, state => {
+    builder.addCase(createOnboarding.pending, state => {
       state.loading = true;
       state.error = null;
-    }).addCase(addClient.fulfilled, (state, action) => {
+    }).addCase(createOnboarding.fulfilled, (state, action) => {
       state.loading = false;
-      state.client_id = action.payload.client_id;
-      state.stripe_customer_id = action.payload.stripe_customer_id;
-    }).addCase(addClient.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    }).addCase(getClient.pending, state => {
-      state.loading = true;
-      state.error = null;
-    }).addCase(getClient.fulfilled, (state, action) => {
-      state.loading = false;
-      state.error = null;
-      state.client_id = action.payload.id;
-      state.first_name = action.payload.first_name;
-      state.last_name = action.payload.last_name;
-      state.stripe_customer_id = action.payload.stripe_customer_id;
-    }).addCase(getClient.rejected, (state, action) => {
+      state.onboarding_id = action.payload;
+    }).addCase(createOnboarding.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });
+    // .addCase(getClient.pending, (state) => {
+    //     state.loading = true
+    //     state.error = null
+    // })
+    // .addCase(getClient.fulfilled, (state, action) => {
+    //     state.loading = false;
+    //     state.error = null;
+    //     state.client_id = action.payload.id
+    //     state.first_name = action.payload.first_name
+    //     state.last_name = action.payload.last_name
+    //     state.stripe_customer_id = action.payload.stripe_customer_id
+    // })
+    // .addCase(getClient.rejected, (state, action) => {
+    //     state.loading = false
+    //     state.error = action.error.message
+    // })
   }
 });
+
 /* harmony default export */ __webpack_exports__["default"] = (onboardingSlice);
 
 /***/ }),

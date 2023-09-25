@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { createOnboarding } from '../controllers/onboardingSlice';
 
 function OnBoardingComponent() {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function OnBoardingComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
+    dispatch(createOnboarding(formData));
   };
 
   return (
