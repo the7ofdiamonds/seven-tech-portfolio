@@ -26,7 +26,9 @@ define('THFW_PORTFOLIO_URL', WP_PLUGIN_URL . '/thfw-portfolio/');
 
 require_once THFW_PORTFOLIO . 'vendor/autoload.php';
 
+use THFW_Portfolio\API\API;
 use THFW_Portfolio\CSS\CSS;
+use THFW_Portfolio\Database\Database;
 use THFW_Portfolio\JS\JS;
 use THFW_Portfolio\Menus\Menus;
 use THFW_Portfolio\Pages\Pages;
@@ -39,7 +41,9 @@ class THFW_Portfolio
 {
     public function __construct()
     {
+        new API;
         new CSS;
+        new Database;
         new JS;
         new Pages;
         new Portfolio;
