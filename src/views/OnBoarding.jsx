@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { getClient } from '../controllers/clientSlice';
 import { createOnboarding } from '../controllers/onboardingSlice';
 
 function OnBoardingComponent() {
@@ -12,6 +14,8 @@ function OnBoardingComponent() {
     'To enhance our service to you, kindly complete the form provided below.'
   );
 
+  const { user_email, client_id } = useSelector((state) => state.client);
+
   const [formData, setFormData] = useState({
     deadline: '',
     deadline_date: '',
@@ -20,7 +24,6 @@ function OnBoardingComponent() {
     website_url: '',
     hosting: '',
     satisfied: '',
-    // Address
     signage: '',
     signage_url: '',
     social: '',
@@ -36,10 +39,17 @@ function OnBoardingComponent() {
     colors_tertiary: '#000000',
     summary: '',
     summary_url: '',
-    what_business: '',
     plan: '',
     plan_url: '',
   });
+
+  // Address
+
+  useEffect(() => {
+    if (user_email) {
+      dispatch(getClient());
+    }
+  }, [user_email, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -603,61 +613,6 @@ function OnBoardingComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    Do you have a link to about page or executive summary of
-                    (your company or organization)? If Yes, provide it below.
-                  </label>
-                  <div className="options-column">
-                    <span className="option">
-                      <input
-                        type="radio"
-                        id="summary_yes"
-                        name="summary"
-                        value="yes"
-                        className="input-radio"
-                        onChange={handleInputChange}
-                        checked={formData.summary === 'yes'}
-                      />
-                      <label for="summary_yes">Yes</label>
-                      {formData.summary === 'yes' && (
-                        <input
-                          type="url"
-                          id="summary_url"
-                          name="summary_url"
-                          value={formData.summary_url}
-                          onChange={handleInputChange}
-                        />
-                      )}
-                    </span>
-                    <span className="option">
-                      <input
-                        type="radio"
-                        id="summary_no"
-                        name="summary"
-                        value="no"
-                        className="input-radio"
-                        onChange={handleInputChange}
-                        checked={formData.summary === 'no'}
-                      />
-                      <label for="summary_no">No</label>
-                    </span>
-                  </div>
-                </td>
-              </tr>
-              {formData.summary === 'no' && (
-                <tr>
-                  <td>
-                    <label htmlFor="">
-                      What does (your company or organization) do?
-                    </label>
-                    <textarea
-                      onChange={handleInputChange}
-                      checked={formData.what_business}></textarea>
-                  </td>
-                </tr>
-              )}
-              <tr>
-                <td>
-                  <label htmlFor="">
                     Does (your company or organization) have a one-page or full
                     business plan that can be provided to define the problem? If
                     Yes, provide a link to it below.
@@ -701,12 +656,12 @@ function OnBoardingComponent() {
               </tr>
             </tbody>
           </table>
-
-          <button type="submit" onClick={handleSubmit}>
-            <h3>SAVE</h3>
-          </button>
         </form>
       </div>
+
+      <button type="submit" onClick={handleSubmit}>
+        <h3>SAVE</h3>
+      </button>
     </>
   );
 }

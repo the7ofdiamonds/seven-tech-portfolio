@@ -17,11 +17,11 @@ class OnboardingDatabase
     }
 
     public function saveOnboarding($onboarding)
-    {
+    {error_log($onboarding['client_id'] . 'saveOnboarding');
         $result = $this->wpdb->insert(
             $this->table_name,
             [
-                'client_id' => $onboarding['client_id'], // Use array syntax
+                'client_id' => $onboarding['client_id'],
                 'deadline' => $onboarding['deadline'],
                 'deadline_date' => $onboarding['deadline_date'],
                 'where_business' => $onboarding['where_business'],
@@ -44,7 +44,6 @@ class OnboardingDatabase
                 'colors_tertiary' => $onboarding['colors_tertiary'],
                 'summary' => $onboarding['summary'],
                 'summary_url' => $onboarding['summary_url'],
-                'what_business' => $onboarding['what_business'],
                 'plan' => $onboarding['plan'],
                 'plan_url' => $onboarding['plan_url'],
             ]

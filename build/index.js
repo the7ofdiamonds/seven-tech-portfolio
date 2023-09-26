@@ -8327,6 +8327,82 @@ function App() {
 
 /***/ }),
 
+/***/ "./src/controllers/clientSlice.js":
+/*!****************************************!*\
+  !*** ./src/controllers/clientSlice.js ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   clientSlice: function() { return /* binding */ clientSlice; },
+/* harmony export */   getClient: function() { return /* binding */ getClient; }
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+
+const initialState = {
+  loading: false,
+  error: '',
+  client_id: '',
+  stripe_customer_id: '',
+  user_email: sessionStorage.getItem('user_email'),
+  first_name: '',
+  last_name: ''
+};
+const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('client/getClient', async (_, {
+  getState
+}) => {
+  const {
+    user_email
+  } = getState().client;
+  const encodedEmail = encodeURIComponent(user_email);
+  try {
+    const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.log(error);
+    throw error.message;
+  }
+});
+const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+  name: 'client',
+  initialState,
+  extraReducers: builder => {
+    builder.addCase(getClient.pending, state => {
+      state.loading = true;
+      state.error = null;
+    }).addCase(getClient.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.client_id = action.payload.id;
+      state.first_name = action.payload.first_name;
+      state.last_name = action.payload.last_name;
+      state.stripe_customer_id = action.payload.stripe_customer_id;
+    }).addCase(getClient.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (clientSlice);
+
+/***/ }),
+
 /***/ "./src/controllers/definingTheProblemSlice.js":
 /*!****************************************************!*\
   !*** ./src/controllers/definingTheProblemSlice.js ***!
@@ -8348,16 +8424,49 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
   loading: false,
   error: '',
+  customers_impacted: '',
+  primary_stackholders: '',
+  problem_affected: '',
+  challenges: '',
+  affected_operations: '',
+  change_event: '',
+  factors_contributed: '',
+  patterns_trends: '',
+  first_notice_date: '',
+  recurring_issue: '',
+  tried_solutions: '',
+  tried_solutions_results: '',
+  ideal_resolution: '',
   the_problem_id: ''
 };
-const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('definingTheProblem/createTheProblem', async formData => {
+const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('definingTheProblem/createTheProblem', async (formData, {
+  getState
+}) => {
   try {
+    const {
+      client_id
+    } = getState().client;
     const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        client_id: client_id,
+        customers_impacted: formData?.customers_impacted,
+        primary_stackholders: formData?.primary_stackholders,
+        problem_affected: formData?.problem_affected,
+        challenges: formData?.challenges,
+        affected_operations: formData?.affected_operations,
+        change_event: formData?.change_event,
+        factors_contributed: formData?.factors_contributed,
+        patterns_trends: formData?.patterns_trends,
+        first_notice_date: formData?.first_notice_date,
+        recurring_issue: formData?.recurring_issue,
+        tried_solutions: formData?.tried_solutions,
+        tried_solutions_results: formData?.tried_solutions_results,
+        ideal_resolution: formData?.ideal_resolution
+      })
     });
     if (!response.ok) {
       const errorData = await response.json();
@@ -8455,16 +8564,71 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
   loading: false,
   error: '',
+  deadline: '',
+  deadline_date: '',
+  where_business: '',
+  website: '',
+  website_url: '',
+  hosting: '',
+  satisfied: '',
+  signage: '',
+  signage_url: '',
+  social: '',
+  social_facebook: '',
+  social_x: '',
+  social_linkedin: '',
+  social_instagram: '',
+  logo: '',
+  logo_url: '',
+  colors: '',
+  colors_primary: '#000000',
+  colors_secondary: '#000000',
+  colors_tertiary: '#000000',
+  summary: '',
+  summary_url: '',
+  plan: '',
+  plan_url: '',
   onboarding_id: ''
 };
-const createOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('onboarding/createOnboarding', async formData => {
+const createOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('onboarding/createOnboarding', async (formData, {
+  getState
+}) => {
   try {
+    const {
+      client_id
+    } = getState().client;
     const response = await fetch('/wp-json/thfw/v1/users/client/onboarding', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        client_id: client_id,
+        deadline: formData?.deadline,
+        deadline_date: formData?.deadline_date,
+        where_business: formData?.where_business,
+        website: formData?.website,
+        website_url: formData?.website_url,
+        hosting: formData?.hosting,
+        satisfied: formData?.satisfied,
+        signage: formData?.signage,
+        signage_url: formData?.signage_url,
+        social: formData?.social,
+        social_facebook: formData?.social_facebook,
+        social_x: formData?.social_x,
+        social_linkedin: formData?.social_linkedin,
+        social_instagram: formData?.social_instagram,
+        logo: formData?.logo,
+        logo_url: formData?.logo_url,
+        colors: formData?.colors,
+        colors_primary: formData?.colors_primary,
+        colors_secondary: formData?.colors_secondary,
+        colors_tertiary: formData?.colors_tertiary,
+        summary: formData?.summary,
+        summary_url: formData?.summary_url,
+        plan: formData?.plan,
+        plan_url: formData?.plan_url
+      })
     });
     if (!response.ok) {
       const errorData = await response.json();
@@ -8549,16 +8713,19 @@ const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createS
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-/* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
-/* harmony import */ var _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/definingTheProblemSlice */ "./src/controllers/definingTheProblemSlice.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
+/* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
+/* harmony import */ var _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controllers/definingTheProblemSlice */ "./src/controllers/definingTheProblemSlice.js");
 
 
 
-const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_2__.configureStore)({
+
+const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__.configureStore)({
   reducer: {
-    onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_0__.onboardingSlice.reducer,
-    definingTheProblem: _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_1__.definingTheProblemSlice.reducer
+    client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.clientSlice.reducer,
+    onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.onboardingSlice.reducer,
+    definingTheProblem: _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

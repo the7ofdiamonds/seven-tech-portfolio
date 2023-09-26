@@ -12,9 +12,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/definingTheProblemSlice */ "./src/controllers/definingTheProblemSlice.js");
+/* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
+/* harmony import */ var _controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/definingTheProblemSlice */ "./src/controllers/definingTheProblemSlice.js");
+
 
 
 
@@ -22,9 +24,13 @@ __webpack_require__.r(__webpack_exports__);
 
 function TheProblemComponent() {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To enhance our service to you, kindly complete the form provided below.');
+  const {
+    user_email,
+    client_id
+  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     customers_impacted: '',
     primary_stackholders: '',
@@ -40,6 +46,12 @@ function TheProblemComponent() {
     tried_solutions_results: '',
     ideal_resolution: ''
   });
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (user_email) {
+      console.log(user_email);
+      dispatch((0,_controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__.getClient)());
+    }
+  }, [user_email, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -52,7 +64,7 @@ function TheProblemComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_3__.createTheProblem)(formData));
+    dispatch((0,_controllers_definingTheProblemSlice__WEBPACK_IMPORTED_MODULE_4__.createTheProblem)(formData));
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `status-bar card ${messageType}`
@@ -184,10 +196,10 @@ function TheProblemComponent() {
     name: "ideal_resolution",
     onChange: handleInputChange,
     value: formData.ideal_resolution
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE")))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE")));
 }
 /* harmony default export */ __webpack_exports__["default"] = (TheProblemComponent);
 

@@ -57,7 +57,6 @@ class Database
             colors_tertiary VARCHAR(255) DEFAULT NULL,
             summary VARCHAR(255) DEFAULT NULL,
             summary_url VARCHAR(255) DEFAULT NULL,
-            what_business VARCHAR(255) DEFAULT NULL,
             plan VARCHAR(255) DEFAULT NULL,
             plan_url VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id)

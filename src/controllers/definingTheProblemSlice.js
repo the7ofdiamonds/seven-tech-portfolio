@@ -4,17 +4,47 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
     loading: false,
     error: '',
+    customers_impacted: '',
+    primary_stackholders: '',
+    problem_affected: '',
+    challenges: '',
+    affected_operations: '',
+    change_event: '',
+    factors_contributed: '',
+    patterns_trends: '',
+    first_notice_date: '',
+    recurring_issue: '',
+    tried_solutions: '',
+    tried_solutions_results: '',
+    ideal_resolution: '',
     the_problem_id: ''
 };
 
-export const createTheProblem = createAsyncThunk('definingTheProblem/createTheProblem', async (formData) => {
+export const createTheProblem = createAsyncThunk('definingTheProblem/createTheProblem', async (formData, { getState }) => {
     try {
+        const { client_id } = getState().client;
+
         const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                client_id: client_id,
+                customers_impacted: formData?.customers_impacted,
+                primary_stackholders: formData?.primary_stackholders,
+                problem_affected: formData?.problem_affected,
+                challenges: formData?.challenges,
+                affected_operations: formData?.affected_operations,
+                change_event: formData?.change_event,
+                factors_contributed: formData?.factors_contributed,
+                patterns_trends: formData?.patterns_trends,
+                first_notice_date: formData?.first_notice_date,
+                recurring_issue: formData?.recurring_issue,
+                tried_solutions: formData?.tried_solutions,
+                tried_solutions_results: formData?.tried_solutions_results,
+                ideal_resolution: formData?.ideal_resolution,
+            })
         });
 
         if (!response.ok) {
@@ -74,22 +104,22 @@ export const definingTheProblemSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message
             })
-            // .addCase(getClient.pending, (state) => {
-            //     state.loading = true
-            //     state.error = null
-            // })
-            // .addCase(getClient.fulfilled, (state, action) => {
-            //     state.loading = false;
-            //     state.error = null;
-            //     state.client_id = action.payload.id
-            //     state.first_name = action.payload.first_name
-            //     state.last_name = action.payload.last_name
-            //     state.stripe_customer_id = action.payload.stripe_customer_id
-            // })
-            // .addCase(getClient.rejected, (state, action) => {
-            //     state.loading = false
-            //     state.error = action.error.message
-            // })
+        // .addCase(getClient.pending, (state) => {
+        //     state.loading = true
+        //     state.error = null
+        // })
+        // .addCase(getClient.fulfilled, (state, action) => {
+        //     state.loading = false;
+        //     state.error = null;
+        //     state.client_id = action.payload.id
+        //     state.first_name = action.payload.first_name
+        //     state.last_name = action.payload.last_name
+        //     state.stripe_customer_id = action.payload.stripe_customer_id
+        // })
+        // .addCase(getClient.rejected, (state, action) => {
+        //     state.loading = false
+        //     state.error = action.error.message
+        // })
     }
 })
 

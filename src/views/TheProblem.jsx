@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { getClient } from '../controllers/clientSlice';
 import { createTheProblem } from '../controllers/definingTheProblemSlice';
 
 function TheProblemComponent() {
@@ -12,6 +13,8 @@ function TheProblemComponent() {
   const [message, setMessage] = useState(
     'To enhance our service to you, kindly complete the form provided below.'
   );
+
+  const { user_email, client_id } = useSelector((state) => state.client);
 
   const [formData, setFormData] = useState({
     customers_impacted: '',
@@ -29,6 +32,14 @@ function TheProblemComponent() {
     ideal_resolution: '',
   });
 
+  useEffect(() => {
+    if (user_email) {
+      console.log(user_email);
+
+      dispatch(getClient());
+    }
+  }, [user_email, dispatch]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -39,7 +50,8 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTheProblem(formData));  };
+    dispatch(createTheProblem(formData));
+  };
 
   return (
     <>
@@ -255,12 +267,12 @@ function TheProblemComponent() {
               </tr>
             </tbody>
           </table>
-
-          <button type="submit" onClick={handleSubmit}>
-            <h3>SAVE</h3>
-          </button>
         </form>
       </div>
+
+      <button type="submit" onClick={handleSubmit}>
+        <h3>SAVE</h3>
+      </button>
     </>
   );
 }
