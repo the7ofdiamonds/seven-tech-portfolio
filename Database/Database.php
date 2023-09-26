@@ -75,7 +75,6 @@ class Database
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             client_id VARCHAR(255) DEFAULT NULL,
             customers_impacted VARCHAR(255) DEFAULT NULL,
-            primary_stackholders VARCHAR(255) DEFAULT NULL,
             problem_affected VARCHAR(255) DEFAULT NULL,
             challenges VARCHAR(255) DEFAULT NULL,
             affected_operations VARCHAR(255) DEFAULT NULL,

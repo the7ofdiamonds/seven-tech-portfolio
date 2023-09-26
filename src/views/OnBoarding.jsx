@@ -11,7 +11,7 @@ function OnBoardingComponent() {
 
   const [messageType, setMessageType] = useState('info');
   const [message, setMessage] = useState(
-    'To enhance our service to you, kindly complete the form provided below.'
+    'To better serve your needs and wants, please fill out the form below.'
   );
 
   const { user_email, client_id } = useSelector((state) => state.client);
@@ -66,6 +66,8 @@ function OnBoardingComponent() {
 
   return (
     <>
+      <h2 className="title">CLIENT ONBOARDING</h2>
+
       {message && (
         <div className={`status-bar card ${messageType}`}>
           <span>{message}</span>
@@ -75,13 +77,6 @@ function OnBoardingComponent() {
       <div className="card">
         <form className="on-boarding" action="">
           <table>
-            <thead>
-              <tr>
-                <th>
-                  <h3 className="title">Client Onboarding</h3>
-                </th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
                 <td>
@@ -107,6 +102,7 @@ function OnBoardingComponent() {
                           id="deadline_date"
                           name="deadline_date"
                           value={formData.deadline_date}
+                          className="input-date"
                           onChange={handleInputChange}
                         />
                       )}
@@ -195,6 +191,7 @@ function OnBoardingComponent() {
                           type="url"
                           id="website_url"
                           name="website_url"
+                          className="input-url"
                           value={formData.website_url}
                           onChange={handleInputChange}
                         />
@@ -215,122 +212,126 @@ function OnBoardingComponent() {
                   </div>
                 </td>
               </tr>
+
               {formData.website === 'yes' && (
-                <tr>
-                  <td>
-                    <label htmlFor="">
-                      What hosting service does (your company or organization)
-                      currently use?
-                    </label>
-                    <div className="options-column">
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="hosting_aws"
-                          name="hosting"
-                          value="aws"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.hosting === 'aws'}
-                        />
-                        <label for="hosting_aws">AWS</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="hosting_azure"
-                          name="hosting"
-                          value="azure"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.hosting === 'azure'}
-                        />
-                        <label for="hosting_azure">Azure</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="hosting_google"
-                          name="hosting"
-                          value="google"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.hosting === 'google'}
-                        />
-                        <label for="hosting_google">Google</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="hosting_godaddy"
-                          name="hosting"
-                          value="godaddy"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.hosting === 'godaddy'}
-                        />
-                        <label for="hosting_godaddy">GoDaddy</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="hosting_other"
-                          name="hosting"
-                          value="other"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.hosting === 'other'}
-                        />
-                        <label for="hosting_other">Other</label>
-                        {formData.hosting === 'other' && (
+                <>
+                  <tr>
+                    <td>
+                      <label htmlFor="">
+                        What hosting service does (your company or organization)
+                        currently use?
+                      </label>
+                      <div className="options-column">
+                        <span className="option">
                           <input
-                            type="text"
-                            id="hosting_other"
-                            name="hosting_other"
-                            className="other"
-                            value={formData.hosting_other}
+                            type="radio"
+                            id="hosting_aws"
+                            name="hosting"
+                            value="aws"
+                            className="input-radio"
                             onChange={handleInputChange}
+                            checked={formData.hosting === 'aws'}
                           />
-                        )}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
+                          <label for="hosting_aws">AWS</label>
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="hosting_azure"
+                            name="hosting"
+                            value="azure"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.hosting === 'azure'}
+                          />
+                          <label for="hosting_azure">Azure</label>
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="hosting_google"
+                            name="hosting"
+                            value="google"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.hosting === 'google'}
+                          />
+                          <label for="hosting_google">Google</label>
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="hosting_godaddy"
+                            name="hosting"
+                            value="godaddy"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.hosting === 'godaddy'}
+                          />
+                          <label for="hosting_godaddy">GoDaddy</label>
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="hosting_other"
+                            name="hosting"
+                            value="other"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.hosting === 'other'}
+                          />
+                          <label for="hosting_other">Other</label>
+                          {formData.hosting === 'other' && (
+                            <input
+                              type="text"
+                              id="hosting_other"
+                              name="hosting_other"
+                              className="other"
+                              value={formData.hosting_other}
+                              onChange={handleInputChange}
+                            />
+                          )}
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="">
+                        Is (your company or organization) satisfied with the
+                        hosting service?
+                      </label>
+                      <div className="options-column">
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="satisfied_yes"
+                            name="satisfied"
+                            value="yes"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.satisfied === 'yes'}
+                          />
+                          <label for="satisfied_yes">Yes</label>
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="satisfied_no"
+                            name="satisfied"
+                            value="no"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.satisfied === 'no'}
+                          />
+                          <label for="satisfied_no">No</label>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </>
               )}
-              <tr>
-                <td>
-                  <label htmlFor="">
-                    Is (your company or organization) satisfied with the
-                    service?
-                  </label>
-                  <div className="options-column">
-                    <span className="option">
-                      <input
-                        type="radio"
-                        id="satisfied_yes"
-                        name="satisfied"
-                        value="yes"
-                        className="input-radio"
-                        onChange={handleInputChange}
-                        checked={formData.satisfied === 'yes'}
-                      />
-                      <label for="satisfied_yes">Yes</label>
-                    </span>
-                    <span className="option">
-                      <input
-                        type="radio"
-                        id="satisfied_no"
-                        name="satisfied"
-                        value="no"
-                        className="input-radio"
-                        onChange={handleInputChange}
-                        checked={formData.satisfied === 'no'}
-                      />
-                      <label for="satisfied_no">No</label>
-                    </span>
-                  </div>
-                </td>
-              </tr>
+
               {formData.where_business === 'brick and mortar' ||
                 (formData.where_business === 'both' && (
                   <>
@@ -387,6 +388,7 @@ function OnBoardingComponent() {
                                 type="url"
                                 id="signage_url"
                                 name="signage_url"
+                                className="input-url"
                                 value={formData.signage_url}
                                 onChange={handleInputChange}
                               />
@@ -444,49 +446,45 @@ function OnBoardingComponent() {
                   {formData.social === 'yes' && (
                     <div className="options-column">
                       <span className="option">
-                        <input type="checkbox" />
                         <label htmlFor="facebook">Facebook</label>
                         <input
                           type="url"
                           id="social_facebook"
                           name="social_facebook"
-                          className="input-social"
+                          className="input-url"
                           onChange={handleInputChange}
                           checked={formData.social_facebook}
                         />
                       </span>
                       <span className="option">
-                        <input type="checkbox" />
                         <label htmlFor="xtwitter">X</label>
                         <input
                           type="url"
                           id="social_x"
                           name="social_x"
-                          className="input-social"
+                          className="input-url"
                           onChange={handleInputChange}
                           checked={formData.social_x}
                         />
                       </span>
                       <span className="option">
-                        <input type="checkbox" />
                         <label htmlFor="linkedin">LinkedIn</label>
                         <input
                           type="url"
                           id="social_linkedin"
                           name="social_linkedin"
-                          className="input-social"
+                          className="input-url"
                           onChange={handleInputChange}
                           checked={formData.social_linkedin}
                         />
                       </span>
                       <span className="option">
-                        <input type="checkbox" />
                         <label htmlFor="instagram">Instagram</label>
                         <input
                           type="url"
                           id="social_instagram"
                           name="social_instagram"
-                          className="input-social"
+                          className="input-url"
                           onChange={handleInputChange}
                           checked={formData.social_instagram}
                         />
@@ -518,6 +516,7 @@ function OnBoardingComponent() {
                           type="url"
                           id="logo_url"
                           name="logo_url"
+                          className="input-url"
                           value={formData.logo_url}
                           onChange={handleInputChange}
                         />
@@ -555,7 +554,7 @@ function OnBoardingComponent() {
                         onChange={handleInputChange}
                         checked={formData.colors === 'yes'}
                       />
-                      <label for="social_yes">Yes</label>
+                      <label for="colors_yes">Yes</label>
                     </span>
                     <span className="option">
                       <input
@@ -567,7 +566,7 @@ function OnBoardingComponent() {
                         onChange={handleInputChange}
                         checked={formData.colors === 'no'}
                       />
-                      <label for="social_no">No</label>
+                      <label for="colors_no">No</label>
                     </span>
                   </div>
                   {formData.colors === 'yes' && (
@@ -634,6 +633,7 @@ function OnBoardingComponent() {
                           type="url"
                           id="plan_url"
                           name="plan_url"
+                          className="input-url"
                           value={formData.plan_url}
                           onChange={handleInputChange}
                         />

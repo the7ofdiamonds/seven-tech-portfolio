@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { clientSlice } from '../controllers/clientSlice';
 import { onboardingSlice } from '../controllers/onboardingSlice';
-import { definingTheProblemSlice } from '../controllers/definingTheProblemSlice';
+import { definingTheProblemSlice } from '../controllers/theProblemSlice';
 
 const store = configureStore({
     reducer: {

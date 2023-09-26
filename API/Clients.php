@@ -38,7 +38,7 @@ class Clients
 
 
     function client_onboarding(WP_REST_Request $request)
-    {error_log($request['client_id'] . 'client_onboarding');
+    {
         try {
             $onboarding = [
                 'client_id' => $request['client_id'],
@@ -87,12 +87,11 @@ class Clients
     }
 
     function client_problem(WP_REST_Request $request)
-    {error_log($request['client_id'] . 'client_problem');
+    {
         try {
             $problem = [
                 'client_id' => $request['client_id'],
                 'customers_impacted' => $request['customers_impacted'],
-                'primary_stackholders' => $request['primary_stackholders'],
                 'problem_affected' => $request['problem_affected'],
                 'challenges' => $request['challenges'],
                 'affected_operations' => $request['affected_operations'],

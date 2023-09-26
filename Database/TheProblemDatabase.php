@@ -23,7 +23,6 @@ class TheProblemDatabase
             [
                 'client_id' => $problem['client_id'],
                 'customers_impacted' => $problem['customers_impacted'],
-                'primary_stackholders' => $problem['primary_stackholders'],
                 'problem_affected' => $problem['problem_affected'],
                 'challenges' => $problem['challenges'],
                 'affected_operations' => $problem['affected_operations'],

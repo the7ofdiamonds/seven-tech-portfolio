@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
-import { createTheProblem } from '../controllers/definingTheProblemSlice';
+import { createTheProblem } from '../controllers/theProblemSlice';
 
 function TheProblemComponent() {
   const dispatch = useDispatch();
@@ -11,14 +11,13 @@ function TheProblemComponent() {
 
   const [messageType, setMessageType] = useState('info');
   const [message, setMessage] = useState(
-    'To enhance our service to you, kindly complete the form provided below.'
+    'To come up with the best solution, we must first define the problem below.'
   );
 
   const { user_email, client_id } = useSelector((state) => state.client);
 
   const [formData, setFormData] = useState({
     customers_impacted: '',
-    primary_stackholders: '',
     problem_affected: '',
     challenges: '',
     affected_operations: '',
@@ -55,6 +54,8 @@ function TheProblemComponent() {
 
   return (
     <>
+      <h2 className="title">THE PROBLEM</h2>
+
       {message && (
         <div className={`status-bar card ${messageType}`}>
           <span>{message}</span>
@@ -64,34 +65,16 @@ function TheProblemComponent() {
       <div className="card">
         <form className="the-problem" action="">
           <table>
-            <thead>
-              <tr>
-                <th>
-                  <h3 className="title">Defining the Problem</h3>
-                </th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
                 <td>
                   <label htmlFor="">
-                    How are customers or clients impacted by this problem?
+                    How are the customers or clients of (your company or organization) impacted by this problem?
                   </label>
                   <textarea
                     name="customers_impacted"
                     onChange={handleInputChange}
                     value={formData.customers_impacted}></textarea>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label htmlFor="">
-                    Who are the primary stakeholders in this issue?
-                  </label>
-                  <textarea
-                    name="primary_stackholders"
-                    onChange={handleInputChange}
-                    value={formData.primary_stackholders}></textarea>
                 </td>
               </tr>
               <tr>
@@ -108,7 +91,7 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    What are the key challenges you're encountering?
+                    What are the key challenges (your company or organization) is encountering?
                   </label>
                   <textarea
                     name="challenges"
@@ -119,12 +102,23 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    How has this problem affected your operations or outcomes?
+                    How has this problem affected (your company or organization) operations or outcomes?
                   </label>
                   <textarea
                     name="affected_operations"
                     onChange={handleInputChange}
                     value={formData.affected_operations}></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="">
+                    What factors contributed to this issue?
+                  </label>
+                  <textarea
+                    name="factors_contributed"
+                    onChange={handleInputChange}
+                    value={formData.factors_contributed}></textarea>
                 </td>
               </tr>
               <tr>
@@ -142,34 +136,12 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    What factors contributed to this issue?
-                  </label>
-                  <textarea
-                    name="factors_contributed"
-                    onChange={handleInputChange}
-                    value={formData.factors_contributed}></textarea>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label htmlFor="">
-                    Have you identified any patterns or trends related to this
-                    problem?
-                  </label>
-                  <textarea
-                    name="patterns_trends"
-                    onChange={handleInputChange}
-                    value={formData.patterns_trends}></textarea>{' '}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label htmlFor="">
                     When did you first notice this problem?
                   </label>
                   <input
                     type="date"
                     name="first_notice_date"
+                    className='input-date'
                     onChange={handleInputChange}
                     value={formData.first_notice_date}
                   />
@@ -211,7 +183,19 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    Have you tried any solutions to address this issue?
+                    Have (your company or organization) identified any patterns or trends related to this
+                    problem?
+                  </label>
+                  <textarea
+                    name="patterns_trends"
+                    onChange={handleInputChange}
+                    value={formData.patterns_trends}></textarea>{' '}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="">
+                    Have (your company or organization) tried any solutions to address this issue?
                   </label>
                   <span className="option">
                     <input
@@ -242,10 +226,7 @@ function TheProblemComponent() {
               {formData.tried_solutions === 'yes' && (
                 <tr>
                   <td>
-                    <label htmlFor="">
-                      Have you tried any solutions to address this issue? If so,
-                      what were the results?
-                    </label>
+                    <label htmlFor="">What were the results?</label>
                     <textarea
                       name="tried_solutions_results"
                       onChange={handleInputChange}
@@ -257,7 +238,7 @@ function TheProblemComponent() {
                 <td>
                   <label htmlFor="">
                     What would an ideal resolution to this problem look like for
-                    you?
+                    (your company or organization)?
                   </label>
                   <textarea
                     name="ideal_resolution"

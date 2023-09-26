@@ -5,7 +5,6 @@ const initialState = {
     loading: false,
     error: '',
     customers_impacted: '',
-    primary_stackholders: '',
     problem_affected: '',
     challenges: '',
     affected_operations: '',
@@ -32,7 +31,6 @@ export const createTheProblem = createAsyncThunk('definingTheProblem/createThePr
             body: JSON.stringify({
                 client_id: client_id,
                 customers_impacted: formData?.customers_impacted,
-                primary_stackholders: formData?.primary_stackholders,
                 problem_affected: formData?.problem_affected,
                 challenges: formData?.challenges,
                 affected_operations: formData?.affected_operations,
