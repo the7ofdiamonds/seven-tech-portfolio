@@ -1,6 +1,27 @@
 "use strict";
 (self["webpackChunkthfw_portfolio"] = self["webpackChunkthfw_portfolio"] || []).push([["src_views_OnBoarding_jsx"],{
 
+/***/ "./src/utils/modal.js":
+/*!****************************!*\
+  !*** ./src/utils/modal.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   closeModal: function() { return /* binding */ closeModal; },
+/* harmony export */   showModal: function() { return /* binding */ showModal; }
+/* harmony export */ });
+var modal = document.getElementById("7tech_modal");
+function showModal() {
+  modal.style.display = "flex";
+}
+function closeModal() {
+  modal.style.display = "none";
+}
+
+/***/ }),
+
 /***/ "./src/views/OnBoarding.jsx":
 /*!**********************************!*\
   !*** ./src/views/OnBoarding.jsx ***!
@@ -12,10 +33,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
+/* harmony import */ var _utils_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/modal */ "./src/utils/modal.js");
+
 
 
 
@@ -24,13 +47,17 @@ __webpack_require__.r(__webpack_exports__);
 
 function OnBoardingComponent() {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To better serve your needs and wants, please fill out the form below.');
+  const [display, setDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('none');
   const {
     user_email,
-    client_id
+    first_name
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
+  const {
+    onboarding_id
+  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     deadline: '',
     deadline_date: '',
@@ -65,6 +92,18 @@ function OnBoardingComponent() {
       dispatch((0,_controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__.getClient)());
     }
   }, [user_email, dispatch]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (onboarding_id) {
+      setDisplay('flex');
+      setTimeout(() => {
+        if (formData?.plan === 'no') {
+          window.location.href = '/services/service/on-boarding/the-problem';
+        } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+          window.location.href = '/dashboard';
+        }
+      }, 5000);
+    }
+  }, [onboarding_id, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -547,7 +586,14 @@ function OnBoardingComponent() {
     checked: formData.plan === 'no'
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     for: "plan_no"
-  }, "No"))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, "No"))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "overlay",
+    style: {
+      display: `${display}`
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card modal"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct a solution."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE")));

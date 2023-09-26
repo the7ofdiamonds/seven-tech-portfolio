@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import { createOnboarding } from '../controllers/onboardingSlice';
 
+import { showModal } from '../utils/modal';
+
 function OnBoardingComponent() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,8 +15,10 @@ function OnBoardingComponent() {
   const [message, setMessage] = useState(
     'To better serve your needs and wants, please fill out the form below.'
   );
+  const [display, setDisplay] = useState('none');
 
-  const { user_email, client_id } = useSelector((state) => state.client);
+  const { user_email, first_name } = useSelector((state) => state.client);
+  const { onboarding_id } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
     deadline: '',
@@ -50,6 +54,19 @@ function OnBoardingComponent() {
       dispatch(getClient());
     }
   }, [user_email, dispatch]);
+
+  useEffect(() => {
+    if (onboarding_id) {
+      setDisplay('flex');
+      setTimeout(() => {
+        if (formData?.plan === 'no') {
+          window.location.href = '/services/service/on-boarding/the-problem';
+        } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+          window.location.href = '/dashboard';
+        }
+      }, 5000);
+    }
+  }, [onboarding_id, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -658,6 +675,15 @@ function OnBoardingComponent() {
           </table>
         </form>
       </div>
+
+      <span className="overlay" style={{ display: `${display}` }}>
+        <div className="card modal">
+          <h4>
+            Thank you {first_name}, this information will be used to construct a
+            solution.
+          </h4>
+        </div>
+      </span>
 
       <button type="submit" onClick={handleSubmit}>
         <h3>SAVE</h3>

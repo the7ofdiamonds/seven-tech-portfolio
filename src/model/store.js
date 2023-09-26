@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         client: clientSlice.reducer,
         onboarding: onboardingSlice.reducer,
-        definingTheProblem: definingTheProblemSlice.reducer
+        theProblem: definingTheProblemSlice.reducer
     }
 });
 

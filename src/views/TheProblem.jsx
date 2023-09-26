@@ -13,8 +13,10 @@ function TheProblemComponent() {
   const [message, setMessage] = useState(
     'To come up with the best solution, we must first define the problem below.'
   );
+  const [display, setDisplay] = useState('none');
 
-  const { user_email, client_id } = useSelector((state) => state.client);
+  const { user_email, first_name } = useSelector((state) => state.client);
+  const { the_problem_id } = useSelector((state) => state.theProblem);
 
   const [formData, setFormData] = useState({
     customers_impacted: '',
@@ -33,11 +35,18 @@ function TheProblemComponent() {
 
   useEffect(() => {
     if (user_email) {
-      console.log(user_email);
-
       dispatch(getClient());
     }
   }, [user_email, dispatch]);
+
+  useEffect(() => {
+    if (the_problem_id) {
+      setDisplay('flex');
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 5000);
+    }
+  }, [the_problem_id, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -69,7 +78,8 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    How are the customers or clients of (your company or organization) impacted by this problem?
+                    How are the customers or clients of (your company or
+                    organization) impacted by this problem?
                   </label>
                   <textarea
                     name="customers_impacted"
@@ -91,7 +101,8 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    What are the key challenges (your company or organization) is encountering?
+                    What are the key challenges (your company or organization)
+                    is encountering?
                   </label>
                   <textarea
                     name="challenges"
@@ -102,7 +113,8 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    How has this problem affected (your company or organization) operations or outcomes?
+                    How has this problem affected (your company or organization)
+                    operations or outcomes?
                   </label>
                   <textarea
                     name="affected_operations"
@@ -141,7 +153,7 @@ function TheProblemComponent() {
                   <input
                     type="date"
                     name="first_notice_date"
-                    className='input-date'
+                    className="input-date"
                     onChange={handleInputChange}
                     value={formData.first_notice_date}
                   />
@@ -183,8 +195,8 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    Have (your company or organization) identified any patterns or trends related to this
-                    problem?
+                    Have (your company or organization) identified any patterns
+                    or trends related to this problem?
                   </label>
                   <textarea
                     name="patterns_trends"
@@ -195,7 +207,8 @@ function TheProblemComponent() {
               <tr>
                 <td>
                   <label htmlFor="">
-                    Have (your company or organization) tried any solutions to address this issue?
+                    Have (your company or organization) tried any solutions to
+                    address this issue?
                   </label>
                   <span className="option">
                     <input
@@ -250,6 +263,15 @@ function TheProblemComponent() {
           </table>
         </form>
       </div>
+
+      <span className="overlay" style={{ display: `${display}` }}>
+        <div className="card modal">
+          <h4>
+            Thank you {first_name}, this information will be used to construct the best
+            solution for this problem.
+          </h4>
+        </div>
+      </span>
 
       <button type="submit" onClick={handleSubmit}>
         <h3>SAVE</h3>

@@ -8598,7 +8598,7 @@ const initialState = {
   tried_solutions: '',
   tried_solutions_results: '',
   ideal_resolution: '',
-  the_problem_id: ''
+  the_problem_id: 10
 };
 const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('definingTheProblem/createTheProblem', async (formData, {
   getState
@@ -8723,7 +8723,7 @@ const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__.configureStore)({
   reducer: {
     client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.clientSlice.reducer,
     onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.onboardingSlice.reducer,
-    definingTheProblem: _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
+    theProblem: _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

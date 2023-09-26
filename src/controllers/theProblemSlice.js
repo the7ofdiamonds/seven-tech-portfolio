@@ -16,7 +16,7 @@ const initialState = {
     tried_solutions: '',
     tried_solutions_results: '',
     ideal_resolution: '',
-    the_problem_id: ''
+    the_problem_id: 10
 };
 
 export const createTheProblem = createAsyncThunk('definingTheProblem/createTheProblem', async (formData, { getState }) => {
