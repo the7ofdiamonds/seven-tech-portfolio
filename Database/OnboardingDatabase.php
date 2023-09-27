@@ -17,7 +17,7 @@ class OnboardingDatabase
     }
 
     public function saveOnboarding($onboarding)
-    {error_log($onboarding['client_id'] . 'saveOnboarding');
+    {
         $result = $this->wpdb->insert(
             $this->table_name,
             [

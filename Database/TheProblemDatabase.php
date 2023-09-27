@@ -17,7 +17,7 @@ class TheProblemDatabase
     }
 
     public function saveProblem($problem)
-    {error_log($problem['client_id']);
+    {
         $result = $this->wpdb->insert(
             $this->table_name,
             [

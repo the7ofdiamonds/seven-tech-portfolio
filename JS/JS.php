@@ -11,10 +11,9 @@ class JS
         add_action('wp_enqueue_scripts', [$this, 'load_react']);
     }
 
-    //Load Plugin JS
     function load_js()
     {
-        wp_enqueue_script('thfw_portfolio_js', THFW_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
+        wp_enqueue_script('7tech_portfolio_js', THFW_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
     }
 
     function get_js_files($directory)
@@ -38,12 +37,12 @@ class JS
             'services/service/on-boarding/the-problem',
         ];
 
-        if (is_front_page()|| is_page($pages)) {
+        if (is_front_page() || is_archive('portfolio') || is_singular('portfolio') || is_page($pages)) {
             $jsFiles = $this->get_js_files($directory);
 
             if ($jsFiles) {
                 foreach ($jsFiles as $jsFile) {
-                    $handle = 'thfw_portfolio_react_' . basename($jsFile);
+                    $handle = '7tech_portfolio_react_' . basename($jsFile);
                     wp_enqueue_script($handle, THFW_PORTFOLIO_URL . 'build/' . $jsFile, ['wp-element'], 1.0, true);
                 }
             }

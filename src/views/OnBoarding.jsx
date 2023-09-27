@@ -41,13 +41,9 @@ function OnBoardingComponent() {
     colors_primary: '#000000',
     colors_secondary: '#000000',
     colors_tertiary: '#000000',
-    summary: '',
-    summary_url: '',
     plan: '',
     plan_url: '',
   });
-
-  // Address
 
   useEffect(() => {
     if (user_email) {
@@ -351,82 +347,51 @@ function OnBoardingComponent() {
 
               {formData.where_business === 'brick and mortar' ||
                 (formData.where_business === 'both' && (
-                  <>
-                    <tr>
-                      <td>
-                        <label htmlFor="">
-                          What is the address to the brick & mortar location(s)
-                          of (your company or organization)?
-                        </label>
-                        <table>
-                          <tr>
-                            <td colSpan={2}>
-                              <input type="text" placeholder="Street Adress" />
-                            </td>
-                            <td>
-                              <input type="text" placeholder="Suite #" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <input type="text" placeholder="City" />
-                            </td>
-                            <td>
-                              <input type="text" placeholder="State" />
-                            </td>
-                            <td>
-                              <input type="text" placeholder="Zipcode" />
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label htmlFor="">
-                          Does your brick & mortar location(s) of (your company
-                          or organization) have signage? If Yes, provide a link
-                          to a picture of them below.
-                        </label>
-                        <div className="options-column">
-                          <span className="option">
+                  <tr>
+                    <td>
+                      <label htmlFor="">
+                        Does your brick & mortar location(s) of (your company or
+                        organization) have signage? If Yes, provide a link to a
+                        picture of them below.
+                      </label>
+                      <div className="options-column">
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="signage_yes"
+                            name="signage"
+                            value="yes"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.signage === 'yes'}
+                          />
+                          <label for="signage_yes">Yes</label>
+                          {formData.signage === 'yes' && (
                             <input
-                              type="radio"
-                              id="signage_yes"
-                              name="signage"
-                              value="yes"
-                              className="input-radio"
+                              type="url"
+                              id="signage_url"
+                              name="signage_url"
+                              className="input-url"
+                              value={formData.signage_url}
                               onChange={handleInputChange}
-                              checked={formData.signage === 'yes'}
                             />
-                            <label for="signage_yes">Yes</label>
-                            {formData.signage === 'yes' && (
-                              <input
-                                type="url"
-                                id="signage_url"
-                                name="signage_url"
-                                className="input-url"
-                                value={formData.signage_url}
-                                onChange={handleInputChange}
-                              />
-                            )}
-                          </span>
-                          <span className="option">
-                            <input
-                              type="radio"
-                              id="signage_no"
-                              name="signage"
-                              value="no"
-                              className="input-radio"
-                              onChange={handleInputChange}
-                              checked={formData.signage === 'no'}
-                            />
-                            <label for="signage_no">No</label>
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </>
+                          )}
+                        </span>
+                        <span className="option">
+                          <input
+                            type="radio"
+                            id="signage_no"
+                            name="signage"
+                            value="no"
+                            className="input-radio"
+                            onChange={handleInputChange}
+                            checked={formData.signage === 'no'}
+                          />
+                          <label for="signage_no">No</label>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
               <tr>
                 <td>

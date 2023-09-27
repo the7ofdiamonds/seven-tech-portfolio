@@ -8304,6 +8304,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const Portfolio = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Portfolio_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Portfolio */ "./src/views/Portfolio.jsx")));
+const Project = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Project_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Project */ "./src/views/Project.jsx")));
 const OnBoardingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_OnBoarding_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/OnBoarding.jsx */ "./src/views/OnBoarding.jsx")));
 const TheProblemComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_TheProblem_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/TheProblem.jsx */ "./src/views/TheProblem.jsx")));
 function LoadingFallback() {
@@ -8321,6 +8323,12 @@ function App() {
     index: true,
     path: "services/service/on-boarding",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(OnBoardingComponent, null)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "portfolio",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "portfolio/:category/:project",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Project, null)
   })))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -15674,7 +15682,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const thfwContainer = document.getElementById('thfw_portfolio');
+const thfwContainer = document.getElementById('7tech_portfolio');
 if (thfwContainer) {
   react_dom__WEBPACK_IMPORTED_MODULE_2___default().render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((react__WEBPACK_IMPORTED_MODULE_1___default().StrictMode), null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_redux__WEBPACK_IMPORTED_MODULE_4__.Provider, {
     store: _model_store_js__WEBPACK_IMPORTED_MODULE_5__["default"]
