@@ -5,8 +5,9 @@ namespace THFW_Portfolio\API;
 use Exception;
 use WP_REST_Request;
 
-use THFW_Portfolio\Database\OnboardingDatabase;
-use THFW_Portfolio\Database\TheProblemDatabase;
+use THFW_Portfolio\Database\DatabaseProject;
+use THFW_Portfolio\Database\DatabaseOnboarding;
+use THFW_Portfolio\Database\DatabaseTheProblem;
 
 class Clients
 {
@@ -23,7 +24,7 @@ class Clients
             ));
         });
 
-        $this->onboarding_database = new OnBoardingDatabase;
+        $this->onboarding_database = new DatabaseOnboarding;
 
         add_action('rest_api_init', function () {
             register_rest_route('thfw/v1', '/users/client/problem', array(
@@ -33,7 +34,7 @@ class Clients
             ));
         });
 
-        $this->the_problem_database = new TheProblemDatabase;
+        $this->the_problem_database = new DatabaseTheProblem;
     }
 
 

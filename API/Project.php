@@ -7,16 +7,23 @@ use Exception;
 use WP_REST_Request;
 use WP_Query;
 
-use THFW_Portfolio\Database\OnboardingDatabase;
-use THFW_Portfolio\Database\TheProblemDatabase;
+use THFW_Portfolio\Database\DatabaseProject;
+use THFW_Portfolio\Database\DatabaseOnboarding;
+use THFW_Portfolio\Database\DatabaseTheProblem;
 
 class Project
 {
     private $post_type;
+    private $project_database;
+    private $onboarding_database;
+    private $theproblem_database;
 
     public function __construct()
     {
         $this->post_type = 'portfolio';
+        $this->project_database = new DatabaseProject;
+        $this->onboarding_database = new DatabaseOnboarding;
+        $this->theproblem_database = new DatabaseTheProblem;
 
         add_action('rest_api_init', function () {
             register_rest_route('thfw/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)', array(
@@ -38,19 +45,33 @@ class Project
             );
 
             $query = new WP_Query($args);
+            $project_id = 1;
+            $onboarding = $this->onboarding_database->getOnboarding($project_id);
+            $the_problem = $this->theproblem_database->getProblem(14);
+            $post_author = get_post_field('post_author', get_the_ID());
 
             if ($query->have_posts()) {
                 $query->the_post();
                 $post_data = array(
                     'id' => get_the_ID(),
                     'title' => get_the_title(),
-                    'description' => get_post_meta(get_the_ID(), '_service_description', true),
-                    'content' => strip_tags(strip_shortcodes(get_the_content())),
-                    'features' => get_post_meta(get_the_ID(), '_service_features', true),
-                    'icon' => get_post_meta(get_the_ID(), '_service_icon', true),
-                    'action_word' => get_post_meta(get_the_ID(), '_services_button', true),
-                    'slug' => get_post_field('post_name', get_the_ID()),
-                    'cost' => get_post_meta(get_the_ID(), '_service_cost', true),
+                    'post_status' => get_post_field('post_status', get_the_ID()),
+                    'post_date' => get_post_field('post_date', get_the_ID()),
+                    'post_content' => get_post_field('post_content', get_the_ID()),
+                    'post_author' => get_post_field('post_author', get_the_ID()),
+                    'categories' => get_the_category(get_the_ID()),
+                    // '' => $this->project_database->getProject(get_the_ID()),
+                    'onboarding' => $onboarding,
+                    'the_problem' => $the_problem,
+                    'galleries' => get_post_gallery(get_the_ID(), false),
+                    'project_status' => 85,
+                    'first_name' => get_the_author_meta('user_firstname', $post_author),
+                    'last_name' => get_the_author_meta('user_lastname', $post_author),
+                    'author' => get_userdata($post_author),
+                    // 'roles' => get_userdata($post_author)->roles,
+                    'linkedin_link' => esc_attr(get_option('linkedin_link')),
+                    'hackerrank_link' => esc_attr(get_option('hackerrank_link')),
+                    'github_link' => esc_attr(get_option('github_link')),
                 );
 
                 return rest_ensure_response($post_data, 200);

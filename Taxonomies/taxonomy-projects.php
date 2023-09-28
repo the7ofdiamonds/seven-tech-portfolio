@@ -23,7 +23,6 @@
             foreach($portfolio as $project) :
         ?>
         
-        <?php include WP_PLUGIN_DIR . '/thfw-portfolio/post-types/includes/part-project-card.php';?>
         <?php endforeach; endif;?>
     </section>
 <?php get_footer(); ?>

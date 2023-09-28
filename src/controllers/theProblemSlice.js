@@ -16,12 +16,13 @@ const initialState = {
     tried_solutions: '',
     tried_solutions_results: '',
     ideal_resolution: '',
-    the_problem_id: 10
+    the_problem_id: ''
 };
 
 export const createTheProblem = createAsyncThunk('definingTheProblem/createTheProblem', async (formData, { getState }) => {
     try {
-        const { client_id } = getState().client;
+        // const { client_id } = getState().client;
+        const client_id = 14;
 
         const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
             method: 'POST',

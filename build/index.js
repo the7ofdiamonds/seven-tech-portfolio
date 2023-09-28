@@ -8643,7 +8643,13 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
   loading: false,
   error: '',
-  title: ''
+  title: '',
+  project_types: [],
+  project_status: 25,
+  the_problem: {},
+  app_stores: [],
+  project_author: '',
+  project_tags: []
 };
 const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('project/projectSlice', async projectSlug => {
   try {
@@ -8663,6 +8669,28 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
     }).addCase(getProject.fulfilled, (state, action) => {
       state.loading = false;
       state.title = action.payload.title;
+      state.post_status = action.payload.post_status;
+      state.post_author = action.payload.post_author;
+      state.post_date = action.payload.post_date;
+      state.post_content = action.payload.post_date;
+      state.project_types = action.payload.categories;
+      state.project_status = action.payload.project_status;
+      state.urls = action.payload.urls;
+      state.app_stores = action.payload.app_stores;
+      state.the_problem = action.payload.the_problem;
+      state.design = action.payload.design;
+      state.design_check_list = action.payload.design_check_list;
+      state.colors = action.payload.colors;
+      state.logos = action.payload.logos;
+      state.icons = action.payload.icons;
+      state.diagrams = action.payload.diagrams;
+      state.development = action.payload.development;
+      state.development_check_list = action.payload.development_check_list;
+      state.delivery = action.payload.delivery;
+      state.delivery_check_list = action.payload.delivery_check_list;
+      state.social_networks = action.payload.social_networks;
+      state.project_author = action.payload.project_author;
+      state.project_tags = action.payload.project_tags;
     }).addCase(getProject.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
@@ -8706,15 +8734,14 @@ const initialState = {
   tried_solutions: '',
   tried_solutions_results: '',
   ideal_resolution: '',
-  the_problem_id: 10
+  the_problem_id: ''
 };
 const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('definingTheProblem/createTheProblem', async (formData, {
   getState
 }) => {
   try {
-    const {
-      client_id
-    } = getState().client;
+    // const { client_id } = getState().client;
+    const client_id = 14;
     const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
       method: 'POST',
       headers: {

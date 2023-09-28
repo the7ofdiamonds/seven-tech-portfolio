@@ -2,8 +2,9 @@
 
 namespace THFW_Portfolio\Database;
 
-use THFW_Portfolio\Database\OnboardingDatabase;
-use THFW_Portfolio\Database\TheProblemDatabase;
+use THFW_Portfolio\Database\DatabaseProject;
+use THFW_Portfolio\Database\DatabaseOnboarding;
+use THFW_Portfolio\Database\DatabaseTheProblem;
 
 class Database
 {
@@ -15,9 +16,10 @@ class Database
         $this->wpdb = $wpdb;
 
         $this->createTables();
-
-        new OnboardingDatabase;
-        new TheProblemDatabase;
+        
+        new DatabaseProject;
+        new DatabaseOnboarding;
+        new DatabaseTheProblem;
     }
 
     function createTables()
