@@ -8573,6 +8573,106 @@ const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createS
 
 /***/ }),
 
+/***/ "./src/controllers/portfolio.js":
+/*!**************************************!*\
+  !*** ./src/controllers/portfolio.js ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getPortfolio: function() { return /* binding */ getPortfolio; },
+/* harmony export */   portfolioSlice: function() { return /* binding */ portfolioSlice; }
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+
+const initialState = {
+  loading: false,
+  error: '',
+  title: ''
+};
+const getPortfolio = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/portfolioSlice', async () => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
+const portfolioSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+  name: 'portfolio',
+  initialState,
+  extraReducers: builder => {
+    builder.addCase(getPortfolio.pending, state => {
+      state.loading = true;
+      state.error = null;
+    }).addCase(getPortfolio.fulfilled, (state, action) => {
+      state.loading = false;
+      state.title = action.payload.title;
+    }).addCase(getPortfolio.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (portfolioSlice);
+
+/***/ }),
+
+/***/ "./src/controllers/projectSlice.js":
+/*!*****************************************!*\
+  !*** ./src/controllers/projectSlice.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getProject: function() { return /* binding */ getProject; },
+/* harmony export */   projectSlice: function() { return /* binding */ projectSlice; }
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+
+const initialState = {
+  loading: false,
+  error: '',
+  title: ''
+};
+const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('project/projectSlice', async projectSlug => {
+  try {
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio/${projectSlug}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
+const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+  name: 'project',
+  initialState,
+  extraReducers: builder => {
+    builder.addCase(getProject.pending, state => {
+      state.loading = true;
+      state.error = null;
+    }).addCase(getProject.fulfilled, (state, action) => {
+      state.loading = false;
+      state.title = action.payload.title;
+    }).addCase(getProject.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (projectSlice);
+
+/***/ }),
+
 /***/ "./src/controllers/theProblemSlice.js":
 /*!********************************************!*\
   !*** ./src/controllers/theProblemSlice.js ***!
@@ -8719,17 +8819,23 @@ const definingTheProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
 /* harmony import */ var _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controllers/theProblemSlice */ "./src/controllers/theProblemSlice.js");
+/* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
+/* harmony import */ var _controllers_portfolio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/portfolio */ "./src/controllers/portfolio.js");
 
 
 
 
-const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_3__.configureStore)({
+
+
+const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__.configureStore)({
   reducer: {
     client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.clientSlice.reducer,
+    project: _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
+    portfolio: _controllers_portfolio__WEBPACK_IMPORTED_MODULE_4__["default"].reducer,
     onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.onboardingSlice.reducer,
     theProblem: _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
   }

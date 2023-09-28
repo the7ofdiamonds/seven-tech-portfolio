@@ -12,6 +12,8 @@ class API
         add_action('rest_api_init', [$this, 'allow_cors_headers']);
 
         new Clients;
+        new Portfolio;
+        new Project;
     }
 
     public function add_to_rest_api()
