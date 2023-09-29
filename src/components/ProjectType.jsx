@@ -8,7 +8,7 @@ function ProjectType(props) {
   return (
     <>
       <div class="project-type">
-        <h3>Type</h3>
+        <h3>TYPE</h3>
         {Array.isArray(props.project_types) &&
           props.project_types.map((project_type, index) => (
             <button

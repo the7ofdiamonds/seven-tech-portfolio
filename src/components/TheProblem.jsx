@@ -1,7 +1,9 @@
 function TheProblem(props) {
   return (
     <>
-      <div class="project-problem">
+      <div class="project-problem" id="project_problem">
+        <h3>THE PROBLEM</h3>
+
         <p>{props.the_problem.customers_impacted}</p>
         <p>{props.the_problem.problem_affected}</p>
         <p>{props.the_problem.challenges}</p>

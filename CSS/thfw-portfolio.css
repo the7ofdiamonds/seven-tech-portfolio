@@ -18,23 +18,39 @@
 }
 
 .project .project-info,
-.project .project-status,
-.project .project-type,
-.project .project-tags {
+.project .project-solution,
+.project .project-process,
+.project .project-problem {
   max-width: 1000px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
-.project .project-info {
+.project .project-type,
+.project .project-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   width: 100%;
 }
 .project progress {
   height: 2rem;
   background-color: green;
+}
+.project .project-process .project-process-design,
+.project .project-process .project-process-development,
+.project .project-process .project-process-delivery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .author-card.card {

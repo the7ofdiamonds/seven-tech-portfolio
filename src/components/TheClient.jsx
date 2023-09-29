@@ -1,4 +1,4 @@
-function Client(props) {
+function TheClient(props) {
   console.log(props);
   return (
     <>
@@ -7,4 +7,4 @@ function Client(props) {
   );
 }
 
-export default Client;
+export default TheClient;
