@@ -27,9 +27,32 @@ function Project() {
   const {
     loading,
     error,
+    id,
     title,
+    post_status,
+    post_author,
+    post_date,
+    post_content,
     project_types,
     project_status,
+    solution_gallery,
+    versions,
+    project_urls,
+    social_networks,
+    app_stores,
+    design,
+    design_gallery,
+    design_check_list,
+    colors,
+    logos_icons_gallery,
+    uml_diagrams_gallery,
+    development,
+    development_gallery,
+    development_check_list,
+    delivery,
+    delivery_gallery,
+    delivery_check_list,
+    onboarding,
     the_problem,
     project_author,
     project_tags,
@@ -55,25 +78,25 @@ function Project() {
       <div className="project-solution" id="project_solution">
         <h3>THE SOLUTION</h3>
         {/* Solution Gallery */}
-        <Gallery />
+        <Gallery gallery={solution_gallery} />
 
         {/* Who -> Client */}
-        <Client />
+        <Client client={onboarding} />
 
         {/* What -> Github Read Me File */}
         <Github />
 
         {/* When -> Github -> Versions */}
-        <Versions />
+        <Versions versions={versions} />
 
         {/* Urls */}
-        <ProjectURLs />
+        <ProjectURLs project_urls={project_urls} />
 
         {/* Social Networks */}
-        <SocialNetworks />
+        <SocialNetworks social_networks={social_networks} />
 
         {/* App Stores */}
-        <AppStores />
+        <AppStores app_stores={app_stores} />
       </div>
 
       <div className="project-process" id="project_process">
@@ -83,17 +106,17 @@ function Project() {
           <h4>DESIGN</h4>
 
           {/* Design Gallery */}
-          <Gallery />
+          <Gallery gallery={design_gallery} />
 
-          <CheckList />
+          <CheckList checklist={design_check_list} />
 
-          <Colors />
+          <Colors colors={colors} />
 
           {/* Logos & Icons Gallery*/}
-          <Gallery />
+          <Gallery gallery={logos_icons_gallery} />
 
           {/* UML Diagrams Gallery*/}
-          <Gallery />
+          <Gallery gallery={uml_diagrams_gallery} />
         </div>
 
         <div
@@ -101,13 +124,13 @@ function Project() {
           id="project_process_development">
           <h4>DEVELOPMENT</h4>
 
-          <CheckList />
+          <CheckList checklist={development_check_list} />
         </div>
 
         <div className="project-process-delivery" id="project_process_delivery">
           <h4>DELIVERY</h4>
 
-          <CheckList />
+          <CheckList checklist={delivery_check_list} />
         </div>
       </div>
 

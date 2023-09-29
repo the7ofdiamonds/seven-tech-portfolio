@@ -1,4 +1,6 @@
-function Colors() {
+function Colors(props) {
+  console.log(props);
+
   return (
     <>
       <label htmlFor="">COLORS</label>

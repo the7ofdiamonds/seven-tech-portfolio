@@ -1,4 +1,6 @@
-function ProjectAuthor() {
+function ProjectAuthor(props) {
+  console.log(props);
+
   return (
     <>
       <div class="author-card card">

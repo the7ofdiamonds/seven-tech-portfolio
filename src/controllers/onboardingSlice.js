@@ -33,8 +33,8 @@ const initialState = {
 
 export const createOnboarding = createAsyncThunk('onboarding/createOnboarding', async (formData, { getState }) => {
     try {
-        const { client_id } = getState().client;
-
+        // const { client_id } = getState().client;
+const client_id = 25;
         const response = await fetch('/wp-json/thfw/v1/users/client/onboarding', {
             method: 'POST',
             headers: {

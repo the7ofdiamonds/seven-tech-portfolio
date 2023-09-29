@@ -4,13 +4,35 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
   loading: false,
   error: '',
+  id: '',
   title: '',
-  project_types: [],
-  project_status: 25,
-  the_problem: {},
-  app_stores: [],
+  post_status: '',
+  post_author: '',
+  post_date: '',
+  post_content: '',
+  project_types: '',
+  project_status: '',
+  solution_gallery: '',
+  versions: '',
+  project_urls: '',
+  social_networks: '',
+  app_stores: '',
+  design: '',
+  design_gallery: '',
+  design_check_list: '',
+  colors: '',
+  logos_icons_gallery: '',
+  uml_diagrams_gallery: '',
+  development: '',
+  development_gallery: '',
+  development_check_list: '',
+  delivery: '',
+  delivery_gallery: '',
+  delivery_check_list: '',
+  onboarding: '',
+  the_problem: '',
   project_author: '',
-  project_tags: []
+  project_tags: '',
 };
 
 export const getProject = createAsyncThunk('project/projectSlice', async (projectSlug) => {
@@ -33,6 +55,7 @@ export const projectSlice = createSlice({
       })
       .addCase(getProject.fulfilled, (state, action) => {
         state.loading = false
+        state.id = action.payload.id;
         state.title = action.payload.title;
         state.post_status = action.payload.post_status;
         state.post_author = action.payload.post_author;
@@ -40,21 +63,25 @@ export const projectSlice = createSlice({
         state.post_content = action.payload.post_date;
         state.project_types = action.payload.categories;
         state.project_status = action.payload.project_status;
-        state.urls = action.payload.urls;
+        state.solution_gallery = action.payload.solution_gallery;
+        state.versions = action.payload.versions;
+        state.project_urls = action.payload.project_urls;
+        state.social_networks = action.payload.social_networks;
         state.app_stores = action.payload.app_stores;
-        state.the_problem = action.payload.the_problem;
         state.design = action.payload.design;
+        state.design_gallery = action.payload.design_gallery;
         state.design_check_list = action.payload.design_check_list;
         state.colors = action.payload.colors;
-        state.logos = action.payload.logos;
-        state.icons = action.payload.icons;
-        state.diagrams = action.payload.diagrams;
+        state.logos_icons_gallery = action.payload.logos_icons_gallery;
+        state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
         state.development = action.payload.development;
+        state.development_gallery = action.payload.development_gallery;
         state.development_check_list = action.payload.development_check_list;
         state.delivery = action.payload.delivery;
+        state.delivery_gallery = action.payload.delivery_gallery;
         state.delivery_check_list = action.payload.delivery_check_list;
-        state.social_networks = action.payload.social_networks;
-        
+        state.onboarding = action.payload.onboarding;
+        state.the_problem = action.payload.the_problem;
         state.project_author = action.payload.project_author;
         state.project_tags = action.payload.project_tags;
       })
