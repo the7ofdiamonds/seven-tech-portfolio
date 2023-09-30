@@ -15,13 +15,16 @@ const initialState = {
   solution_gallery: '',
   versions: '',
   project_urls: '',
+  the_client: '',
+  the_solution: '',
   social_networks: '',
   app_stores: '',
   design: '',
   design_gallery: '',
   design_check_list: '',
   colors: '',
-  logos_icons_gallery: '',
+  logos_gallery: '',
+  icons_gallery: '',
   uml_diagrams_gallery: '',
   development: '',
   development_gallery: '',
@@ -61,18 +64,21 @@ export const projectSlice = createSlice({
         state.post_author = action.payload.post_author;
         state.post_date = action.payload.post_date;
         state.post_content = action.payload.post_date;
-        state.project_types = action.payload.categories;
+        state.project_types = action.payload.project_types;
         state.project_status = action.payload.project_status;
         state.solution_gallery = action.payload.solution_gallery;
         state.versions = action.payload.versions;
         state.project_urls = action.payload.project_urls;
+        state.the_client = action.payload.the_client;
+        state.the_solution = action.payload.the_solution;
         state.social_networks = action.payload.social_networks;
         state.app_stores = action.payload.app_stores;
         state.design = action.payload.design;
         state.design_gallery = action.payload.design_gallery;
         state.design_check_list = action.payload.design_check_list;
         state.colors = action.payload.colors;
-        state.logos_icons_gallery = action.payload.logos_icons_gallery;
+        state.logos_gallery = action.payload.logos_gallery;
+        state.icons_gallery = action.payload.icons_gallery;
         state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
         state.development = action.payload.development;
         state.development_gallery = action.payload.development_gallery;

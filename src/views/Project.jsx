@@ -41,7 +41,8 @@ function Project() {
     design_gallery,
     design_check_list,
     colors,
-    logos_icons_gallery,
+    logos_gallery,
+    icons_gallery,
     uml_diagrams_gallery,
     development,
     development_gallery,
@@ -81,28 +82,32 @@ function Project() {
       <Versions versions={versions} />
 
       <div className="project-process" id="project_process">
-        <h3>THE PROCESS</h3>
+        <h3 class="title">THE PROCESS</h3>
 
         <div className="project-process-design" id="project_process_design">
-          <h4>DESIGN</h4>
+          <h4 class="title">DESIGN</h4>
 
           <Gallery gallery={design_gallery} />
           <CheckList checklist={design_check_list} />
           <Colors colors={colors} />
-          <Gallery gallery={logos_icons_gallery} />
+          <h3 class="title">Logos</h3>
+          <Gallery gallery={logos_gallery} />
+          <h3 class="title">icons</h3>
+          <Gallery gallery={icons_gallery} />
+          <h3 class="title">uml diagrams</h3>
           <Gallery gallery={uml_diagrams_gallery} />
         </div>
 
         <div
           className="project-process-development"
           id="project_process_development">
-          <h4>DEVELOPMENT</h4>
+          <h4 class="title">DEVELOPMENT</h4>
 
           <CheckList checklist={development_check_list} />
         </div>
 
         <div className="project-process-delivery" id="project_process_delivery">
-          <h4>DELIVERY</h4>
+          <h4 class="title">DELIVERY</h4>
 
           <CheckList checklist={delivery_check_list} />
         </div>

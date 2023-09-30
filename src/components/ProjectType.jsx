@@ -4,11 +4,11 @@ function ProjectType(props) {
 
     window.open(`${url}/portfolio/${slug}`, '_blank');
   };
-
+console.log(props);
   return (
     <>
       <div class="project-type">
-        <h3>TYPE</h3>
+        <h3>TYPE:</h3>
         {Array.isArray(props.project_types) &&
           props.project_types.map((project_type, index) => (
             <button

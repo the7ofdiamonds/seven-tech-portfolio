@@ -52,6 +52,10 @@
   gap: 0.5rem;
   width: 100%;
 }
+.project .title {
+  text-align: center;
+  text-transform: uppercase;
+}
 
 .author-card.card {
   height: fit-content;
@@ -97,6 +101,10 @@
     grid-template-columns: 1fr 2fr;
   }
 }
+.project-type button h3 {
+  text-transform: uppercase;
+}
+
 .project-tags .tag {
   background-color: unset;
   box-shadow: none;
@@ -179,6 +187,105 @@ form td label {
 }
 .overlay .card.modal {
   position: unset;
+}
+
+.project-urls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.the-client {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+.the-client .client-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.versions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+.versions h4 {
+  text-transform: uppercase;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.checklist span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.checklist span h4 {
+  text-transform: capitalize;
+}
+
+.colors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 1000px;
+}
+
+.color-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  width: 100%;
+}
+.color-row .color {
+  min-width: 40rem;
+  height: 4rem;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.gallery-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+.gallery-row .photo {
+  width: 100%;
+  height: auto;
 }
 
 /*# sourceMappingURL=thfw-portfolio.css.map */

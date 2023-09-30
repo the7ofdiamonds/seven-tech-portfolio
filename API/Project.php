@@ -7,6 +7,7 @@ use Exception;
 use WP_REST_Request;
 use WP_Query;
 
+use THFW_Portfolio\Post_Types\PortfolioUploads;
 use THFW_Portfolio\Database\DatabaseProject;
 use THFW_Portfolio\Database\DatabaseOnboarding;
 use THFW_Portfolio\Database\DatabaseTheProblem;
@@ -14,6 +15,7 @@ use THFW_Portfolio\Database\DatabaseTheProblem;
 class Project
 {
     private $post_type;
+    private $portfolio_uploads;
     private $project_database;
     private $onboarding_database;
     private $theproblem_database;
@@ -21,6 +23,7 @@ class Project
     public function __construct()
     {
         $this->post_type = 'portfolio';
+        $this->portfolio_uploads = new PortfolioUploads;
         $this->project_database = new DatabaseProject;
         $this->onboarding_database = new DatabaseOnboarding;
         $this->theproblem_database = new DatabaseTheProblem;
@@ -45,6 +48,13 @@ class Project
             );
 
             $query = new WP_Query($args);
+            $upload_dir = wp_upload_dir();
+
+            // Uploads directory path
+            $upload_dir_path = $upload_dir['basedir'];
+
+            // Uploads directory URL
+            $upload_dir_url = $upload_dir['baseurl'];
             $project_id = 1;
             $onboarding = $this->onboarding_database->getOnboarding($project_id);
             $the_problem = $this->theproblem_database->getProblem(14);
@@ -58,21 +68,76 @@ class Project
                     'post_status' => get_post_field('post_status', get_the_ID()),
                     'post_date' => get_post_field('post_date', get_the_ID()),
                     'post_author' => get_post_field('post_author', get_the_ID()),
-                    'solution_gallery' => 1,
-                    'galleries' => get_post_gallery(get_the_ID(), false),
-                    'project_type' => get_the_category(get_the_ID()),
-                    'project_status' => 85,'
-                    project_urls' => [],
+                    'solution_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'solution'),
+                    'project_types' => get_the_category(get_the_ID()),
+                    'project_status' => 85,
+                    'project_urls' => [
+                        'website' => [
+                            'url' => 'www.the7ofdiamonds.tech',
+                            'icon' => 'fa-solid fa-globe'
+                        ],
+                        'ios-app' => [
+                            'url' => 'www.the7ofdiamonds.tech',
+                            'icon' => 'fa-brands fa-apple'
+                        ],
+                        'android-app' => [
+                            'url' => 'www.the7ofdiamonds.tech',
+                            'icon' => 'fa-brands fa-android'
+                        ]
+                    ],
+                    'the_client' => [
+                        'client_name' => 'Your Company Name',
+                        'start_date' => 'Thursday October 5, 2023',
+                        'end_date' => 'Thursday November 5, 2023'
+                    ],
                     'social_networks' => [],
                     'app_stores' => [],
                     'the_solution' => get_post_field('post_content', get_the_ID()),
-                    'versions' => [],
+                    'versions' => [
+                        [
+                            'feature' => 'Notary Public',
+                            'version_number' => '1.0',
+                        ],
+                        [
+                            'feature' => 'Loan Originator',
+                            'version_number' => '2.0'
+                        ],
+                        [
+                            'feature' => 'Real Estate Agent',
+                            'version_number' => '3.0'
+                        ],
+                        [
+                            'feature' => 'Business Broker',
+                            'version_number' => '4.0'
+                        ],
+                        [
+                            'feature' => 'Insurance Agent',
+                            'version_number' => '5.0'
+                        ],
+                        [
+                            'feature' => 'Stock Broker',
+                            'version_number' => '6.0'
+                        ]
+                    ],
                     'design' => [],
-                    'design_gallery' => 2,
-                    'design_check_list' => 1,
-                    'colors' => [],
-                    'logos_icons_gallery' => 3,
-                    'uml_diagrams_gallery' => 4,
+                    'design_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design'),
+                    'design_check_list' => [
+                        'colors',
+                        'logos',
+                        'icons',
+                        'animations'
+                    ],
+                    'colors' => [
+                        'red',
+                        'black',
+                        'green',
+                        'blue',
+                        'yellow',
+                        'purple'
+                    ],
+                    'logos_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/logos'),
+                    'icons_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/icons'),
+                    'uml_diagrams_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/umldiagrams'),
                     'development' => [],
                     'development_check_list' => 2,
                     'delivery' => [],
