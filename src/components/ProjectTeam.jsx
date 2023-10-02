@@ -1,9 +1,10 @@
-function ProjectAuthor(props) {
-  console.log(props);
-
+function ProjectTeam(props) {
+  const {project_team} = props;
+console.log(project_team);
   return (
     <>
-      <div class="author-card card">
+    <h4 className="title">Project Team</h4>
+      {/* <div class="author-card card">
         <div class="left">
           <div class="author-pic">
             <a href={author_url}>
@@ -33,9 +34,9 @@ function ProjectAuthor(props) {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
 
-export default ProjectAuthor;
+export default ProjectTeam;

@@ -4,9 +4,12 @@ function Gallery(props) {
     <>
       <div className="gallery">
         <div className="gallery-row">
-          {Array.isArray(props.gallery) && props.gallery.map((photo, index) => (
-            <img key={index} className="photo" src={photo} alt="" />
-          ))}
+          {Array.isArray(props.gallery) &&
+            props.gallery.map((photo, index) => (
+              <span className="gallery-photo">
+                <img key={index} className="photo" src={photo} alt="" />
+              </span>
+            ))}
         </div>
       </div>
     </>

@@ -67,10 +67,7 @@ class Project
                     'title' => get_the_title(),
                     'post_status' => get_post_field('post_status', get_the_ID()),
                     'post_date' => get_post_field('post_date', get_the_ID()),
-                    'post_author' => get_post_field('post_author', get_the_ID()),
                     'solution_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'solution'),
-                    'project_types' => get_the_category(get_the_ID()),
-                    'project_status' => 85,
                     'project_urls' => [
                         'website' => [
                             'url' => 'www.the7ofdiamonds.tech',
@@ -85,38 +82,40 @@ class Project
                             'icon' => 'fa-brands fa-android'
                         ]
                     ],
-                    'the_client' => [
+                    'project_details' => [
                         'client_name' => 'Your Company Name',
                         'start_date' => 'Thursday October 5, 2023',
                         'end_date' => 'Thursday November 5, 2023'
                     ],
-                    'social_networks' => [],
-                    'app_stores' => [],
                     'the_solution' => get_post_field('post_content', get_the_ID()),
+                    'project_status' => 85,
                     'versions' => [
-                        [
-                            'feature' => 'Notary Public',
-                            'version_number' => '1.0',
-                        ],
-                        [
-                            'feature' => 'Loan Originator',
-                            'version_number' => '2.0'
-                        ],
-                        [
-                            'feature' => 'Real Estate Agent',
-                            'version_number' => '3.0'
-                        ],
-                        [
-                            'feature' => 'Business Broker',
-                            'version_number' => '4.0'
-                        ],
-                        [
-                            'feature' => 'Insurance Agent',
-                            'version_number' => '5.0'
-                        ],
-                        [
-                            'feature' => 'Stock Broker',
-                            'version_number' => '6.0'
+                        'current' => 'beta',
+                        'upcoming' => [
+                            [
+                                'feature' => 'Notary Public',
+                                'version_number' => '1.0',
+                            ],
+                            [
+                                'feature' => 'Loan Originator',
+                                'version_number' => '2.0'
+                            ],
+                            [
+                                'feature' => 'Real Estate Agent',
+                                'version_number' => '3.0'
+                            ],
+                            [
+                                'feature' => 'Business Broker',
+                                'version_number' => '4.0'
+                            ],
+                            [
+                                'feature' => 'Insurance Agent',
+                                'version_number' => '5.0'
+                            ],
+                            [
+                                'feature' => 'Stock Broker',
+                                'version_number' => '6.0'
+                            ]
                         ]
                     ],
                     'design' => [],
@@ -129,14 +128,17 @@ class Project
                     ],
                     'colors' => [
                         'red',
-                        'black',
+                        '#000000',
                         'green',
                         'blue',
                         'yellow',
-                        'purple'
+                        'purple',
+                        'orange',
+                        'brown'
                     ],
                     'logos_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/logos'),
                     'icons_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/icons'),
+                    'animations_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/animations'),
                     'uml_diagrams_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'design/umldiagrams'),
                     'development' => [],
                     'development_check_list' => 2,
@@ -144,6 +146,8 @@ class Project
                     'delivery_check_list' => 3,
                     'onboarding' => $onboarding,
                     'the_problem' => $the_problem,
+                    'project_types' => get_the_category(get_the_ID()),
+                    'project_tags' => get_the_tags(get_the_ID()),
                     'project_author' => [
                         'first_name' => get_the_author_meta('user_firstname', $post_author),
                         'last_name' => get_the_author_meta('user_lastname', $post_author),
@@ -152,7 +156,7 @@ class Project
                         'hackerrank_link' => esc_attr(get_option('hackerrank_link')),
                         'github_link' => esc_attr(get_option('github_link')),
                     ],
-                    'tags' => []
+                    'post_author' => get_post_field('post_author', get_the_ID()),
                 );
 
                 return rest_ensure_response($post_data, 200);

@@ -4,20 +4,23 @@ function ProjectType(props) {
 
     window.open(`${url}/portfolio/${slug}`, '_blank');
   };
-console.log(props);
+  console.log(props);
   return (
     <>
       <div class="project-type">
-        <h3>TYPE:</h3>
-        {Array.isArray(props.project_types) &&
-          props.project_types.map((project_type, index) => (
-            <button
-              className="category"
-              onClick={() => handleClick(project_type.slug)}
-              key={index}>
-              <h3>{project_type.name}</h3>
-            </button>
-          ))}
+        <h4 className="title">Project Type</h4>
+
+        <div className="project-type-row">
+          {Array.isArray(props.project_types) &&
+            props.project_types.map((project_type, index) => (
+              <button
+                className="category"
+                onClick={() => handleClick(project_type.slug)}
+                key={index}>
+                <h3>{project_type.name}</h3>
+              </button>
+            ))}
+        </div>
       </div>
     </>
   );

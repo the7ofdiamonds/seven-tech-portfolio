@@ -1,17 +1,28 @@
 function Versions(props) {
-  console.log(props);
   const { versions } = props;
-  console.log(versions);
   return (
     <>
       <div className="versions">
-        <h4>Versions</h4>
-        {Array.isArray(versions) &&
-          versions.map((version, index) => (
-            <p key={index}>
-              {version.feature} - {version.version_number}
-            </p>
-          ))}
+        <span className="current-version">
+          <h4>Current Version</h4>
+          {versions.current}
+        </span>
+
+        <span className="upcoming-versions">
+          <h4>Upcoming Versions</h4>
+          <table>
+            <tbody>
+              {Array.isArray(versions.upcoming) &&
+                versions.upcoming.map((version, index) => (
+                  <tr key={index}>
+                    <td className="feature">{version.feature}</td>
+                    <td>-</td>
+                    <td>{version.version_number}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </span>
       </div>
     </>
   );

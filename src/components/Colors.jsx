@@ -1,16 +1,19 @@
 import React from 'react';
 
 function Colors(props) {
-  console.log(props);
   const { colors } = props;
+
   return (
     <div className="colors">
-      <h3 class="title">Colors</h3>
+      <h5 class="title">Colors ({colors.length})</h5>
 
       <div className="color-row">
         {Array.isArray(colors) &&
           colors.map((color, index) => (
-            <span className='color' key={index} style={{ backgroundColor: color }}></span>
+            <div className="color" key={index}>
+              <span className="color-square" style={{ backgroundColor: color }}></span>
+              <h5>{color}</h5>
+            </div>
           ))}
       </div>
     </div>

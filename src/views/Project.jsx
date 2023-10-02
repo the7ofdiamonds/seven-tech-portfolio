@@ -8,14 +8,14 @@ import { getProject } from '../controllers/projectSlice';
 import ProjectType from '../components/ProjectType';
 import ProjectStatus from '../components/ProjectStatus';
 import Gallery from '../components/Gallery';
-import TheClient from '../components/TheClient';
+import ProjectDetails from '../components/ProjectDetails';
 import TheSolution from '../components/TheSolution';
 import Versions from '../components/Versions';
 import ProjectURLs from '../components/ProjectURLs';
 import CheckList from '../components/CheckList';
 import Colors from '../components/Colors';
 import TheProblem from '../components/TheProblem';
-import ProjectAuthor from '../components/ProjectAuthor';
+import ProjectAuthor from '../components/ProjectTeam';
 import ProjectTags from '../components/ProjectTags';
 
 function Project() {
@@ -34,7 +34,7 @@ function Project() {
     project_status,
     solution_gallery,
     project_urls,
-    the_client,
+    project_details,
     the_solution,
     versions,
     design,
@@ -43,6 +43,7 @@ function Project() {
     colors,
     logos_gallery,
     icons_gallery,
+    animations_gallery,
     uml_diagrams_gallery,
     development,
     development_gallery,
@@ -51,7 +52,7 @@ function Project() {
     delivery_gallery,
     delivery_check_list,
     the_problem,
-    project_author,
+    project_team,
     project_tags,
   } = useSelector((state) => state.project);
 
@@ -69,32 +70,31 @@ function Project() {
 
       <Gallery gallery={solution_gallery} />
 
-      <div class="project-info">
-        <ProjectType project_types={project_types} />
-        <ProjectStatus project_status={project_status} />
-        <ProjectURLs project_urls={project_urls} />
-      </div>
+      <ProjectURLs project_urls={project_urls} />
 
-      <TheClient the_client={the_client} />
+      <ProjectDetails project_details={project_details} />
 
       <TheSolution the_solution={the_solution} />
-
-      <Versions versions={versions} />
 
       <div className="project-process" id="project_process">
         <h3 class="title">THE PROCESS</h3>
 
+        <ProjectStatus project_status={project_status} />
+        <Versions versions={versions} />
+
         <div className="project-process-design" id="project_process_design">
           <h4 class="title">DESIGN</h4>
 
-          <Gallery gallery={design_gallery} />
           <CheckList checklist={design_check_list} />
+          <Gallery gallery={design_gallery} />
           <Colors colors={colors} />
-          <h3 class="title">Logos</h3>
+          <h5 class="title">Logos</h5>
           <Gallery gallery={logos_gallery} />
-          <h3 class="title">icons</h3>
+          <h5 class="title">icons</h5>
           <Gallery gallery={icons_gallery} />
-          <h3 class="title">uml diagrams</h3>
+          <h5 class="title">Animations</h5>
+          <Gallery gallery={animations_gallery} />
+          <h5 class="title">uml diagrams</h5>
           <Gallery gallery={uml_diagrams_gallery} />
         </div>
 
@@ -115,9 +115,11 @@ function Project() {
 
       <TheProblem the_problem={the_problem} />
 
-      {/* <ProjectAuthor project_author={project_author} />
+      <ProjectType project_types={project_types} />
 
-      <ProjectTags project_tags={project_tags} /> */}
+      <ProjectTags project_tags={project_tags} />
+
+      <ProjectAuthor project_team={project_team} />
     </>
   );
 }

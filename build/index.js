@@ -8653,7 +8653,7 @@ const initialState = {
   solution_gallery: '',
   versions: '',
   project_urls: '',
-  the_client: '',
+  project_details: '',
   the_solution: '',
   social_networks: '',
   app_stores: '',
@@ -8663,6 +8663,7 @@ const initialState = {
   colors: '',
   logos_gallery: '',
   icons_gallery: '',
+  animations_gallery: '',
   uml_diagrams_gallery: '',
   development: '',
   development_gallery: '',
@@ -8703,7 +8704,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.solution_gallery = action.payload.solution_gallery;
       state.versions = action.payload.versions;
       state.project_urls = action.payload.project_urls;
-      state.the_client = action.payload.the_client;
+      state.project_details = action.payload.project_details;
       state.the_solution = action.payload.the_solution;
       state.social_networks = action.payload.social_networks;
       state.app_stores = action.payload.app_stores;
@@ -8713,6 +8714,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.colors = action.payload.colors;
       state.logos_gallery = action.payload.logos_gallery;
       state.icons_gallery = action.payload.icons_gallery;
+      state.animations_gallery = action.payload.animations_gallery;
       state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
       state.development = action.payload.development;
       state.development_gallery = action.payload.development_gallery;
