@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import { getProject } from '../controllers/projectSlice';
 
+import Card from '../components/Card';
 import ProjectType from '../components/ProjectType';
 import ProjectStatus from '../components/ProjectStatus';
 import Gallery from '../components/Gallery';
@@ -46,10 +47,9 @@ function Project() {
     animations_gallery,
     uml_diagrams_gallery,
     development,
-    development_gallery,
     development_check_list,
+    git_repo,
     delivery,
-    delivery_gallery,
     delivery_check_list,
     the_problem,
     project_team,
@@ -64,6 +64,7 @@ function Project() {
   }, [dispatch, projectPath]);
 
   const handleClick = () => {};
+
   return (
     <>
       <h2 class="title">{title}</h2>
@@ -82,35 +83,89 @@ function Project() {
         <ProjectStatus project_status={project_status} />
         <Versions versions={project_versions} />
 
-        <div className="project-process-design" id="project_process_design">
-          <h4 class="title">DESIGN</h4>
+        {design_check_list ||
+        design_gallery.length > 0 ||
+        colors ||
+        logos_gallery.length > 0 ||
+        icons_gallery.length > 0 ||
+        animations_gallery.length > 0 ||
+        uml_diagrams_gallery.length > 0 ||
+        design ? (
+          <div className="project-process-design" id="project_process_design">
+            <h4 class="title">DESIGN</h4>
 
-          <CheckList checklist={design_check_list} />
-          <Gallery gallery={design_gallery} />
-          <Colors colors={colors} />
-          <h5 class="title">Logos</h5>
-          <Gallery gallery={logos_gallery} />
-          <h5 class="title">icons</h5>
-          <Gallery gallery={icons_gallery} />
-          <h5 class="title">Animations</h5>
-          <Gallery gallery={animations_gallery} />
-          <h5 class="title">uml diagrams</h5>
-          <Gallery gallery={uml_diagrams_gallery} />
-        </div>
+            <CheckList checklist={design_check_list} />
+            <Gallery gallery={design_gallery} />
+            <Colors colors={colors} />
 
-        <div
-          className="project-process-development"
-          id="project_process_development">
-          <h4 class="title">DEVELOPMENT</h4>
+            {logos_gallery.length > 0 ? (
+              <>
+                <h5 class="title">Logos</h5>
+                <Gallery gallery={logos_gallery} />
+              </>
+            ) : (
+              ''
+            )}
 
-          <CheckList checklist={development_check_list} />
-        </div>
+            {icons_gallery.length > 0 ? (
+              <>
+                <h5 class="title">icons</h5>
+                <Gallery gallery={icons_gallery} />
+              </>
+            ) : (
+              ''
+            )}
 
-        <div className="project-process-delivery" id="project_process_delivery">
-          <h4 class="title">DELIVERY</h4>
+            {animations_gallery.length > 0 ? (
+              <>
+                <h5 class="title">Animations</h5>
+                <Gallery gallery={animations_gallery} />
+              </>
+            ) : (
+              ''
+            )}
 
-          <CheckList checklist={delivery_check_list} />
-        </div>
+            {uml_diagrams_gallery.length > 0 ? (
+              <>
+                <h5 class="title">uml diagrams</h5>
+                <Gallery gallery={uml_diagrams_gallery} />
+              </>
+            ) : (
+              ''
+            )}
+
+            <Card text={design} />
+          </div>
+        ) : (
+          ''
+        )}
+
+        {delivery_check_list || development || git_repo ? (
+          <div
+            className="project-process-development"
+            id="project_process_development">
+            <h4 class="title">DEVELOPMENT</h4>
+
+            <CheckList checklist={development_check_list} />
+            <Card text={development} />
+            <ProjectURLs project_urls={git_repo} />
+          </div>
+        ) : (
+          ''
+        )}
+
+        {delivery_check_list || delivery ? (
+          <div
+            className="project-process-delivery"
+            id="project_process_delivery">
+            <h4 class="title">DELIVERY</h4>
+
+            <CheckList checklist={delivery_check_list} />
+            <Card text={delivery} />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
 
       <TheProblem the_problem={the_problem} />

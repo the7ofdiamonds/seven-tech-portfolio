@@ -99,7 +99,6 @@ class DatabaseOnboarding
             'colors_tertiary' => $onboarding->colors_tertiary,
             'summary' => $onboarding->summary,
             'summary_url' => $onboarding->summary_url,
-            'what_business' => $onboarding->what_business,
             'plan' => $onboarding->plan,
             'plan_url' => $onboarding->plan_url,
         ];

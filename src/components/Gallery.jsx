@@ -1,17 +1,20 @@
 function Gallery(props) {
-  console.log(props);
   return (
     <>
-      <div className="gallery">
-        <div className="gallery-row">
-          {Array.isArray(props.gallery) &&
-            props.gallery.map((photo, index) => (
-              <span className="gallery-photo">
-                <img key={index} className="photo" src={photo} alt="" />
-              </span>
-            ))}
+      {props.gallery.length > 0 ? (
+        <div className="gallery">
+          <div className="gallery-row">
+            {Array.isArray(props.gallery) &&
+              props.gallery.map((photo, index) => (
+                <span className="gallery-photo">
+                  <img key={index} className="photo" src={photo} alt="" />
+                </span>
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }

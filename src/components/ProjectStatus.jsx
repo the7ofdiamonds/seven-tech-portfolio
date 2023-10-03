@@ -1,11 +1,11 @@
 function ProjectStatus(props) {
   const { project_status } = props;
-console.log(`Project Status: ${project_status}`)
+
   return (
     <>
       <div className="project-status">
         <h4>STATUS</h4>
-        {project_status === '0' || project_status === undefined ? (
+        {project_status === '0' || project_status === undefined || project_status === null ? (
           <h5>NOT STARTED</h5>
         ) : project_status === 'ongoing' ? (
           <h5>ONGOING</h5>

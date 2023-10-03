@@ -65,7 +65,6 @@ class Project
                 'delivery_check_list' => $request['delivery_check_list'],
                 'project_team' => $request['project_team'],
             ];
-            error_log('From update_project' . print_r($project, true));
 
             $existing_project = $this->project_database->getProject($project['post_id']);
 
@@ -75,7 +74,7 @@ class Project
                 return rest_ensure_response($updated_project, 200);
             } else {
                 $project_id = $this->project_database->saveProject($project);
-                error_log(print_r($project, true));
+                
                 return rest_ensure_response($project_id, 200);
             }
         } catch (Exception $e) {
@@ -101,20 +100,19 @@ class Project
             $args = array(
                 'post_type' => $this->post_type,
                 'name' => $slug,
-                'posts_per_page' => 1,
             );
 
             $query = new WP_Query($args);
 
             if ($query->have_posts()) {
                 $query->the_post();
-                $project = $this->project_database->getProject(get_the_ID());
-                $onboarding = $this->onboarding_database->getOnboarding($project['id']);
-                $the_problem = $this->theproblem_database->getProblem($project['id']);
-                error_log(print_r($project, true));
+    
+                $project_id = get_the_ID();
+                $project = $this->project_database->getProject($project_id);
+                    
                 $post_data = array(
                     'id' => get_the_ID(),
-                    'title' => get_the_title(),
+                    'title' => get_the_title($project_id),
                     'post_status' => get_post_field('post_status', get_the_ID()),
                     'post_date' => get_post_field('post_date', get_the_ID()),
                     'solution_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'solution'),
@@ -136,14 +134,14 @@ class Project
                     'git_repo' => $project['git_repo'],
                     'delivery' => $project['delivery'],
                     'delivery_check_list' => $project['delivery_check_list'],
-                    'onboarding' => $onboarding,
-                    'the_problem' => $the_problem,
+                    'onboarding' => $this->onboarding_database->getOnboarding($project_id),
+                    'the_problem' => $this->theproblem_database->getProblem($project_id),
                     'project_types' => get_the_category(get_the_ID()),
                     'project_tags' => get_the_tags(get_the_ID()),
                     'project_team' => $project['project_team'],
                 );
 
-                return rest_ensure_response($post_data, 200);
+                return rest_ensure_response($post_data);
             } else {
                 $status_code = 404;
                 $response_data = [

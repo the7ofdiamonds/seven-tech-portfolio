@@ -37,7 +37,7 @@ class Database
         $sql = "CREATE TABLE {$table_name} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            post_id VARCHAR(255) DEFAULT NULL,
+            post_id INTEGER DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             deadline VARCHAR(255) DEFAULT NULL,
             deadline_date VARCHAR(255) DEFAULT NULL,

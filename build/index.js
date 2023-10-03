@@ -8649,7 +8649,7 @@ const initialState = {
   post_date: '',
   post_content: '',
   project_types: '',
-  project_status: 'not start yet',
+  project_status: '',
   solution_gallery: '',
   project_versions: '',
   project_urls: '',
@@ -8668,6 +8668,7 @@ const initialState = {
   development: '',
   development_gallery: '',
   development_check_list: '',
+  git_repo: '',
   delivery: '',
   delivery_gallery: '',
   delivery_check_list: '',
@@ -8719,6 +8720,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.development = action.payload.development;
       state.development_gallery = action.payload.development_gallery;
       state.development_check_list = action.payload.development_check_list;
+      state.git_repo = action.payload.git_repo;
       state.delivery = action.payload.delivery;
       state.delivery_gallery = action.payload.delivery_gallery;
       state.delivery_check_list = action.payload.delivery_check_list;

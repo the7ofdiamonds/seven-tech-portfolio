@@ -21,6 +21,7 @@ class DatabaseTheProblem
         $result = $this->wpdb->insert(
             $this->table_name,
             [
+                'post_id' => $problem['post_id'],
                 'client_id' => $problem['client_id'],
                 'customers_impacted' => $problem['customers_impacted'],
                 'problem_affected' => $problem['problem_affected'],
@@ -47,21 +48,22 @@ class DatabaseTheProblem
         return $problem_id;
     }
 
-    public function getProblem($client_id)
+    public function getProblem($post_id)
     {
         $problem = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE client_id = %d",
-                $client_id
+                "SELECT * FROM {$this->table_name} WHERE post_id = %d",
+                $post_id
             )
         );
 
         if ($problem === null) {
-            return rest_ensure_response('Problem not found');
+            throw new Exception('Problem not found');
         }
 
         $problem_data = [
             'id' => $problem->id,
+            'post_id' => $problem->post_id,
             'client_id' => $problem->client_id,
             'customers_impacted' => $problem->customers_impacted,
             'problem_affected' => $problem->problem_affected,
@@ -80,9 +82,10 @@ class DatabaseTheProblem
         return $problem_data;
     }
 
-    public function updateProblem($client_id, $problem)
+    public function updateProblem($post_id, $problem)
     {
         $data = array(
+            'post_id' => $problem->post_id,
             'client_id' => $problem->client_id,
             'customers_impacted' => $problem->customers_impacted,
             'problem_affected' => $problem->problem_affected,
@@ -99,7 +102,7 @@ class DatabaseTheProblem
         );
 
         $where = array(
-            'client_id' => $client_id,
+            'post_id' => $post_id,
         );
 
         if (!empty($data)) {
@@ -107,11 +110,8 @@ class DatabaseTheProblem
         }
 
         if ($updated === false) {
-            $error_message = $this->wpdb->last_error ?: 'Problem not found';
-            $response = rest_ensure_response($error_message);
-            $response->set_status(404);
 
-            return $response;
+            throw new Exception($this->wpdb->last_error ?: 'Problem not found');
         }
 
         return $updated;
