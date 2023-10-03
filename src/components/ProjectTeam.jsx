@@ -5,6 +5,7 @@ function ProjectTeam(props) {
     <>
       <div className="project-team">
         <h4 className="title">Project Team</h4>
+        {/* Add author of this page to top */}
         {Array.isArray(project_team) && project_team.length > 0
           ? project_team.map((team_member, index) => (
               <div key={index} class="author-card card">
