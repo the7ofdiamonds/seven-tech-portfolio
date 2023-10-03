@@ -1,5 +1,3 @@
-import React from 'react';
-
 function ProjectURLs(props) {
   const { project_urls } = props;
 

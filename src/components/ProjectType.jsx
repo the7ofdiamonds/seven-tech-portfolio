@@ -4,7 +4,7 @@ function ProjectType(props) {
 
     window.open(`${url}/portfolio/${slug}`, '_blank');
   };
-  console.log(props);
+
   return (
     <>
       <div class="project-type">

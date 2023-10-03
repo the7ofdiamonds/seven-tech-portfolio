@@ -34,7 +34,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
 function CheckList(props) {
-  console.log(props);
   const {
     checklist
   } = props;
@@ -60,9 +59,6 @@ function CheckList(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
 
 function Colors(props) {
   const {
@@ -130,7 +126,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ProjectDetails(props) {
-  console.log(props);
   const {
     project_details
   } = props;
@@ -219,8 +214,9 @@ function ProjectTeam(props) {
   const {
     project_team
   } = props;
-  console.log(project_team);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "project-team"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
     className: "title"
   }, "Project Team"), Array.isArray(project_team) && project_team.length > 0 ? project_team.map((team_member, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: index,
@@ -249,7 +245,7 @@ function ProjectTeam(props) {
     class: "author-contact"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     onClick: () => window.open(`mailto:${team_member.email}`)
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Hire ", team_member.first_name)))))) : 'No Team Members have been assigned to this project yet.');
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Hire ", team_member.first_name)))))) : 'No Team Members have been assigned to this project yet.'));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTeam);
 
@@ -270,7 +266,6 @@ function ProjectType(props) {
     const url = window.location.origin;
     window.open(`${url}/portfolio/${slug}`, '_blank');
   };
-  console.log(props);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "project-type"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
@@ -296,9 +291,6 @@ function ProjectType(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
 
 function ProjectURLs(props) {
   const {
@@ -326,18 +318,17 @@ function ProjectURLs(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
 
 function TheProblem(props) {
   const {
     the_problem
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, the_problem ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-problem",
     id: "project_problem"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "THE PROBLEM"), the_problem.customers_impacted ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.customers_impacted) : '', the_problem.problem_affected ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.problem_affected) : '', the_problem.challenges ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.challenges) : '', the_problem.affected_operations ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.affected_operations) : '', the_problem.change_event ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.change_event) : '', the_problem.factors_contributed ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.factors_contributed) : '', the_problem.patterns_trends ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.patterns_trends) : '', the_problem.first_notice_date ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.first_notice_date) : '', the_problem.recurring_issue ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.recurring_issue) : '', the_problem.tried_solutions ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions) : '', the_problem.tried_solutions_results ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions_results) : '', the_problem.ideal_resolution ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.ideal_resolution) : '') : '');
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "THE PROBLEM"), the_problem.length > 0 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card"
+  }, the_problem.customers_impacted ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.customers_impacted) : '', the_problem.problem_affected ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.problem_affected) : '', the_problem.challenges ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.challenges) : '', the_problem.affected_operations ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.affected_operations) : '', the_problem.change_event ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.change_event) : '', the_problem.factors_contributed ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.factors_contributed) : '', the_problem.patterns_trends ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.patterns_trends) : '', the_problem.first_notice_date ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.first_notice_date) : '', the_problem.recurring_issue ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.recurring_issue) : '', the_problem.tried_solutions ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions) : '', the_problem.tried_solutions_results ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions_results) : '', the_problem.ideal_resolution ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.ideal_resolution) : '') : ''));
 }
 /* harmony default export */ __webpack_exports__["default"] = (TheProblem);
 
@@ -354,7 +345,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
 function TheSolution(props) {
-  console.log(props);
   const {
     the_solution
   } = props;
@@ -362,6 +352,7 @@ function TheSolution(props) {
     className: "project-solution",
     id: "project_solution"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "THE SOLUTION"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card",
     dangerouslySetInnerHTML: {
       __html: the_solution
     }
@@ -455,10 +446,10 @@ function Project() {
     loading,
     error,
     id,
-    title,
     post_status,
     post_author,
     post_date,
+    title,
     project_types,
     project_status,
     solution_gallery,

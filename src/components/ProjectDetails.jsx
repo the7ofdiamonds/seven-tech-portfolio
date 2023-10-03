@@ -1,7 +1,6 @@
 import React from 'react';
 
 function ProjectDetails(props) {
-  console.log(props);
   const { project_details } = props;
 
   return (

@@ -1,6 +1,6 @@
 function CheckList(props) {
-  console.log(props);
   const { checklist } = props;
+  
   return (
     <>
       {checklist ? (
