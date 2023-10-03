@@ -21,6 +21,7 @@ class DatabaseOnboarding
         $result = $this->wpdb->insert(
             $this->table_name,
             [
+                'post_id' => $onboarding['post_id'],
                 'client_id' => $onboarding['client_id'],
                 'deadline' => $onboarding['deadline'],
                 'deadline_date' => $onboarding['deadline_date'],
@@ -48,32 +49,33 @@ class DatabaseOnboarding
                 'plan_url' => $onboarding['plan_url'],
             ]
         );
-    
+
         if (!$result) {
             $error_message = $this->wpdb->last_error;
             throw new Exception($error_message);
         }
-    
+
         $onboarding_id = $this->wpdb->insert_id;
-    
+
         return $onboarding_id;
     }
-    
-    public function getOnboarding($client_id)
+
+    public function getOnboarding($post_id)
     {
         $onboarding = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE client_id = %d",
-                $client_id
+                "SELECT * FROM {$this->table_name} WHERE post_id = %d",
+                $post_id
             )
         );
 
         if ($onboarding === null) {
-            return rest_ensure_response('Onboarding not found');
+            throw new Exception('Onboarding not found');
         }
 
         $onboarding_data = [
             'id' => $onboarding->id,
+            'post_id' => $onboarding->post_id,
             'client_id' => $onboarding->client_id,
             'deadline' => $onboarding->deadline,
             'deadline_date' => $onboarding->deadline_date,
@@ -108,6 +110,7 @@ class DatabaseOnboarding
     public function updateOnboarding($client_id, $onboarding)
     {
         $data = array(
+            'post_id' => $onboarding->post_id,
             'client_id' => $onboarding->client_id,
             'deadline' => $onboarding->deadline,
             'deadline_date' => $onboarding->deadline_date,
@@ -145,11 +148,8 @@ class DatabaseOnboarding
         }
 
         if ($updated === false) {
-            $error_message = $this->wpdb->last_error ?: 'Onboarding not found';
-            $response = rest_ensure_response($error_message);
-            $response->set_status(404);
 
-            return $response;
+            throw new Exception($this->wpdb->last_error ?: 'Onboarding not found');
         }
 
         return $updated;

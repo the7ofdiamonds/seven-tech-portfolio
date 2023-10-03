@@ -36,7 +36,7 @@ function Project() {
     project_urls,
     project_details,
     the_solution,
-    versions,
+    project_versions,
     design,
     design_gallery,
     design_check_list,
@@ -80,7 +80,7 @@ function Project() {
         <h3 class="title">THE PROCESS</h3>
 
         <ProjectStatus project_status={project_status} />
-        <Versions versions={versions} />
+        <Versions versions={project_versions} />
 
         <div className="project-process-design" id="project_process_design">
           <h4 class="title">DESIGN</h4>

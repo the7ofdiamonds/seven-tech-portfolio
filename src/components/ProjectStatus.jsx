@@ -1,9 +1,21 @@
 function ProjectStatus(props) {
+  const { project_status } = props;
+console.log(`Project Status: ${project_status}`)
   return (
     <>
-      <div class="project-status">
+      <div className="project-status">
         <h4>STATUS</h4>
-        <progress class="status-bar" value={props.project_status} max="100"></progress>
+        {project_status === '0' || project_status === undefined ? (
+          <h5>NOT STARTED</h5>
+        ) : project_status === 'ongoing' ? (
+          <h5>ONGOING</h5>
+        ) : (
+          <progress
+            className="status-bar"
+            value={project_status}
+            max="100"
+          ></progress>
+        )}
       </div>
     </>
   );

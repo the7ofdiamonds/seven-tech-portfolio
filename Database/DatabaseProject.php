@@ -23,14 +23,19 @@ class DatabaseProject
             [
                 'client_id' => $project['client_id'],
                 'post_id' => $project['post_id'],
-                'git_repo' => $project['git_repo'],
+                'project_urls' => $project['project_urls'],
+                'project_details' => $project['project_details'],
+                'project_status' => $project['project_status'],
+                'project_versions' => $project['project_versions'],
+                'design' => $project['design'],
+                'design_check_list' => $project['design_check_list'],
                 'colors' => $project['colors'],
-                'logos' => $project['logos'],
-                'icons' => $project['icons'],
-                'uml_diagrams' => $project['uml_diagrams'],
-                'check_list' => $project['check_list'],
-                'urls' => $project['urls'],
-                'app_stores' => $project['app_stores']
+                'development' => $project['development'],
+                'development_check_list' => $project['development_check_list'],
+                'git_repo' => $project['git_repo'],
+                'delivery' => $project['delivery'],
+                'delivery_check_list' => $project['delivery_check_list'],
+                'project_team' => $project['project_team'],
             ]
         );
 
@@ -44,99 +49,81 @@ class DatabaseProject
         return $project_id;
     }
 
-    public function getProject($client_id)
+    public function getProject($post_id)
     {
         $project = $this->wpdb->get_row(
             $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE client_id = %d",
-                $client_id
+                "SELECT * FROM {$this->table_name} WHERE post_id = %d",
+                $post_id
             )
         );
 
         if ($project === null) {
-            return rest_ensure_response('Project not found');
+
+            throw new Exception('Project not found');
         }
 
         $project_data = [
             'id' => $project->id,
             'client_id' => $project->client_id,
-            'deadline' => $project->deadline,
-            'deadline_date' => $project->deadline_date,
-            'where_business' => $project->where_business,
-            'website' => $project->website,
-            'website_url' => $project->website_url,
-            'hosting' => $project->hosting,
-            'satisfied' => $project->satisfied,
-            'signage' => $project->signage,
-            'signage_url' => $project->signage_url,
-            'social' => $project->social,
-            'social_facebook' => $project->social_facebook,
-            'social_x' => $project->social_x,
-            'social_linkedin' => $project->social_linkedin,
-            'social_instagram' => $project->social_instagram,
-            'logo' => $project->logo,
-            'logo_url' => $project->logo_url,
+            'post_id' => $project->post_id,
+            'project_urls' => $project->project_urls,
+            'project_details' => $project->project_details,
+            'project_status' => $project->project_status,
+            'project_versions' => $project->project_versions,
+            'design' => $project->design,
+            'design_check_list' => $project->design_check_list,
             'colors' => $project->colors,
-            'colors_primary' => $project->colors_primary,
-            'colors_secondary' => $project->colors_secondary,
-            'colors_tertiary' => $project->colors_tertiary,
-            'summary' => $project->summary,
-            'summary_url' => $project->summary_url,
-            'what_business' => $project->what_business,
-            'plan' => $project->plan,
-            'plan_url' => $project->plan_url,
+            'development' => $project->development,
+            'development_check_list' => $project->development_check_list,
+            'git_repo' => $project->git_repo,
+            'delivery' => $project->delivery,
+            'delivery_check_list' => $project->delivery_check_list,
+            'project_team' => $project->project_team,
         ];
 
         return $project_data;
     }
 
-    public function updateProject($client_id, $project)
+    public function updateProject($post_id, $project)
     {
         $data = array(
-            'client_id' => $project->client_id,
-            'deadline' => $project->deadline,
-            'deadline_date' => $project->deadline_date,
-            'where_business' => $project->where_business,
-            'website' => $project->website,
-            'website_url' => $project->website_url,
-            'hosting' => $project->hosting,
-            'satisfied' => $project->satisfied,
-            'signage' => $project->signage,
-            'signage_url' => $project->signage_url,
-            'social' => $project->social,
-            'social_facebook' => $project->social_facebook,
-            'social_x' => $project->social_x,
-            'social_linkedin' => $project->social_linkedin,
-            'social_instagram' => $project->social_instagram,
-            'logo' => $project->logo,
-            'logo_url' => $project->logo_url,
-            'colors' => $project->colors,
-            'colors_primary' => $project->colors_primary,
-            'colors_secondary' => $project->colors_secondary,
-            'colors_tertiary' => $project->colors_tertiary,
-            'summary' => $project->summary,
-            'summary_url' => $project->summary_url,
-            'what_business' => $project->what_business,
-            'plan' => $project->plan,
-            'plan_url' => $project->plan_url,
+            'client_id' => $project['client_id'],
+            'project_urls' => $project['project_urls'],
+            'project_details' => $project['project_details'],
+            'project_status' => $project['project_status'],
+            'project_versions' => $project['project_versions'],
+            'design' => $project['design'],
+            'design_check_list' => $project['design_check_list'],
+            'colors' => $project['colors'],
+            'development' => $project['development'],
+            'development_check_list' => $project['development_check_list'],
+            'git_repo' => $project['git_repo'],
+            'delivery' => $project['delivery'],
+            'delivery_check_list' => $project['delivery_check_list'],
+            'project_team' => $project['project_team'],
         );
 
         $where = array(
-            'client_id' => $client_id,
+            'post_id' => $post_id,
         );
+
+        $data = array_filter($data, function ($value) {
+            return $value !== null;
+        });
 
         if (!empty($data)) {
             $updated = $this->wpdb->update($this->table_name, $data, $where);
+
+            if ($updated === false) {
+
+                throw new Exception('Failed to update project data');
+            }
+
+            return 'Project updated successfully';
+        } else {
+
+            throw new Exception('No valid project data provided for update');
         }
-
-        if ($updated === false) {
-            $error_message = $this->wpdb->last_error ?: 'Project not found';
-            $response = rest_ensure_response($error_message);
-            $response->set_status(404);
-
-            return $response;
-        }
-
-        return $updated;
     }
 }

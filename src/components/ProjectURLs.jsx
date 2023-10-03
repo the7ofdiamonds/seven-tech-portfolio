@@ -8,7 +8,7 @@ function ProjectURLs(props) {
   return (
     <>
       <div className="project-urls">
-        {Object.keys(project_urls).map((key, index) => (
+        {project_urls && Object.keys(project_urls).map((key, index) => (
           <button key={index} onClick={() => window.open(project_urls[key].url, '_blank')}>
             <i className={`${project_urls[key].icon}`}></i>
           </button>

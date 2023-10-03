@@ -8649,9 +8649,9 @@ const initialState = {
   post_date: '',
   post_content: '',
   project_types: '',
-  project_status: '',
+  project_status: 'not start yet',
   solution_gallery: '',
-  versions: '',
+  project_versions: '',
   project_urls: '',
   project_details: '',
   the_solution: '',
@@ -8673,7 +8673,7 @@ const initialState = {
   delivery_check_list: '',
   onboarding: '',
   the_problem: '',
-  project_author: '',
+  project_team: '',
   project_tags: ''
 };
 const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('project/projectSlice', async projectSlug => {
@@ -8702,7 +8702,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.project_types = action.payload.project_types;
       state.project_status = action.payload.project_status;
       state.solution_gallery = action.payload.solution_gallery;
-      state.versions = action.payload.versions;
+      state.project_versions = action.payload.project_versions;
       state.project_urls = action.payload.project_urls;
       state.project_details = action.payload.project_details;
       state.the_solution = action.payload.the_solution;
@@ -8724,7 +8724,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.delivery_check_list = action.payload.delivery_check_list;
       state.onboarding = action.payload.onboarding;
       state.the_problem = action.payload.the_problem;
-      state.project_author = action.payload.project_author;
+      state.project_team = action.payload.project_team;
       state.project_tags = action.payload.project_tags;
     }).addCase(getProject.rejected, (state, action) => {
       state.loading = false;

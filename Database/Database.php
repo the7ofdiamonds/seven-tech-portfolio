@@ -16,7 +16,7 @@ class Database
         $this->wpdb = $wpdb;
 
         $this->createTables();
-        
+
         new DatabaseProject;
         new DatabaseOnboarding;
         new DatabaseTheProblem;
@@ -26,6 +26,7 @@ class Database
     {
         $this->create_onboarding_table();
         $this->create_problem_table();
+        $this->create_project_table();
     }
 
     function create_onboarding_table()
@@ -36,6 +37,7 @@ class Database
         $sql = "CREATE TABLE {$table_name} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            post_id VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             deadline VARCHAR(255) DEFAULT NULL,
             deadline_date VARCHAR(255) DEFAULT NULL,
@@ -75,6 +77,7 @@ class Database
         $sql = "CREATE TABLE {$table_name} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            post_id VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             customers_impacted VARCHAR(255) DEFAULT NULL,
             problem_affected VARCHAR(255) DEFAULT NULL,
@@ -90,6 +93,35 @@ class Database
             ideal_resolution VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id)
         ) $charset_collate;";
+
+        dbDelta($sql);
+    }
+
+    function create_project_table()
+    {
+        $table_name = '7tech_portfolio';
+        $charset_collate = $this->wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE {$table_name} (
+        id INT NOT NULL AUTO_INCREMENT,
+        client_id VARCHAR(255) DEFAULT NULL,
+        post_id VARCHAR(255) DEFAULT NULL,
+        project_urls VARCHAR(255) DEFAULT NULL,
+        project_details VARCHAR(255) DEFAULT NULL,
+        project_status VARCHAR(255) DEFAULT NULL,
+        project_versions VARCHAR(255) DEFAULT NULL,
+        design VARCHAR(255) DEFAULT NULL,
+        design_check_list VARCHAR(255) DEFAULT NULL,
+        colors VARCHAR(255) DEFAULT NULL,
+        development VARCHAR(255) DEFAULT NULL,
+        development_check_list VARCHAR(255) DEFAULT NULL,
+        git_repo VARCHAR(255) DEFAULT NULL,
+        delivery VARCHAR(255) DEFAULT NULL,
+        delivery_check_list VARCHAR(255) DEFAULT NULL,
+        project_team VARCHAR(255) DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY post_id (post_id)
+    ) $charset_collate;";
 
         dbDelta($sql);
     }

@@ -46,10 +46,10 @@ function Colors(props) {
   const {
     colors
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, colors ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "colors"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
-    class: "title"
+    className: "title"
   }, "Colors (", colors.length, ")"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "color-row"
   }, Array.isArray(colors) && colors.map((color, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -60,7 +60,7 @@ function Colors(props) {
     style: {
       backgroundColor: color
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", null, color)))));
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", null, color))))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (Colors);
 
@@ -113,7 +113,7 @@ function ProjectDetails(props) {
   const {
     project_details
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, project_details ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-details"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "client_name"
@@ -123,7 +123,7 @@ function ProjectDetails(props) {
     htmlFor: "start_date"
   }, "Start Date:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, project_details.start_date)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "end_date"
-  }, "End Date:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, project_details.end_date))))));
+  }, "End Date:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, project_details.end_date))))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectDetails);
 
@@ -140,11 +140,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
 function ProjectStatus(props) {
+  const {
+    project_status
+  } = props;
+  console.log(`Project Status: ${project_status}`);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "project-status"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "STATUS"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("progress", {
-    class: "status-bar",
-    value: props.project_status,
+    className: "project-status"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "STATUS"), project_status === '0' || project_status === undefined ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", null, "NOT STARTED") : project_status === 'ongoing' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", null, "ONGOING") : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("progress", {
+    className: "status-bar",
+    value: project_status,
     max: "100"
   })));
 }
@@ -198,7 +202,34 @@ function ProjectTeam(props) {
   console.log(project_team);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
     className: "title"
-  }, "Project Team"));
+  }, "Project Team"), Array.isArray(project_team) && project_team.length > 0 ? project_team.map((team_member, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: index,
+    class: "author-card card"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "left"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "author-pic"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "author-pic"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: team_member.author_url
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: team_member.avatar_url
+    }
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "author-name"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, team_member.first_name, " ", team_member.last_name)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "author-role"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, team_member.roles))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "right"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "author-bio"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, team_member.bio)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "author-contact"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    onClick: () => window.open(`mailto:${team_member.email}`)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Hire ", team_member.first_name)))))) : 'No Team Members have been assigned to this project yet.');
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTeam);
 
@@ -256,7 +287,7 @@ function ProjectURLs(props) {
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-urls"
-  }, Object.keys(project_urls).map((key, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, project_urls && Object.keys(project_urls).map((key, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     key: index,
     onClick: () => window.open(project_urls[key].url, '_blank')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
@@ -276,12 +307,18 @@ function ProjectURLs(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
 
 function TheProblem(props) {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "project-problem",
+  const {
+    the_problem
+  } = props;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, the_problem ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "project-problem",
     id: "project_problem"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "THE PROBLEM"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.customers_impacted), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.problem_affected), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.challenges), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.affected_operations), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.change_event), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.factors_contributed), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.patterns_trends), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.first_notice_date), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.recurring_issue), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.tried_solutions), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.tried_solutions_results), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, props.the_problem.ideal_resolution)));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "THE PROBLEM"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.customers_impacted), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.problem_affected), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.challenges), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.affected_operations), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.change_event), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.factors_contributed), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.patterns_trends), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.first_notice_date), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.recurring_issue), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.tried_solutions_results), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, the_problem.ideal_resolution)) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (TheProblem);
 
@@ -327,19 +364,19 @@ __webpack_require__.r(__webpack_exports__);
 
 function Versions(props) {
   const {
-    versions
+    project_versions
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, project_versions ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "versions"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "current-version"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Current Version"), versions.current), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Current Version"), project_versions.current), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "upcoming-versions"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Upcoming Versions"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, Array.isArray(versions.upcoming) && versions.upcoming.map((version, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Upcoming Versions"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, Array.isArray(project_versions.upcoming) && project_versions.upcoming.map((version, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
     key: index
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
     className: "feature"
-  }, version.feature), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, "-"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, version.version_number))))))));
+  }, version.feature), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, "-"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, version.version_number))))))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (Versions);
 
@@ -407,7 +444,7 @@ function Project() {
     project_urls,
     project_details,
     the_solution,
-    versions,
+    project_versions,
     design,
     design_gallery,
     design_check_list,
@@ -450,7 +487,7 @@ function Project() {
   }, "THE PROCESS"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectStatus__WEBPACK_IMPORTED_MODULE_6__["default"], {
     project_status: project_status
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Versions__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    versions: versions
+    versions: project_versions
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-process-design",
     id: "project_process_design"
