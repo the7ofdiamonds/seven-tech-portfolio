@@ -19,14 +19,15 @@
       box-shadow: none;
       color: black;
       font-weight: bold;
-      padding: 0.5rem;
+      border-radius: 15px;
     }
-  }
 
-  .tag:hover {
-    background-color: black;
-    color: white;
-    border-radius: 1.5em;
-    cursor: pointer;
+    .tag:hover {
+      background-color: black;
+      color: white;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: var(--thfw-box-shadow);
+    }
   }
 }

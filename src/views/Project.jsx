@@ -170,7 +170,7 @@ function Project() {
 
       <TheProblem the_problem={the_problem} />
 
-      <ProjectType project_types={project_types} />
+      <ProjectTypes project_types={project_types} />
 
       <ProjectTags project_tags={project_tags} />
 

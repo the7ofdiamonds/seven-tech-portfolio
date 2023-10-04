@@ -19,18 +19,18 @@ export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () 
   }
 });
 
-export const getProjectTypes = createAsyncThunk('portfolio/getProjectTypes', async () => {
+export const getPortfolioTypes = createAsyncThunk('portfolio/getPortfolioTypes', async () => {
   try {
-    const response = await axios.get(`/wp-json/thfw/v1/project/types`);
+    const response = await axios.get(`/wp-json/thfw/v1/portfolio/types`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
 });
 
-export const getProjectTags = createAsyncThunk('portfolio/getProjectTags', async () => {
+export const getPortfolioTags = createAsyncThunk('portfolio/getPortfolioTags', async () => {
   try {
-    const response = await axios.get(`/wp-json/thfw/v1/project/tags`);
+    const response = await axios.get(`/wp-json/thfw/v1/portfolio/tags`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -54,27 +54,27 @@ export const portfolioSlice = createSlice({
         state.loading = false
         state.error = action.error.message
       })
-      .addCase(getProjectTypes.pending, (state) => {
+      .addCase(getPortfolioTypes.pending, (state) => {
         state.loading = true
         state.error = null
       })
-      .addCase(getProjectTypes.fulfilled, (state, action) => {
+      .addCase(getPortfolioTypes.fulfilled, (state, action) => {
         state.loading = false
         state.project_types = action.payload;
       })
-      .addCase(getProjectTypes.rejected, (state, action) => {
+      .addCase(getPortfolioTypes.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message
       })
-      .addCase(getProjectTags.pending, (state) => {
+      .addCase(getPortfolioTags.pending, (state) => {
         state.loading = true
         state.error = null
       })
-      .addCase(getProjectTags.fulfilled, (state, action) => {
+      .addCase(getPortfolioTags.fulfilled, (state, action) => {
         state.loading = false
         state.project_tags = action.payload;
       })
-      .addCase(getProjectTags.rejected, (state, action) => {
+      .addCase(getPortfolioTags.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message
       })

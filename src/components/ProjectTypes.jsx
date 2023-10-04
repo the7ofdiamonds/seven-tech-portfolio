@@ -1,18 +1,18 @@
 function ProjectType(props) {
-  const handleClick = (slug) => {
-    const url = window.location.origin;
+  const {project_types} = props;
 
+  const handleClick = (slug) => {
     window.open(`${slug}`);
   };
-
+console.log(project_types);
   return (
     <>
       <div class="project-type">
-        <h4 className="title">Project Type</h4>
+        <h4 className="title">Project Types</h4>
 
         <div className="project-type-row">
-          {Array.isArray(props.project_types) &&
-            props.project_types.map((project_type, index) => (
+          {Array.isArray(project_types) &&
+            project_types.map((project_type, index) => (
               <button
                 className="category"
                 onClick={() => handleClick(project_type.slug)}

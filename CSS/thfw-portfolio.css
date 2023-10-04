@@ -76,13 +76,14 @@
   box-shadow: none;
   color: black;
   font-weight: bold;
-  padding: 0.5rem;
+  border-radius: 15px;
 }
-.project-tags .tag:hover {
+.project-tags .tag-row .tag:hover {
   background-color: black;
   color: white;
-  border-radius: 1.5em;
+  border-radius: 15px;
   cursor: pointer;
+  box-shadow: var(--thfw-box-shadow);
 }
 
 details summary {

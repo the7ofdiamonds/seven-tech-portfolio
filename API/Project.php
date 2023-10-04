@@ -46,22 +46,6 @@ class Project
                 'permission_callback' => '__return_true',
             ));
         });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/project/types', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_project_types'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/project/tags', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_project_tags'),
-                'permission_callback' => '__return_true',
-            ));
-        });
     }
 
     public function post_project(WP_REST_Request $request)
@@ -117,7 +101,6 @@ class Project
         $project_team = [];
 
         if (isset($team) && is_array($team)) {
-
             foreach ($team as $member) {
                 $user_data = get_userdata($member['id']);
 
@@ -197,101 +180,6 @@ class Project
                 $status_code = 404;
                 $response_data = [
                     'message' => 'Post not found',
-                    'status' => $status_code
-                ];
-
-                $response = rest_ensure_response($response_data);
-                $response->set_status($status_code);
-
-                return $response;
-            }
-        } catch (Exception $e) {
-            $error_message = $e->getMessage();
-            $status_code = $e->getCode();
-
-            $response_data = [
-                'message' => $error_message,
-                'status' => $status_code
-            ];
-
-            $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
-
-            return $response;
-        }
-    }
-
-    public function get_project_types()
-    {
-        try {
-            $project_types = [];
-
-            $terms = get_terms(array(
-                'taxonomy'   => 'projects',
-            ));
-
-            if ($terms) {
-                foreach ($terms as $term) {
-                    $project_type = [
-                        'name' => $term->name,
-                        'slug' => get_term_link($term)
-                    ];
-
-                    $project_types[] = $project_type;
-                }
-            } else {
-                $status_code = 404;
-                $response_data = [
-                    'message' => 'No portfolio items found',
-                    'status' => $status_code
-                ];
-
-                $response = rest_ensure_response($response_data);
-                $response->set_status($status_code);
-
-                return $response;
-            }
-
-            return rest_ensure_response($project_types);
-        } catch (Exception $e) {
-            $error_message = $e->getMessage();
-            $status_code = $e->getCode();
-
-            $response_data = [
-                'message' => $error_message,
-                'status' => $status_code
-            ];
-
-            $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
-
-            return $response;
-        }
-    }
-
-    public function get_project_tags()
-    {
-        try {
-            $project_tags = [];
-
-            $post_tags = get_tags();
-           
-            if ($post_tags) {
-                error_log(print_r($post_tags, true));
-                foreach ($post_tags as $tag) {
-                    $project_tag = [
-                        'name' => $tag->name,
-                        'slug' => get_tag_link($tag->term_id)
-                    ];
-
-                    $project_tags[] = $project_tag;
-                }
-
-                return rest_ensure_response($project_tags);
-            } else {
-                $status_code = 404;
-                $response_data = [
-                    'message' => 'No portfolio items found',
                     'status' => $status_code
                 ];
 

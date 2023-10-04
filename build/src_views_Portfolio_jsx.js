@@ -69,16 +69,22 @@ function ProjectTags(props) {
   const {
     project_tags
   } = props;
+  const handleClick = slug => {
+    window.open(`${slug}`);
+  };
+  console.log(project_tags);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-tags"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
     className: "title"
   }, "Project Tags"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "tag-row"
-  }, Array.isArray(project_tags) && project_tags.map((tag, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+  }, Array.isArray(project_tags) && project_tags.map((project_tag, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "tag",
+    onClick: () => handleClick(project_tag.slug)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     key: index
-  }, "#", tag.name)))));
+  }, "#", project_tag.name))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTags);
 
@@ -95,17 +101,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
 function ProjectType(props) {
+  const {
+    project_types
+  } = props;
   const handleClick = slug => {
-    const url = window.location.origin;
     window.open(`${slug}`);
   };
+  console.log(project_types);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "project-type"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
     className: "title"
-  }, "Project Type"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Project Types"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-type-row"
-  }, Array.isArray(props.project_types) && props.project_types.map((project_type, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, Array.isArray(project_types) && project_types.map((project_type, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "category",
     onClick: () => handleClick(project_type.slug),
     key: index
@@ -156,10 +165,10 @@ function Portfolio() {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolio)());
   }, [dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectTypes)());
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTypes)());
   }, [dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectTags)());
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTags)());
   }, [dispatch]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     class: "title"

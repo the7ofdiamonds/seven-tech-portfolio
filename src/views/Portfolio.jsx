@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import {
   getPortfolio,
-  getProjectTypes,
-  getProjectTags,
+  getPortfolioTypes,
+  getPortfolioTags,
 } from '../controllers/portfolioSlice';
 
 import Gallery from '../components/Gallery';
@@ -26,11 +26,11 @@ function Portfolio() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getProjectTypes());
+    dispatch(getPortfolioTypes());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getProjectTags());
+    dispatch(getPortfolioTags());
   }, [dispatch]);
 
   return (
