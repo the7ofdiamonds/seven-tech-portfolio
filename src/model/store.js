@@ -3,7 +3,7 @@ import { clientSlice } from '../controllers/clientSlice';
 import { onboardingSlice } from '../controllers/onboardingSlice';
 import { definingTheProblemSlice } from '../controllers/theProblemSlice';
 import projectSlice from '../controllers/projectSlice';
-import portfolioSlice from '../controllers/portfolio';
+import portfolioSlice from '../controllers/portfolioSlice';
 
 const store = configureStore({
     reducer: {

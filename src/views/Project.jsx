@@ -6,7 +6,7 @@ import { getClient } from '../controllers/clientSlice';
 import { getProject } from '../controllers/projectSlice';
 
 import Card from '../components/Card';
-import ProjectType from '../components/ProjectType';
+import ProjectTypes from '../components/ProjectTypes';
 import ProjectStatus from '../components/ProjectStatus';
 import Gallery from '../components/Gallery';
 import ProjectDetails from '../components/ProjectDetails';
@@ -84,12 +84,12 @@ function Project() {
         <Versions versions={project_versions} />
 
         {design_check_list ||
-        design_gallery.length > 0 ||
+        design_gallery && design_gallery.length > 0 ||
         colors ||
-        logos_gallery.length > 0 ||
-        icons_gallery.length > 0 ||
-        animations_gallery.length > 0 ||
-        uml_diagrams_gallery.length > 0 ||
+        logos_gallery && logos_gallery.length > 0 ||
+        icons_gallery && icons_gallery.length > 0 ||
+        animations_gallery && animations_gallery.length > 0 ||
+        uml_diagrams_gallery && uml_diagrams_gallery.length > 0 ||
         design ? (
           <div className="project-process-design" id="project_process_design">
             <h4 class="title">DESIGN</h4>

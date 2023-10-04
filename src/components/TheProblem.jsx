@@ -6,7 +6,7 @@ function TheProblem(props) {
       <div className="project-problem" id="project_problem">
         <h3>THE PROBLEM</h3>
 
-        {the_problem.length > 0 ? (
+        {the_problem && the_problem.length > 0 ? (
           <div className="card">
             {the_problem.customers_impacted ? (
               <p>{the_problem.customers_impacted}</p>

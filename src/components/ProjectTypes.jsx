@@ -2,7 +2,7 @@ function ProjectType(props) {
   const handleClick = (slug) => {
     const url = window.location.origin;
 
-    window.open(`${url}/portfolio/${slug}`, '_blank');
+    window.open(`${slug}`);
   };
 
   return (

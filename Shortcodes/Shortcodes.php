@@ -12,6 +12,6 @@ class Shortcodes
 
     function portfolio_shortcode()
     {
-        include WP_PLUGIN_DIR . '/thfw-portfolio/includes/section-portfolio.php';
+        include THFW_PORTFOLIO . 'includes/section-portfolio.php';
     }
 }

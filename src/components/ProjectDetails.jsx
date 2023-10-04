@@ -1,5 +1,3 @@
-import React from 'react';
-
 function ProjectDetails(props) {
   const { project_details } = props;
 
