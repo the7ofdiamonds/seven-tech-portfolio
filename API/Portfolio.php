@@ -4,6 +4,7 @@ namespace THFW_Portfolio\API;
 
 use Exception;
 
+use WP_REST_Request;
 use WP_Query;
 
 use THFW_Portfolio\Post_Types\PortfolioUploads;
@@ -104,13 +105,16 @@ class Portfolio
         }
     }
 
-    public function get_portfolio_types()
+    public function get_portfolio_types(WP_REST_Request $request)
     {
         try {
+            $slug = $request->get_param('slug');
+
             $project_types = [];
 
             $terms = get_terms(array(
                 'taxonomy'   => 'project_types',
+                'slug' => $slug
             ));
 
             if ($terms) {

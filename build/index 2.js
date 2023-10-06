@@ -8305,8 +8305,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Portfolio = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Portfolio_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Portfolio */ "./src/views/Portfolio.jsx")));
-const ProjectTypesPage = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTypesPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTypesPage */ "./src/views/ProjectTypesPage.jsx")));
-const ProjectTagsPage = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTagsPage_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTagsPage */ "./src/views/ProjectTagsPage.jsx")));
 const Project = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Project_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Project */ "./src/views/Project.jsx")));
 const OnBoardingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_OnBoarding_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/OnBoarding.jsx */ "./src/views/OnBoarding.jsx")));
 const TheProblemComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_TheProblem_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/TheProblem.jsx */ "./src/views/TheProblem.jsx")));
@@ -8333,13 +8331,7 @@ function App() {
     path: "portfolio",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "projects/type/:types",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTypesPage, null)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "projects/tag/:tags",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTagsPage, null)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "portfolio/:project",
+    path: "portfolio/:category/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Project, null)
   })))));
 }
@@ -8596,8 +8588,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getPortfolio: function() { return /* binding */ getPortfolio; },
 /* harmony export */   getPortfolioTags: function() { return /* binding */ getPortfolioTags; },
 /* harmony export */   getPortfolioTypes: function() { return /* binding */ getPortfolioTypes; },
-/* harmony export */   getProjectsTag: function() { return /* binding */ getProjectsTag; },
-/* harmony export */   getProjectsType: function() { return /* binding */ getProjectsType; },
 /* harmony export */   portfolioSlice: function() { return /* binding */ portfolioSlice; }
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -8616,23 +8606,6 @@ const initialState = {
 const getPortfolio = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getPortfolio', async () => {
   try {
     const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-});
-const getProjectsType = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getProjectsType', async projectType => {
-  try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/projects/type/${projectType}`);
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-});
-const getProjectsTag = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getProjectsTag', async projectTag => {
-  try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/projects/tag/${projectTag}`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8665,24 +8638,6 @@ const portfolioSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSl
       state.loading = false;
       state.projects = action.payload;
     }).addCase(getPortfolio.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    }).addCase(getProjectsType.pending, state => {
-      state.loading = true;
-      state.error = null;
-    }).addCase(getProjectsType.fulfilled, (state, action) => {
-      state.loading = false;
-      state.projects = action.payload;
-    }).addCase(getProjectsType.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    }).addCase(getProjectsTag.pending, state => {
-      state.loading = true;
-      state.error = null;
-    }).addCase(getProjectsTag.fulfilled, (state, action) => {
-      state.loading = false;
-      state.projects = action.payload;
-    }).addCase(getProjectsTag.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     }).addCase(getPortfolioTypes.pending, state => {

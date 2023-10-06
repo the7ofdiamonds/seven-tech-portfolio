@@ -113,47 +113,12 @@ function ProjectType(props) {
   }, "Project Types"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-type-row"
   }, Array.isArray(project_types) && project_types.map((project_type, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "category",
     onClick: () => handleClick(project_type.slug),
     key: index
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
-    className: "title"
-  }, project_type.name))))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, project_type.name))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectType);
-
-/***/ }),
-
-/***/ "./src/components/Projects.jsx":
-/*!*************************************!*\
-  !*** ./src/components/Projects.jsx ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_Gallery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Gallery */ "./src/components/Gallery.jsx");
-/* harmony import */ var _components_ProjectStatus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ProjectStatus */ "./src/components/ProjectStatus.jsx");
-
-
-
-
-function Projects(props) {
-  const {
-    projects
-  } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, projects && projects.length > 0 ? projects.map((project, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    key: index,
-    className: "project card"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, project.title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Gallery__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    gallery: project.solution_gallery
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectStatus__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    project_status: project.project_status
-  }))) : 'There are no projects to display');
-}
-/* harmony default export */ __webpack_exports__["default"] = (Projects);
 
 /***/ }),
 
@@ -171,9 +136,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/portfolioSlice */ "./src/controllers/portfolioSlice.js");
-/* harmony import */ var _components_Projects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Projects */ "./src/components/Projects.jsx");
-/* harmony import */ var _components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ProjectTypes */ "./src/components/ProjectTypes.jsx");
-/* harmony import */ var _components_ProjectTags__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ProjectTags */ "./src/components/ProjectTags.jsx");
+/* harmony import */ var _components_Gallery__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Gallery */ "./src/components/Gallery.jsx");
+/* harmony import */ var _components_ProjectStatus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ProjectStatus */ "./src/components/ProjectStatus.jsx");
+/* harmony import */ var _components_ProjectTypes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ProjectTypes */ "./src/components/ProjectTypes.jsx");
+/* harmony import */ var _components_ProjectTags__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/ProjectTags */ "./src/components/ProjectTags.jsx");
+
 
 
 
@@ -201,13 +168,19 @@ function Portfolio() {
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTags)());
   }, [dispatch]);
+  console.log(projects);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     class: "title"
-  }, "portfolio"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    projects: projects
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, "portfolio"), projects && projects.length > 0 ? projects.map((project, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: index,
+    className: "project card"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, project.title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Gallery__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    gallery: project.solution_gallery
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectStatus__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    project_status: project.project_status
+  }))) : 'There are no projects to display', (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_7__["default"], {
     project_types: project_types
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTags__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTags__WEBPACK_IMPORTED_MODULE_8__["default"], {
     project_tags: project_tags
   }));
 }

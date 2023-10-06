@@ -216,6 +216,7 @@ function ProjectTeam(props) {
   const {
     project_team
   } = props;
+  console.log(project_team);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-team"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
@@ -273,11 +274,10 @@ function ProjectType(props) {
   }, "Project Types"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-type-row"
   }, Array.isArray(project_types) && project_types.map((project_type, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "category",
     onClick: () => handleClick(project_type.slug),
     key: index
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
-    className: "title"
-  }, project_type.name))))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, project_type.name))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectType);
 
@@ -442,7 +442,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Project() {
   const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_18__.useLocation)();
-  const projectPath = location.pathname.split('/')[2];
+  const projectPath = location.pathname.split('/')[3];
   const {
     loading,
     error,

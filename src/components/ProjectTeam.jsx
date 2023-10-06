@@ -1,6 +1,6 @@
 function ProjectTeam(props) {
   const { project_team } = props;
-console.log(project_team);
+
   return (
     <>
       <div className="project-team">

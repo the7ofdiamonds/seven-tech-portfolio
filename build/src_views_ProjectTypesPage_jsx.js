@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkthfw_portfolio"] = self["webpackChunkthfw_portfolio"] || []).push([["src_views_Portfolio_jsx"],{
+(self["webpackChunkthfw_portfolio"] = self["webpackChunkthfw_portfolio"] || []).push([["src_views_ProjectTypesPage_jsx"],{
 
 /***/ "./src/components/Gallery.jsx":
 /*!************************************!*\
@@ -157,10 +157,10 @@ function Projects(props) {
 
 /***/ }),
 
-/***/ "./src/views/Portfolio.jsx":
-/*!*********************************!*\
-  !*** ./src/views/Portfolio.jsx ***!
-  \*********************************/
+/***/ "./src/views/ProjectTypesPage.jsx":
+/*!****************************************!*\
+  !*** ./src/views/ProjectTypesPage.jsx ***!
+  \****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -169,6 +169,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/portfolioSlice */ "./src/controllers/portfolioSlice.js");
 /* harmony import */ var _components_Projects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Projects */ "./src/components/Projects.jsx");
@@ -183,7 +184,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Portfolio() {
+function ProjectTypesPage() {
+  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLocation)();
+  const projectType = location.pathname.split('/')[3];
   const {
     loading,
     error,
@@ -193,17 +196,15 @@ function Portfolio() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.portfolio);
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolio)());
-  }, [dispatch]);
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectsType)(projectType));
+  }, [dispatch, projectType]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTypes)());
   }, [dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTags)());
   }, [dispatch]);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-    class: "title"
-  }, "portfolio"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
     projects: projects
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__["default"], {
     project_types: project_types
@@ -211,9 +212,9 @@ function Portfolio() {
     project_tags: project_tags
   }));
 }
-/* harmony default export */ __webpack_exports__["default"] = (Portfolio);
+/* harmony default export */ __webpack_exports__["default"] = (ProjectTypesPage);
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_views_Portfolio_jsx.js.map
+//# sourceMappingURL=src_views_ProjectTypesPage_jsx.js.map

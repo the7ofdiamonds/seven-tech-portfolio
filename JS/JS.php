@@ -37,7 +37,7 @@ class JS
             'services/service/on-boarding/the-problem',
         ];
 
-        if (is_front_page() || is_archive('portfolio') || is_singular('portfolio') || is_page($pages)) {
+        if (is_front_page() || is_archive('portfolio') || is_singular('portfolio') || is_page($pages) || is_tax('project_types') || is_tax('project_tags')) {
             $jsFiles = $this->get_js_files($directory);
 
             if ($jsFiles) {

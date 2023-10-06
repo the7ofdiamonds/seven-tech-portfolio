@@ -19,6 +19,26 @@ export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () 
   }
 });
 
+export const getProjectsType = createAsyncThunk('portfolio/getProjectsType', async (projectType) => {
+  try {
+    const response = await axios.get(`/wp-json/thfw/v1/projects/type/${projectType}`);
+   
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
+
+export const getProjectsTag = createAsyncThunk('portfolio/getProjectsTag', async (projectTag) => {
+  try {
+    const response = await axios.get(`/wp-json/thfw/v1/projects/tag/${projectTag}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
+
 export const getPortfolioTypes = createAsyncThunk('portfolio/getPortfolioTypes', async () => {
   try {
     const response = await axios.get(`/wp-json/thfw/v1/portfolio/types`);
@@ -51,6 +71,30 @@ export const portfolioSlice = createSlice({
         state.projects = action.payload;
       })
       .addCase(getPortfolio.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+      })
+      .addCase(getProjectsType.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(getProjectsType.fulfilled, (state, action) => {
+        state.loading = false
+        state.projects = action.payload;
+      })
+      .addCase(getProjectsType.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+      })
+      .addCase(getProjectsTag.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(getProjectsTag.fulfilled, (state, action) => {
+        state.loading = false
+        state.projects = action.payload;
+      })
+      .addCase(getProjectsTag.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message
       })
