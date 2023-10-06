@@ -183,9 +183,8 @@ function ProjectTags(props) {
     project_tags
   } = props;
   const handleClick = slug => {
-    window.open(`${slug}`);
+    window.open(`/projects/tag/${slug}`);
   };
-  console.log(project_tags);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "project-tags"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
@@ -266,9 +265,8 @@ function ProjectType(props) {
     project_types
   } = props;
   const handleClick = slug => {
-    window.open(`${slug}`);
+    window.open(`/projects/type/${slug}`);
   };
-  console.log(project_types);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "project-type"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
@@ -444,7 +442,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Project() {
   const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_18__.useLocation)();
-  const projectPath = location.pathname.split('/')[3];
+  const projectPath = location.pathname.split('/')[2];
   const {
     loading,
     error,

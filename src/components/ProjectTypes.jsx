@@ -2,9 +2,9 @@ function ProjectType(props) {
   const {project_types} = props;
 
   const handleClick = (slug) => {
-    window.open(`${slug}`);
+    window.open(`/projects/type/${slug}`);
   };
-console.log(project_types);
+
   return (
     <>
       <div class="project-type">

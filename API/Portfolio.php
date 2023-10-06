@@ -54,22 +54,22 @@ class Portfolio
             );
 
             $query = new WP_Query($args);
+            $portfolio = [];
+            $posts = $query->posts;
 
-            if ($query->have_posts()) {
-                $portfolio = array();
-
-                while ($query->have_posts()) {
-                    $query->the_post();
-                    $project_id = get_the_ID();
+            if (is_array($posts) && !empty($posts)) {
+                foreach ($posts as $post) {
+                    $project_id = $post->ID;
                     $project = $this->project_database->getProject($project_id);
+                    $solution_gallery = $this->portfolio_uploads->getPhotos(get_the_title($project_id), 'solution');
 
                     $project_data = array(
                         'id' => $project_id,
                         'post_status' => get_post_field('post_status', $project_id),
                         'post_date' => get_post_field('post_date', $project_id),
                         'title' => get_the_title($project_id),
-                        'solution_gallery' => $this->portfolio_uploads->getPhotos(get_the_title(), 'solution'),
-                        'project_status' => $project['project_status'],
+                        'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
+                        'project_status' => $project === 'Status not available' ? '0' : (isset($project['project_status']) ? $project['project_status'] : '0'),
                     );
 
                     $portfolio[] = $project_data;
@@ -110,7 +110,7 @@ class Portfolio
             $project_types = [];
 
             $terms = get_terms(array(
-                'taxonomy'   => 'projects',
+                'taxonomy'   => 'project_types',
             ));
 
             if ($terms) {
@@ -157,7 +157,9 @@ class Portfolio
         try {
             $project_tags = [];
 
-            $post_tags = get_tags();
+            $post_tags = get_terms(array(
+                'taxonomy'   => 'project_tags',
+            ));
 
             if ($post_tags) {
                 foreach ($post_tags as $tag) {

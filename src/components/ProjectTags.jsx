@@ -2,10 +2,9 @@ function ProjectTags(props) {
   const { project_tags } = props;
 
   const handleClick = (slug) => {
-    window.open(`${slug}`);
+    window.open(`/projects/tag/${slug}`);
   };
 
-  console.log(project_tags);
   return (
     <>
       <div className="project-tags">

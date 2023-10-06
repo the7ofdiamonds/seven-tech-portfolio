@@ -2,8 +2,6 @@
 
 namespace THFW_Portfolio\API;
 
-use THFW_Portfolio\API\Clients;
-
 class API
 {
     public function __construct()
@@ -14,6 +12,7 @@ class API
         new Clients;
         new Portfolio;
         new Project;
+        new Taxonomies;
     }
 
     public function add_to_rest_api()

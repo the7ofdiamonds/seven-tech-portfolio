@@ -27,7 +27,7 @@ class Portfolio
             'not_found_in_trash' => 'No items found in trash',
             'parent_item_colon' => 'Parent Item'
         );
-
+    
         $args = array(
             'labels' => $labels,
             'show_ui' => true,
@@ -41,7 +41,9 @@ class Portfolio
             'query_var' => true,
             'rewrite' => array(
                 'with_front' => true,
-                'slug'       => 'portfolio/%projects%'
+                'slug' => 'portfolio',
+                'feeds' => true, // Add this line for feed support
+                'pages' => true, // Add this line for pagination support
             ),
             'supports' => array(
                 'title',
@@ -55,17 +57,17 @@ class Portfolio
             ),
             'taxonomies' => array(
                 'projects',
-                'category',
-                'post_tag'
+                'project_types',
+                'project_tags'
             ),
             'menu_position' => 6,
             'exclude_from_search' => false
         );
-
+    
         register_post_type('portfolio', $args);
         flush_rewrite_rules();
     }
-
+    
     function add_custom_meta_boxes()
     {
         add_meta_box(

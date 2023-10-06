@@ -59,8 +59,7 @@ class DatabaseProject
         );
 
         if ($project === null) {
-
-            throw new Exception('Project not found');
+            return 'Project not found';
         }
 
         $project_data = [

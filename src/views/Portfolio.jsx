@@ -32,7 +32,7 @@ function Portfolio() {
   useEffect(() => {
     dispatch(getPortfolioTags());
   }, [dispatch]);
-
+console.log(projects);
   return (
     <>
       <h2 class="title">portfolio</h2>

@@ -25,14 +25,9 @@ function App() {
               path="services/service/on-boarding"
               element={<OnBoardingComponent />}
             />
-            <Route
-              path="portfolio"
-              element={<Portfolio />}
-            />
-            <Route
-              path="portfolio/:category/:project"
-              element={<Project />}
-            />
+            <Route index path="/" element={<Portfolio />} />
+            <Route path="portfolio" element={<Portfolio />} />
+            <Route path="portfolio/:project" element={<Project />} />
           </Routes>
         </Suspense>
       </Router>

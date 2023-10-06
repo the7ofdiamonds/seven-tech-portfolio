@@ -170,8 +170,8 @@ class Project
                     'delivery_check_list' => $project['delivery_check_list'],
                     'onboarding' => $this->onboarding_database->getOnboarding($project_id),
                     'the_problem' => $this->theproblem_database->getProblem($project_id),
-                    'project_types' => get_the_category($project_id),
-                    'project_tags' => get_the_tags($project_id),
+                    'project_types' => wp_get_post_terms($project_id, 'project_types', array('fields' => 'all')),
+                    'project_tags' => wp_get_post_terms($project_id, 'project_tags', array('fields' => 'all')),
                     'project_team' => isset($project_team) ? $project_team : '',
                 );
 

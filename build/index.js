@@ -8324,10 +8324,14 @@ function App() {
     path: "services/service/on-boarding",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(OnBoardingComponent, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    index: true,
+    path: "/",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "portfolio",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "portfolio/:category/:project",
+    path: "portfolio/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Project, null)
   })))));
 }

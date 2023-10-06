@@ -21,7 +21,7 @@ import ProjectTags from '../components/ProjectTags';
 
 function Project() {
   const location = useLocation();
-  const projectPath = location.pathname.split('/')[3];
+  const projectPath = location.pathname.split('/')[2];
 
   const {
     loading,
