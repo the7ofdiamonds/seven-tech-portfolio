@@ -1,0 +1,13 @@
+form {
+  td {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    
+    label {
+      text-transform: none;
+      margin: 0 0 0.25em 0;
+    }
+  }
+}
