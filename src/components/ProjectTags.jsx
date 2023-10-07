@@ -4,7 +4,7 @@ function ProjectTags(props) {
   const handleClick = (slug) => {
     window.open(`${slug}`);
   };
-
+  
   return (
     <>
       <div className="project-tags">

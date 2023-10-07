@@ -156,20 +156,23 @@ class Portfolio
         }
     }
 
-    public function get_portfolio_tags()
+    public function get_portfolio_tags(WP_REST_Request $request)
     {
         try {
+            $slug = $request->get_param('slug');
+
             $project_tags = [];
 
             $post_tags = get_terms(array(
                 'taxonomy'   => 'project_tags',
+                'slug' => $slug
             ));
 
             if ($post_tags) {
                 foreach ($post_tags as $tag) {
                     $project_tag = [
                         'name' => $tag->name,
-                        'slug' => get_tag_link($tag->term_id)
+                        'slug' => get_term_link($tag)
                     ];
 
                     $project_tags[] = $project_tag;
