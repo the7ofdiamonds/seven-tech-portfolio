@@ -12,7 +12,9 @@ function Projects(props) {
         ? projects.map((project, index) => (
             <div key={index} className="project card">
               <h3>{project.title}</h3>
-              <Gallery gallery={project.solution_gallery} />
+              <a href={`/portfolio/${project.post_name}`}>
+                <Gallery gallery={project.solution_gallery} />
+              </a>
               <ProjectStatus project_status={project.project_status} />
             </div>
           ))

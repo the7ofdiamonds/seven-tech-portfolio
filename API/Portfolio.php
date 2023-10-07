@@ -69,6 +69,7 @@ class Portfolio
                         'post_status' => get_post_field('post_status', $project_id),
                         'post_date' => get_post_field('post_date', $project_id),
                         'title' => get_the_title($project_id),
+                        'post_name' => $post->post_name,
                         'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
                         'project_status' => $project === 'Status not available' ? '0' : (isset($project['project_status']) ? $project['project_status'] : '0'),
                     );

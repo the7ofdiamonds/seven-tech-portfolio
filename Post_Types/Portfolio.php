@@ -42,8 +42,8 @@ class Portfolio
             'rewrite' => array(
                 'with_front' => true,
                 'slug' => 'portfolio',
-                'feeds' => true, // Add this line for feed support
-                'pages' => true, // Add this line for pagination support
+                'feeds' => true, 
+                'pages' => true,
             ),
             'supports' => array(
                 'title',

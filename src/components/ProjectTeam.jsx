@@ -1,6 +1,6 @@
 function ProjectTeam(props) {
   const { project_team } = props;
-
+  console.log(project_team);
   return (
     <>
       <div className="project-team">
@@ -10,11 +10,7 @@ function ProjectTeam(props) {
               <div key={index} class="author-card card">
                 <div className="author-pic">
                   <a href={team_member.author_url}>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: team_member.avatar_url,
-                      }}
-                    />
+                    <img src={team_member.avatar_url} alt="" />
                   </a>
                 </div>
 
@@ -29,8 +25,7 @@ function ProjectTeam(props) {
                 </div>
 
                 <div class="author-contact">
-                  <a
-                    href={`mailto:${team_member.email}`}>
+                  <a href={`mailto:${team_member.email}`}>
                     <i className="fa fa-envelope fa-fw"></i>
                   </a>
                 </div>
