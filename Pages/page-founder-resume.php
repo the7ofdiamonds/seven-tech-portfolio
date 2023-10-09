@@ -2,11 +2,20 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jamel C. Lyons Resume</title>
+    <title><?php wp_title(''); ?></title>
+    
+    <?php
+    $site_icon_url = get_site_icon_url();
+    if ($site_icon_url) {
+        echo '<link rel="icon" href="' . esc_url($site_icon_url) . '" sizes="32x32" type="image/png">';
+    }
+    ?>
+</head>
+
+<body>
     <style>
-        /* Style the iframe to take up the entire screen */
         iframe {
             position: absolute;
             top: 0;
@@ -15,29 +24,6 @@
             height: 100%;
         }
     </style>
-</head>
-
-<body>
-    <button id="toggleFullscreen">Toggle Fullscreen</button>
-
-    <script>
-        const iframe = document.getElementById('pdfViewer');
-        const toggleFullscreenButton = document.getElementById('toggleFullscreen');
-
-        toggleFullscreenButton.addEventListener('click', () => {
-            // Check if the browser supports full-screen mode
-            if (iframe.requestFullscreen) {
-                // Toggle full-screen mode
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                } else {
-                    iframe.requestFullscreen();
-                }
-            } else {
-                alert('Your browser does not support full-screen mode.');
-            }
-        });
-    </script>
 
     <?php
     $resume_pdf = THFW_PORTFOLIO . 'resume/Jamel_C_Lyons_Resume.pdf';
