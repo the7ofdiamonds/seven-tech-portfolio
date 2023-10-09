@@ -29,6 +29,7 @@ function App() {
             />
             <Route index path="/" element={<Portfolio />} />
             <Route path="portfolio" element={<Portfolio />} />
+            <Route path="founder" element={<Portfolio />} />
             <Route path="projects/type/:types" element={<ProjectTypesPage />} />
             <Route path="projects/tag/:tags" element={<ProjectTagsPage />} />
             <Route path="portfolio/:project" element={<Project />} />

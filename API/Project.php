@@ -113,7 +113,7 @@ class Project
                         'last_name' => $user_data->last_name,
                         'email' => $user_data->user_email,
                         'role' => isset($member['role']) ? $member['role'] : '',
-                        'avatar_url' => isset($team_data['avatar_url']) ? $team_data['avatar_url'] : get_avatar_url($user_data->ID),
+                        'avatar_url' => isset($team_data['avatar_url']) ? $team_data['avatar_url'] : get_avatar_url($user_data->ID, ['size' => 384]),
                         'author_url' => isset($team_data['author_url']) ? $team_data['author_url'] : '',
                     ];
 

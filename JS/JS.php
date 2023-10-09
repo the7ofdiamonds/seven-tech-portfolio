@@ -33,6 +33,7 @@ class JS
     {
         $directory = THFW_PORTFOLIO . 'build';
         $pages = [
+            'founder',
             'services/service/on-boarding',
             'services/service/on-boarding/the-problem',
         ];

@@ -7,30 +7,40 @@ class Templates
 
     public function __construct()
     {
-        add_action('init', [$this, 'portfolio_register_case_study_post_template']);
+        add_filter('archive_template', [$this, 'get_custom_archive_template']);
+        add_filter('single_template', [$this, 'get_custom_single_template']);
+        add_filter('page_template', [$this, 'get_founder_page_template']);
         add_filter('template_include', [$this, 'get_custom_on_boarding_page_template']);
         add_filter('template_include', [$this, 'get_custom_problem_page_template']);
     }
 
-    function portfolio_register_case_study_post_template()
+    function get_custom_archive_template($archive_template)
     {
-        register_block_type('post-type/case-study', array(
-            'render_callback' => 'portfolio_render_case_study'
-        ));
-    }
-
-    function portfolio_render_case_study($attributes, $content)
-    {
-        $reusable_block = get_post($attributes['reusableBlockID']);
-        $reusable_block_content = $reusable_block->post_content;
-        $reusable_block_html = parse_blocks($reusable_block_content);
-        $reusable_block_output = '';
-        foreach ($reusable_block_html as $block) {
-            $reusable_block_output .= render_block($block);
+        if (is_post_type_archive('portfolio')) {
+            $archive_template = THFW_PORTFOLIO . 'pages/archive-portfolio.php';
         }
 
-        // Output the rest of the block's content
-        return '<div class="my-block">' . $reusable_block_output . $content . '</div>';
+        return $archive_template;
+    }
+
+    function get_custom_single_template($single_template)
+    {
+        global $post;
+
+        if ($post->post_type == 'portfolio') {
+            $single_template = THFW_PORTFOLIO . 'pages/single-portfolio.php';
+        }
+
+        return $single_template;
+    }
+
+    function get_founder_page_template($page_template)
+    {
+        if (is_page('founder')) {
+            $page_template = THFW_PORTFOLIO . 'Pages/page-founder.php';
+        }
+
+        return $page_template;
     }
 
     function get_custom_on_boarding_page_template($template)
@@ -44,6 +54,7 @@ class Templates
                 return $custom_template;
             }
         }
+
         return $template;
     }
 
@@ -58,7 +69,7 @@ class Templates
                 return $custom_template;
             }
         }
+
         return $template;
     }
-
 }

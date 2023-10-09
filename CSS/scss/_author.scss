@@ -1,20 +1,61 @@
+.author-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  position: fixed;
+  z-index: 900;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.author-intro {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.author-pic {
+  width: 100%;
+  max-width: 300px;
+  padding: 0;
+  font-size: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.author-greeting {
+  width: 100%;
+  padding: 0.75rem;
+}
+
+// .author-skills{
+// }
+
 .author-card.card {
   gap: 0.374rem;
   height: fit-content;
   padding: 0;
-
-  .author-pic {
-    width: 300px;
-
-    a {
-      font-size: 0;
-
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
+  max-width: 500px;
 
   .author-role,
   .author-bio,

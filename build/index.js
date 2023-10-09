@@ -8333,6 +8333,9 @@ function App() {
     path: "portfolio",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "founder",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "projects/type/:types",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTypesPage, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {

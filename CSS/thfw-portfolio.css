@@ -17,20 +17,58 @@
   width: 100%;
 }
 
+.author-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  position: fixed;
+  z-index: 900;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.author-nav a {
+  text-decoration: none;
+}
+.author-nav a:hover {
+  text-decoration: underline;
+}
+
+.author-intro {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.author-pic {
+  width: 100%;
+  max-width: 300px;
+  padding: 0;
+  font-size: 0;
+}
+.author-pic img {
+  width: 100%;
+  height: auto;
+}
+
+.author-greeting {
+  width: 100%;
+  padding: 0.75rem;
+}
+
 .author-card.card {
   gap: 0.374rem;
   height: fit-content;
   padding: 0;
-}
-.author-card.card .author-pic {
-  width: 300px;
-}
-.author-card.card .author-pic a {
-  font-size: 0;
-}
-.author-card.card .author-pic a img {
-  width: 100%;
-  height: auto;
+  max-width: 500px;
 }
 .author-card.card .author-role,
 .author-card.card .author-bio,
@@ -402,6 +440,20 @@ section {
   justify-content: center;
   gap: 0.75rem;
   width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+main.error {
+  margin-top: -5rem;
 }
 
 /*# sourceMappingURL=thfw-portfolio.css.map */
