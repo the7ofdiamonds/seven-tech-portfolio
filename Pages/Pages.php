@@ -9,8 +9,10 @@ class Pages
     public function __construct()
     {
         $this->page_titles = [
-            'FOUNDER'
+            'FOUNDER',
         ];
+
+        add_action('init', [$this, 'react_rewrite_rules']);
     }
 
     public function add_pages()
@@ -26,6 +28,32 @@ class Pages
                     'post_type'    => 'page',
                     'post_content' => '',
                     'post_status'  => 'publish',
+                );
+
+                wp_insert_post($page_data);
+            }
+        }
+    }
+
+    public function add_founder_subpages()
+    {
+        global $wpdb;
+
+        $page_titles = [
+            'RESUME'
+        ];
+
+        foreach ($page_titles as $page_title) {
+            $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
+            $parent_id = get_page_by_path('founder')->ID;
+
+            if (!$page_exists) {
+                $page_data = array(
+                    'post_title'   => $page_title,
+                    'post_type'    => 'page',
+                    'post_content' => '',
+                    'post_status'  => 'publish',
+                    'post_parent' => $parent_id
                 );
 
                 wp_insert_post($page_data);
@@ -82,9 +110,11 @@ class Pages
 
     public function react_rewrite_rules()
     {
+        $resume_page_id = get_page_by_path('founder/resume')->ID;
         $on_boarding_page_id = get_page_by_path('services/service/on-boarding')->ID;
         $the_problem_page_id = get_page_by_path('services/service/on-boarding/the-problem')->ID;
 
+        add_rewrite_rule('^founder/([^/]+)/?$', 'index.php?page_id=' . $resume_page_id, 'top');
         add_rewrite_rule('^services/([^/]+)/?$', 'index.php?page_id=' . $on_boarding_page_id, 'top');
         add_rewrite_rule('^services/([^/]+)/on-boarding/?$', 'index.php?page_id=' . $the_problem_page_id, 'top');
     }
