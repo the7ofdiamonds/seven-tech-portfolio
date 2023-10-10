@@ -11,19 +11,24 @@
 <script>
     function scrollToSection(sectionId) {
         const section = document.getElementById(sectionId);
-        const paddingTop = 137.5; // Adjust this value to set your desired padding in pixels
 
         if (section) {
-            const offsetTop = section.getBoundingClientRect().top + window.scrollY;
+            const offsetTopPx = section.getBoundingClientRect().top + window.scrollY;
+            const paddingTopPx = 137.5;
+            const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+            const paddingTopRem = paddingTopPx / 16;
+            const paddingTopBackToPx = paddingTopRem * rootFontSize;
+            const topPx = offsetTopPx - paddingTopBackToPx;
+
             window.scrollTo({
-                top: offsetTop - paddingTop,
+                top: topPx,
                 behavior: 'smooth'
             });
         }
     }
 
     function openResumeInNewTab() {
-        // Open the "/founder/resume" page in a new tab
         window.open('/founder/resume', '_blank');
     }
 </script>
