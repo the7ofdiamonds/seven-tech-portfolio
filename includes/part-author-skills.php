@@ -6,10 +6,17 @@
         <i class="fa-brands fa-php"></i>
         <i class="fa-brands fa-java"></i>
         <i class="fa-brands fa-swift"></i>
+        <i class="fa-brands fa-docker"></i>
     </div>
 </div>
 
 <script>
-    var copy = document.querySelector(".author-skills-slide").cloneNode(true);
-    document.querySelector(".author-skills").appendChild(copy);
+    const skills = document.querySelector('.author-skills-slide');
+    const totalSkills = skills.children.length;
+
+    for (let i = 0; i < totalSkills; i++) {
+        skills.appendChild(skills.children[i].cloneNode(true));
+    }
+
+    document.documentElement.style.setProperty('--total-skills', totalSkills);
 </script>

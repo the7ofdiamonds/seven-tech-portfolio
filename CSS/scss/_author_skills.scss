@@ -1,50 +1,27 @@
-@keyframes slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+:root {
+  --total-skills: 7;
+  --icon-width: 12rem;
+  --animation-duration: calc(var(--total-skills) * 1.5s);
 }
 
 .author-skills {
-  overflow: hidden;
-  position: relative;
   display: flex;
-  gap: 1.5rem;
-}
-
-.author-skills:before,
-.author-skills:after {
-  position: absolute;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  content: '';
-  z-index: 2;
-}
-
-.author-skills:before {
-  left: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
-}
-
-.author-skills:after {
-  right: 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
-}
-
-.author-skills:hover .author-skills-slide {
-  animation-play-state: paused;
+  width: 100%;
 }
 
 .author-skills-slide {
   display: flex;
-  gap: 1.5rem;
-  animation: 35s slide infinite linear;
+  animation: var(--animation-duration) slide infinite linear;
 }
 
 .author-skills-slide i {
   font-size: 4rem;
   padding: 0;
+  width: var(--icon-width)
+}
+
+@keyframes slide {
+  100% {
+      transform: translateX(calc(-100% / 2));
+  }
 }

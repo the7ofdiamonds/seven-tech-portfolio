@@ -26,9 +26,7 @@ class Templates
 
     function get_custom_single_template($single_template)
     {
-        global $post;
-
-        if ($post->post_type == 'portfolio') {
+        if (is_single('portfolio')) {
             $single_template = THFW_PORTFOLIO . 'pages/single-portfolio.php';
         }
 
@@ -61,9 +59,9 @@ class Templates
 
     function get_custom_on_boarding_page_template($template)
     {
-        $start_page = get_page_by_path('services/service/on-boarding');
+        $onboarding_page = get_page_by_path('services/service/on-boarding');
 
-        if ($start_page && is_page($start_page->ID)) {
+        if ($onboarding_page && is_page($onboarding_page->ID)) {
             $custom_template = THFW_PORTFOLIO . 'Pages/page-on-boarding.php';
 
             if (file_exists($custom_template)) {
@@ -76,9 +74,9 @@ class Templates
 
     function get_custom_problem_page_template($template)
     {
-        $selections_page = get_page_by_path('services/service/on-boarding/the-problem');
+        $problem_page = get_page_by_path('services/service/on-boarding/the-problem');
 
-        if ($selections_page && is_page($selections_page->ID)) {
+        if ($problem_page && is_page($problem_page->ID)) {
             $custom_template = THFW_PORTFOLIO . 'Pages/page-the-problem.php';
 
             if (file_exists($custom_template)) {
