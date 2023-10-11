@@ -65,7 +65,7 @@ class Pages
         }
     }
 
-    function add_services_on_boarding()
+    function add_client_on_boarding()
     {
         global $wpdb;
 
@@ -73,7 +73,7 @@ class Pages
 
         $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
 
-        $parent_page_id = get_page_by_path('services/service')->ID;
+        $parent_page_id = get_page_by_path('client')->ID;
 
         if (!$page_exists) {
             $page_data = array(
@@ -95,7 +95,7 @@ class Pages
         $page_title = 'THE PROBLEM';
 
         $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
-        $parent_id = get_page_by_path('services/service/on-boarding')->ID;
+        $parent_id = get_page_by_path('client/on-boarding')->ID;
 
         if (!$page_exists) {
             $page_data = array(
@@ -107,18 +107,18 @@ class Pages
             );
 
             wp_insert_post($page_data);
-        } else {
-            error_log('page exist');
-        }
+        } 
     }
 
     public function react_rewrite_rules()
     {
-        $on_boarding_page_id = get_page_by_path('services/service/on-boarding')->ID;
-        $the_problem_page_id = get_page_by_path('services/service/on-boarding/the-problem')->ID;
+        $on_boarding_page = get_page_by_path('client/on-boarding');
+        $the_problem_page = get_page_by_path('client/on-boarding/the-problem');
 
-        add_rewrite_rule('^services/([^/]+)/?$', 'index.php?page_id=' . $on_boarding_page_id, 'top');
-        add_rewrite_rule('^services/([^/]+)/on-boarding/?$', 'index.php?page_id=' . $the_problem_page_id, 'top');
+        if ($on_boarding_page && $the_problem_page) {
+            add_rewrite_rule('^client/([^/]+)/?$', 'index.php?page_id=' . $on_boarding_page->ID, 'top');
+            add_rewrite_rule('^client/([^/]+)/on-boarding/?$', 'index.php?page_id=' . $the_problem_page->ID, 'top');
+        }
     }
 
     function is_user_logged_in()

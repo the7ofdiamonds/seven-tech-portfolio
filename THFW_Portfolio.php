@@ -65,7 +65,7 @@ register_activation_hook(__FILE__, array($thfw_portfolio, 'activate'));
 $thfw_portfolio_pages = new Pages();
 register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_pages']);
 register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_founder_subpages']);
-register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_services_on_boarding']);
+register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_client_on_boarding']);
 register_activation_hook(__FILE__, [$thfw_portfolio_pages, 'add_on_boarding_problem']);
 
 $thfw_portfolio_menus = new Menus();

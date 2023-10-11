@@ -19,6 +19,12 @@ class Templates
     {
         if (is_post_type_archive('portfolio')) {
             $archive_template = THFW_PORTFOLIO . 'pages/archive-portfolio.php';
+
+            if (file_exists($archive_template)) {
+                return $archive_template;
+            } else {
+                error_log('Portfolio Post Type Archive Template does not exist.');
+            }
         }
 
         return $archive_template;
@@ -26,8 +32,14 @@ class Templates
 
     function get_custom_single_template($single_template)
     {
-        if (is_single('portfolio')) {
+        if (is_singular('portfolio')) {
             $single_template = THFW_PORTFOLIO . 'pages/single-portfolio.php';
+
+            if (file_exists($single_template)) {
+                return $single_template;
+            } else {
+                error_log('Portfolio Post Type Single Template does not exist.');
+            }
         }
 
         return $single_template;
@@ -37,53 +49,65 @@ class Templates
     {
         if (is_page('founder')) {
             $page_template = THFW_PORTFOLIO . 'Pages/page-founder.php';
+            
+            if (file_exists($page_template)) {
+                return $page_template;
+            } else {
+                error_log('Founder Page Template does not exist.');
+            }
         }
 
         return $page_template;
     }
 
-    function get_founder_resume_page_template($template)
+    function get_founder_resume_page_template($page_template)
     {
         $resume_page = get_page_by_path('founder/resume');
 
         if ($resume_page && is_page($resume_page->ID)) {
-            $custom_template = THFW_PORTFOLIO . 'Pages/page-founder-resume.php';
+            $page_template = THFW_PORTFOLIO . 'Pages/page-founder-resume.php';
 
-            if (file_exists($custom_template)) {
-                return $custom_template;
+            if (file_exists($page_template)) {
+                return $page_template;
+            } else {
+                error_log('Resume Page Template does not exist.');
             }
         }
 
-        return $template;
+        return $page_template;
     }
 
-    function get_custom_on_boarding_page_template($template)
+    function get_custom_on_boarding_page_template($page_template)
     {
-        $onboarding_page = get_page_by_path('services/service/on-boarding');
+        $onboarding_page = get_page_by_path('client/on-boarding');
 
         if ($onboarding_page && is_page($onboarding_page->ID)) {
-            $custom_template = THFW_PORTFOLIO . 'Pages/page-on-boarding.php';
+            $page_template = THFW_PORTFOLIO . 'Pages/page-on-boarding.php';
 
-            if (file_exists($custom_template)) {
-                return $custom_template;
+            if (file_exists($page_template)) {
+                return $page_template;
+            } else {
+                error_log('Onboarding Page Template does not exist.');
             }
         }
 
-        return $template;
+        return $page_template;
     }
 
-    function get_custom_problem_page_template($template)
+    function get_custom_problem_page_template($page_template)
     {
-        $problem_page = get_page_by_path('services/service/on-boarding/the-problem');
+        $problem_page = get_page_by_path('client/on-boarding/the-problem');
 
         if ($problem_page && is_page($problem_page->ID)) {
-            $custom_template = THFW_PORTFOLIO . 'Pages/page-the-problem.php';
+            $page_template = THFW_PORTFOLIO . 'Pages/page-the-problem.php';
 
-            if (file_exists($custom_template)) {
-                return $custom_template;
+            if (file_exists($page_template)) {
+                return $page_template;
+            } else {
+                error_log('Problem Page Template does not exist.');
             }
         }
 
-        return $template;
+        return $page_template;
     }
 }
