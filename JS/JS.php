@@ -7,8 +7,8 @@ class JS
 
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', [$this, 'load_js']);
-        add_action('wp_enqueue_scripts', [$this, 'load_react']);
+        // add_action('wp_footer', [$this, 'load_js']);
+        add_action('wp_footer', [$this, 'load_react']);
     }
 
     function load_js()
@@ -31,14 +31,18 @@ class JS
 
     function load_react()
     {
-        $directory = THFW_PORTFOLIO . 'build';
         $pages = [
             'founder',
-            'services/service/on-boarding',
-            'services/service/on-boarding/the-problem',
+            'client/on-boarding',
+            'client/on-boarding/the-problem',
         ];
 
-        if (is_front_page() || is_archive('portfolio') || is_singular('portfolio') || is_page($pages) || is_tax('project_types') || is_tax('project_tags')) {
+        if (
+            is_front_page() ||
+            is_post_type_archive('portfolio') || is_singular('portfolio') ||
+            is_page($pages) || is_tax('project_types') || is_tax('project_tags')
+        ) {
+            $directory = THFW_PORTFOLIO . 'build';
             $jsFiles = $this->get_js_files($directory);
 
             if ($jsFiles) {
