@@ -106,7 +106,7 @@ class Project
 
                 if ($user_data) {
                     $team_data = $this->team_database->getMember($user_data->ID);
-                    error_log(print_r(get_avatar($user_data->ID), true));
+
                     $member = [
                         'id' => $user_data->ID,
                         'first_name' => $user_data->first_name,
