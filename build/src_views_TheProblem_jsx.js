@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkthfw_portfolio"] = self["webpackChunkthfw_portfolio"] || []).push([["src_views_TheProblem_jsx"],{
+(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_TheProblem_jsx"],{
 
 /***/ "./src/views/TheProblem.jsx":
 /*!**********************************!*\

@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Taxonomies;
+namespace SEVEN_TECH_Portfolio\Taxonomies;
 
 class TaxonomiesProjectTypes
 {
@@ -70,7 +70,7 @@ class TaxonomiesProjectTypes
     {
 
         if (is_tax('project_types')) {
-            $taxonomy_template = THFW_PORTFOLIO . 'Pages/page-portfolio-types.php';
+            $taxonomy_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-portfolio-types.php';
         }
         return $taxonomy_template;
     }

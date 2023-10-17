@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Pages;
+namespace SEVEN_TECH_Portfolio\Pages;
 
 class Pages
 {

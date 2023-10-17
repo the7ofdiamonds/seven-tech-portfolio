@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Database;
+namespace SEVEN_TECH_Portfolio\Database;
 
 use Exception;
 

@@ -1,7 +1,7 @@
 {
-  "name": "thfw-portfolio",
+  "name": "seven-tech-portfolio",
   "version": "1.0.0",
-  "description": "THFW Portfolio Plugin",
+  "description": "SEVEN TECH Portfolio Plugin",
   "main": "index.js",
   "devDependencies": {
     "@redux-devtools/core": "^3.13.1",
@@ -36,10 +36,10 @@
     "sync": "browser-sync start -p 'http://localhost:8000'",
     "test": "jest --watchAll --verbose",
     "start": "wp-scripts start",
-    "update-dev": "git push thfw-portfolio development",
-    "update-prod": "git push thfw-portfolio production",
+    "update-dev": "git push seven-tech-portfolio development",
+    "update-prod": "git push seven-tech-portfolio production",
     "vite": "vite start",
-    "watch:sass": "sass --watch ./CSS/scss/main.scss ./CSS/thfw-portfolio.css"
+    "watch:sass": "sass --watch ./CSS/scss/main.scss ./CSS/seven-tech-portfolio.css"
   },
   "author": "THE7OFDIAMONDS.TECH",
   "license": "ISC"

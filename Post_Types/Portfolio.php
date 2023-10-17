@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Post_Types;
+namespace SEVEN_TECH_Portfolio\Post_Types;
 
 class Portfolio
 {

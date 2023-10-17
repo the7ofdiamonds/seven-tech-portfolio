@@ -1,10 +1,10 @@
 <?php
 
-namespace THFW_Portfolio\Database;
+namespace SEVEN_TECH_Portfolio\Database;
 
-use THFW_Portfolio\Database\DatabaseProject;
-use THFW_Portfolio\Database\DatabaseOnboarding;
-use THFW_Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
+use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
 
 class Database
 {

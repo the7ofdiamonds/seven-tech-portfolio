@@ -1,6 +1,6 @@
 {
-    "name": "the7ofdiamonds.tech/thfw_portfolio",
-    "description": "THFW Portfolio Plugin",
+    "name": "the7ofdiamonds.tech/seven_tech_portfolio",
+    "description": "SEVEN TECH Portfolio Plugin",
     "authors": [
         {
             "name": "Jamel C. Lyons",
@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "THFW_Portfolio\\": ""
+            "SEVEN_TECH_Portfolio\\": ""
         }
     },
     "config": {

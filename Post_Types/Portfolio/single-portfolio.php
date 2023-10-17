@@ -8,6 +8,6 @@ if (!function_exists('is_plugin_active')) {
 
 <?php get_header(); ?>
 
-<?php include THFW_PORTFOLIO . 'includes/section-project.php'; ?>
+<?php include SEVEN_TECH_PORTFOLIO . 'includes/section-project.php'; ?>
 
 <?php get_footer(); ?>

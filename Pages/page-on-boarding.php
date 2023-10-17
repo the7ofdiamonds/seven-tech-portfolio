@@ -12,6 +12,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 get_header();
 
-include THFW_PORTFOLIO . 'includes/part-on-boarding.php';
+include SEVEN_TECH_PORTFOLIO . 'includes/part-on-boarding.php';
 
 get_footer();

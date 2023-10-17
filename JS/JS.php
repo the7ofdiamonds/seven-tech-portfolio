@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\JS;
+namespace SEVEN_TECH_Portfolio\JS;
 
 class JS
 {
@@ -13,7 +13,7 @@ class JS
 
     function load_js()
     {
-        wp_enqueue_script('7tech_portfolio_js', THFW_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
+        wp_enqueue_script('7tech_portfolio_js', SEVEN_TECH_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
     }
 
     function get_js_files($directory)
@@ -42,13 +42,13 @@ class JS
             is_post_type_archive('portfolio') || is_singular('portfolio') ||
             is_page($pages) || is_tax('project_types') || is_tax('project_tags')
         ) {
-            $directory = THFW_PORTFOLIO . 'build';
+            $directory = SEVEN_TECH_PORTFOLIO . 'build';
             $jsFiles = $this->get_js_files($directory);
 
             if ($jsFiles) {
                 foreach ($jsFiles as $jsFile) {
                     $handle = '7tech_portfolio_react_' . basename($jsFile);
-                    wp_enqueue_script($handle, THFW_PORTFOLIO_URL . 'build/' . $jsFile, ['wp-element'], 1.0, true);
+                    wp_enqueue_script($handle, SEVEN_TECH_PORTFOLIO_URL . 'build/' . $jsFile, ['wp-element'], 1.0, true);
                 }
             }
         }

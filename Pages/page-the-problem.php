@@ -12,6 +12,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 get_header();
 
-include THFW_PORTFOLIO . 'includes/part-the-problem.php';
+include SEVEN_TECH_PORTFOLIO . 'includes/part-the-problem.php';
 
 get_footer();

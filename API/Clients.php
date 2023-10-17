@@ -1,13 +1,13 @@
 <?php
 
-namespace THFW_Portfolio\API;
+namespace SEVEN_TECH_Portfolio\API;
 
 use Exception;
 use WP_REST_Request;
 
-use THFW_Portfolio\Database\DatabaseProject;
-use THFW_Portfolio\Database\DatabaseOnboarding;
-use THFW_Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
+use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
 
 class Clients
 {

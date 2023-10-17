@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\API;
+namespace SEVEN_TECH_Portfolio\API;
 
 class API
 {

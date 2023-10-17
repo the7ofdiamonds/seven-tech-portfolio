@@ -26,8 +26,8 @@
     </style>
 
     <?php
-    $resume_pdf = THFW_PORTFOLIO . 'resume/Jamel_C_Lyons_Resume.pdf';
-    $resume_pdf_url = THFW_PORTFOLIO_URL . 'resume/Jamel_C_Lyons_Resume.pdf';
+    $resume_pdf = SEVEN_TECH_PORTFOLIO . 'resume/Jamel_C_Lyons_Resume.pdf';
+    $resume_pdf_url = SEVEN_TECH_PORTFOLIO_URL . 'resume/Jamel_C_Lyons_Resume.pdf';
 
     if (file_exists($resume_pdf)) : ?>
         <iframe id="pdfViewer" src="<?php echo $resume_pdf_url; ?>" frameborder="0"></iframe>

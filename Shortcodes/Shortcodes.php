@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Shortcodes;
+namespace SEVEN_TECH_Portfolio\Shortcodes;
 
 class Shortcodes
 {
@@ -12,6 +12,6 @@ class Shortcodes
 
     function portfolio_shortcode()
     {
-        include THFW_PORTFOLIO . 'includes/section-portfolio.php';
+        include SEVEN_TECH_PORTFOLIO . 'includes/section-portfolio.php';
     }
 }

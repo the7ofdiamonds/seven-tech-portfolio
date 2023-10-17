@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Gallery from '../components/Gallery';
-import ProjectStatus from '../components/ProjectStatus';
+import Gallery from './Gallery';
+import ProjectStatus from './ProjectStatus';
 
 function Projects(props) {
   const { projects } = props;

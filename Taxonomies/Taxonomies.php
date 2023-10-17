@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\Taxonomies;
+namespace SEVEN_TECH_Portfolio\Taxonomies;
 
 class Taxonomies{
     public function __construct(){

@@ -1,8 +1,8 @@
 <?php
 
-namespace THFW_Portfolio\Post_Types;
+namespace SEVEN_TECH_Portfolio\Post_Types\Portfolio;
 
-class PortfolioUploads
+class Uploads
 {
     function getPhotos($project_name, $gallery)
     {

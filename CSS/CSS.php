@@ -1,6 +1,6 @@
 <?php
 
-namespace THFW_Portfolio\CSS;
+namespace SEVEN_TECH_Portfolio\CSS;
 
 class CSS
 {
@@ -18,8 +18,8 @@ class CSS
             'client/on-boarding/the-problem'
         ];
 
-        if (is_front_page() || is_post_type_archive('portfolio') || is_singular('portfolio') || is_page($pages)) {
-            wp_enqueue_style('thfw_portfolio_css',  THFW_PORTFOLIO_URL . 'CSS/thfw-portfolio.css', array(), false, 'all');
+        if (is_front_page() || is_archive('portfolio') || is_singular('portfolio') || is_page($pages)) {
+            wp_enqueue_style('seven_tech_portfolio_css',  SEVEN_TECH_PORTFOLIO_URL . 'CSS/seven-tech-portfolio.css', array(), false, 'all');
         }
     }
 }

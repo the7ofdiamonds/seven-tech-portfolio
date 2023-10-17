@@ -1,14 +1,14 @@
 <?php
 
-namespace THFW_Portfolio\API;
+namespace SEVEN_TECH_Portfolio\API;
 
 use Exception;
 
 use WP_REST_Request;
 use WP_Query;
 
-use THFW_Portfolio\Post_Types\PortfolioUploads;
-use THFW_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH_Portfolio\Database\DatabaseProject;
 
 class Portfolio
 {
@@ -19,7 +19,7 @@ class Portfolio
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        $this->portfolio_uploads = new PortfolioUploads;
+        $this->portfolio_uploads = new Uploads;
         $this->project_database = new DatabaseProject;
 
         add_action('rest_api_init', function () {

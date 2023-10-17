@@ -1,17 +1,17 @@
 <?php
 
-namespace THFW_Portfolio\API;
+namespace SEVEN_TECH_Portfolio\API;
 
 use Exception;
 
 use WP_REST_Request;
 use WP_Query;
 
-use THFW_Portfolio\Post_Types\PortfolioUploads;
-use THFW_Portfolio\Database\DatabaseProject;
-use THFW_Portfolio\Database\DatabaseTeam;
-use THFW_Portfolio\Database\DatabaseOnboarding;
-use THFW_Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH_Portfolio\Database\DatabaseTeam;
+use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
+use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
 
 class Project
 {
@@ -25,7 +25,7 @@ class Project
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        $this->portfolio_uploads = new PortfolioUploads;
+        $this->portfolio_uploads = new Uploads;
         $this->project_database = new DatabaseProject;
         $this->team_database = new DatabaseTeam;
         $this->onboarding_database = new DatabaseOnboarding;
