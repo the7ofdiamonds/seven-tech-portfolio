@@ -13,7 +13,6 @@ class CSS
     function load_css()
     {
         $pages = [
-            'founder',
             'client/on-boarding',
             'client/on-boarding/the-problem'
         ];

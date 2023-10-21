@@ -9,7 +9,6 @@ use WP_Query;
 
 use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
 use SEVEN_TECH_Portfolio\Database\DatabaseProject;
-use SEVEN_TECH_Portfolio\Database\DatabaseTeam;
 use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
 use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
 
@@ -27,7 +26,6 @@ class Project
         $this->post_type = 'portfolio';
         $this->portfolio_uploads = new Uploads;
         $this->project_database = new DatabaseProject;
-        $this->team_database = new DatabaseTeam;
         $this->onboarding_database = new DatabaseOnboarding;
         $this->theproblem_database = new DatabaseTheProblem;
 
