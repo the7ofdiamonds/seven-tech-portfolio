@@ -8618,7 +8618,7 @@ const initialState = {
 };
 const getPortfolio = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getPortfolio', async () => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/v1/portfolio`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8770,7 +8770,7 @@ const initialState = {
 };
 const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('project/projectSlice', async projectSlug => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio/${projectSlug}`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/v1/portfolio/${projectSlug}`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8817,7 +8817,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.delivery_check_list = action.payload.delivery_check_list;
       state.onboarding = action.payload.onboarding;
       state.the_problem = action.payload.the_problem;
-      state.project_team = action.payload.project_team;
+      // state.project_team = action.payload.project_team;
       state.project_tags = action.payload.project_tags;
     }).addCase(getProject.rejected, (state, action) => {
       state.loading = false;

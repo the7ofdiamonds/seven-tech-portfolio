@@ -12,7 +12,7 @@ const initialState = {
 
 export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () => {
   try {
-    const response = await axios.get(`/wp-json/thfw/v1/portfolio`);
+    const response = await axios.get(`/wp-json/seven-tech/v1/portfolio`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);

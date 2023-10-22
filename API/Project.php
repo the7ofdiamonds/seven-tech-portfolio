@@ -30,7 +30,7 @@ class Project
         $this->theproblem_database = new DatabaseTheProblem;
 
         add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/portfolio', array(
+            register_rest_route('seven-tech/v1', '/portfolio', array(
                 'methods' => 'POST',
                 'callback' => array($this, 'post_project'),
                 'permission_callback' => '__return_true',
@@ -38,7 +38,7 @@ class Project
         });
 
         add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)', array(
+            register_rest_route('seven-tech/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)', array(
                 'methods' => 'GET',
                 'callback' => array($this, 'get_project'),
                 'permission_callback' => '__return_true',
@@ -140,7 +140,7 @@ class Project
 
                 $project_id = get_the_ID();
                 $project = $this->project_database->getProject($project_id);
-                $project_team = $this->get_project_team(unserialize($project['project_team']));
+                // $project_team = $this->get_project_team(unserialize($project['project_team']));
 
                 $post_data = array(
                     'id' => $project_id,
@@ -170,7 +170,7 @@ class Project
                     'the_problem' => $this->theproblem_database->getProblem($project_id),
                     'project_types' => wp_get_post_terms($project_id, 'project_types', array('fields' => 'all')),
                     'project_tags' => wp_get_post_terms($project_id, 'project_tags', array('fields' => 'all')),
-                    'project_team' => isset($project_team) ? $project_team : '',
+                    // 'project_team' => isset($project_team) ? $project_team : '',
                 );
 
                 return rest_ensure_response($post_data);

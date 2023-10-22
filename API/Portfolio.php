@@ -23,7 +23,7 @@ class Portfolio
         $this->project_database = new DatabaseProject;
 
         add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/portfolio', array(
+            register_rest_route('seven-tech/v1', '/portfolio', array(
                 'methods' => 'GET',
                 'callback' => array($this, 'get_portfolio'),
                 'permission_callback' => '__return_true',
