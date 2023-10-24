@@ -1,13 +1,7 @@
 <?php
-global $post;
 
-if (!function_exists('is_plugin_active')) {
-    include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-}
-?>
+get_header();
 
-<?php get_header(); ?>
+include SEVEN_TECH_PORTFOLIO . 'includes/react.php';
 
-<?php include SEVEN_TECH_PORTFOLIO . 'includes/section-project.php'; ?>
-
-<?php get_footer(); ?>
+get_footer();

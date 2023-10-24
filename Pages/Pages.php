@@ -4,12 +4,20 @@ namespace SEVEN_TECH_Portfolio\Pages;
 
 class Pages
 {
-    private $page_titles;
+    public $front_page_react;
+    public $page_titles;
 
     public function __construct()
     {
+        $this->front_page_react = [
+            'portfolio',
+        ];
+
         $this->page_titles = [
-    
+            'client/on-boarding',
+            'client/on-boarding/the-problem',
+            'project/types',
+            'project/tags'
         ];
 
         add_action('init', [$this, 'react_rewrite_rules']);
@@ -77,7 +85,7 @@ class Pages
             );
 
             wp_insert_post($page_data);
-        } 
+        }
     }
 
     public function react_rewrite_rules()

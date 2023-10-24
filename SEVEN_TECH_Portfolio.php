@@ -31,7 +31,7 @@ use SEVEN_TECH_Portfolio\CSS\CSS;
 use SEVEN_TECH_Portfolio\Database\Database;
 use SEVEN_TECH_Portfolio\JS\JS;
 use SEVEN_TECH_Portfolio\Pages\Pages;
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio;
+use SEVEN_TECH_Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH_Portfolio\Shortcodes\Shortcodes;
 use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
 use SEVEN_TECH_Portfolio\Templates\Templates;
@@ -45,7 +45,7 @@ class SEVEN_TECH_Portfolio
         new Database;
         new JS;
         new Pages;
-        new Portfolio;
+        new Post_Types;
         new Shortcodes;
         new Taxonomies;
         new Templates;

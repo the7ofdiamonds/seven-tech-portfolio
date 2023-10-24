@@ -213,13 +213,21 @@ form td label {
 
 .gallery {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
   max-width: 1000px;
   height: 100%;
+}
+.gallery button {
+  padding: 0.125em;
+}
+.gallery button.arrow-left {
+  transform: rotate(90deg);
+}
+.gallery button.arrow-right {
+  transform: rotate(270deg);
 }
 
 .gallery-row {

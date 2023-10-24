@@ -2,53 +2,162 @@
 
 namespace SEVEN_TECH_Portfolio\JS;
 
+use SEVEN_TECH_Portfolio\Pages\Pages;
+use SEVEN_TECH_Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
+
 class JS
 {
+    private $handle_prefix;
+    private $page_titles;
+    private $post_types;
+    private $taxonomies;
+    private $includes_url;
+    private $buildFilePrefix;
+    private $buildFilePrefixURL;
+    private $front_page_react;
 
     public function __construct()
     {
         // add_action('wp_footer', [$this, 'load_js']);
-        add_action('wp_footer', [$this, 'load_react']);
+
+        $this->handle_prefix = 'seven_tech_portfolio_';
+        $this->buildFilePrefix = SEVEN_TECH_PORTFOLIO . 'build/src_views_';
+        $this->buildFilePrefixURL = SEVEN_TECH_PORTFOLIO_URL . 'build/src_views_';
+
+        $this->includes_url = includes_url();
+
+        $pages = new Pages;
+        $posttypes = new Post_Types;
+        $tax = new Taxonomies;
+
+        $this->page_titles = $pages->page_titles;
+        $this->front_page_react = $pages->front_page_react;
+        $this->post_types = $posttypes->post_types;
+        $this->taxonomies = $tax->taxonomies;
     }
 
     function load_js()
     {
-        wp_enqueue_script('7tech_portfolio_js', SEVEN_TECH_PORTFOLIO_URL . 'JS/thfw-portfolio.js', array('jquery'), false, false);
+        // Animations
+        wp_register_script($this->handle_prefix, SEVEN_TECH_PORTFOLIO_URL . 'JS/seven-tech.js', array('jquery'), false, false);
+        wp_enqueue_script($this->handle_prefix);
     }
 
-    function get_js_files($directory)
+    function load_front_page_react()
     {
-        $jsFiles = array();
-        $files = scandir($directory);
+        if (is_front_page()) {
+            if (is_array($this->front_page_react) && !empty($this->front_page_react)) {
+                foreach ($this->front_page_react as $section) {
+                    $fileName = ucwords($section);
+                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
-        foreach ($files as $file) {
-            if (pathinfo($file, PATHINFO_EXTENSION) === 'js') {
-                $jsFiles[] = $file;
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log($fileName . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                }
+            } else {
+                error_log('There are no front page react files to load at SEVEN_TECH Pages');
             }
         }
-        return $jsFiles;
     }
 
-    function load_react()
+    function load_pages_react()
     {
-        $pages = [
-            'founder',
-            'client/on-boarding',
-            'client/on-boarding/the-problem',
-        ];
+        if (is_array($this->page_titles) && !empty($this->page_titles)) {
+            foreach ($this->page_titles as $page) {
+                if (is_page($page)) {
+                    $fileName = ucwords($page);
+                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
-        if (
-            is_front_page() ||
-            is_post_type_archive('portfolio') || is_singular('portfolio') ||
-            is_page($pages) || is_tax('project_types') || is_tax('project_tags')
-        ) {
-            $directory = SEVEN_TECH_PORTFOLIO . 'build';
-            $jsFiles = $this->get_js_files($directory);
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
-            if ($jsFiles) {
-                foreach ($jsFiles as $jsFile) {
-                    $handle = '7tech_portfolio_react_' . basename($jsFile);
-                    wp_enqueue_script($handle, SEVEN_TECH_PORTFOLIO_URL . 'build/' . $jsFile, ['wp-element'], 1.0, true);
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log($page . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                }
+            }
+        } else {
+            error_log('There are no page titles in the array at SEVEN_TECH Pages');
+        }
+    }
+
+    function load_post_types_archive_react()
+    {
+        foreach ($this->post_types as $post_type) {
+            if (is_array($post_type) && isset($post_type['name']) && isset($post_type['archive_page'])) {
+                $fileName = ucwords($post_type['archive_page']);
+                $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+
+                wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                if (file_exists($filePath)) {
+                    wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                } else {
+                    error_log('Post Type ' . $post_type['archive_page'] . ' page has not been created in react JSX.');
+                }
+
+                wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+            } else {
+                error_log('There are no post types in the array at SEVEN_TECH Post_Types');
+            }
+        }
+    }
+
+    function load_post_types_single_react()
+    {
+        foreach ($this->post_types as $post_type) {
+            if (is_array($post_type) && isset($post_type['name']) && isset($post_type['single_page'])) {
+                if (is_singular($post_type['name'])) {
+                    $fileName = ucwords($post_type['single_page']);
+                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log('Post Type ' . $post_type['single_page'] . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                }
+            }
+        }
+    }
+
+    function load_taxonomies_react()
+    {
+        foreach ($this->taxonomies as $taxonomy) {
+            if (is_array($taxonomy) && isset($taxonomy['name']) && isset($taxonomy['file_name'])) {
+                if (is_tax($taxonomy['name'])) {
+                    $fileName = ucwords($taxonomy['file_name']);
+                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+                    
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log('Post Type ' . $taxonomy['single_page'] . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
                 }
             }
         }

@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectTagsPage_jsx"],{
+(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectTags_jsx"],{
 
 /***/ "./src/components/Gallery.jsx":
 /*!************************************!*\
@@ -178,10 +178,10 @@ function Projects(props) {
 
 /***/ }),
 
-/***/ "./src/views/ProjectTagsPage.jsx":
-/*!***************************************!*\
-  !*** ./src/views/ProjectTagsPage.jsx ***!
-  \***************************************/
+/***/ "./src/views/ProjectTags.jsx":
+/*!***********************************!*\
+  !*** ./src/views/ProjectTags.jsx ***!
+  \***********************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -206,8 +206,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ProjectTagsPage() {
-  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useLocation)();
-  const projectTag = location.pathname.split('/')[3];
+  const {
+    tag
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
   const {
     loading,
     error,
@@ -217,25 +218,29 @@ function ProjectTagsPage() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.portfolio);
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectsTag)(projectTag));
-  }, [dispatch, projectTag]);
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectsTag)(tag));
+  }, [dispatch, tag]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTypes)());
   }, [dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTags)());
   }, [dispatch]);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "project-tags"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "title"
+  }, tag, " projects"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
     projects: projects
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__["default"], {
     project_types: project_types
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTags__WEBPACK_IMPORTED_MODULE_7__["default"], {
     project_tags: project_tags
-  }));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTagsPage);
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_views_ProjectTagsPage_jsx.js.map
+//# sourceMappingURL=src_views_ProjectTags_jsx.js.map

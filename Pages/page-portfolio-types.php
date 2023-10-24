@@ -1,5 +1,7 @@
-<?php get_header(); ?>
+<?php
 
-<section class="portfolio" id="7tech_portfolio"></section>
+get_header();
 
-<?php get_footer(); ?>
+include SEVEN_TECH_PORTFOLIO . 'includes/react.php';
+
+get_footer();

@@ -5,11 +5,13 @@ namespace SEVEN_TECH_Portfolio\Database;
 class Database
 {
     private $wpdb;
+    private $table_prefix;
 
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
+        $this->table_prefix = 'SEVEN_TECH_Portfolio_';
 
         $this->createTables();
 
@@ -29,7 +31,7 @@ class Database
 
     function create_onboarding_table()
     {
-        $table_name = '7tech_onboarding';
+        $table_name = $this->table_prefix . 'project_onboarding';
         $charset_collate = $this->wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE {$table_name} (
@@ -69,7 +71,7 @@ class Database
 
     function create_problem_table()
     {
-        $table_name = '7tech_problem';
+        $table_name = $this->table_prefix . 'project_problem';
         $charset_collate = $this->wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE {$table_name} (
@@ -97,7 +99,7 @@ class Database
 
     function create_project_table()
     {
-        $table_name = '7tech_portfolio';
+        $table_name = $this->table_prefix;
         $charset_collate = $this->wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE {$table_name} (
@@ -116,7 +118,7 @@ class Database
         git_repo VARCHAR(255) DEFAULT NULL,
         delivery VARCHAR(255) DEFAULT NULL,
         delivery_check_list VARCHAR(255) DEFAULT NULL,
-        project_team TEXT DEFAULT NULL,
+        project_team VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY post_id (post_id)
     ) $charset_collate;";

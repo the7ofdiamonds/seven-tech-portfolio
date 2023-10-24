@@ -34,13 +34,15 @@ function Portfolio() {
 
   return (
     <>
-      <h2 class="title">portfolio</h2>
+      <section className="portfolio">
+        <h2 class="title">portfolio</h2>
 
-      <Projects projects={projects} />
+        <Projects projects={projects} />
 
-      <ProjectTypes project_types={project_types} />
+        <ProjectTypes project_types={project_types} />
 
-      <ProjectTags project_tags={project_tags} />
+        <ProjectTags project_tags={project_tags} />
+      </section>
     </>
   );
 }

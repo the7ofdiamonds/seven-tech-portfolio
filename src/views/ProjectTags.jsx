@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import { getClient } from '../controllers/clientSlice';
 import {
   getPortfolioTypes,
   getPortfolioTags,
-  getProjectsType
+  getProjectsTag,
 } from '../controllers/portfolioSlice';
 
 import Projects from '../components/Projects';
 import ProjectTypes from '../components/ProjectTypes';
 import ProjectTags from '../components/ProjectTags';
 
-function ProjectTypesPage() {
-  const location = useLocation();
-  const projectType = location.pathname.split('/')[3];
+function ProjectTagsPage() {
+  const { tag } = useParams();
 
   const { loading, error, projects, project_types, project_tags } = useSelector(
     (state) => state.portfolio
@@ -24,8 +23,8 @@ function ProjectTypesPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProjectsType(projectType));
-  }, [dispatch, projectType]);
+    dispatch(getProjectsTag(tag));
+  }, [dispatch, tag]);
 
   useEffect(() => {
     dispatch(getPortfolioTypes());
@@ -37,13 +36,16 @@ function ProjectTypesPage() {
 
   return (
     <>
-      <Projects projects={projects} />
+      <section className="project-tags">
+        <h2 className="title">{tag} projects</h2>
+        <Projects projects={projects} />
 
-      <ProjectTypes project_types={project_types} />
+        <ProjectTypes project_types={project_types} />
 
-      <ProjectTags project_tags={project_tags} />
+        <ProjectTags project_tags={project_tags} />
+      </section>
     </>
   );
 }
 
-export default ProjectTypesPage;
+export default ProjectTagsPage;

@@ -7,11 +7,11 @@ class Shortcodes
 
     public function __construct()
     {
-        add_shortcode('thfw-portfolio', [$this, 'portfolio_shortcode']);
+        add_shortcode('seven-tech-portfolio', [$this, 'portfolio_shortcode']);
     }
 
     function portfolio_shortcode()
     {
-        include SEVEN_TECH_PORTFOLIO . 'includes/section-portfolio.php';
+        include SEVEN_TECH_PORTFOLIO . 'includes/react.php';
     }
 }

@@ -8,7 +8,6 @@ class TaxonomiesProjectTypes
     {
         add_action('init', [$this, 'custom_taxonomy']);
         add_filter('post_type_link', [$this, 'projects_permalink_structure'], 10, 4);
-        add_filter('taxonomy_template', [$this, 'get_custom_taxonomy_template']);
     }
 
     function custom_taxonomy()
@@ -64,14 +63,5 @@ class TaxonomiesProjectTypes
                 $post_link = str_replace('%projects%', 'uncategorized', $post_link);
         }
         return $post_link;
-    }
-
-    function get_custom_taxonomy_template($taxonomy_template)
-    {
-
-        if (is_tax('project_types')) {
-            $taxonomy_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-portfolio-types.php';
-        }
-        return $taxonomy_template;
     }
 }
