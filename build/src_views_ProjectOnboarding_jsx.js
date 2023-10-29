@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_OnBoarding_jsx"],{
+(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectOnboarding_jsx"],{
 
 /***/ "./src/utils/modal.js":
 /*!****************************!*\
@@ -22,10 +22,10 @@ function closeModal() {
 
 /***/ }),
 
-/***/ "./src/views/OnBoarding.jsx":
-/*!**********************************!*\
-  !*** ./src/views/OnBoarding.jsx ***!
-  \**********************************/
+/***/ "./src/views/ProjectOnboarding.jsx":
+/*!*****************************************!*\
+  !*** ./src/views/ProjectOnboarding.jsx ***!
+  \*****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -113,7 +113,7 @@ function OnBoardingComponent() {
     e.preventDefault();
     dispatch((0,_controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createOnboarding)(formData));
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "title"
   }, "CLIENT ONBOARDING"), message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `status-bar card ${messageType}`
@@ -572,11 +572,11 @@ function OnBoardingComponent() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct a solution."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE")));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE"))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (OnBoardingComponent);
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_views_OnBoarding_jsx.js.map
+//# sourceMappingURL=src_views_ProjectOnboarding_jsx.js.map

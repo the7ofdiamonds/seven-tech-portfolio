@@ -99,6 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Gallery(props) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  const galleryRowRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
   const previousPhoto = () => {
     if (currentPhotoIndex > 0) {
       setCurrentPhotoIndex(currentPhotoIndex - 1);
@@ -109,23 +110,45 @@ function Gallery(props) {
       setCurrentPhotoIndex(currentPhotoIndex + 1);
     }
   };
+  const handleTouchStart = e => {
+    // Capture the starting X coordinate when the user touches the gallery
+    const touchStartX = e.touches[0].clientX;
+    galleryRowRef.current.setAttribute('data-touch-start', touchStartX);
+  };
+  const handleTouchEnd = e => {
+    // Calculate the difference between the starting and ending X coordinates
+    const touchStartX = parseInt(galleryRowRef.current.getAttribute('data-touch-start'), 10);
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX;
+
+    // Determine whether it's a left or right swipe based on deltaX
+    if (deltaX > 50) {
+      previousPhoto(); // Swipe right
+    } else if (deltaX < -50) {
+      nextPhoto(); // Swipe left
+    }
+  };
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, props.gallery && props.gallery.length > 0 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "gallery"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, currentPhotoIndex !== 0 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "arrow-left",
     onClick: previousPhoto
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "V")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "gallery-row"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "V")) : '', (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "gallery-row",
+    onTouchStart: handleTouchStart,
+    onTouchEnd: handleTouchEnd,
+    ref: galleryRowRef
   }, Array.isArray(props.gallery) && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "gallery-photo"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     className: "photo",
     src: props.gallery[currentPhotoIndex],
     alt: ""
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }))), currentPhotoIndex !== props.gallery.length - 1 ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "arrow-right",
     onClick: nextPhoto
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "V"))) : '');
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "V")) : '') : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (Gallery);
 

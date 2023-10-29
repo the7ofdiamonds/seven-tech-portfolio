@@ -2,11 +2,11 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 const Portfolio = lazy(() => import('./views/Portfolio'));
-const ProjectTypesPage = lazy(() => import('./views/ProjectTypes'));
-const ProjectTagsPage = lazy(() => import('./views/ProjectTags'));
+const ProjectTypes = lazy(() => import('./views/ProjectTypes'));
+const ProjectTags = lazy(() => import('./views/ProjectTags'));
 const Project = lazy(() => import('./views/Project'));
-const OnBoardingComponent = lazy(() => import('./views/OnBoarding.jsx'));
-const TheProblemComponent = lazy(() => import('./views/TheProblem.jsx'));
+const ProjectOnboarding = lazy(() => import('./views/ProjectOnboarding.jsx'));
+const ProjectProblem = lazy(() => import('./views/ProjectProblem.jsx'));
 
 function LoadingFallback() {
   return <div>Loading...</div>;
@@ -19,19 +19,19 @@ function App() {
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route
-              path="services/service/on-boarding/the-problem"
-              element={<TheProblemComponent />}
+              path="project/problem"
+              element={<ProjectProblem />}
             />
             <Route
               index
-              path="services/service/on-boarding"
-              element={<OnBoardingComponent />}
+              path="project/onboarding"
+              element={<ProjectOnboarding />}
             />
             <Route index path="/" element={<Portfolio />} />
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="founder" element={<Portfolio />} />
-            <Route path="projects/type/:type" element={<ProjectTypesPage />} />
-            <Route path="projects/tag/:tag" element={<ProjectTagsPage />} />
+            <Route path="projects/type/:type" element={<ProjectTypes />} />
+            <Route path="projects/tag/:tag" element={<ProjectTags />} />
             <Route path="portfolio/:project" element={<Project />} />
           </Routes>
         </Suspense>

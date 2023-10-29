@@ -8305,11 +8305,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Portfolio = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Portfolio_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Portfolio */ "./src/views/Portfolio.jsx")));
-const ProjectTypesPage = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTypes_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTypes */ "./src/views/ProjectTypes.jsx")));
-const ProjectTagsPage = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTags_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTags */ "./src/views/ProjectTags.jsx")));
+const ProjectTypes = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTypes_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTypes */ "./src/views/ProjectTypes.jsx")));
+const ProjectTags = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTags_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTags */ "./src/views/ProjectTags.jsx")));
 const Project = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Project_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Project */ "./src/views/Project.jsx")));
-const OnBoardingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_OnBoarding_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/OnBoarding.jsx */ "./src/views/OnBoarding.jsx")));
-const TheProblemComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_TheProblem_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/TheProblem.jsx */ "./src/views/TheProblem.jsx")));
+const ProjectOnboarding = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectOnboarding_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectOnboarding.jsx */ "./src/views/ProjectOnboarding.jsx")));
+const ProjectProblem = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectProblem_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectProblem.jsx */ "./src/views/ProjectProblem.jsx")));
 function LoadingFallback() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Loading...");
 }
@@ -8319,12 +8319,12 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingFallback, null)
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "services/service/on-boarding/the-problem",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(TheProblemComponent, null)
+    path: "project/problem",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
-    path: "services/service/on-boarding",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(OnBoardingComponent, null)
+    path: "project/onboarding",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
     path: "/",
@@ -8337,10 +8337,10 @@ function App() {
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Portfolio, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "projects/type/:type",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTypesPage, null)
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTypes, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "projects/tag/:tag",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTagsPage, null)
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectTags, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "portfolio/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Project, null)

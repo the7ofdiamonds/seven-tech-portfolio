@@ -14,88 +14,37 @@ class Pages
         ];
 
         $this->page_titles = [
-            'client/on-boarding',
-            'client/on-boarding/the-problem',
-            'project/types',
-            'project/tags'
+            'project/onboarding',
+            'project/problem',
         ];
 
-        add_action('init', [$this, 'react_rewrite_rules']);
+        add_action('init', [$this, 'project_react_rewrite_rules']);
+
+        add_filter('query_vars', [$this, 'add_query_var_project']);
     }
 
-    public function add_pages()
+    function project_react_rewrite_rules()
     {
-        global $wpdb;
+        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
 
-        foreach ($this->page_titles as $page_title) {
-            $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
+            foreach ($this->page_titles as $page_title) {
+                $url = explode('/', $page_title);
 
-            if (!$page_exists) {
-                $page_data = array(
-                    'post_title'   => $page_title,
-                    'post_type'    => 'page',
-                    'post_content' => '',
-                    'post_status'  => 'publish',
-                );
-
-                wp_insert_post($page_data);
+                add_rewrite_rule('^' . $page_title, 'index.php?' . $url[1] . '=$1', 'top');
             }
         }
     }
 
-    function add_client_on_boarding()
+    function add_query_var_project($query_vars)
     {
-        global $wpdb;
+        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
 
-        $page_title = 'ON BOARDING';
+            foreach ($this->page_titles as $page_title) {
+                $url = explode('/', $page_title);
+                $query_vars[] = $url[1];
+            }
 
-        $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
-
-        $parent_page_id = get_page_by_path('client')->ID;
-
-        if (!$page_exists) {
-            $page_data = array(
-                'post_title'   => $page_title,
-                'post_type'    => 'page',
-                'post_content' => '',
-                'post_status'  => 'publish',
-                'post_parent'   => $parent_page_id,
-            );
-
-            wp_insert_post($page_data);
-        }
-    }
-
-    function add_on_boarding_problem()
-    {
-        global $wpdb;
-
-        $page_title = 'THE PROBLEM';
-
-        $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
-        $parent_id = get_page_by_path('client/on-boarding')->ID;
-
-        if (!$page_exists) {
-            $page_data = array(
-                'post_title'   => $page_title,
-                'post_type'    => 'page',
-                'post_content' => '',
-                'post_status'  => 'publish',
-                'post_parent'   => $parent_id,
-            );
-
-            wp_insert_post($page_data);
-        }
-    }
-
-    public function react_rewrite_rules()
-    {
-        $on_boarding_page = get_page_by_path('client/on-boarding');
-        $the_problem_page = get_page_by_path('client/on-boarding/the-problem');
-
-        if ($on_boarding_page && $the_problem_page) {
-            add_rewrite_rule('^client/([^/]+)/?$', 'index.php?page_id=' . $on_boarding_page->ID, 'top');
-            add_rewrite_rule('^client/([^/]+)/on-boarding/?$', 'index.php?page_id=' . $the_problem_page->ID, 'top');
+            return $query_vars;
         }
     }
 

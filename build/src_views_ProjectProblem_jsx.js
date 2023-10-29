@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_TheProblem_jsx"],{
+(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectProblem_jsx"],{
 
-/***/ "./src/views/TheProblem.jsx":
-/*!**********************************!*\
-  !*** ./src/views/TheProblem.jsx ***!
-  \**********************************/
+/***/ "./src/views/ProjectProblem.jsx":
+/*!**************************************!*\
+  !*** ./src/views/ProjectProblem.jsx ***!
+  \**************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -76,7 +76,9 @@ function TheProblemComponent() {
     e.preventDefault();
     dispatch((0,_controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_4__.createTheProblem)(formData));
   };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "project-problem"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "title"
   }, "THE PROBLEM"), message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: `status-bar card ${messageType}`
@@ -211,11 +213,11 @@ function TheProblemComponent() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct the best solution for this problem."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE")));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE"))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (TheProblemComponent);
 
 /***/ })
 
 }]);
-//# sourceMappingURL=src_views_TheProblem_jsx.js.map
+//# sourceMappingURL=src_views_ProjectProblem_jsx.js.map

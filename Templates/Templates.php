@@ -36,9 +36,7 @@ class Templates
 
     function get_custom_on_boarding_page_template($page_template)
     {
-        $onboarding_page = get_page_by_path('client/on-boarding');
-
-        if ($onboarding_page && is_page($onboarding_page->ID)) {
+        if (get_query_var('onboarding')) {
             $page_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-on-boarding.php';
 
             if (file_exists($page_template)) {
@@ -56,9 +54,7 @@ class Templates
 
     function get_custom_problem_page_template($page_template)
     {
-        $problem_page = get_page_by_path('client/on-boarding/the-problem');
-
-        if ($problem_page && is_page($problem_page->ID)) {
+        if (get_query_var('problem')) {
             $page_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-the-problem.php';
 
             if (file_exists($page_template)) {
