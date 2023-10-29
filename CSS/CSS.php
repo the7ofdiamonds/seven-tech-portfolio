@@ -82,7 +82,7 @@ class CSS
     function load_taxonomies_css()
     {
         foreach ($this->taxonomies as $taxonomy) {
-            if (is_tax($taxonomy['name'])) {
+            if (is_tax($taxonomy['taxonomy'])) {
                 if ($this->filePath) {
                     wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');
                     wp_enqueue_style($this->handle_prefix . 'css');

@@ -143,8 +143,8 @@ class JS
     function load_taxonomies_react()
     {
         foreach ($this->taxonomies as $taxonomy) {
-            if (is_array($taxonomy) && isset($taxonomy['name']) && isset($taxonomy['file_name'])) {
-                if (is_tax($taxonomy['name'])) {
+            if (is_array($taxonomy) && isset($taxonomy['taxonomy']) && isset($taxonomy['file_name'])) {
+                if (is_tax($taxonomy['taxonomy'])) {
                     $fileName = ucwords($taxonomy['file_name']);
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
@@ -154,7 +154,7 @@ class JS
                     if (file_exists($filePath)) {
                         wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                     } else {
-                        error_log('Post Type ' . $taxonomy['single_page'] . ' page has not been created in react JSX.');
+                        error_log('Taxonomy ' . $taxonomy['plural'] . ' page has not been created in react JSX.');
                     }
 
                     wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);

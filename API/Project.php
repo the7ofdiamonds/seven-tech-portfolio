@@ -11,6 +11,7 @@ use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
 use SEVEN_TECH_Portfolio\Database\DatabaseProject;
 use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
 use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
 
 class Project
 {
@@ -20,6 +21,7 @@ class Project
     private $team_database;
     private $onboarding_database;
     private $theproblem_database;
+    private $taxonomies;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class Project
         $this->project_database = new DatabaseProject;
         $this->onboarding_database = new DatabaseOnboarding;
         $this->theproblem_database = new DatabaseTheProblem;
+        $this->taxonomies = new Taxonomies;
 
         add_action('rest_api_init', function () {
             register_rest_route('seven-tech/v1', '/portfolio', array(
@@ -103,7 +106,6 @@ class Project
                 $user_data = get_userdata($member['id']);
 
                 if ($user_data) {
-                    $team_data = $this->team_database->getMember($user_data->ID);
 
                     $member = [
                         'id' => $user_data->ID,
@@ -111,8 +113,8 @@ class Project
                         'last_name' => $user_data->last_name,
                         'email' => $user_data->user_email,
                         'role' => isset($member['role']) ? $member['role'] : '',
-                        'avatar_url' => isset($team_data['avatar_url']) ? $team_data['avatar_url'] : get_avatar_url($user_data->ID, ['size' => 384]),
-                        'author_url' => isset($team_data['author_url']) ? $team_data['author_url'] : '',
+                        'author_url' => $user_data->user_url,
+                        'avatar_url' => get_avatar_url($user_data->ID, ['size' => 384])
                     ];
 
                     $project_team[] = $member;
@@ -140,7 +142,7 @@ class Project
 
                 $project_id = get_the_ID();
                 $project = $this->project_database->getProject($project_id);
-                // $project_team = $this->get_project_team(unserialize($project['project_team']));
+                $project_team = $this->get_project_team(unserialize($project['project_team']));
 
                 $post_data = array(
                     'id' => $project_id,
@@ -168,9 +170,9 @@ class Project
                     'delivery_check_list' => $project['delivery_check_list'],
                     'onboarding' => $this->onboarding_database->getOnboarding($project_id),
                     'the_problem' => $this->theproblem_database->getProblem($project_id),
-                    'project_types' => wp_get_post_terms($project_id, 'project_types', array('fields' => 'all')),
-                    'project_tags' => wp_get_post_terms($project_id, 'project_tags', array('fields' => 'all')),
-                    // 'project_team' => isset($project_team) ? $project_team : '',
+                    'project_types' => $this->taxonomies->get_tax_term_links($project_id, 'project_types'),
+                    'project_tags' => $this->taxonomies->get_tax_term_links($project_id, 'project_tags'),
+                    'project_team' => isset($project_team) ? $project_team : '',
                 );
 
                 return rest_ensure_response($post_data);

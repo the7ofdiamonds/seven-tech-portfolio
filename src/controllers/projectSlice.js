@@ -92,7 +92,7 @@ export const projectSlice = createSlice({
         state.delivery_check_list = action.payload.delivery_check_list;
         state.onboarding = action.payload.onboarding;
         state.the_problem = action.payload.the_problem;
-        // state.project_team = action.payload.project_team;
+        state.project_team = action.payload.project_team;
         state.project_tags = action.payload.project_tags;
       })
       .addCase(getProject.rejected, (state, action) => {

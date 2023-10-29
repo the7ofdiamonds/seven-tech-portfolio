@@ -39,7 +39,7 @@ class Templates_Taxonomies
     {
         if (is_tax('project_tags')) {
             $taxonomy_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-portfolio-tags.php';
-            
+
             if (file_exists($taxonomy_template)) {
                 add_action('wp_head', [$this->css_file, 'load_taxonomies_css']);
                 add_action('wp_footer', [$this->js_file, 'load_taxonomies_react']);

@@ -2,6 +2,8 @@
 
 namespace SEVEN_TECH_Portfolio\Post_Types;
 
+use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Portfolio; 
+
 class Post_Types
 {
     public $post_types;
@@ -22,6 +24,8 @@ class Post_Types
         ];
 
         add_action('init', [$this, 'custom_post_type']);
+
+        new Portfolio;
     }
 
     function custom_post_type()

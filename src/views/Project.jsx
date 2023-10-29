@@ -16,7 +16,7 @@ import ProjectURLs from '../components/ProjectURLs';
 import CheckList from '../components/CheckList';
 import Colors from '../components/Colors';
 import TheProblem from '../components/TheProblem';
-import ProjectAuthor from '../components/ProjectTeam';
+import ProjectTeam from '../components/ProjectTeam';
 import ProjectTags from '../components/ProjectTags';
 
 function Project() {
@@ -62,7 +62,7 @@ function Project() {
   useEffect(() => {
     dispatch(getProject(projectPath));
   }, [dispatch, projectPath]);
-
+console.log(project_team);
   const handleClick = () => {};
 
   return (
@@ -175,7 +175,7 @@ function Project() {
 
         <ProjectTags project_tags={project_tags} />
 
-        <ProjectAuthor project_team={project_team} />
+        <ProjectTeam project_team={project_team} />
       </section>
     </>
   );
