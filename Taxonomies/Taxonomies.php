@@ -80,7 +80,7 @@ class Taxonomies
         }
     }
 
-    function get_tax_term_links($post_id, $taxonomy)
+    function getTaxTermLinks($post_id, $taxonomy)
     {
         $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
 

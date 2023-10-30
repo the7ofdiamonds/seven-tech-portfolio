@@ -8319,11 +8319,11 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingFallback, null)
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "project/problem",
+    path: "project/problem/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
-    path: "project/onboarding",
+    path: "project/onboarding/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
@@ -8362,10 +8362,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   clientSlice: function() { return /* binding */ clientSlice; },
 /* harmony export */   getClient: function() { return /* binding */ getClient; }
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 const initialState = {
   loading: false,
@@ -8376,7 +8373,7 @@ const initialState = {
   first_name: '',
   last_name: ''
 };
-const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('client/getClient', async (_, {
+const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('client/getClient', async (_, {
   getState
 }) => {
   const {
@@ -8398,11 +8395,10 @@ const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncTh
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
-    throw error.message;
+    throw error;
   }
 });
-const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'client',
   initialState,
   extraReducers: builder => {
@@ -8435,18 +8431,14 @@ const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   createOnboarding: function() { return /* binding */ createOnboarding; },
-/* harmony export */   getClient: function() { return /* binding */ getClient; },
+/* harmony export */   createProjectOnboarding: function() { return /* binding */ createProjectOnboarding; },
 /* harmony export */   onboardingSlice: function() { return /* binding */ onboardingSlice; }
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 const initialState = {
   loading: false,
-  error: '',
+  onboardingError: '',
   deadline: '',
   deadline_date: '',
   where_business: '',
@@ -8473,19 +8465,16 @@ const initialState = {
   plan_url: '',
   onboarding_id: ''
 };
-const createOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('onboarding/createOnboarding', async (formData, {
-  getState
-}) => {
+const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('onboarding/createProjectOnboarding', async formData => {
   try {
-    // const { client_id } = getState().client;
-    const client_id = 25;
-    const response = await fetch('/wp-json/thfw/v1/users/client/onboarding', {
+    const response = await fetch(`/wp-json/seven-tech/v1/project/onboarding/${formData?.project}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        client_id: client_id,
+        post_id: formData?.post_id,
+        client_id: formData?.client_id,
         deadline: formData?.deadline,
         deadline_date: formData?.deadline_date,
         where_business: formData?.where_business,
@@ -8524,65 +8513,23 @@ const createOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.create
     throw error.message;
   }
 });
-const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('client/getClient', async (_, {
-  getState
-}) => {
-  const {
-    user_email
-  } = getState().client;
-  const encodedEmail = encodeURIComponent(user_email);
-  try {
-    const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.log(error);
-    throw error.message;
-  }
-});
-const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'onboarding',
   initialState,
   extraReducers: builder => {
-    builder.addCase(createOnboarding.pending, state => {
+    builder.addCase(createProjectOnboarding.pending, state => {
       state.loading = true;
-      state.error = null;
-    }).addCase(createOnboarding.fulfilled, (state, action) => {
+      state.onboardingError = null;
+    }).addCase(createProjectOnboarding.fulfilled, (state, action) => {
       state.loading = false;
+      state.onboardingError = '';
       state.onboarding_id = action.payload;
-    }).addCase(createOnboarding.rejected, (state, action) => {
+    }).addCase(createProjectOnboarding.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message;
+      state.onboardingError = action.error.message;
     });
-    // .addCase(getClient.pending, (state) => {
-    //     state.loading = true
-    //     state.error = null
-    // })
-    // .addCase(getClient.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //     state.error = null;
-    //     state.client_id = action.payload.id
-    //     state.first_name = action.payload.first_name
-    //     state.last_name = action.payload.last_name
-    //     state.stripe_customer_id = action.payload.stripe_customer_id
-    // })
-    // .addCase(getClient.rejected, (state, action) => {
-    //     state.loading = false
-    //     state.error = action.error.message
-    // })
   }
 });
-
 /* harmony default export */ __webpack_exports__["default"] = (onboardingSlice);
 
 /***/ }),
@@ -8723,18 +8670,18 @@ const portfolioSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSl
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getProject: function() { return /* binding */ getProject; },
+/* harmony export */   getProjectByClientID: function() { return /* binding */ getProjectByClientID; },
 /* harmony export */   projectSlice: function() { return /* binding */ projectSlice; }
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
 const initialState = {
   loading: false,
-  error: '',
+  projectError: '',
   id: '',
   title: '',
+  client_id: '',
+  post_id: '',
   post_status: '',
   post_author: '',
   post_date: '',
@@ -8768,25 +8715,61 @@ const initialState = {
   project_team: '',
   project_tags: ''
 };
-const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('project/projectSlice', async projectSlug => {
+const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProject', async projectSlug => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/v1/portfolio/${projectSlug}`);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
-const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProjectByClientID', async (projectSlug, client_id) => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}/id`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: client_id
+      })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    throw error;
+  }
+});
+const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'project',
   initialState,
   extraReducers: builder => {
     builder.addCase(getProject.pending, state => {
       state.loading = true;
-      state.error = null;
+      state.projectError = null;
     }).addCase(getProject.fulfilled, (state, action) => {
       state.loading = false;
+      state.projectError = '';
       state.id = action.payload.id;
       state.title = action.payload.title;
+      state.post_id = action.payload.post_id;
+      state.client_id = action.payload.client_id;
       state.post_status = action.payload.post_status;
       state.post_author = action.payload.post_author;
       state.post_date = action.payload.post_date;
@@ -8821,7 +8804,52 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlic
       state.project_tags = action.payload.project_tags;
     }).addCase(getProject.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message;
+      state.projectError = action.error.message;
+    }).addCase(getProjectByClientID.pending, state => {
+      state.loading = true;
+      state.projectError = null;
+    }).addCase(getProjectByClientID.fulfilled, (state, action) => {
+      state.loading = false;
+      state.projectError = '';
+      state.id = action.payload.id;
+      state.title = action.payload.title;
+      state.post_id = action.payload.post_id;
+      state.client_id = action.payload.client_id;
+      state.post_status = action.payload.post_status;
+      state.post_author = action.payload.post_author;
+      state.post_date = action.payload.post_date;
+      state.post_content = action.payload.post_date;
+      state.project_types = action.payload.project_types;
+      state.project_status = action.payload.project_status;
+      state.solution_gallery = action.payload.solution_gallery;
+      state.project_versions = action.payload.project_versions;
+      state.project_urls = action.payload.project_urls;
+      state.project_details = action.payload.project_details;
+      state.the_solution = action.payload.the_solution;
+      state.social_networks = action.payload.social_networks;
+      state.app_stores = action.payload.app_stores;
+      state.design = action.payload.design;
+      state.design_gallery = action.payload.design_gallery;
+      state.design_check_list = action.payload.design_check_list;
+      state.colors = action.payload.colors;
+      state.logos_gallery = action.payload.logos_gallery;
+      state.icons_gallery = action.payload.icons_gallery;
+      state.animations_gallery = action.payload.animations_gallery;
+      state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
+      state.development = action.payload.development;
+      state.development_gallery = action.payload.development_gallery;
+      state.development_check_list = action.payload.development_check_list;
+      state.git_repo = action.payload.git_repo;
+      state.delivery = action.payload.delivery;
+      state.delivery_gallery = action.payload.delivery_gallery;
+      state.delivery_check_list = action.payload.delivery_check_list;
+      state.onboarding = action.payload.onboarding;
+      state.the_problem = action.payload.the_problem;
+      state.project_team = action.payload.project_team;
+      state.project_tags = action.payload.project_tags;
+    }).addCase(getProjectByClientID.rejected, (state, action) => {
+      state.loading = false;
+      state.projectError = action.error.message;
     });
   }
 });

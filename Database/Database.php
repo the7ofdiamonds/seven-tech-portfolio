@@ -5,19 +5,26 @@ namespace SEVEN_TECH_Portfolio\Database;
 class Database
 {
     private $wpdb;
-    private $table_prefix;
+    public $project_table;
+    public $project_onboarding_table;
+    public $project_problem_table;
 
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_prefix = 'SEVEN_TECH_Portfolio_';
+
+        $table_prefix = 'SEVEN_TECH_Portfolio';
+
+        $this->project_table = $table_prefix;
+        $this->project_onboarding_table = $table_prefix . '_project_onboarding';
+        $this->project_problem_table = $table_prefix . '_project_problem';
 
         $this->createTables();
 
-        new DatabaseProject;
-        new DatabaseOnboarding;
-        new DatabaseTheProblem;
+        new DatabaseProject($this->project_table);
+        new DatabaseOnboarding($this->project_onboarding_table);
+        new DatabaseTheProblem($this->project_problem_table);
     }
 
     function createTables()
@@ -29,12 +36,39 @@ class Database
         $this->create_project_table();
     }
 
-    function create_onboarding_table()
+    function create_project_table()
     {
-        $table_name = $this->table_prefix . 'project_onboarding';
         $charset_collate = $this->wpdb->get_charset_collate();
 
-        $sql = "CREATE TABLE {$table_name} (
+        $sql = "CREATE TABLE {$this->project_table} (
+        id INT NOT NULL AUTO_INCREMENT,
+        client_id VARCHAR(255) DEFAULT NULL,
+        post_id VARCHAR(255) DEFAULT NULL,
+        project_urls VARCHAR(255) DEFAULT NULL,
+        project_details VARCHAR(255) DEFAULT NULL,
+        project_status VARCHAR(255) DEFAULT NULL,
+        project_versions VARCHAR(255) DEFAULT NULL,
+        design VARCHAR(255) DEFAULT NULL,
+        design_check_list VARCHAR(255) DEFAULT NULL,
+        colors VARCHAR(255) DEFAULT NULL,
+        development VARCHAR(255) DEFAULT NULL,
+        development_check_list VARCHAR(255) DEFAULT NULL,
+        git_repo VARCHAR(255) DEFAULT NULL,
+        delivery VARCHAR(255) DEFAULT NULL,
+        delivery_check_list VARCHAR(255) DEFAULT NULL,
+        project_team VARCHAR(255) DEFAULT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY post_id (post_id)
+    ) $charset_collate;";
+
+        dbDelta($sql);
+    }
+
+    function create_onboarding_table()
+    {
+        $charset_collate = $this->wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE {$this->project_onboarding_table} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             post_id INTEGER DEFAULT NULL,
@@ -71,10 +105,9 @@ class Database
 
     function create_problem_table()
     {
-        $table_name = $this->table_prefix . 'project_problem';
         $charset_collate = $this->wpdb->get_charset_collate();
 
-        $sql = "CREATE TABLE {$table_name} (
+        $sql = "CREATE TABLE {$this->project_problem_table} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             post_id VARCHAR(255) DEFAULT NULL,
@@ -93,35 +126,6 @@ class Database
             ideal_resolution VARCHAR(255) DEFAULT NULL,
             PRIMARY KEY (id)
         ) $charset_collate;";
-
-        dbDelta($sql);
-    }
-
-    function create_project_table()
-    {
-        $table_name = $this->table_prefix;
-        $charset_collate = $this->wpdb->get_charset_collate();
-
-        $sql = "CREATE TABLE {$table_name} (
-        id INT NOT NULL AUTO_INCREMENT,
-        client_id VARCHAR(255) DEFAULT NULL,
-        post_id VARCHAR(255) DEFAULT NULL,
-        project_urls VARCHAR(255) DEFAULT NULL,
-        project_details VARCHAR(255) DEFAULT NULL,
-        project_status VARCHAR(255) DEFAULT NULL,
-        project_versions VARCHAR(255) DEFAULT NULL,
-        design VARCHAR(255) DEFAULT NULL,
-        design_check_list VARCHAR(255) DEFAULT NULL,
-        colors VARCHAR(255) DEFAULT NULL,
-        development VARCHAR(255) DEFAULT NULL,
-        development_check_list VARCHAR(255) DEFAULT NULL,
-        git_repo VARCHAR(255) DEFAULT NULL,
-        delivery VARCHAR(255) DEFAULT NULL,
-        delivery_check_list VARCHAR(255) DEFAULT NULL,
-        project_team VARCHAR(255) DEFAULT NULL,
-        PRIMARY KEY (id),
-        UNIQUE KEY post_id (post_id)
-    ) $charset_collate;";
 
         dbDelta($sql);
     }

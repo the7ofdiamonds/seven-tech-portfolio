@@ -3,17 +3,18 @@
 namespace SEVEN_TECH_Portfolio\Database;
 
 use Exception;
+use Error;
 
 class DatabaseProject
 {
     private $wpdb;
     private $table_name;
 
-    public function __construct()
+    public function __construct($table_name)
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_name = '7tech_portfolio';
+        $this->table_name = $table_name;
     }
 
     public function saveProject($project)
@@ -55,6 +56,42 @@ class DatabaseProject
             $this->wpdb->prepare(
                 "SELECT * FROM {$this->table_name} WHERE post_id = %d",
                 $post_id
+            )
+        );
+
+        if ($project === null) {
+            return 'Project not found';
+        }
+
+        $project_data = [
+            'id' => $project->id,
+            'client_id' => $project->client_id,
+            'post_id' => $project->post_id,
+            'project_urls' => $project->project_urls,
+            'project_details' => $project->project_details,
+            'project_status' => $project->project_status,
+            'project_versions' => $project->project_versions,
+            'design' => $project->design,
+            'design_check_list' => $project->design_check_list,
+            'colors' => $project->colors,
+            'development' => $project->development,
+            'development_check_list' => $project->development_check_list,
+            'git_repo' => $project->git_repo,
+            'delivery' => $project->delivery,
+            'delivery_check_list' => $project->delivery_check_list,
+            'project_team' => $project->project_team,
+        ];
+
+        return $project_data;
+    }
+
+    public function getProjectByClientID($post_id, $client_id)
+    {
+        $project = $this->wpdb->get_row(
+            $this->wpdb->prepare(
+                "SELECT * FROM {$this->table_name} WHERE post_id = %d AND client_id = %d",
+                $post_id,
+                $client_id
             )
         );
 

@@ -8,6 +8,7 @@ use WP_REST_Request;
 use WP_Query;
 
 use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH_Portfolio\Database\Database;
 use SEVEN_TECH_Portfolio\Database\DatabaseProject;
 
 class Portfolio
@@ -20,7 +21,9 @@ class Portfolio
     {
         $this->post_type = 'portfolio';
         $this->portfolio_uploads = new Uploads;
-        $this->project_database = new DatabaseProject;
+        $database = new Database;
+
+        $this->project_database = new DatabaseProject($database->project_table);
 
         add_action('rest_api_init', function () {
             register_rest_route('seven-tech/v1', '/portfolio', array(

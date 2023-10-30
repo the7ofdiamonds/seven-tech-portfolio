@@ -5,7 +5,7 @@ namespace SEVEN_TECH_Portfolio\API;
 use Exception;
 use WP_REST_Request;
 
-use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH_Portfolio\Database\Database;
 use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
 use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
 
@@ -16,29 +16,31 @@ class Clients
 
     public function __construct()
     {
+        $database = new Database;
+        
         add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/users/client/onboarding', array(
+            register_rest_route('seven-tech/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', array(
                 'methods' => 'POST',
-                'callback' => array($this, 'client_onboarding'),
+                'callback' => [$this, 'create_project_onboarding'],
                 'permission_callback' => '__return_true',
             ));
         });
 
-        $this->onboarding_database = new DatabaseOnboarding;
+        $this->onboarding_database = new DatabaseOnboarding($database->project_onboarding_table);
 
         add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/users/client/problem', array(
+            register_rest_route('thfw/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', array(
                 'methods' => 'POST',
-                'callback' => array($this, 'client_problem'),
+                'callback' => array($this, 'create_project_problem'),
                 'permission_callback' => '__return_true',
             ));
         });
 
-        $this->the_problem_database = new DatabaseTheProblem;
+        $this->the_problem_database = new DatabaseTheProblem($database->project_problem_table);
     }
 
 
-    function client_onboarding(WP_REST_Request $request)
+    function create_project_onboarding(WP_REST_Request $request)
     {
         try {
             $onboarding = [
@@ -87,7 +89,7 @@ class Clients
         }
     }
 
-    function client_problem(WP_REST_Request $request)
+    function create_project_problem(WP_REST_Request $request)
     {
         try {
             $problem = [

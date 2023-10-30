@@ -5,7 +5,7 @@ function ProjectStatus(props) {
     <>
       <div className="project-status">
         <h4>STATUS</h4>
-        {project_status === '0' || project_status === undefined || project_status === null ? (
+        {project_status === '' || project_status === 0 || project_status === undefined || project_status === null ? (
           <h5>NOT STARTED</h5>
         ) : project_status === 'ongoing' ? (
           <h5>ONGOING</h5>

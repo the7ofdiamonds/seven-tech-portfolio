@@ -9,13 +9,13 @@ class DatabaseTheProblem
     private $wpdb;
     private $table_name;
 
-    public function __construct()
+    public function __construct($table_name)
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_name = '7tech_problem';
+        $this->table_name = $table_name;
     }
-
+    
     public function saveProblem($problem)
     {
         $result = $this->wpdb->insert(
@@ -58,7 +58,7 @@ class DatabaseTheProblem
         );
 
         if ($problem === null) {
-            throw new Exception('Problem not found');
+            return 'Problem not found';
         }
 
         $problem_data = [

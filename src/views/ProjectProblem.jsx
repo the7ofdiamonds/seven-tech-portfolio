@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
+import { getProject, getProjectByClientID } from '../controllers/projectSlice';
 import { createTheProblem } from '../controllers/theProblemSlice';
 
 function TheProblemComponent() {
+  const { project } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,6 +41,10 @@ function TheProblemComponent() {
     }
   }, [user_email, dispatch]);
 
+  useEffect(() => {
+    dispatch(getProjectByClientID(project));
+  }, [dispatch, project]);
+  
   useEffect(() => {
     if (the_problem_id) {
       setDisplay('flex');

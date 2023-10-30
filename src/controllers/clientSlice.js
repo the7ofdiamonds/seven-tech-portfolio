@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -32,8 +31,7 @@ export const getClient = createAsyncThunk('client/getClient', async (_, { getSta
         const responseData = await response.json();
         return responseData;
     } catch (error) {
-        console.log(error)
-        throw error.message;
+        throw error;
     }
 });
 

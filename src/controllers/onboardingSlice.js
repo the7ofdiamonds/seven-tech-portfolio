@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
     loading: false,
-    error: '',
+    onboardingError: '',
     deadline: '',
     deadline_date: '',
     where_business: '',
@@ -31,17 +30,16 @@ const initialState = {
     onboarding_id: '',
 };
 
-export const createOnboarding = createAsyncThunk('onboarding/createOnboarding', async (formData, { getState }) => {
+export const createProjectOnboarding = createAsyncThunk('onboarding/createProjectOnboarding', async (formData) => {
     try {
-        // const { client_id } = getState().client;
-const client_id = 25;
-        const response = await fetch('/wp-json/thfw/v1/users/client/onboarding', {
+        const response = await fetch(`/wp-json/seven-tech/v1/project/onboarding/${formData?.project}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                client_id: client_id,
+                post_id: formData?.post_id,
+                client_id: formData?.client_id,
                 deadline: formData?.deadline,
                 deadline_date: formData?.deadline_date,
                 where_business: formData?.where_business,
@@ -83,65 +81,25 @@ const client_id = 25;
     }
 });
 
-export const getClient = createAsyncThunk('client/getClient', async (_, { getState }) => {
-    const { user_email } = getState().client;
-    const encodedEmail = encodeURIComponent(user_email);
-
-    try {
-        const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            const errorMessage = errorData.message;
-            throw new Error(errorMessage);
-        }
-
-        const responseData = await response.json();
-        return responseData;
-    } catch (error) {
-        console.log(error)
-        throw error.message;
-    }
-});
 
 export const onboardingSlice = createSlice({
     name: 'onboarding',
     initialState,
     extraReducers: (builder) => {
         builder
-            .addCase(createOnboarding.pending, (state) => {
+            .addCase(createProjectOnboarding.pending, (state) => {
                 state.loading = true
-                state.error = null
+                state.onboardingError = null
             })
-            .addCase(createOnboarding.fulfilled, (state, action) => {
+            .addCase(createProjectOnboarding.fulfilled, (state, action) => {
                 state.loading = false
+                state.onboardingError = ''
                 state.onboarding_id = action.payload
             })
-            .addCase(createOnboarding.rejected, (state, action) => {
+            .addCase(createProjectOnboarding.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.error.message
+                state.onboardingError = action.error.message
             })
-        // .addCase(getClient.pending, (state) => {
-        //     state.loading = true
-        //     state.error = null
-        // })
-        // .addCase(getClient.fulfilled, (state, action) => {
-        //     state.loading = false;
-        //     state.error = null;
-        //     state.client_id = action.payload.id
-        //     state.first_name = action.payload.first_name
-        //     state.last_name = action.payload.last_name
-        //     state.stripe_customer_id = action.payload.stripe_customer_id
-        // })
-        // .addCase(getClient.rejected, (state, action) => {
-        //     state.loading = false
-        //     state.error = action.error.message
-        // })
     }
 })
 

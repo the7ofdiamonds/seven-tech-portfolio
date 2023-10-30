@@ -9,11 +9,11 @@ class DatabaseOnboarding
     private $wpdb;
     private $table_name;
 
-    public function __construct()
+    public function __construct($table_name)
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_name = '7tech_onboarding';
+        $this->table_name = $table_name;
     }
 
     public function saveOnboarding($onboarding)
@@ -70,7 +70,7 @@ class DatabaseOnboarding
         );
 
         if ($onboarding === null) {
-            throw new Exception('Onboarding not found');
+            return 'Onboarding not found';
         }
 
         $onboarding_data = [

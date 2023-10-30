@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
-import { createOnboarding } from '../controllers/onboardingSlice';
+import { getProjectByClientID } from '../controllers/projectSlice';
+import { createProjectOnboarding } from '../controllers/onboardingSlice';
 
-import { showModal } from '../utils/modal';
+import ErrorComponent from '../error/ErrorComponent';
 
 function OnBoardingComponent() {
+  const { project } = useParams();
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [messageType, setMessageType] = useState('info');
   const [message, setMessage] = useState(
@@ -17,10 +19,15 @@ function OnBoardingComponent() {
   );
   const [display, setDisplay] = useState('none');
 
-  const { user_email, first_name } = useSelector((state) => state.client);
+  const { user_email, first_name, client_id } = useSelector(
+    (state) => state.client
+  );
+  const { projectError } = useSelector((state) => state.project);
   const { onboarding_id } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
+    post_id: '',
+    client_id: '',
     deadline: '',
     deadline_date: '',
     where_business: '',
@@ -47,16 +54,45 @@ function OnBoardingComponent() {
 
   useEffect(() => {
     if (user_email) {
-      dispatch(getClient());
+    dispatch(getClient()).then((response) => {
+      if (response.error !== undefined) {
+        console.error(response.error.message);
+        setMessageType('error');
+        setMessage(response.error.message);
+      } else {
+        setFormData((prevData) => ({
+          ...prevData,
+          client_id: response.payload.id,
+        }));
+      }
+    });
     }
   }, [user_email, dispatch]);
+
+  useEffect(() => {
+    if (project && client_id) {
+      dispatch(getProjectByClientID(project, client_id)).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            post_id: response.payload.post_id,
+          }));
+        }
+      });
+    }
+  }, [dispatch, project, client_id]);
+  console.log(formData);
 
   useEffect(() => {
     if (onboarding_id) {
       setDisplay('flex');
       setTimeout(() => {
         if (formData?.plan === 'no') {
-          window.location.href = '/services/service/on-boarding/the-problem';
+          window.location.href = `/project/problem/${project}`;
         } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
           window.location.href = '/dashboard';
         }
@@ -74,8 +110,18 @@ function OnBoardingComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createOnboarding(formData));
+    dispatch(createProjectOnboarding(formData)).then((response) => {
+      if (response.error !== undefined) {
+        console.error(response.error.message);
+        setMessageType('error');
+        setMessage(response.error.message);
+      }
+    });
   };
+
+  if (projectError) {
+    return <ErrorComponent error={projectError} />;
+  }
 
   return (
     <>

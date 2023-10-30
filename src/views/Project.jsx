@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
@@ -20,8 +20,7 @@ import ProjectTeam from '../components/ProjectTeam';
 import ProjectTags from '../components/ProjectTags';
 
 function Project() {
-  const location = useLocation();
-  const projectPath = location.pathname.split('/')[2];
+  const { project } = useParams();
 
   const {
     loading,
@@ -60,9 +59,9 @@ function Project() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getProject(projectPath));
-  }, [dispatch, projectPath]);
-console.log(project_team);
+    dispatch(getProject(project));
+  }, [dispatch, project]);
+
   const handleClick = () => {};
 
   return (
