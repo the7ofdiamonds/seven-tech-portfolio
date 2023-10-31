@@ -25,6 +25,25 @@ function ErrorComponent(props) {
 
 /***/ }),
 
+/***/ "./src/loading/LoadingComponent.jsx":
+/*!******************************************!*\
+  !*** ./src/loading/LoadingComponent.jsx ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+function LoadingComponent() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "loading"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "Loading......"));
+}
+/* harmony default export */ __webpack_exports__["default"] = (LoadingComponent);
+
+/***/ }),
+
 /***/ "./src/views/ProjectOnboarding.jsx":
 /*!*****************************************!*\
   !*** ./src/views/ProjectOnboarding.jsx ***!
@@ -36,12 +55,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
 /* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
-/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
+/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
+/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
+
 
 
 
@@ -53,7 +74,7 @@ __webpack_require__.r(__webpack_exports__);
 function OnBoardingComponent() {
   const {
     project
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To better serve your needs and wants, please fill out the form below.');
@@ -64,6 +85,7 @@ function OnBoardingComponent() {
     client_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const {
+    projectLoading,
     projectError
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
   const {
@@ -127,7 +149,6 @@ function OnBoardingComponent() {
       });
     }
   }, [dispatch, project, client_id]);
-  console.log(formData);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (onboarding_id) {
       setDisplay('flex');
@@ -160,8 +181,11 @@ function OnBoardingComponent() {
       }
     });
   };
+  if (projectLoading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+  }
   if (projectError) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_error_ErrorComponent__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
       error: projectError
     });
   }

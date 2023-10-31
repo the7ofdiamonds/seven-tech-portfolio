@@ -9,9 +9,9 @@ import {
   getProjectsTag,
 } from '../controllers/portfolioSlice';
 
-import Projects from '../components/Projects';
-import ProjectTypes from '../components/ProjectTypes';
-import ProjectTags from '../components/ProjectTags';
+import Projects from './components/Projects';
+import ProjectTypes from './components/ProjectTypes';
+import ProjectTags from './components/ProjectTags';
 
 function ProjectTagsPage() {
   const { tag } = useParams();

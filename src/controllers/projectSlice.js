@@ -63,8 +63,10 @@ export const getProject = createAsyncThunk('project/getProject', async (projectS
   }
 });
 
-export const getProjectByClientID = createAsyncThunk('project/getProjectByClientID', async (projectSlug, client_id) => {
+export const getProjectByClientID = createAsyncThunk('project/getProjectByClientID', async (projectSlug, { getState }) => {
   try {
+    const { client_id } = getState().client;
+
     const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}/id`, {
       method: 'POST',
       headers: {

@@ -3,8 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
-import { getProject, getProjectByClientID } from '../controllers/projectSlice';
+import { getProjectByClientID } from '../controllers/projectSlice';
 import { createTheProblem } from '../controllers/theProblemSlice';
+
+import LoadingComponent from '../loading/LoadingComponent';
+import ErrorComponent from '../error/ErrorComponent';
 
 function TheProblemComponent() {
   const { project } = useParams();
@@ -17,7 +20,12 @@ function TheProblemComponent() {
   );
   const [display, setDisplay] = useState('none');
 
-  const { user_email, first_name } = useSelector((state) => state.client);
+  const { user_email, first_name, client_id } = useSelector(
+    (state) => state.client
+  );
+  const { projectLoading, projectError } = useSelector(
+    (state) => state.project
+  );
   const { the_problem_id } = useSelector((state) => state.theProblem);
 
   const [formData, setFormData] = useState({
@@ -37,14 +45,38 @@ function TheProblemComponent() {
 
   useEffect(() => {
     if (user_email) {
-      dispatch(getClient());
+      dispatch(getClient()).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            client_id: response.payload.id,
+          }));
+        }
+      });
     }
   }, [user_email, dispatch]);
 
   useEffect(() => {
-    dispatch(getProjectByClientID(project));
-  }, [dispatch, project]);
-  
+    if (project && client_id) {
+      dispatch(getProjectByClientID(project, client_id)).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            post_id: response.payload.post_id,
+          }));
+        }
+      });
+    }
+  }, [dispatch, project, client_id]);
+
   useEffect(() => {
     if (the_problem_id) {
       setDisplay('flex');
@@ -64,12 +96,26 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTheProblem(formData));
+    dispatch(createTheProblem(formData)).then((response) => {
+      if (response.error !== undefined) {
+        console.error(response.error.message);
+        setMessageType('error');
+        setMessage(response.error.message);
+      }
+    });
   };
+
+  if (projectLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (projectError) {
+    return <ErrorComponent error={projectError} />;
+  }
 
   return (
     <>
-      <section className='project-problem'>
+      <section className="project-problem">
         <h2 className="title">THE PROBLEM</h2>
 
         {message && (

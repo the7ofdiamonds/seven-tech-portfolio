@@ -73,8 +73,10 @@ class JS
     {
         if (is_array($this->page_titles) && !empty($this->page_titles)) {
             foreach ($this->page_titles as $page) {
-                if (is_page($page)) {
-                    $fileName = ucwords($page);
+                $var = explode('/', $page);
+
+                if (get_query_var($var[1])) {
+                    $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -148,7 +150,7 @@ class JS
                     $fileName = ucwords($taxonomy['file_name']);
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
-                    
+
                     wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
                     if (file_exists($filePath)) {

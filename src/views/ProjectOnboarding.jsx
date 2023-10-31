@@ -6,6 +6,7 @@ import { getClient } from '../controllers/clientSlice';
 import { getProjectByClientID } from '../controllers/projectSlice';
 import { createProjectOnboarding } from '../controllers/onboardingSlice';
 
+import LoadingComponent from '../loading/LoadingComponent';
 import ErrorComponent from '../error/ErrorComponent';
 
 function OnBoardingComponent() {
@@ -22,7 +23,9 @@ function OnBoardingComponent() {
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
   );
-  const { projectError } = useSelector((state) => state.project);
+  const { projectLoading, projectError } = useSelector(
+    (state) => state.project
+  );
   const { onboarding_id } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
@@ -54,18 +57,18 @@ function OnBoardingComponent() {
 
   useEffect(() => {
     if (user_email) {
-    dispatch(getClient()).then((response) => {
-      if (response.error !== undefined) {
-        console.error(response.error.message);
-        setMessageType('error');
-        setMessage(response.error.message);
-      } else {
-        setFormData((prevData) => ({
-          ...prevData,
-          client_id: response.payload.id,
-        }));
-      }
-    });
+      dispatch(getClient()).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            client_id: response.payload.id,
+          }));
+        }
+      });
     }
   }, [user_email, dispatch]);
 
@@ -85,7 +88,6 @@ function OnBoardingComponent() {
       });
     }
   }, [dispatch, project, client_id]);
-  console.log(formData);
 
   useEffect(() => {
     if (onboarding_id) {
@@ -118,6 +120,10 @@ function OnBoardingComponent() {
       }
     });
   };
+
+  if (projectLoading) {
+    return <LoadingComponent />;
+  }
 
   if (projectError) {
     return <ErrorComponent error={projectError} />;

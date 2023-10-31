@@ -9,9 +9,9 @@ import {
   getPortfolioTags,
 } from '../controllers/portfolioSlice';
 
-import Projects from '../components/Projects';
-import ProjectTypes from '../components/ProjectTypes';
-import ProjectTags from '../components/ProjectTags';
+import Projects from './components/Projects';
+import ProjectTypes from './components/ProjectTypes';
+import ProjectTags from './components/ProjectTags';
 
 function Portfolio() {
   const { loading, error, projects, project_types, project_tags } = useSelector(

@@ -41,6 +41,7 @@ class Pages
 
             foreach ($this->page_titles as $page_title) {
                 $url = explode('/', $page_title);
+                
                 $query_vars[] = $url[1];
             }
 

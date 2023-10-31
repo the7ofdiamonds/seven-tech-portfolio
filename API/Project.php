@@ -147,13 +147,12 @@ class Project
             );
 
             $query = new WP_Query($args);
-            error_log(print_r($query, true));
 
             if ($query->have_posts()) {
                 $query->the_post();
-                
+
                 $project_id = get_the_ID();
-                
+
                 $solution_gallery = $this->portfolio_uploads->getPhotos(get_the_title(), 'solution');
                 $design_gallery = $this->portfolio_uploads->getPhotos(get_the_title(), 'design');
                 $logos_gallery = $this->portfolio_uploads->getPhotos(get_the_title(), 'design/logos');
@@ -180,7 +179,7 @@ class Project
                     $git_repo = $project['git_repo'];
                     $delivery = $project['delivery'];
                     $delivery_check_list = $project['delivery_check_list'];
-error_log(print_r($project, true));
+
                     $project_team = $this->get_project_team(unserialize($project['project_team']));
                 } else {
                     $project_urls = '';
@@ -275,7 +274,7 @@ error_log(print_r($project, true));
 
             $query = new WP_Query($args);
 
-            if ($query->have_posts()) {
+            if ($query->post) {
                 $query->the_post();
 
                 $project_id = get_the_ID();

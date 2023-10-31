@@ -5,19 +5,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import { getProject } from '../controllers/projectSlice';
 
-import Card from '../components/Card';
-import ProjectTypes from '../components/ProjectTypes';
-import ProjectStatus from '../components/ProjectStatus';
-import Gallery from '../components/Gallery';
-import ProjectDetails from '../components/ProjectDetails';
-import TheSolution from '../components/TheSolution';
-import Versions from '../components/Versions';
-import ProjectURLs from '../components/ProjectURLs';
-import CheckList from '../components/CheckList';
-import Colors from '../components/Colors';
-import TheProblem from '../components/TheProblem';
-import ProjectTeam from '../components/ProjectTeam';
-import ProjectTags from '../components/ProjectTags';
+import Card from './components/Card';
+import ProjectTypes from './components/ProjectTypes';
+import ProjectStatus from './components/ProjectStatus';
+import Gallery from './components/Gallery';
+import ProjectDetails from './components/ProjectDetails';
+import TheSolution from './components/TheSolution';
+import Versions from './components/Versions';
+import ProjectURLs from './components/ProjectURLs';
+import CheckList from './components/CheckList';
+import Colors from './components/Colors';
+import TheProblem from './components/TheProblem';
+import ProjectTeam from './components/ProjectTeam';
+import ProjectTags from './components/ProjectTags';
 
 function Project() {
   const { project } = useParams();

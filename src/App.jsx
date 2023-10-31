@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+const LoadingComponent = lazy(() => import('./loading/LoadingComponent.jsx'));
+
 const Portfolio = lazy(() => import('./views/Portfolio'));
 const ProjectTypes = lazy(() => import('./views/ProjectTypes'));
 const ProjectTags = lazy(() => import('./views/ProjectTags'));
@@ -8,22 +10,17 @@ const Project = lazy(() => import('./views/Project'));
 const ProjectOnboarding = lazy(() => import('./views/ProjectOnboarding.jsx'));
 const ProjectProblem = lazy(() => import('./views/ProjectProblem.jsx'));
 
-function LoadingFallback() {
-  return <div>Loading...</div>;
-}
-
 function App() {
   return (
     <>
       <Router basename="/">
-        <Suspense fallback={<LoadingFallback />}>
+        <Suspense fallback={<LoadingComponent />}>
           <Routes>
             <Route
               path="project/problem/:project"
               element={<ProjectProblem />}
             />
             <Route
-              index
               path="project/onboarding/:project"
               element={<ProjectOnboarding />}
             />

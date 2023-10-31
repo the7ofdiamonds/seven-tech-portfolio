@@ -1,6 +1,49 @@
 "use strict";
 (self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectProblem_jsx"],{
 
+/***/ "./src/error/ErrorComponent.jsx":
+/*!**************************************!*\
+  !*** ./src/error/ErrorComponent.jsx ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+function ErrorComponent(props) {
+  const {
+    error
+  } = props;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "error"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "status-bar card error"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, error)));
+}
+/* harmony default export */ __webpack_exports__["default"] = (ErrorComponent);
+
+/***/ }),
+
+/***/ "./src/loading/LoadingComponent.jsx":
+/*!******************************************!*\
+  !*** ./src/loading/LoadingComponent.jsx ***!
+  \******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+function LoadingComponent() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "loading"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "Loading......"));
+}
+/* harmony default export */ __webpack_exports__["default"] = (LoadingComponent);
+
+/***/ }),
+
 /***/ "./src/views/ProjectProblem.jsx":
 /*!**************************************!*\
   !*** ./src/views/ProjectProblem.jsx ***!
@@ -12,11 +55,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
 /* harmony import */ var _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/theProblemSlice */ "./src/controllers/theProblemSlice.js");
+/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
+/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
+
+
 
 
 
@@ -27,16 +74,21 @@ __webpack_require__.r(__webpack_exports__);
 function TheProblemComponent() {
   const {
     project
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To come up with the best solution, we must first define the problem below.');
   const [display, setDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('none');
   const {
     user_email,
-    first_name
+    first_name,
+    client_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
+  const {
+    projectLoading,
+    projectError
+  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
   const {
     the_problem_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.theProblem);
@@ -56,12 +108,36 @@ function TheProblemComponent() {
   });
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (user_email) {
-      dispatch((0,_controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__.getClient)());
+      dispatch((0,_controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__.getClient)()).then(response => {
+        if (response.error !== undefined) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData(prevData => ({
+            ...prevData,
+            client_id: response.payload.id
+          }));
+        }
+      });
     }
   }, [user_email, dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectByClientID)(project));
-  }, [dispatch, project]);
+    if (project && client_id) {
+      dispatch((0,_controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectByClientID)(project, client_id)).then(response => {
+        if (response.error !== undefined) {
+          console.error(response);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData(prevData => ({
+            ...prevData,
+            post_id: response.payload.post_id
+          }));
+        }
+      });
+    }
+  }, [dispatch, project, client_id]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (the_problem_id) {
       setDisplay('flex');
@@ -82,8 +158,22 @@ function TheProblemComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_5__.createTheProblem)(formData));
+    dispatch((0,_controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_5__.createTheProblem)(formData)).then(response => {
+      if (response.error !== undefined) {
+        console.error(response.error.message);
+        setMessageType('error');
+        setMessage(response.error.message);
+      }
+    });
   };
+  if (projectLoading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+  }
+  if (projectError) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      error: projectError
+    });
+  }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "project-problem"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {

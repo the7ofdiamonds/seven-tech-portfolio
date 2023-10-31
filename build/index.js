@@ -8304,25 +8304,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const LoadingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_loading_LoadingComponent_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./loading/LoadingComponent.jsx */ "./src/loading/LoadingComponent.jsx")));
 const Portfolio = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Portfolio_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Portfolio */ "./src/views/Portfolio.jsx")));
 const ProjectTypes = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTypes_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTypes */ "./src/views/ProjectTypes.jsx")));
 const ProjectTags = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTags_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTags */ "./src/views/ProjectTags.jsx")));
 const Project = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Project_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Project */ "./src/views/Project.jsx")));
 const ProjectOnboarding = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectOnboarding_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectOnboarding.jsx */ "./src/views/ProjectOnboarding.jsx")));
 const ProjectProblem = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectProblem_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectProblem.jsx */ "./src/views/ProjectProblem.jsx")));
-function LoadingFallback() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Loading...");
-}
 function App() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.BrowserRouter, {
     basename: "/"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
-    fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingFallback, null)
+    fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingComponent, null)
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "project/problem/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    index: true,
     path: "project/onboarding/:project",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
@@ -8734,8 +8731,13 @@ const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncT
     throw error;
   }
 });
-const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProjectByClientID', async (projectSlug, client_id) => {
+const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProjectByClientID', async (projectSlug, {
+  getState
+}) => {
   try {
+    const {
+      client_id
+    } = getState().client;
     const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}/id`, {
       method: 'POST',
       headers: {
@@ -9017,8 +9019,8 @@ __webpack_require__.r(__webpack_exports__);
 const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__.configureStore)({
   reducer: {
     client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.clientSlice.reducer,
-    project: _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
-    portfolio: _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__["default"].reducer,
+    project: _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__.projectSlice.reducer,
+    portfolio: _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.portfolioSlice.reducer,
     onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.onboardingSlice.reducer,
     theProblem: _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
   }
@@ -15961,9 +15963,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _model_store_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./model/store.js */ "./src/model/store.js");
-/* harmony import */ var _App_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.jsx */ "./src/App.jsx");
+/* harmony import */ var _App_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App.jsx */ "./src/App.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _model_store_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./model/store.js */ "./src/model/store.js");
 
 
 
@@ -15972,9 +15974,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const portfolio = document.getElementById('seven_tech_portfolio');
 if (portfolio) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default().render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((react__WEBPACK_IMPORTED_MODULE_1___default().StrictMode), null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_redux__WEBPACK_IMPORTED_MODULE_3__.Provider, {
-    store: _model_store_js__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], null))), portfolio);
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default().createRoot(portfolio).render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((react__WEBPACK_IMPORTED_MODULE_1___default().StrictMode), null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_redux__WEBPACK_IMPORTED_MODULE_4__.Provider, {
+    store: _model_store_js__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
 }
 }();
 /******/ })()
