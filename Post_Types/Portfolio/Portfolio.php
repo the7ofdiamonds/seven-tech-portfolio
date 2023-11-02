@@ -112,6 +112,8 @@ class Portfolio
         add_action('save_post', [$this, 'save_post_project_button']);
         add_action('load-post.php', [$this, 'get_project']);
         // add_action('load-post-new.php', 'your_function');
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
+        add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
         $this->design_total_hours = 20;
         $this->development_total_hours = 60;
@@ -144,13 +146,38 @@ class Portfolio
         }
     }
 
+    function getDesignCheckList()
+    {
+        $design_check_list = isset($_POST['design_check_list']) ? $_POST['design_check_list'] : [];
+
+        if (isset($design_check_list)) {
+            for ($i = 1; $i <= 1; $i++) {
+                $task_key = 'task_' . $i;
+                $time_key = 'task_' . $i . '_time';
+                $task_name_key = 'task_' . $i . '_name';
+
+                // Check if the task is completed
+                $task_completed = isset($design_check_list[$task_key]) ? sanitize_text_field($design_check_list[$task_key]) : '';
+                $task_time = isset($design_check_list[$time_key]) ? sanitize_text_field($design_check_list[$time_key]) : '';
+                $task_name = isset($design_check_list[$task_name_key]) ? sanitize_text_field($design_check_list[$task_name_key]) : '';
+
+                // Store the task data in the checklist array
+                $design_check_list[$task_key] = $task_completed;
+                $design_check_list[$time_key] = $task_time;
+                $design_check_list[$task_name_key] = $task_name;
+            }
+        }
+
+        return serialize($design_check_list);
+    }
+
     function save_post_project_button($post_id)
     {
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
-        $existing_project = $this->project_database->getProject($post_id);
+        $design_check_list = $this->getDesignCheckList();
 
         $project = [
             'client_id' => !empty($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '',
@@ -160,7 +187,7 @@ class Portfolio
             'project_status' => isset($_POST['project_status']) ? sanitize_text_field($_POST['project_status']) : '',
             'project_versions' => isset($_POST['project_versions']) ? sanitize_text_field($_POST['project_versions']) : '',
             'design' => isset($_POST['design']) ? sanitize_text_field($_POST['design']) : '',
-            'design_check_list' => isset($_POST['design_check_list']) ? sanitize_text_field($_POST['design_check_list']) : '',
+            'design_check_list' => $design_check_list,
             'colors' => isset($_POST['colors']) ? sanitize_text_field($_POST['colors']) : '',
             'development' => isset($_POST['development']) ? sanitize_text_field($_POST['development']) : '',
             'development_check_list' => isset($_POST['development_check_list']) ? sanitize_text_field($_POST['development_check_list']) : '',
@@ -169,6 +196,8 @@ class Portfolio
             'delivery_check_list' => isset($_POST['delivery_check_list']) ? sanitize_text_field($_POST['delivery_check_list']) : '',
             'project_team' => isset($_POST['project_team']) ? sanitize_text_field($_POST['project_team']) : '',
         ];
+
+        $existing_project = $this->project_database->getProject($post_id);
 
         if (is_array($existing_project)) {
             return $this->project_database->updateProject($post_id, $project);
@@ -219,8 +248,30 @@ class Portfolio
     // This creates a checklist
     function design_check_list()
     { ?>
-        <!-- List should include task name, amount of time it takes to complete and its status -->
-        <input type='text' name="design_check_list" value="<?php echo esc_attr($this->project['design_check_list']); ?>" />
+        <!-- List should include checkboxes, task names, amount of time it takes to complete, and their statuses -->
+        <div class="task-list">
+            <?php
+            // Ensure design_check_list is an array
+            $design_check_list = is_array(unserialize($this->project['design_check_list'])) ? unserialize($this->project['design_check_list']) : array();
+
+            for ($i = 1; $i <= 1; $i++) {
+                $task_key = 'task_' . $i;
+                $task_name_key = 'task_' . $i . '_name';
+                $time_key = 'task_' . $i . '_time';
+                $task_completed = isset($design_check_list[$task_key]) ? $design_check_list[$task_key] : '';
+                $task_name = isset($design_check_list[$task_name_key]) ? $design_check_list[$task_name_key] : '';
+                $task_time = isset($design_check_list[$time_key]) ? $design_check_list[$time_key] : '';
+            ?>
+                <div class="task">
+                    <input type="checkbox" name="design_check_list[<?php echo $task_key; ?>]" value="completed" <?php checked($task_completed, 'completed'); ?> />
+                    <input type="text" name="design_check_list[<?php echo $task_name_key; ?>]" value="<?php echo esc_attr($task_name); ?>" placeholder="Task Name" />
+                    <input type="text" name="design_check_list[<?php echo $time_key; ?>]" value="<?php echo esc_attr($task_time); ?>" placeholder="Time" />
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+        <button id="add-task-button">Add Task</button>
     <?php }
 
     // This is a array of colors
@@ -262,4 +313,15 @@ class Portfolio
     { ?>
         <input type='text' name="project_team" value="<?php echo esc_attr($this->project['project_team']); ?>" />
 <?php }
+
+    function enqueue_jquery()
+    {
+        wp_enqueue_script('jquery');
+    }
+
+    function add_custom_js()
+    {
+        // Enqueue your JavaScript file here
+        wp_enqueue_script('custom-js', SEVEN_TECH_PORTFOLIO_URL . 'Post_Types/Portfolio/Portfolio.js', array('jquery'), '1.0', true);
+    }
 }

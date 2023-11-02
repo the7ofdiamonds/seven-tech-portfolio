@@ -172,13 +172,13 @@ class Project
                     $project_status = $project['project_status'];
                     $project_versions = $project['project_versions'];
                     $design = $project['design'];
-                    $design_check_list = $project['design_check_list'];
+                    $design_check_list = unserialize($project['design_check_list']);
                     $colors = $project['colors'];
                     $development = $project['development'];
                     $development_check_list = $project['development_check_list'];
                     $git_repo = $project['git_repo'];
                     $delivery = $project['delivery'];
-                    $delivery_check_list = $project['delivery_check_list'];
+                    $delivery_check_list = unserialize($project['delivery_check_list']);
                     $project_team = $project['project_team'];
                 } else {
                     $project_urls = '';
