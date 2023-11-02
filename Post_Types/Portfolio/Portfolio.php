@@ -11,6 +11,9 @@ class Portfolio
     private $inputs;
     private $post_type;
     private $project;
+    private $design_total_hours;
+    private $development_total_hours;
+    private $delivery_total_hours;
 
     public function __construct()
     {
@@ -27,8 +30,8 @@ class Portfolio
             [
                 "name" => "Project URLs",
                 "alias" => "project_urls",
-                "position" => "side",
-                "priority" => "low"
+                "position" => "normal",
+                "priority" => "high"
             ],
             [
                 "name" => "Project Details",
@@ -109,6 +112,10 @@ class Portfolio
         add_action('save_post', [$this, 'save_post_project_button']);
         add_action('load-post.php', [$this, 'get_project']);
         // add_action('load-post-new.php', 'your_function');
+
+        $this->design_total_hours = 20;
+        $this->development_total_hours = 60;
+        $this->delivery_total_hours = 10;
     }
 
     function add_custom_meta_boxes()
@@ -171,73 +178,88 @@ class Portfolio
     }
 
     // Project Database
+    // This should be automatically added when payment is recieved.
     function client_id()
     { ?>
-        <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id']); ?>"/>
+        <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id']); ?>" />
     <?php }
 
+    // This should be an array of URLs
     function project_urls()
     { ?>
-        <input type='text' name="project_urls" value="<?php echo esc_attr($this->project['project_urls']); ?>"/>
+        <input type='url' name="project_urls" value="<?php echo esc_attr($this->project['project_urls']); ?>" />
     <?php }
 
+    // This should be automatically added when payment is recieved.
     function project_details()
     { ?>
-        <input type='text' name="project_details" value="<?php echo esc_attr($this->project['project_details']); ?>"/>
+        <input type='text' name="project_details" value="<?php echo esc_attr($this->project['project_details']); ?>" />
     <?php }
 
+    // There should be a way to calculate this using the checklist
     function project_status()
-    { ?>
-        <input type='text' name="project_status" value="<?php echo esc_attr($this->project['project_status']); ?>"/>
+    {
+        $project_status = $this->project['project_status'];
+        $project_status = $this->design_total_hours + $this->development_total_hours + $this->delivery_total_hours;
+    ?>
+        <input type='text' name="project_status" value="<?php echo esc_attr($project_status); ?>" />
     <?php }
 
+    // This is an array
     function project_versions()
     { ?>
-        <input type='text' name="project_versions" value="<?php echo esc_attr($this->project['project_versions']); ?>"/>
+        <input type='text' name="project_versions" value="<?php echo esc_attr($this->project['project_versions']); ?>" />
     <?php }
 
     function design()
     { ?>
-        <input type='text' name="design" value="<?php echo esc_attr($this->project['design']); ?>"/>
+        <textarea name="design"><?php echo esc_textarea($this->project['design']); ?></textarea>
     <?php }
 
+    // This creates a checklist
     function design_check_list()
     { ?>
-        <input type='text' name="design_check_list" value="<?php echo esc_attr($this->project['design_check_list']); ?>"/>
+        <!-- List should include task name, amount of time it takes to complete and its status -->
+        <input type='text' name="design_check_list" value="<?php echo esc_attr($this->project['design_check_list']); ?>" />
     <?php }
 
+    // This is a array of colors
     function colors()
     { ?>
-        <input type='text' name="colors" value="<?php echo esc_attr($this->project['colors']); ?>"/>
+        <input type='text' name="colors" value="<?php echo esc_attr($this->project['colors']); ?>" />
     <?php }
 
     function development()
     { ?>
-        <input type='text' name="development" value="<?php echo esc_attr($this->project['development']); ?>"/>
+        <textarea name="development"><?php echo esc_attr($this->project['development']); ?></textarea>
     <?php }
 
+    // This creates a checklist
     function development_check_list()
     { ?>
-        <input type='text' name="development_check_list" value="<?php echo esc_attr($this->project['development_check_list']); ?>"/>
+        <input type='text' name="development_check_list" value="<?php echo esc_attr($this->project['development_check_list']); ?>" />
     <?php }
 
+    // This is a link to the repository
     function git_repo()
     { ?>
-        <input type='text' name="git_repo" value="<?php echo esc_attr($this->project['git_repo']); ?>"/>
+        <input type='text' name="git_repo" value="<?php echo esc_attr($this->project['git_repo']); ?>" />
     <?php }
 
     function delivery()
     { ?>
-        <input type='text' name="delivery" value="<?php echo esc_attr($this->project['delivery']); ?>"/>
+        <textarea name="delivery"><?php echo esc_attr($this->project['delivery']); ?></textarea>
     <?php }
 
+    // This creates a checklist
     function delivery_check_list()
     { ?>
-        <input type='text' name="delivery_check_list" value="<?php echo esc_attr($this->project['delivery_check_list']); ?>"/>
+        <input type='text' name="delivery_check_list" value="<?php echo esc_attr($this->project['delivery_check_list']); ?>" />
     <?php }
 
+    // This is an array of users which can be chosen by role
     function project_team()
     { ?>
-        <input type='text' name="project_team" value="<?php echo esc_attr($this->project['project_team']); ?>"/>
+        <input type='text' name="project_team" value="<?php echo esc_attr($this->project['project_team']); ?>" />
 <?php }
 }

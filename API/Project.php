@@ -179,8 +179,7 @@ class Project
                     $git_repo = $project['git_repo'];
                     $delivery = $project['delivery'];
                     $delivery_check_list = $project['delivery_check_list'];
-
-                    $project_team = $this->get_project_team(unserialize($project['project_team']));
+                    $project_team = $project['project_team'];
                 } else {
                     $project_urls = '';
                     $project_details = '';
