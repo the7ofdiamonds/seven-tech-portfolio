@@ -172,13 +172,13 @@ class Project
                     $project_status = $project['project_status'];
                     $project_versions = $project['project_versions'];
                     $design = $project['design'];
-                    $design_check_list = unserialize($project['design_check_list']);
+                    $design_check_list = is_serialized($project['design_check_list']) ? unserialize($project['design_check_list']) : array();
                     $colors = $project['colors'];
                     $development = $project['development'];
-                    $development_check_list = $project['development_check_list'];
+                    $development_check_list = is_serialized($project['development_check_list']) ? unserialize($project['development_check_list']) : array();
                     $git_repo = $project['git_repo'];
                     $delivery = $project['delivery'];
-                    $delivery_check_list = unserialize($project['delivery_check_list']);
+                    $delivery_check_list = is_serialized($project['delivery_check_list']) ? unserialize($project['delivery_check_list']) : array();
                     $project_team = $project['project_team'];
                 } else {
                     $project_urls = '';
@@ -196,7 +196,7 @@ class Project
                     $project_team = '';
                 }
 
-                $post_data = array(
+                $post_data = [
                     'id' => $project_id,
                     'title' => get_the_title($project_id),
                     'post_status' => get_post_field('post_status', $project_id),
@@ -225,7 +225,7 @@ class Project
                     'project_types' => is_array($project_types) ? $project_types : '',
                     'project_tags' => is_array($project_tags) ? $project_tags : '',
                     'project_team' => is_array($project_team) ? $project_team : '',
-                );
+                ];
 
                 return rest_ensure_response($post_data);
             } else {

@@ -150,25 +150,78 @@ class Portfolio
     {
         $design_check_list = isset($_POST['design_check_list']) ? $_POST['design_check_list'] : [];
 
-        if (isset($design_check_list)) {
+        if (isset($design_check_list) && is_array($design_check_list)) {
+            $checklist = [];
+
+            foreach ($design_check_list as $task) {
+                $status = isset($task['status']) ? 'completed' : '';
+                $name = isset($task['name']) ? sanitize_text_field($task['name']) : '';
+                $time = isset($task['time']) ? sanitize_text_field($task['time']) : '';
+
+                if (isset($task['name']) || isset($task['time'])) {
+                    $checklist[] = [
+                        "status" => $status,
+                        "name" => $name,
+                        "time" => $time
+                    ];
+                }
+            }
+
+            return serialize($checklist);
+        } else {
+            return $design_check_list;
+        }
+    }
+
+
+    function getDevelopmentCheckList()
+    {
+        $development_check_list = isset($_POST['development_check_list']) ? $_POST['development_check_list'] : [];
+
+        if (isset($development_check_list)) {
             for ($i = 1; $i <= 1; $i++) {
                 $task_key = 'task_' . $i;
                 $time_key = 'task_' . $i . '_time';
                 $task_name_key = 'task_' . $i . '_name';
 
-                // Check if the task is completed
-                $task_completed = isset($design_check_list[$task_key]) ? sanitize_text_field($design_check_list[$task_key]) : '';
-                $task_time = isset($design_check_list[$time_key]) ? sanitize_text_field($design_check_list[$time_key]) : '';
-                $task_name = isset($design_check_list[$task_name_key]) ? sanitize_text_field($design_check_list[$task_name_key]) : '';
+                $task_completed = isset($development_check_list[$task_key]) ? sanitize_text_field($development_check_list[$task_key]) : '';
+                $task_time = isset($development_check_list[$time_key]) ? sanitize_text_field($development_check_list[$time_key]) : '';
+                $task_name = isset($development_check_list[$task_name_key]) ? sanitize_text_field($development_check_list[$task_name_key]) : '';
 
-                // Store the task data in the checklist array
-                $design_check_list[$task_key] = $task_completed;
-                $design_check_list[$time_key] = $task_time;
-                $design_check_list[$task_name_key] = $task_name;
+                $development_check_list[$task_key] = $task_completed;
+                $development_check_list[$time_key] = $task_time;
+                $development_check_list[$task_name_key] = $task_name;
             }
-        }
 
-        return serialize($design_check_list);
+            return serialize($development_check_list);
+        } else {
+            return $development_check_list;
+        }
+    }
+
+    function getDeliveryCheckList()
+    {
+        $delivery_check_list = isset($_POST['delivery_check_list']) ? $_POST['delivery_check_list'] : [];
+
+        if (isset($delivery_check_list)) {
+            for ($i = 1; $i <= 1; $i++) {
+                $task_key = 'task_' . $i;
+                $time_key = 'task_' . $i . '_time';
+                $task_name_key = 'task_' . $i . '_name';
+
+                $task_completed = isset($delivery_check_list[$task_key]) ? sanitize_text_field($delivery_check_list[$task_key]) : '';
+                $task_time = isset($delivery_check_list[$time_key]) ? sanitize_text_field($delivery_check_list[$time_key]) : '';
+                $task_name = isset($delivery_check_list[$task_name_key]) ? sanitize_text_field($delivery_check_list[$task_name_key]) : '';
+
+                $delivery_check_list[$task_key] = $task_completed;
+                $delivery_check_list[$time_key] = $task_time;
+                $delivery_check_list[$task_name_key] = $task_name;
+            }
+
+            return serialize($delivery_check_list);
+        } else {
+            return $delivery_check_list;
+        }
     }
 
     function save_post_project_button($post_id)
@@ -178,6 +231,8 @@ class Portfolio
         }
 
         $design_check_list = $this->getDesignCheckList();
+        $development_check_list = $this->getDevelopmentCheckList();
+        $delivery_check_list = $this->getDeliveryCheckList();
 
         $project = [
             'client_id' => !empty($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '',
@@ -190,10 +245,10 @@ class Portfolio
             'design_check_list' => $design_check_list,
             'colors' => isset($_POST['colors']) ? sanitize_text_field($_POST['colors']) : '',
             'development' => isset($_POST['development']) ? sanitize_text_field($_POST['development']) : '',
-            'development_check_list' => isset($_POST['development_check_list']) ? sanitize_text_field($_POST['development_check_list']) : '',
+            'development_check_list' => $development_check_list,
             'git_repo' => isset($_POST['git_repo']) ? sanitize_text_field($_POST['git_repo']) : '',
             'delivery' => isset($_POST['delivery']) ? sanitize_text_field($_POST['delivery']) : '',
-            'delivery_check_list' => isset($_POST['delivery_check_list']) ? sanitize_text_field($_POST['delivery_check_list']) : '',
+            'delivery_check_list' => $delivery_check_list,
             'project_team' => isset($_POST['project_team']) ? sanitize_text_field($_POST['project_team']) : '',
         ];
 
@@ -245,34 +300,31 @@ class Portfolio
         <textarea name="design"><?php echo esc_textarea($this->project['design']); ?></textarea>
     <?php }
 
-    // This creates a checklist
-    function design_check_list()
-    { ?>
-        <!-- List should include checkboxes, task names, amount of time it takes to complete, and their statuses -->
-        <div class="task-list">
-            <?php
-            // Ensure design_check_list is an array
-            $design_check_list = is_array(unserialize($this->project['design_check_list'])) ? unserialize($this->project['design_check_list']) : array();
+function design_check_list()
+{ ?>
+    <div class="task-list">
+        <?php
+        $design_check_list = is_serialized($this->project['design_check_list']) ? unserialize($this->project['design_check_list']) : array();
 
-            for ($i = 1; $i <= 1; $i++) {
-                $task_key = 'task_' . $i;
-                $task_name_key = 'task_' . $i . '_name';
-                $time_key = 'task_' . $i . '_time';
-                $task_completed = isset($design_check_list[$task_key]) ? $design_check_list[$task_key] : '';
-                $task_name = isset($design_check_list[$task_name_key]) ? $design_check_list[$task_name_key] : '';
-                $task_time = isset($design_check_list[$time_key]) ? $design_check_list[$time_key] : '';
-            ?>
-                <div class="task">
-                    <input type="checkbox" name="design_check_list[<?php echo $task_key; ?>]" value="completed" <?php checked($task_completed, 'completed'); ?> />
-                    <input type="text" name="design_check_list[<?php echo $task_name_key; ?>]" value="<?php echo esc_attr($task_name); ?>" placeholder="Task Name" />
-                    <input type="text" name="design_check_list[<?php echo $time_key; ?>]" value="<?php echo esc_attr($task_time); ?>" placeholder="Time" />
-                </div>
-            <?php
-            }
-            ?>
-        </div>
-        <button id="add-task-button">Add Task</button>
-    <?php }
+        foreach ($design_check_list as $i => $task) {
+            $task_key = 'task_' . $i;
+            $task_name_key = 'task_' . $i . '_name';
+            $time_key = 'task_' . $i . '_time';
+            $task_completed = isset($task['status']) ? $task['status'] : '';
+            $task_name = isset($task['name']) ? $task['name'] : '';
+            $task_time = isset($task['time']) ? $task['time'] : '';
+        ?>
+            <div class="task">
+                <input type="checkbox" name="design_check_list[<?php echo $task_key; ?>][status]" value="completed" <?php checked($task_completed, 'completed'); ?> />
+                <input type="text" name="design_check_list[<?php echo $task_name_key; ?>][name]" value="<?php echo esc_attr($task_name); ?>" placeholder="Task Name" />
+                <input type="text" name="design_check_list[<?php echo $time_key; ?>][time]" value="<?php echo esc_attr($task_time); ?>" placeholder="Time" />
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+    <button id="add-task-button">Add Task</button>
+<?php }
 
     // This is a array of colors
     function colors()
@@ -285,10 +337,30 @@ class Portfolio
         <textarea name="development"><?php echo esc_attr($this->project['development']); ?></textarea>
     <?php }
 
-    // This creates a checklist
     function development_check_list()
     { ?>
-        <input type='text' name="development_check_list" value="<?php echo esc_attr($this->project['development_check_list']); ?>" />
+        <div class="task-list">
+            <?php
+            $development_check_list = is_serialized($this->project['development_check_list']) ? unserialize($this->project['development_check_list']) : array();
+
+            for ($i = 0; $i <= 0; $i++) {
+                $task_key = 'task_' . $i . '_status';
+                $task_name_key = 'task_' . $i . '_name';
+                $time_key = 'task_' . $i . '_time';
+                $task_completed = isset($development_check_list[$task_key]) ? $development_check_list[$task_key] : '';
+                $task_name = isset($development_check_list[$task_name_key]) ? $development_check_list[$task_name_key] : '';
+                $task_time = isset($development_check_list[$time_key]) ? $development_check_list[$time_key] : '';
+            ?>
+                <div class="task">
+                    <input type="checkbox" name="development_check_list[<?php echo $task_key; ?>]" value="completed" <?php checked($task_completed, 'completed'); ?> />
+                    <input type="text" name="development_check_list[<?php echo $task_name_key; ?>]" value="<?php echo esc_attr($task_name); ?>" placeholder="Task Name" />
+                    <input type="text" name="development_check_list[<?php echo $time_key; ?>]" value="<?php echo esc_attr($task_time); ?>" placeholder="Time" />
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+        <button id="add-task-button">Add Task</button>
     <?php }
 
     // This is a link to the repository
@@ -302,10 +374,30 @@ class Portfolio
         <textarea name="delivery"><?php echo esc_attr($this->project['delivery']); ?></textarea>
     <?php }
 
-    // This creates a checklist
     function delivery_check_list()
     { ?>
-        <input type='text' name="delivery_check_list" value="<?php echo esc_attr($this->project['delivery_check_list']); ?>" />
+        <div class="task-list">
+            <?php
+            $delivery_check_list = is_serialized($this->project['delivery_check_list']) ? unserialize($this->project['delivery_check_list']) : array();
+
+            for ($i = 1; $i <= 1; $i++) {
+                $task_key = 'task_' . $i;
+                $task_name_key = 'task_' . $i . '_name';
+                $time_key = 'task_' . $i . '_time';
+                $task_completed = isset($delivery_check_list[$task_key]) ? $delivery_check_list[$task_key] : '';
+                $task_name = isset($delivery_check_list[$task_name_key]) ? $delivery_check_list[$task_name_key] : '';
+                $task_time = isset($delivery_check_list[$time_key]) ? $delivery_check_list[$time_key] : '';
+            ?>
+                <div class="task">
+                    <input type="checkbox" name="delivery_check_list[<?php echo $task_key; ?>]" value="completed" <?php checked($task_completed, 'completed'); ?> />
+                    <input type="text" name="delivery_check_list[<?php echo $task_name_key; ?>]" value="<?php echo esc_attr($task_name); ?>" placeholder="Task Name" />
+                    <input type="text" name="delivery_check_list[<?php echo $time_key; ?>]" value="<?php echo esc_attr($task_time); ?>" placeholder="Time" />
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+        <button id="add-task-button">Add Task</button>
     <?php }
 
     // This is an array of users which can be chosen by role

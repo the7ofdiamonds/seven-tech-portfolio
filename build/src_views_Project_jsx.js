@@ -210,14 +210,17 @@ function CheckList(props) {
   const {
     checklist
   } = props;
+  console.log(checklist);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, checklist ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "checklist"
-  }, Array.isArray(checklist) && checklist.map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    key: index,
+  }, Array.isArray(checklist) && checklist.map((task, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    key: index
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "checkbox",
-    name: "",
-    id: ""
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, item)))) : '');
+    name: `task_${index}`,
+    id: `task_${index}`,
+    checked: task.completed
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, task.name)))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (CheckList);
 
