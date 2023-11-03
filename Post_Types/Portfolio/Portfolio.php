@@ -15,9 +15,7 @@ class Portfolio
     private $inputs;
     private $post_type;
     private $project;
-    private $design_total_hours;
-    private $development_total_hours;
-    private $delivery_total_hours;
+    private $project_status;
 
     public function __construct()
     {
@@ -118,9 +116,7 @@ class Portfolio
         add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
         add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
-        $this->design_total_hours = 20;
-        $this->development_total_hours = 60;
-        $this->delivery_total_hours = 10;
+        $this->project_status = 0;
     }
 
     function add_custom_meta_boxes()
@@ -160,7 +156,7 @@ class Portfolio
 
             if ($post_id) {
                 $this->project = $this->portfolio_project->getProject($post_id);
-                return $this->project;
+                $this->project_status = $this->portfolio_project->getProjectStatus($post_id);
             }
         }
     }
@@ -171,10 +167,10 @@ class Portfolio
             $design_check_list = $_REQUEST['design_check_list'];
             $checklist = [];
 
-            foreach ($design_check_list as $task) {
-                if (isset($task['status']) && isset($task['name']) && isset($task['time'])) {
+            foreach ($design_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
                     $taskObject = [
-                        'status' => $task['status'],
+                        'status' => isset($task['status']) ? $task['status'] : '',
                         'name' => $task['name'],
                         'time' => $task['time'],
                     ];
@@ -196,10 +192,10 @@ class Portfolio
             $development_check_list = $_REQUEST['development_check_list'];
             $checklist = [];
 
-            foreach ($development_check_list as $task) {
-                if (isset($task['status']) && isset($task['name']) && isset($task['time'])) {
+            foreach ($development_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
                     $taskObject = [
-                        'status' => $task['status'],
+                        'status' => isset($task['status']) ? $task['status'] : '',
                         'name' => $task['name'],
                         'time' => $task['time'],
                     ];
@@ -220,10 +216,10 @@ class Portfolio
             $delivery_check_list = $_REQUEST['delivery_check_list'];
             $checklist = [];
 
-            foreach ($delivery_check_list as $task) {
-                if (isset($task['status']) && isset($task['name']) && isset($task['time'])) {
+            foreach ($delivery_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
                     $taskObject = [
-                        'status' => $task['status'],
+                        'status' => isset($task['status']) ? $task['status'] : '',
                         'name' => $task['name'],
                         'time' => $task['time'],
                     ];
@@ -257,14 +253,13 @@ class Portfolio
         <input type='text' name="project_details" value="<?php echo esc_attr($this->project['project_details']); ?>" />
     <?php }
 
-    // There should be a way to calculate this using the checklist
     function project_status()
-    {
-        $project_status = $this->project['project_status'];
-        $project_status = $this->design_total_hours + $this->development_total_hours + $this->delivery_total_hours;
-    ?>
-        <input type='text' name="project_status" value="<?php echo esc_attr($project_status); ?>" />
-    <?php }
+    { ?>
+        <div>
+            <h2><?php echo esc_attr($this->project_status); ?></h2>
+        </div>
+    <?php
+    }
 
     // This is an array
     function project_versions()
@@ -374,28 +369,24 @@ class Portfolio
         $development_check_list = [];
         $delivery_check_list = [];
 
-        // Check if design checklist exists in $_REQUEST and retrieve it
         if (isset($_REQUEST['design_check_list'])) {
             $design_check_list = $this->getDesignCheckList();
         }
 
-        // Check if development checklist exists in $_REQUEST and retrieve it
         if (isset($_REQUEST['development_check_list'])) {
             $development_check_list = $this->getDevelopmentCheckList();
         }
 
-        // Check if delivery checklist exists in $_REQUEST and retrieve it
         if (isset($_REQUEST['delivery_check_list'])) {
             $delivery_check_list = $this->getDeliveryCheckList();
         }
 
-        // Build the project data array
         $project = [
             'client_id' => !empty($_REQUEST['client_id']) ? sanitize_text_field($_REQUEST['client_id']) : '',
             'post_id' => $post_id,
             'project_urls' => isset($_REQUEST['project_urls']) ? sanitize_text_field($_REQUEST['project_urls']) : '',
             'project_details' => isset($_REQUEST['project_details']) ? sanitize_text_field($_REQUEST['project_details']) : '',
-            'project_status' => isset($_REQUEST['project_status']) ? sanitize_text_field($_REQUEST['project_status']) : '',
+            'project_status' => $this->project_status,
             'project_versions' => isset($_REQUEST['project_versions']) ? sanitize_text_field($_REQUEST['project_versions']) : '',
             'design' => isset($_REQUEST['design']) ? sanitize_text_field($_REQUEST['design']) : '',
             'design_check_list' => $design_check_list,

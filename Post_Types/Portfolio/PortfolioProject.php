@@ -30,6 +30,64 @@ class PortfolioProject
         $this->taxonomies = new Taxonomies;
     }
 
+
+    function getProjectStatus($post_id)
+    {
+        try {
+            $project = $this->project_database->getProject($post_id);
+
+            $design_check_list = unserialize($project['design_check_list']);
+            $development_check_list = unserialize($project['development_check_list']);
+            $delivery_check_list = unserialize($project['delivery_check_list']);
+
+            $project_process = [
+                $design_check_list,
+                $development_check_list, // Fix the variable name here
+                $delivery_check_list
+            ];
+
+            $total_hours = 0.0;
+            $completed_hours = 0.0;
+
+            if (is_array($design_check_list) || is_array($development_check_list) || is_array($delivery_check_list)) {
+                foreach ($project_process as $process) {
+                    if (is_array($process)) { // Check if $process is an array
+                        foreach ($process as $task) {
+                            if (isset($task['time'])) {
+                                $total_hours += (float)$task['time'];
+                            }
+                        }
+                    }
+                }
+
+                foreach ($project_process as $process) {
+                    if (is_array($process)) { // Check if $process is an array
+                        foreach ($process as $i => $task) {
+                            if (isset($task['status']) && isset($task['time'])) {
+                                if ($task['status'] === 'checked') {
+                                    $completed_hours += (float)$task['time'];
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if ($total_hours > 0 && $completed_hours <= $total_hours) {
+                    $decimal = $completed_hours / $total_hours;
+                    return number_format($decimal * 100, 2);
+                } else {
+                    return 0.00;
+                }
+            }
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            return $response;
+        }
+    }
+
     function getProject($post_id)
     {
         try {
