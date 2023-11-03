@@ -219,7 +219,7 @@ function CheckList(props) {
     type: "checkbox",
     name: `task_${index}`,
     id: `task_${index}`,
-    checked: task.completed
+    checked: task.status
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, task.name)))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (CheckList);

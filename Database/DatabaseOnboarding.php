@@ -9,11 +9,11 @@ class DatabaseOnboarding
     private $wpdb;
     private $table_name;
 
-    public function __construct($table_name)
+    public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_name = $table_name;
+        $this->table_name = 'SEVEN_TECH_Portfolio_project_onboarding';
     }
 
     public function saveOnboarding($onboarding)

@@ -10,11 +10,11 @@ class DatabaseProject
     private $wpdb;
     private $table_name;
 
-    public function __construct($table_name)
+    public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->table_name = $table_name;
+        $this->table_name = 'SEVEN_TECH_Portfolio';
     }
 
     public function saveProject($project)
@@ -52,37 +52,45 @@ class DatabaseProject
 
     public function getProject($post_id)
     {
-        $project = $this->wpdb->get_row(
-            $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE post_id = %d",
-                $post_id
-            )
-        );
+        try {
+            $project = $this->wpdb->get_row(
+                $this->wpdb->prepare(
+                    "SELECT * FROM {$this->table_name} WHERE post_id = %d",
+                    $post_id
+                )
+            );
 
-        if ($project === null) {
-            return 'Project not found';
+            if ($project === null) {
+                throw new Exception('Project not found', 404);
+            }
+
+            $project_data = [
+                'id' => $project->id,
+                'client_id' => $project->client_id,
+                'post_id' => $project->post_id,
+                'project_urls' => $project->project_urls,
+                'project_details' => $project->project_details,
+                'project_status' => $project->project_status,
+                'project_versions' => $project->project_versions,
+                'design' => $project->design,
+                'design_check_list' => $project->design_check_list,
+                'colors' => $project->colors,
+                'development' => $project->development,
+                'development_check_list' => $project->development_check_list,
+                'git_repo' => $project->git_repo,
+                'delivery' => $project->delivery,
+                'delivery_check_list' => $project->delivery_check_list,
+                'project_team' => $project->project_team,
+            ];
+
+            return $project_data;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            return $response;
         }
-
-        $project_data = [
-            'id' => $project->id,
-            'client_id' => $project->client_id,
-            'post_id' => $project->post_id,
-            'project_urls' => $project->project_urls,
-            'project_details' => $project->project_details,
-            'project_status' => $project->project_status,
-            'project_versions' => $project->project_versions,
-            'design' => $project->design,
-            'design_check_list' => $project->design_check_list,
-            'colors' => $project->colors,
-            'development' => $project->development,
-            'development_check_list' => $project->development_check_list,
-            'git_repo' => $project->git_repo,
-            'delivery' => $project->delivery,
-            'delivery_check_list' => $project->delivery_check_list,
-            'project_team' => $project->project_team,
-        ];
-
-        return $project_data;
     }
 
     public function getProjectByClientID($post_id, $client_id)
@@ -123,22 +131,26 @@ class DatabaseProject
 
     public function updateProject($post_id, $project)
     {
-        $data = array(
-            'client_id' => $project['client_id'],
-            'project_urls' => $project['project_urls'],
-            'project_details' => $project['project_details'],
-            'project_status' => $project['project_status'],
-            'project_versions' => $project['project_versions'],
-            'design' => $project['design'],
-            'design_check_list' => $project['design_check_list'],
-            'colors' => $project['colors'],
-            'development' => $project['development'],
-            'development_check_list' => $project['development_check_list'],
-            'git_repo' => $project['git_repo'],
-            'delivery' => $project['delivery'],
-            'delivery_check_list' => $project['delivery_check_list'],
-            'project_team' => $project['project_team'],
-        );
+        if (isset($project) && is_array($project)) {
+            $data = array(
+                'client_id' => $project['client_id'],
+                'project_urls' => $project['project_urls'],
+                'project_details' => $project['project_details'],
+                'project_status' => $project['project_status'],
+                'project_versions' => $project['project_versions'],
+                'design' => $project['design'],
+                'design_check_list' => serialize($project['design_check_list']),
+                'colors' => $project['colors'],
+                'development' => $project['development'],
+                'development_check_list' => serialize($project['development_check_list']),
+                'git_repo' => $project['git_repo'],
+                'delivery' => $project['delivery'],
+                'delivery_check_list' => serialize($project['delivery_check_list']),
+                'project_team' => $project['project_team'],
+            );
+        } else {
+            throw new Exception('Invalid Project Data', 400);
+        }
 
         $where = array(
             'post_id' => $post_id,
@@ -148,12 +160,14 @@ class DatabaseProject
             return $value !== null;
         });
 
+        global $wpdb;
+
         if (!empty($data)) {
-            $updated = $this->wpdb->update($this->table_name, $data, $where);
+            $updated = $wpdb->update($this->table_name, $data, $where);
 
             if ($updated === false) {
-
-                throw new Exception('Failed to update project data');
+                $last_error = $wpdb->last_error;
+                throw new Exception('Failed to update project data : ' . $last_error);
             }
 
             return 'Project updated successfully';

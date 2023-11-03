@@ -12,7 +12,7 @@ console.log(checklist);
                   type="checkbox"
                   name={`task_${index}`}
                   id={`task_${index}`}
-                  checked={task.completed}
+                  checked={task.status}
                 />
                 <h4>{task.name}</h4>
               </span>

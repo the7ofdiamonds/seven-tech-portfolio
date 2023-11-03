@@ -22,9 +22,9 @@ class Database
 
         $this->createTables();
 
-        new DatabaseProject($this->project_table);
-        new DatabaseOnboarding($this->project_onboarding_table);
-        new DatabaseTheProblem($this->project_problem_table);
+        new DatabaseProject();
+        new DatabaseOnboarding();
+        new DatabaseTheProblem();
     }
 
     function createTables()
@@ -49,13 +49,13 @@ class Database
         project_status VARCHAR(255) DEFAULT NULL,
         project_versions VARCHAR(255) DEFAULT NULL,
         design VARCHAR(255) DEFAULT NULL,
-        design_check_list VARCHAR(255) DEFAULT NULL,
+        design_check_list TEXT DEFAULT NULL,
         colors VARCHAR(255) DEFAULT NULL,
         development VARCHAR(255) DEFAULT NULL,
-        development_check_list VARCHAR(255) DEFAULT NULL,
+        development_check_list TEXT DEFAULT NULL,
         git_repo VARCHAR(255) DEFAULT NULL,
         delivery VARCHAR(255) DEFAULT NULL,
-        delivery_check_list VARCHAR(255) DEFAULT NULL,
+        delivery_check_list TEXT DEFAULT NULL,
         project_team VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY post_id (post_id)
