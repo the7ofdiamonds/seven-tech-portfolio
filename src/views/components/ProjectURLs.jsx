@@ -10,6 +10,7 @@ function ProjectURLs(props) {
               key={index}
               onClick={() => window.open(project_urls[key].url, '_blank')}>
               <i className={`${project_urls[key].icon}`}></i>
+              <h3>{`${project_urls[key].name}`}</h3>
             </button>
           ))}
         </div>

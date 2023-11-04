@@ -36,13 +36,13 @@ class PortfolioProject
         try {
             $project = $this->project_database->getProject($post_id);
 
-            $design_check_list = unserialize($project['design_check_list']);
-            $development_check_list = unserialize($project['development_check_list']);
-            $delivery_check_list = unserialize($project['delivery_check_list']);
+            $design_check_list = isset($project['design_check_list']) ? unserialize($project['design_check_list']) : '';
+            $development_check_list = isset($project['development_check_list']) ? unserialize($project['development_check_list']) : '';
+            $delivery_check_list = isset($project['delivery_check_list']) ? unserialize($project['delivery_check_list']) : '';
 
             $project_process = [
                 $design_check_list,
-                $development_check_list, // Fix the variable name here
+                $development_check_list,
                 $delivery_check_list
             ];
 
@@ -51,7 +51,7 @@ class PortfolioProject
 
             if (is_array($design_check_list) || is_array($development_check_list) || is_array($delivery_check_list)) {
                 foreach ($project_process as $process) {
-                    if (is_array($process)) { // Check if $process is an array
+                    if (is_array($process)) {
                         foreach ($process as $task) {
                             if (isset($task['time'])) {
                                 $total_hours += (float)$task['time'];
@@ -113,15 +113,15 @@ class PortfolioProject
                 'post_date' => get_post_field('post_date', $post_id),
                 'client_id' => isset($project['client_id']) ? $project['client_id'] : '',
                 'solution_gallery' => is_array($solution_gallery) ? $solution_gallery : '',
-                'project_urls' => isset($project['project_urls']) ? $project['project_urls'] : '',
-                'project_details' => isset($project['project_details']) ? $project['project_details'] : '',
+                'project_urls_list' => isset($project['project_urls_list']) ? $project['project_urls_list'] : '',
+                'project_details_list' => isset($project['project_details_list']) ? $project['project_details_list'] : '',
                 'the_solution' => get_post_field('post_content', $post_id),
                 'project_status' => isset($project['project_status']) ? $project['project_status'] : '',
-                'project_versions' => isset($project['project_versions']) ? $project['project_versions'] : '',
+                'project_versions_list' => isset($project['project_versions_list']) ? $project['project_versions_list'] : '',
                 'design' => isset($project['design']) ? $project['design'] : '',
                 'design_gallery' => is_array($design_gallery) ? $design_gallery : '',
                 'design_check_list' => isset($project['design_check_list']) && is_serialized($project['design_check_list']) ? unserialize($project['design_check_list']) : '',
-                'colors' => isset($project['colors']) ? $project['colors'] : '',
+                'colors_list' => isset($project['colors_list']) ? $project['colors_list'] : '',
                 'logos_gallery' => is_array($logos_gallery) ? $logos_gallery : '',
                 'icons_gallery' => is_array($icons_gallery) ? $icons_gallery : '',
                 'animations_gallery' => is_array($animations_gallery) ? $animations_gallery : '',

@@ -161,6 +161,21 @@ class Portfolio
         }
     }
 
+    function getProjectURLsList()
+    {
+        error_log('getProjectURLs');
+    }
+
+    function getProjectDetailsList()
+    {
+        error_log('getProjectDetails');
+    }
+
+    function getProjectVersionsList()
+    {
+        error_log('getProjectVersions');
+    }
+
     function getDesignCheckList()
     {
         if (is_array($_REQUEST['design_check_list']) && count($_REQUEST['design_check_list']) > 0) {
@@ -185,6 +200,10 @@ class Portfolio
         }
     }
 
+    function getColorsList()
+    {
+        error_log('getColorsList');
+    }
 
     function getDevelopmentCheckList()
     {
@@ -244,13 +263,39 @@ class Portfolio
     // This should be an array of URLs
     function project_urls()
     { ?>
-        <input type='url' name="project_urls" value="<?php echo esc_attr($this->project['project_urls']); ?>" />
+        <div class="project-urls-list" id="project_urls_list">
+            <?php
+            $project_urls_list = $this->project['project_urls_list'];
+
+            if (is_array($project_urls_list)) {
+                foreach ($project_urls_list as $i => $project_url) {
+            ?>
+                    <div class="project-url" id="project_url">
+                        <input type="text" name="project_urls_list[<?php echo $i; ?>][name]" value="<?php echo esc_attr($project_url['name']); ?>" placeholder="URL Name" />
+                        <input type="text" name="project_urls_list[<?php echo $i; ?>][icon]" value="<?php echo esc_attr($project_url['icon']); ?>" placeholder="URL Icon" />
+                        <input type='url' name="project_urls_list[<?php echo $i; ?>][url]" value="<?php echo esc_attr($project_url['url']); ?>" placeholder="URL" />
+                    </div>
+            <?php }
+            } ?>
+        </div>
+        <button id="add_project_url_button">Add URL</button>
     <?php }
 
     // This should be automatically added when payment is recieved.
     function project_details()
-    { ?>
-        <input type='text' name="project_details" value="<?php echo esc_attr($this->project['project_details']); ?>" />
+    {
+        $client_name = isset($this->project['project_details_list']['client_name']) ? $this->project['project_details_list']['client_name'] : '';
+        $start_date = isset($this->project['project_details_list']['start_date']) ? $this->project['project_details_list']['start_date'] : '';
+        $end_date = isset($this->project['project_details_list']['end_date']) ? $this->project['project_details_list']['end_date'] : '';
+    ?>
+        <div class="project-details-list" id="project_details_list">
+
+            <div class="project-details" id="project_details">
+                <input type="text" name="project_details_list[client_name]" value="<?php echo esc_attr($client_name); ?>" placeholder="Client Name">
+                <input type="date" name="project_details_list[start_date]" value="<?php echo esc_attr($start_date); ?>" placeholder="Start Date">
+                <input type='date' name="project_details_list[end_date]" value="<?php echo esc_attr($end_date); ?>" placeholder="End Date" />
+            </div>
+        </div>
     <?php }
 
     function project_status()
@@ -263,9 +308,30 @@ class Portfolio
 
     // This is an array
     function project_versions()
-    { ?>
-        <input type='text' name="project_versions" value="<?php echo esc_attr($this->project['project_versions']); ?>" />
+    {
+        $current_version = isset($this->project['project_versions_list']['current_version']) ? $this->project['project_versions_list']['current_version'] : '';
+    ?>
+        <div class="project-versions-list" id="project_versions_list">
+            <div class="version">
+                <label for="current_version">Current Version:</label>
+                <input type="text" id="current_version" name="project_versions_list[current][version]" value="<?php echo esc_attr($current_version); ?>" placeholder="Current Version Number">
+            </div>
+            <?php
+            $project_versions_list = $this->project['project_versions_list'];
+
+            if (is_array($project_versions_list)) {
+                foreach ($project_versions_list as $i => $version) {
+            ?>
+                    <div class="version">
+                        <input type="text" name="project_versions_list[<?php echo $i; ?>][title]" value="<?php echo esc_attr($version['title']); ?>" placeholder="Version title">
+                        <input type='text' name="project_versions_list[<?php echo $i; ?>][version]" value="<?php echo esc_attr($version['version']); ?>" placeholder="Version number">
+                    </div>
+            <?php }
+            } ?>
+        </div>
+        <button id="add_version_button">Add Version</button>
     <?php }
+
 
     function design()
     { ?>
@@ -295,7 +361,21 @@ class Portfolio
     // This is a array of colors
     function colors()
     { ?>
-        <input type='text' name="colors" value="<?php echo esc_attr($this->project['colors']); ?>" />
+        <div class="colors-list" id="colors_list">
+            <?php
+            $colors_list = $this->project['colors_list'];
+
+            if (is_array($colors_list)) {
+                foreach ($colors_list as $i => $color) {
+            ?>
+                    <div class="color" id="color">
+                        <input type="text" name="colors_list[<?php echo $i; ?>][title]" value="<?php echo esc_attr($color['title']); ?>" placeholder="Color title">
+                        <input type='color' name="colors_list[<?php echo $i; ?>][color]" value="<?php echo esc_attr($color['color']); ?>" placeholder="Color" />
+                    </div>
+            <?php }
+            } ?>
+        </div>
+        <button id="add_color_button">Add Color</button>
     <?php }
 
     function development()
@@ -323,7 +403,6 @@ class Portfolio
         <button id="add_development_task_button">Add Task</button>
     <?php }
 
-    // This is a link to the repository
     function git_repo()
     { ?>
         <input type='text' name="git_repo" value="<?php echo esc_attr($this->project['git_repo']); ?>" />
@@ -365,12 +444,32 @@ class Portfolio
             return;
         }
 
+        $project_urls_list = [];
+        $project_details_list = [];
+        $project_versions_list = [];
         $design_check_list = [];
+        $colors_list = [];
         $development_check_list = [];
         $delivery_check_list = [];
 
+        if (isset($_REQUEST['project_urls_list'])) {
+            $project_urls_list = $this->getProjectURLsList();
+        }
+
+        if (isset($_REQUEST['project_details_list'])) {
+            $project_details_list = $this->getProjectDetailsList();
+        }
+
+        if (isset($_REQUEST['project_versions_list'])) {
+            $project_versions_list = $this->getProjectVersionsList();
+        }
+
         if (isset($_REQUEST['design_check_list'])) {
             $design_check_list = $this->getDesignCheckList();
+        }
+
+        if (isset($_REQUEST['colors_list'])) {
+            $colors_list = $this->getColorsList();
         }
 
         if (isset($_REQUEST['development_check_list'])) {
@@ -384,13 +483,13 @@ class Portfolio
         $project = [
             'client_id' => !empty($_REQUEST['client_id']) ? sanitize_text_field($_REQUEST['client_id']) : '',
             'post_id' => $post_id,
-            'project_urls' => isset($_REQUEST['project_urls']) ? sanitize_text_field($_REQUEST['project_urls']) : '',
-            'project_details' => isset($_REQUEST['project_details']) ? sanitize_text_field($_REQUEST['project_details']) : '',
+            'project_urls_list' => $project_urls_list,
+            'project_details_list' => $project_details_list,
             'project_status' => $this->project_status,
-            'project_versions' => isset($_REQUEST['project_versions']) ? sanitize_text_field($_REQUEST['project_versions']) : '',
+            'project_versions_list' => $project_versions_list,
             'design' => isset($_REQUEST['design']) ? sanitize_text_field($_REQUEST['design']) : '',
             'design_check_list' => $design_check_list,
-            'colors' => isset($_REQUEST['colors']) ? sanitize_text_field($_REQUEST['colors']) : '',
+            'colors_list' => $colors_list,
             'development' => isset($_REQUEST['development']) ? sanitize_text_field($_REQUEST['development']) : '',
             'development_check_list' => $development_check_list,
             'git_repo' => isset($_REQUEST['git_repo']) ? sanitize_text_field($_REQUEST['git_repo']) : '',
