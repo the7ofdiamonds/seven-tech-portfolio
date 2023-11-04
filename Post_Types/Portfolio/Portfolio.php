@@ -163,17 +163,70 @@ class Portfolio
 
     function getProjectURLsList()
     {
-        error_log('getProjectURLs');
+        if (is_array($_REQUEST['project_urls_list']) && count($_REQUEST['project_urls_list']) > 0) {
+            $project_urls_list = $_REQUEST['project_urls_list'];
+            $projecturlslist = [];
+
+            foreach ($project_urls_list as $i => $project_url) {
+                if (isset($project_url['name']) && isset($project_url['url'])) {
+                    $projectURLsObject = [
+                        'name' => $project_url['name'],
+                        'icon' => $project_url['icon'],
+                        'url' => $project_url['url']
+                    ];
+
+                    $projecturlslist[] = $projectURLsObject;
+                }
+            }
+
+            return $projecturlslist;
+        } else {
+            return [];
+        }
     }
 
     function getProjectDetailsList()
     {
-        error_log('getProjectDetails');
+        if (isset($_REQUEST['project_details_list']) && count($_REQUEST['project_details_list']) > 0) {
+            $project_details_list = $_REQUEST['project_details_list'];
+
+            $projectdetailslist = [
+                'client_name' => $project_details_list['client_name'],
+                'start_date' => $project_details_list['start_date'],
+                'end_date' => $project_details_list['end_date']
+            ];
+
+            return $projectdetailslist;
+        } else {
+            return [];
+        }
     }
 
     function getProjectVersionsList()
     {
-        error_log('getProjectVersions');
+        if (isset($_REQUEST['project_versions_list']) && count($_REQUEST['project_versions_list']) > 0) {
+            $project_versions_list = $_REQUEST['project_versions_list'];
+
+            foreach ($project_versions_list as $i => $project_version) {
+                if (isset($project_version['title']) && isset($project_version['version'])) {
+                    $projectVersionsObject = [
+                        'title' => $project_version['title'],
+                        'version' => $project_version['version']
+                    ];
+
+                    $project_versions[] = $projectVersionsObject;
+                }
+            }
+
+            $projectversionslist[] = [
+                'current_version' => $project_versions_list['current_version'],
+                is_array($project_versions) ? $project_versions : ''
+            ];
+
+            return $projectversionslist;
+        } else {
+            return [];
+        }
     }
 
     function getDesignCheckList()
@@ -202,7 +255,25 @@ class Portfolio
 
     function getColorsList()
     {
-        error_log('getColorsList');
+        if (is_array($_REQUEST['colors_list']) && count($_REQUEST['colors_list']) > 0) {
+            $colors_list = $_REQUEST['colors_list'];
+            $colorslist = [];
+
+            foreach ($colors_list as $i => $color) {
+                if (isset($color['title']) && isset($color['color'])) {
+                    $colorObject = [
+                        'title' => $color['title'],
+                        'color' => $color['color'],
+                    ];
+
+                    $colorslist[] = $colorObject;
+                }
+            }
+
+            return $colorslist;
+        } else {
+            return [];
+        }
     }
 
     function getDevelopmentCheckList()
@@ -281,12 +352,12 @@ class Portfolio
         <button id="add_project_url_button">Add URL</button>
     <?php }
 
-    // This should be automatically added when payment is recieved.
     function project_details()
     {
-        $client_name = isset($this->project['project_details_list']['client_name']) ? $this->project['project_details_list']['client_name'] : '';
-        $start_date = isset($this->project['project_details_list']['start_date']) ? $this->project['project_details_list']['start_date'] : '';
-        $end_date = isset($this->project['project_details_list']['end_date']) ? $this->project['project_details_list']['end_date'] : '';
+        $project_details_list = $this->project['project_details_list'];
+        $client_name = isset($project_details_list['client_name']) ? $this->project['project_details_list']['client_name'] : '';
+        $start_date = isset($project_details_list['start_date']) ? $this->project['project_details_list']['start_date'] : '';
+        $end_date = isset($project_details_list['end_date']) ? $this->project['project_details_list']['end_date'] : '';
     ?>
         <div class="project-details-list" id="project_details_list">
 
@@ -314,24 +385,28 @@ class Portfolio
         <div class="project-versions-list" id="project_versions_list">
             <div class="version">
                 <label for="current_version">Current Version:</label>
-                <input type="text" id="current_version" name="project_versions_list[current][version]" value="<?php echo esc_attr($current_version); ?>" placeholder="Current Version Number">
+                <input type="text" id="current_version" name="project_versions_list[current_version]" value="<?php echo esc_attr($current_version); ?>" placeholder="Current Version Number">
             </div>
             <?php
             $project_versions_list = $this->project['project_versions_list'];
 
             if (is_array($project_versions_list)) {
                 foreach ($project_versions_list as $i => $version) {
+                    $title = isset($version['title']) ? esc_attr($version['title']) : '';
+                    $versionNumber = isset($version['version']) ? esc_attr($version['version']) : '';
             ?>
                     <div class="version">
-                        <input type="text" name="project_versions_list[<?php echo $i; ?>][title]" value="<?php echo esc_attr($version['title']); ?>" placeholder="Version title">
-                        <input type='text' name="project_versions_list[<?php echo $i; ?>][version]" value="<?php echo esc_attr($version['version']); ?>" placeholder="Version number">
+                        <input type="text" name="project_versions_list[<?php echo $i; ?>][title]" value="<?php echo $title; ?>" placeholder="Version title">
+                        <input type="text" name="project_versions_list[<?php echo $i; ?>][version]" value="<?php echo $versionNumber; ?>" placeholder="Version number">
                     </div>
-            <?php }
-            } ?>
+            <?php
+                }
+            }
+            ?>
         </div>
         <button id="add_version_button">Add Version</button>
-    <?php }
-
+    <?php
+    }
 
     function design()
     { ?>
@@ -358,7 +433,6 @@ class Portfolio
         <button id="add_design_task_button">Add Task</button>
     <?php }
 
-    // This is a array of colors
     function colors()
     { ?>
         <div class="colors-list" id="colors_list">
