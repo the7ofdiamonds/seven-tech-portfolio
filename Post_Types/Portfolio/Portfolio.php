@@ -15,13 +15,10 @@ class Portfolio
     private $inputs;
     private $post_type;
     private $project;
-    private $project_status;
 
     public function __construct()
     {
-        $database = new Database;
-        $this->project_database = new DatabaseProject($database->project_table);
-        $this->portfolio_project = new PortfolioProject;
+        add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
 
         $this->inputs = [
             [
@@ -111,12 +108,17 @@ class Portfolio
         ];
         $this->post_type = 'portfolio';
 
-        add_action('load-post.php', [$this, 'get_project']);
-        // add_action('load-post-new.php', [$this, 'get_project']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
         add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
-        $this->project_status = 0;
+        add_action('load-post.php', [$this, 'get_project']);
+        add_action('load-post-new.php', [$this, 'get_project']);
+
+        $database = new Database;
+        $this->project_database = new DatabaseProject($database->project_table);
+        $this->portfolio_project = new PortfolioProject;
+
+        add_action('save_post', [$this, 'save_post_project_button']);
     }
 
     function add_custom_meta_boxes()
@@ -147,16 +149,11 @@ class Portfolio
 
     function get_project()
     {
-        add_action('save_post', [$this, 'save_post_project_button'], 10, 2);
-
-        add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
-
         if (isset($_GET['post'])) {
             $post_id = absint($_GET['post']);
 
             if ($post_id) {
                 $this->project = $this->portfolio_project->getProject($post_id);
-                $this->project_status = $this->portfolio_project->getProjectStatus($post_id);
             }
         }
     }
@@ -204,21 +201,23 @@ class Portfolio
 
     function getProjectVersionsList()
     {
-        if (isset($_REQUEST['project_versions_list']) && count($_REQUEST['project_versions_list']) > 0) {
+        if ((isset($_REQUEST['project_versions_list']['current_version']) || isset($_REQUEST['project_versions_list'][0])) && isset($_REQUEST['project_versions_list']) && count($_REQUEST['project_versions_list']) > 0) {
             $project_versions_list = $_REQUEST['project_versions_list'];
 
             foreach ($project_versions_list as $i => $project_version) {
-                if (isset($project_version['title']) && isset($project_version['version'])) {
+                if (isset($project_version) && isset($project_version['title']) && isset($project_version['version'])) {
                     $projectVersionsObject = [
                         'title' => $project_version['title'],
                         'version' => $project_version['version']
                     ];
 
                     $project_versions[] = $projectVersionsObject;
+                } else {
+                    $project_versions = [];
                 }
             }
 
-            $projectversionslist[] = [
+            $projectversionslist = [
                 'current_version' => $project_versions_list['current_version'],
                 is_array($project_versions) ? $project_versions : ''
             ];
@@ -324,14 +323,12 @@ class Portfolio
         }
     }
 
-    // Project Database
     // This should be automatically added when payment is recieved.
     function client_id()
     { ?>
         <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id']); ?>" />
     <?php }
 
-    // This should be an array of URLs
     function project_urls()
     { ?>
         <div class="project-urls-list" id="project_urls_list">
@@ -372,34 +369,43 @@ class Portfolio
     function project_status()
     { ?>
         <div>
-            <h2><?php echo esc_attr($this->project_status); ?></h2>
+            <h2><?php echo esc_attr($this->project['project_status']); ?></h2>
         </div>
     <?php
     }
 
-    // This is an array
     function project_versions()
     {
-        $current_version = isset($this->project['project_versions_list']['current_version']) ? $this->project['project_versions_list']['current_version'] : '';
+        $project_versions_list = $this->project['project_versions_list'];
+        $current_version = isset($project_versions_list['current_version']) ? $project_versions_list['current_version'] : '';
+        $upcoming_versions = isset($this->project['project_versions_list'][0]) ? $this->project['project_versions_list'][0] : '';
+
     ?>
         <div class="project-versions-list" id="project_versions_list">
             <div class="version">
                 <label for="current_version">Current Version:</label>
-                <input type="text" id="current_version" name="project_versions_list[current_version]" value="<?php echo esc_attr($current_version); ?>" placeholder="Current Version Number">
+                <input type="text" id="current_version" name="project_versions_list[current_version]" value="<?php echo $current_version; ?>" placeholder="Current Version Number">
             </div>
-            <?php
-            $project_versions_list = $this->project['project_versions_list'];
 
-            if (is_array($project_versions_list)) {
-                foreach ($project_versions_list as $i => $version) {
-                    $title = isset($version['title']) ? esc_attr($version['title']) : '';
-                    $versionNumber = isset($version['version']) ? esc_attr($version['version']) : '';
-            ?>
-                    <div class="version">
-                        <input type="text" name="project_versions_list[<?php echo $i; ?>][title]" value="<?php echo $title; ?>" placeholder="Version title">
-                        <input type="text" name="project_versions_list[<?php echo $i; ?>][version]" value="<?php echo $versionNumber; ?>" placeholder="Version number">
-                    </div>
             <?php
+            if (is_array($upcoming_versions)) {
+                foreach ($upcoming_versions as $key => $version) {
+                    if ($key === 'current_version') {
+                        continue;
+                    }
+
+                    if (is_array($version) && isset($version['title']) && isset($version['version'])) {
+                        $title = esc_attr($version['title']);
+                        $versionNumber = esc_attr($version['version']);
+            ?>
+
+                        <div class="version">
+                            <input type="text" name="project_versions_list[<?php echo $key; ?>][title]" value="<?php echo $title; ?>" placeholder="Version title">
+                            <input type="text" name="project_versions_list[<?php echo $key; ?>][version]" value="<?php echo $versionNumber; ?>" placeholder="Version number">
+                        </div>
+
+            <?php
+                    }
                 }
             }
             ?>
@@ -559,7 +565,7 @@ class Portfolio
             'post_id' => $post_id,
             'project_urls_list' => $project_urls_list,
             'project_details_list' => $project_details_list,
-            'project_status' => $this->project_status,
+            'project_status' => $this->portfolio_project->getProjectStatus($post_id),
             'project_versions_list' => $project_versions_list,
             'design' => isset($_REQUEST['design']) ? sanitize_text_field($_REQUEST['design']) : '',
             'design_check_list' => $design_check_list,

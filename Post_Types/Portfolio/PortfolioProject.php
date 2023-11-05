@@ -40,40 +40,71 @@ class PortfolioProject
             $development_check_list = isset($project['development_check_list']) ? unserialize($project['development_check_list']) : '';
             $delivery_check_list = isset($project['delivery_check_list']) ? unserialize($project['delivery_check_list']) : '';
 
-            $project_process = [
-                $design_check_list,
-                $development_check_list,
-                $delivery_check_list
-            ];
-
-            $total_hours = 0.0;
-            $completed_hours = 0.0;
-
             if (is_array($design_check_list) || is_array($development_check_list) || is_array($delivery_check_list)) {
-                foreach ($project_process as $process) {
-                    if (is_array($process)) {
-                        foreach ($process as $task) {
-                            if (isset($task['time'])) {
-                                $total_hours += (float)$task['time'];
+                $design_total_hours = 0;
+                $design_completed_hours = 0;
+
+                if (is_array($design_check_list)) {
+                    foreach ($design_check_list as $task) {
+                        if (isset($task['time'])) {
+                            $design_total_hours += (float)$task['time'];
+
+                            if ($task['status'] === 'checked') {
+                                $design_completed_hours += (float)$task['time'];
+                            } else {
+                                continue;
                             }
+                        } else {
+                            continue;
                         }
                     }
                 }
 
-                foreach ($project_process as $process) {
-                    if (is_array($process)) { // Check if $process is an array
-                        foreach ($process as $i => $task) {
-                            if (isset($task['status']) && isset($task['time'])) {
-                                if ($task['status'] === 'checked') {
-                                    $completed_hours += (float)$task['time'];
-                                }
+                $development_total_hours = 0;
+                $development_completed_hours = 0;
+
+                if (is_array($development_check_list)) {
+                    foreach ($development_check_list as $task) {
+                        if (isset($task['time'])) {
+                            $development_total_hours += (float)$task['time'];
+
+                            if ($task['status'] === 'checked') {
+                                $development_completed_hours += (float)$task['time'];
+                            } else {
+                                continue;
                             }
+                        } else {
+                            continue;
                         }
                     }
                 }
+
+
+                $delivery_total_hours = 0;
+                $delivery_completed_hours = 0;
+
+                if (is_array($delivery_check_list)) {
+                    foreach ($delivery_check_list as $task) {
+                        if (isset($task['time'])) {
+                            $delivery_total_hours += (float)$task['time'];
+
+                            if ($task['status'] === 'checked') {
+                                $delivery_completed_hours += (float)$task['time'];
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                    }
+                }
+
+                $total_hours = $design_total_hours + $development_total_hours + $delivery_total_hours;
+                $completed_hours = $design_completed_hours + $development_completed_hours + $delivery_completed_hours;
 
                 if ($total_hours > 0 && $completed_hours <= $total_hours) {
                     $decimal = $completed_hours / $total_hours;
+
                     return number_format($decimal * 100, 2);
                 } else {
                     return 0.00;

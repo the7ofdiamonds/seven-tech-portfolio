@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Colors(props) {
   const { colors } = props;
 
@@ -8,12 +10,12 @@ function Colors(props) {
           <h5 className="title">Colors ({colors.length})</h5>
           <div className="color-row">
             {Array.isArray(colors) &&
-              colors.map((color, index) => (
+              colors.map((colorObj, index) => (
                 <div className="color" key={index}>
                   <span
                     className="color-square"
-                    style={{ backgroundColor: color }}></span>
-                  <h5>{color}</h5>
+                    style={{ backgroundColor: colorObj.color }}></span>
+                  <h5>{colorObj.color}</h5>
                 </div>
               ))}
           </div>

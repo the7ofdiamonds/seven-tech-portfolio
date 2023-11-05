@@ -7,19 +7,19 @@ function Versions(props) {
         <div className="versions">
           <span className="current-version">
             <h4>Current Version</h4>
-            {project_versions.current}
+            {project_versions.current_version}
           </span>
 
           <span className="upcoming-versions">
             <h4>Upcoming Versions</h4>
             <table>
               <tbody>
-                {Array.isArray(project_versions.upcoming) &&
-                  project_versions.upcoming.map((version, index) => (
+                {Array.isArray(project_versions[0]) &&
+                  project_versions[0].map((version, index) => (
                     <tr key={index}>
-                      <td className="feature">{version.feature}</td>
+                      <td className="feature">{version.title}</td>
                       <td>-</td>
-                      <td>{version.version_number}</td>
+                      <td>{version.version}</td>
                     </tr>
                   ))}
               </tbody>

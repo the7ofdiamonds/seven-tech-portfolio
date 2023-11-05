@@ -81,7 +81,7 @@ function Project() {
           <h3 class="title">THE PROCESS</h3>
 
           <ProjectStatus project_status={project_status} />
-          <Versions versions={project_versions} />
+          <Versions project_versions={project_versions} />
 
           {design_check_list ||
           (design_gallery && design_gallery.length > 0) ||
