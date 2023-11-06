@@ -218,7 +218,8 @@ function CheckList(props) {
     type: "checkbox",
     name: `task_${index}`,
     id: `task_${index}`,
-    checked: task.status
+    checked: task.status,
+    disabled: true
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, task.name)))) : '');
 }
 /* harmony default export */ __webpack_exports__["default"] = (CheckList);
@@ -440,7 +441,9 @@ function ProjectTeam(props) {
     className: "project-team"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
     className: "title"
-  }, "Project Team"), Array.isArray(project_team) && project_team.length > 0 ? project_team.map((team_member, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, "Project Team"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "project-team-list"
+  }, Array.isArray(project_team) && project_team.length > 0 ? project_team.map((team_member, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: index,
     class: "author-card card"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -462,7 +465,7 @@ function ProjectTeam(props) {
     href: `mailto:${team_member.email}`
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
     className: "fa fa-envelope fa-fw"
-  }))))) : 'No Team Members have been assigned to this project yet.'));
+  }))))) : 'No Team Members have been assigned to this project yet.')));
 }
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTeam);
 

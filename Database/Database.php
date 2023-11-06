@@ -56,7 +56,7 @@ class Database
         git_repo VARCHAR(255) DEFAULT NULL,
         delivery VARCHAR(255) DEFAULT NULL,
         delivery_check_list TEXT DEFAULT NULL,
-        project_team VARCHAR(255) DEFAULT NULL,
+        project_team_list TEXT DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY post_id (post_id)
     ) $charset_collate;";

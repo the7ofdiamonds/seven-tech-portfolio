@@ -92,4 +92,20 @@ jQuery(document).ready(function ($) {
     }
 
     $('#add_delivery_task_button').on('click', updateDeliveryTaskCount);
+
+    const updateProjectTeamMemberCount = () => {
+        let projectTeamIndex = document.querySelectorAll('#team_member').length;
+    
+        var newTeamMember = `
+        <div class="team-member" id="team_member">
+            <input type="text" name="project_team_list[${projectTeamIndex}][id]" placeholder="ID" />
+            <input type="text" name="project_team_list[${projectTeamIndex}][role]" placeholder="Role" />
+        </div>
+        `;
+    
+        $('#project_team').append(newTeamMember);
+    }
+    
+    $('#add_team_member_button').on('click', updateProjectTeamMemberCount);
+    
 });

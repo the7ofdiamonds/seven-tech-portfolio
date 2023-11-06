@@ -30,7 +30,6 @@ class PortfolioProject
         $this->taxonomies = new Taxonomies;
     }
 
-
     function getProjectStatus($post_id)
     {
         try {
@@ -119,6 +118,34 @@ class PortfolioProject
         }
     }
 
+    function getProjectTeamList($team)
+    {
+        $project_team = [];
+
+        if (isset($team) && is_array($team) && !isset($member['id'])) {
+            foreach ($team as $member) {
+                $user_data = get_userdata($member['id']);
+
+                if ($user_data) {
+
+                    $member = [
+                        'id' => $user_data->ID,
+                        'first_name' => $user_data->first_name,
+                        'last_name' => $user_data->last_name,
+                        'email' => $user_data->user_email,
+                        'role' => isset($member['role']) ? $member['role'] : '',
+                        'author_url' => $user_data->user_url,
+                        'avatar_url' => get_avatar_url($user_data->ID, ['size' => 384])
+                    ];
+
+                    $project_team[] = $member;
+                }
+            }
+        }
+
+        return $project_team;
+    }
+
     function getProject($post_id)
     {
         try {
@@ -136,6 +163,9 @@ class PortfolioProject
 
             $project_types = $this->taxonomies->getTaxTermLinks($post_id, 'project_types');
             $project_tags = $this->taxonomies->getTaxTermLinks($post_id, 'project_tags');
+
+            $team = isset($project['project_team_list']) && is_serialized($project['project_team_list']) ? unserialize($project['project_team_list']) : '';
+            $project_team_list = $this->getProjectTeamList($team);
 
             $project_data = [
                 'id' => $post_id,
@@ -166,7 +196,7 @@ class PortfolioProject
                 'the_problem' => is_array($the_problem) ? $the_problem : '',
                 'project_types' => is_array($project_types) ? $project_types : '',
                 'project_tags' => is_array($project_tags) ? $project_tags : '',
-                'project_team' => isset($project['project_team']) ? $project['project_team'] : '',
+                'project_team_list' => $project_team_list,
             ];
 
             return $project_data;

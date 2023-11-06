@@ -101,7 +101,7 @@ class Portfolio
             ],
             [
                 "name" => "Project Team",
-                "alias" => "project_team",
+                "alias" => "project_team_list",
                 "position" => "normal",
                 "priority" => "low"
             ]
@@ -323,6 +323,29 @@ class Portfolio
         }
     }
 
+    function getProjectTeamList()
+    {
+        if (is_array($_REQUEST['project_team_list']) && count($_REQUEST['project_team_list']) > 0) {
+            $project_team_list = $_REQUEST['project_team_list'];
+            $projectTeam = [];
+
+            foreach ($project_team_list as $i => $team_member) {
+                if (isset($team_member['id']) && isset($team_member['role'])) {
+                    $projectTeamObject = [
+                        'id' => $team_member['id'],
+                        'role' => $team_member['role'],
+                    ];
+
+                    $projectTeam[] = $projectTeamObject;
+                }
+            }
+
+            return $projectTeam;
+        } else {
+            return [];
+        }
+    }
+
     // This should be automatically added when payment is recieved.
     function client_id()
     { ?>
@@ -500,8 +523,7 @@ class Portfolio
             $delivery_check_list = $this->project['delivery_check_list'];
 
             if (is_array($delivery_check_list)) {
-                foreach ($delivery_check_list as $i => $task) {
-            ?>
+                foreach ($delivery_check_list as $i => $task) { ?>
                     <div class="task" id="delivery_task">
                         <input type="checkbox" name="delivery_check_list[<?php echo $i; ?>][status]" value="checked" <?php checked($task['status'], 'checked'); ?> />
                         <input type="text" name="delivery_check_list[<?php echo $i; ?>][name]" value="<?php echo esc_attr($task['name']); ?>" placeholder="Task Name" />
@@ -513,9 +535,23 @@ class Portfolio
         <button id="add_delivery_task_button">Add Task</button>
     <?php }
 
-    function project_team()
+    function project_team_list()
     { ?>
-        <input type='text' name="project_team" value="" />
+        <div class="project-team-list" id="project_team">
+            <?php
+            $project_team_list = $this->project['project_team_list'];
+
+            if (is_array($project_team_list)) {
+                foreach ($project_team_list as $i => $team_member) {
+            ?>
+                    <div class="team-member" id="team_member">
+                        <input type="text" name="project_team_list[<?php echo $i; ?>][id]" value="<?php echo esc_attr($team_member['id']); ?>" placeholder="ID" />
+                        <input type="text" name="project_team_list[<?php echo $i; ?>][role]" value="<?php echo esc_attr($team_member['role']); ?>" placeholder="Role" />
+                    </div>
+            <?php }
+            } ?>
+        </div>
+        <button id="add_team_member_button">Add Team Member</button>
 <?php }
 
     function save_post_project_button($post_id)
@@ -531,6 +567,7 @@ class Portfolio
         $colors_list = [];
         $development_check_list = [];
         $delivery_check_list = [];
+        $project_team_list = [];
 
         if (isset($_REQUEST['project_urls_list'])) {
             $project_urls_list = $this->getProjectURLsList();
@@ -560,6 +597,10 @@ class Portfolio
             $delivery_check_list = $this->getDeliveryCheckList();
         }
 
+        if (isset($_REQUEST['project_team_list'])) {
+            $project_team_list = $this->getProjectTeamList();
+        }
+
         $project = [
             'client_id' => !empty($_REQUEST['client_id']) ? sanitize_text_field($_REQUEST['client_id']) : '',
             'post_id' => $post_id,
@@ -575,7 +616,7 @@ class Portfolio
             'git_repo' => isset($_REQUEST['git_repo']) ? sanitize_text_field($_REQUEST['git_repo']) : '',
             'delivery' => isset($_REQUEST['delivery']) ? sanitize_text_field($_REQUEST['delivery']) : '',
             'delivery_check_list' => $delivery_check_list,
-            'project_team' => isset($_REQUEST['project_team']) ? sanitize_text_field($_REQUEST['project_team']) : '',
+            'project_team_list' => $project_team_list,
         ];
 
         $existing_project = $this->project_database->getProject($post_id);

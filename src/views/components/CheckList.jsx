@@ -13,6 +13,7 @@ function CheckList(props) {
                   name={`task_${index}`}
                   id={`task_${index}`}
                   checked={task.status}
+                  disabled
                 />
                 <h4>{task.name}</h4>
               </span>

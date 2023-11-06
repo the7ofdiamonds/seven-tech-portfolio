@@ -36,7 +36,7 @@ class DatabaseProject
                 'git_repo' => $project['git_repo'],
                 'delivery' => $project['delivery'],
                 'delivery_check_list' => serialize($project['delivery_check_list']),
-                'project_team' => $project['project_team'],
+                'project_team_list' => serialize($project['project_team_list']),
             ]
         );
 
@@ -80,7 +80,7 @@ class DatabaseProject
                 'git_repo' => $project->git_repo,
                 'delivery' => $project->delivery,
                 'delivery_check_list' => $project->delivery_check_list,
-                'project_team' => $project->project_team,
+                'project_team_list' => $project->project_team_list,
             ];
 
             return $project_data;
@@ -123,7 +123,7 @@ class DatabaseProject
             'git_repo' => $project->git_repo,
             'delivery' => $project->delivery,
             'delivery_check_list' => $project->delivery_check_list,
-            'project_team' => $project->project_team,
+            'project_team_list' => $project->project_team_list,
         ];
 
         return $project_data;
@@ -146,7 +146,7 @@ class DatabaseProject
                 'git_repo' => $project['git_repo'],
                 'delivery' => $project['delivery'],
                 'delivery_check_list' => serialize($project['delivery_check_list']),
-                'project_team' => $project['project_team'],
+                'project_team_list' => serialize($project['project_team_list']),
             );
         } else {
             throw new Exception('Invalid Project Data', 400);

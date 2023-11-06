@@ -163,7 +163,6 @@ form td label {
   align-items: flex-start;
   justify-content: center;
   gap: 0.75rem;
-  width: 100%;
   padding: 0 1rem 1rem;
 }
 .checklist span {
@@ -425,6 +424,15 @@ progress[value]::-moz-progress-bar {
   gap: 0.75rem;
   width: 100%;
 }
+.project-team .project-team-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
 
 main {
   display: flex;
@@ -499,6 +507,7 @@ main.error {
   gap: 0.374rem;
   height: fit-content;
   padding: 0;
+  min-width: 300px;
   max-width: 500px;
 }
 .author-card.card .author-role,
