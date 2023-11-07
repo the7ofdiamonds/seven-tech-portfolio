@@ -9,13 +9,13 @@ use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
 class JS
 {
     private $handle_prefix;
+    private $buildFilePrefix;
+    private $buildFilePrefixURL;
+    private $front_page_react;
     private $page_titles;
     private $post_types;
     private $taxonomies;
     private $includes_url;
-    private $buildFilePrefix;
-    private $buildFilePrefixURL;
-    private $front_page_react;
 
     public function __construct()
     {

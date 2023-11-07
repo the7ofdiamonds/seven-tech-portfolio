@@ -10,7 +10,8 @@ use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
 
 class Templates
 {
-    private $page_titles;
+    private $protected_pages;
+    private $pages;
     private $post_types;
     private $taxonomies;
     private $css_file;
@@ -20,8 +21,8 @@ class Templates
     {
         add_filter('frontpage_template', [$this, 'get_custom_front_page']);
 
-        add_filter('template_include', [$this, 'get_custom_page_template']);
         add_filter('template_include', [$this, 'get_custom_protected_page_template']);
+        add_filter('template_include', [$this, 'get_custom_page_template']);
 
         add_filter('archive_template', [$this, 'get_archive_template']);
         add_filter('single_template', [$this, 'get_single_template']);
@@ -32,7 +33,8 @@ class Templates
         $posttypes = new Post_Types();
         $taxonomies = new Taxonomies;
 
-        $this->page_titles = $pages->page_titles;
+        $this->protected_pages = $pages->protected_pages;
+        $this->pages = $pages->pages;
         $this->post_types = $posttypes->post_types;
         $this->taxonomies = $taxonomies->taxonomies;
 
@@ -52,13 +54,25 @@ class Templates
 
     function get_custom_protected_page_template($page_template)
     {
-        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
-            foreach ($this->page_titles as $page_title) {
-                $request_uri = $_SERVER['REQUEST_URI'];
-                $page = explode('/', $page_title);
-                $request = explode('/', $request_uri);
+        if (is_array($this->protected_pages) && count($this->protected_pages) > 0) {
+            foreach ($this->$this->protected_pages as $page_title) {
+                $full_url = explode('/', $page_title);
+                $full_path = explode('/', $_SERVER['REQUEST_URI']);
 
-                if ($page[1] === $request[1] && $page[2] === $request[2] || $page_title === $request_uri) {
+                $full_url = array_filter($full_url, function ($value) {
+                    return $value !== "";
+                });
+
+                $full_path = array_filter($full_path, function ($value) {
+                    return $value !== "";
+                });
+
+                $full_url = array_values($full_url);
+                $full_path = array_values($full_path);
+
+                $differences = array_diff($full_url, $full_path);
+
+                if (empty($differences)) {
                     $page_template = SEVEN_TECH_PORTFOLIO . 'Pages/page-protected.php';
 
                     if (file_exists($page_template)) {
@@ -78,13 +92,25 @@ class Templates
 
     function get_custom_page_template($page_template)
     {
-        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
-            foreach ($this->page_titles as $page_title) {
-                $request_uri = $_SERVER['REQUEST_URI'];
-                $page = explode('/', $page_title);
-                $request = explode('/', $request_uri);
+        if (is_array($this->pages) && count($this->pages) > 0) {
+            foreach ($this->pages as $page_title) {
+                $full_url = explode('/', $page_title);
+                $full_path = explode('/', $_SERVER['REQUEST_URI']);
 
-                if ($page[1] === $request[1] && $page[2] === $request[2] || $page_title === $request_uri) {
+                $full_url = array_filter($full_url, function ($value) {
+                    return $value !== "";
+                });
+
+                $full_path = array_filter($full_path, function ($value) {
+                    return $value !== "";
+                });
+
+                $full_url = array_values($full_url);
+                $full_path = array_values($full_path);
+
+                $differences = array_diff($full_url, $full_path);
+
+                if (empty($differences)) {
                     $page_template = SEVEN_TECH_PORTFOLIO . 'Pages/page.php';
 
                     if (file_exists($page_template)) {

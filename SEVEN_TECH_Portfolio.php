@@ -60,8 +60,3 @@ class SEVEN_TECH_Portfolio
 $seven_tech_portfolio = new SEVEN_TECH_Portfolio();
 register_activation_hook(__FILE__, array($seven_tech_portfolio, 'activate'));
 // register_deactivation_hook( __FILE__, array( $seven_tech_portfolio, 'deactivate' ) );
-
-$seven_tech_portfolio_pages = new Pages();
-register_activation_hook(__FILE__, [$seven_tech_portfolio_pages, 'add_pages']);
-register_activation_hook(__FILE__, [$seven_tech_portfolio_pages, 'add_client_on_boarding']);
-register_activation_hook(__FILE__, [$seven_tech_portfolio_pages, 'add_on_boarding_problem']);
