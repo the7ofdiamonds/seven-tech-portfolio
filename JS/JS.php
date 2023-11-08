@@ -9,31 +9,41 @@ use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
 class JS
 {
     private $handle_prefix;
+    private $dir;
+    private $dirURL;
+    private $buildDir;
+    private $buildDirURL;
     private $buildFilePrefix;
     private $buildFilePrefixURL;
     private $front_page_react;
     private $page_titles;
     private $post_types;
-    private $taxonomies;
     private $includes_url;
+    private $taxonomies;
 
     public function __construct()
     {
-        // add_action('wp_footer', [$this, 'load_js']);
-
         $this->handle_prefix = 'seven_tech_portfolio_';
-        $this->buildFilePrefix = SEVEN_TECH_PORTFOLIO . 'build/src_views_';
-        $this->buildFilePrefixURL = SEVEN_TECH_PORTFOLIO_URL . 'build/src_views_';
+        $this->dir = SEVEN_TECH_PORTFOLIO;
+        $this->dirURL = SEVEN_TECH_PORTFOLIO_URL;
 
-        $this->includes_url = includes_url();
+        $this->buildDir = $this->dir . 'build/';
+        $this->buildDirURL = $this->dirURL . 'build/';
+        $this->buildFilePrefix = $this->buildDir . 'src_views_';
+        $this->buildFilePrefixURL = $this->buildDirURL . 'src_views_';
 
         $pages = new Pages;
         $posttypes = new Post_Types;
         $tax = new Taxonomies;
 
-        $this->page_titles = $pages->page_titles;
+        $this->page_titles = [
+            ...$pages->pages,
+            ...$pages->protected_pages
+        ];
         $this->front_page_react = $pages->front_page_react;
         $this->post_types = $posttypes->post_types;
+
+        $this->includes_url = includes_url();
         $this->taxonomies = $tax->taxonomies;
     }
 
@@ -61,10 +71,10 @@ class JS
                         error_log($fileName . ' page has not been created in react JSX.');
                     }
 
-                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                    wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
                 }
             } else {
-                error_log('There are no front page react files to load at SEVEN_TECH Pages');
+                error_log('There are no front page react files to load at ' . $this->dir . ' Pages');
             }
         }
     }
@@ -73,26 +83,23 @@ class JS
     {
         if (is_array($this->page_titles) && !empty($this->page_titles)) {
             foreach ($this->page_titles as $page) {
-                $var = explode('/', $page);
+                $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
 
-                if (get_query_var($var[1])) {
-                    $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
-                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
-                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+                $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
-                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+                wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
-                    if (file_exists($filePath)) {
-                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
-                    } else {
-                        error_log($page . ' page has not been created in react JSX.');
-                    }
-
-                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                if (file_exists($filePath)) {
+                    wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                } else {
+                    error_log($page . ' page has not been created in react JSX.');
                 }
+
+                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             }
         } else {
-            error_log('There are no page titles in the array at SEVEN_TECH Pages');
+            error_log('There are no page titles in the array at ' . $this->dir . ' Pages');
         }
     }
 
@@ -112,9 +119,9 @@ class JS
                     error_log('Post Type ' . $post_type['archive_page'] . ' page has not been created in react JSX.');
                 }
 
-                wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             } else {
-                error_log('There are no post types in the array at SEVEN_TECH Post_Types');
+                error_log('There are no post types in the array at ' . $this->dir . ' Post_Types');
             }
         }
     }
@@ -136,30 +143,7 @@ class JS
                         error_log('Post Type ' . $post_type['single_page'] . ' page has not been created in react JSX.');
                     }
 
-                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
-                }
-            }
-        }
-    }
-
-    function load_taxonomies_react()
-    {
-        foreach ($this->taxonomies as $taxonomy) {
-            if (is_array($taxonomy) && isset($taxonomy['taxonomy']) && isset($taxonomy['file_name'])) {
-                if (is_tax($taxonomy['taxonomy'])) {
-                    $fileName = ucwords($taxonomy['file_name']);
-                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
-                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
-
-                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
-
-                    if (file_exists($filePath)) {
-                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
-                    } else {
-                        error_log('Taxonomy ' . $taxonomy['plural'] . ' page has not been created in react JSX.');
-                    }
-
-                    wp_enqueue_script($this->handle_prefix . 'react_index', SEVEN_TECH_PORTFOLIO_URL . 'build/index.js', ['wp-element'], '1.0', true);
+                    wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
                 }
             }
         }
