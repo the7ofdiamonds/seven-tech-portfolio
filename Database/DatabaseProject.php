@@ -17,7 +17,7 @@ class DatabaseProject
         $this->table_name = 'SEVEN_TECH_Portfolio';
     }
 
-    public function saveProject($project)
+    function saveProject($project)
     {
         $result = $this->wpdb->insert(
             $this->table_name,
@@ -50,7 +50,7 @@ class DatabaseProject
         return $project_id;
     }
 
-    public function getProject($post_id)
+    function getProject($post_id)
     {
         try {
             $project = $this->wpdb->get_row(
@@ -93,7 +93,7 @@ class DatabaseProject
         }
     }
 
-    public function getProjectByClientID($post_id, $client_id)
+    function getProjectByClientID($post_id, $client_id)
     {
         $project = $this->wpdb->get_row(
             $this->wpdb->prepare(
@@ -129,7 +129,7 @@ class DatabaseProject
         return $project_data;
     }
 
-    public function updateProject($post_id, $project)
+   function updateProject($post_id, $project)
     {
         if (isset($project) && is_array($project)) {
             $data = array(

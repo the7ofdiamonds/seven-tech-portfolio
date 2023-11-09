@@ -112,13 +112,12 @@ class Portfolio
         add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
         add_action('load-post.php', [$this, 'get_project']);
-        add_action('load-post-new.php', [$this, 'get_project']);
 
         $database = new Database;
         $this->project_database = new DatabaseProject($database->project_table);
         $this->portfolio_project = new PortfolioProject;
 
-        add_action('save_post', [$this, 'save_post_project_button']);
+        add_action('save_post', [$this, 'save_project']);
     }
 
     function add_custom_meta_boxes()
@@ -155,194 +154,6 @@ class Portfolio
             if ($post_id) {
                 $this->project = $this->portfolio_project->getProject($post_id);
             }
-        }
-    }
-
-    function getProjectURLsList()
-    {
-        if (is_array($_REQUEST['project_urls_list']) && count($_REQUEST['project_urls_list']) > 0) {
-            $project_urls_list = $_REQUEST['project_urls_list'];
-            $projecturlslist = [];
-
-            foreach ($project_urls_list as $i => $project_url) {
-                if (isset($project_url['name']) && isset($project_url['url'])) {
-                    $projectURLsObject = [
-                        'name' => $project_url['name'],
-                        'icon' => $project_url['icon'],
-                        'url' => $project_url['url']
-                    ];
-
-                    $projecturlslist[] = $projectURLsObject;
-                }
-            }
-
-            return $projecturlslist;
-        } else {
-            return [];
-        }
-    }
-
-    function getProjectDetailsList()
-    {
-        if (isset($_REQUEST['project_details_list']) && count($_REQUEST['project_details_list']) > 0) {
-            $project_details_list = $_REQUEST['project_details_list'];
-
-            $projectdetailslist = [
-                'client_name' => $project_details_list['client_name'],
-                'start_date' => $project_details_list['start_date'],
-                'end_date' => $project_details_list['end_date']
-            ];
-
-            return $projectdetailslist;
-        } else {
-            return [];
-        }
-    }
-
-    function getProjectVersionsList()
-    {
-        if ((isset($_REQUEST['project_versions_list']['current_version']) || isset($_REQUEST['project_versions_list'][0])) && isset($_REQUEST['project_versions_list']) && count($_REQUEST['project_versions_list']) > 0) {
-            $project_versions_list = $_REQUEST['project_versions_list'];
-
-            foreach ($project_versions_list as $i => $project_version) {
-                if (isset($project_version) && isset($project_version['title']) && isset($project_version['version'])) {
-                    $projectVersionsObject = [
-                        'title' => $project_version['title'],
-                        'version' => $project_version['version']
-                    ];
-
-                    $project_versions[] = $projectVersionsObject;
-                } else {
-                    $project_versions = [];
-                }
-            }
-
-            $projectversionslist = [
-                'current_version' => $project_versions_list['current_version'],
-                is_array($project_versions) ? $project_versions : ''
-            ];
-
-            return $projectversionslist;
-        } else {
-            return [];
-        }
-    }
-
-    function getDesignCheckList()
-    {
-        if (is_array($_REQUEST['design_check_list']) && count($_REQUEST['design_check_list']) > 0) {
-            $design_check_list = $_REQUEST['design_check_list'];
-            $checklist = [];
-
-            foreach ($design_check_list as $i => $task) {
-                if (isset($task['name']) && isset($task['time'])) {
-                    $taskObject = [
-                        'status' => isset($task['status']) ? $task['status'] : '',
-                        'name' => $task['name'],
-                        'time' => $task['time'],
-                    ];
-
-                    $checklist[] = $taskObject;
-                }
-            }
-
-            return $checklist;
-        } else {
-            return [];
-        }
-    }
-
-    function getColorsList()
-    {
-        if (is_array($_REQUEST['colors_list']) && count($_REQUEST['colors_list']) > 0) {
-            $colors_list = $_REQUEST['colors_list'];
-            $colorslist = [];
-
-            foreach ($colors_list as $i => $color) {
-                if (isset($color['title']) && isset($color['color'])) {
-                    $colorObject = [
-                        'title' => $color['title'],
-                        'color' => $color['color'],
-                    ];
-
-                    $colorslist[] = $colorObject;
-                }
-            }
-
-            return $colorslist;
-        } else {
-            return [];
-        }
-    }
-
-    function getDevelopmentCheckList()
-    {
-        if (is_array($_REQUEST['development_check_list']) && count($_REQUEST['development_check_list']) > 0) {
-            $development_check_list = $_REQUEST['development_check_list'];
-            $checklist = [];
-
-            foreach ($development_check_list as $i => $task) {
-                if (isset($task['name']) && isset($task['time'])) {
-                    $taskObject = [
-                        'status' => isset($task['status']) ? $task['status'] : '',
-                        'name' => $task['name'],
-                        'time' => $task['time'],
-                    ];
-
-                    $checklist[] = $taskObject;
-                }
-            }
-
-            return $checklist;
-        } else {
-            return [];
-        }
-    }
-
-    function getDeliveryCheckList()
-    {
-        if (is_array($_REQUEST['delivery_check_list']) && count($_REQUEST['delivery_check_list']) > 0) {
-            $delivery_check_list = $_REQUEST['delivery_check_list'];
-            $checklist = [];
-
-            foreach ($delivery_check_list as $i => $task) {
-                if (isset($task['name']) && isset($task['time'])) {
-                    $taskObject = [
-                        'status' => isset($task['status']) ? $task['status'] : '',
-                        'name' => $task['name'],
-                        'time' => $task['time'],
-                    ];
-
-                    $checklist[] = $taskObject;
-                }
-            }
-
-            return $checklist;
-        } else {
-            return [];
-        }
-    }
-
-    function getProjectTeamList()
-    {
-        if (is_array($_REQUEST['project_team_list']) && count($_REQUEST['project_team_list']) > 0) {
-            $project_team_list = $_REQUEST['project_team_list'];
-            $projectTeam = [];
-
-            foreach ($project_team_list as $i => $team_member) {
-                if (isset($team_member['id']) && isset($team_member['role'])) {
-                    $projectTeamObject = [
-                        'id' => $team_member['id'],
-                        'role' => $team_member['role'],
-                    ];
-
-                    $projectTeam[] = $projectTeamObject;
-                }
-            }
-
-            return $projectTeam;
-        } else {
-            return [];
         }
     }
 
@@ -554,7 +365,195 @@ class Portfolio
         <button id="add_team_member_button">Add Team Member</button>
 <?php }
 
-    function save_post_project_button($post_id)
+    function getProjectURLsList()
+    {
+        if (is_array($_REQUEST['project_urls_list']) && count($_REQUEST['project_urls_list']) > 0) {
+            $project_urls_list = $_REQUEST['project_urls_list'];
+            $projecturlslist = [];
+
+            foreach ($project_urls_list as $i => $project_url) {
+                if (isset($project_url['name']) && isset($project_url['url'])) {
+                    $projectURLsObject = [
+                        'name' => $project_url['name'],
+                        'icon' => $project_url['icon'],
+                        'url' => $project_url['url']
+                    ];
+
+                    $projecturlslist[] = $projectURLsObject;
+                }
+            }
+
+            return $projecturlslist;
+        } else {
+            return [];
+        }
+    }
+
+    function getProjectDetailsList()
+    {
+        if (isset($_REQUEST['project_details_list']) && count($_REQUEST['project_details_list']) > 0) {
+            $project_details_list = $_REQUEST['project_details_list'];
+
+            $projectdetailslist = [
+                'client_name' => $project_details_list['client_name'],
+                'start_date' => $project_details_list['start_date'],
+                'end_date' => $project_details_list['end_date']
+            ];
+
+            return $projectdetailslist;
+        } else {
+            return [];
+        }
+    }
+
+    function getProjectVersionsList()
+    {
+        if ((isset($_REQUEST['project_versions_list']['current_version']) || isset($_REQUEST['project_versions_list'][0])) && isset($_REQUEST['project_versions_list']) && count($_REQUEST['project_versions_list']) > 0) {
+            $project_versions_list = $_REQUEST['project_versions_list'];
+
+            foreach ($project_versions_list as $i => $project_version) {
+                if (isset($project_version) && isset($project_version['title']) && isset($project_version['version'])) {
+                    $projectVersionsObject = [
+                        'title' => $project_version['title'],
+                        'version' => $project_version['version']
+                    ];
+
+                    $project_versions[] = $projectVersionsObject;
+                } else {
+                    $project_versions = [];
+                }
+            }
+
+            $projectversionslist = [
+                'current_version' => $project_versions_list['current_version'],
+                is_array($project_versions) ? $project_versions : ''
+            ];
+
+            return $projectversionslist;
+        } else {
+            return [];
+        }
+    }
+
+    function getDesignCheckList()
+    {
+        if (is_array($_REQUEST['design_check_list']) && count($_REQUEST['design_check_list']) > 0) {
+            $design_check_list = $_REQUEST['design_check_list'];
+            $checklist = [];
+
+            foreach ($design_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
+                    $taskObject = [
+                        'status' => isset($task['status']) ? $task['status'] : '',
+                        'name' => $task['name'],
+                        'time' => $task['time'],
+                    ];
+
+                    $checklist[] = $taskObject;
+                }
+            }
+
+            return $checklist;
+        } else {
+            return [];
+        }
+    }
+
+    function getColorsList()
+    {
+        if (is_array($_REQUEST['colors_list']) && count($_REQUEST['colors_list']) > 0) {
+            $colors_list = $_REQUEST['colors_list'];
+            $colorslist = [];
+
+            foreach ($colors_list as $i => $color) {
+                if (isset($color['title']) && isset($color['color'])) {
+                    $colorObject = [
+                        'title' => $color['title'],
+                        'color' => $color['color'],
+                    ];
+
+                    $colorslist[] = $colorObject;
+                }
+            }
+
+            return $colorslist;
+        } else {
+            return [];
+        }
+    }
+
+    function getDevelopmentCheckList()
+    {
+        if (is_array($_REQUEST['development_check_list']) && count($_REQUEST['development_check_list']) > 0) {
+            $development_check_list = $_REQUEST['development_check_list'];
+            $checklist = [];
+
+            foreach ($development_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
+                    $taskObject = [
+                        'status' => isset($task['status']) ? $task['status'] : '',
+                        'name' => $task['name'],
+                        'time' => $task['time'],
+                    ];
+
+                    $checklist[] = $taskObject;
+                }
+            }
+
+            return $checklist;
+        } else {
+            return [];
+        }
+    }
+
+    function getDeliveryCheckList()
+    {
+        if (is_array($_REQUEST['delivery_check_list']) && count($_REQUEST['delivery_check_list']) > 0) {
+            $delivery_check_list = $_REQUEST['delivery_check_list'];
+            $checklist = [];
+
+            foreach ($delivery_check_list as $i => $task) {
+                if (isset($task['name']) && isset($task['time'])) {
+                    $taskObject = [
+                        'status' => isset($task['status']) ? $task['status'] : '',
+                        'name' => $task['name'],
+                        'time' => $task['time'],
+                    ];
+
+                    $checklist[] = $taskObject;
+                }
+            }
+
+            return $checklist;
+        } else {
+            return [];
+        }
+    }
+
+    function getProjectTeamList()
+    {
+        if (is_array($_REQUEST['project_team_list']) && count($_REQUEST['project_team_list']) > 0) {
+            $project_team_list = $_REQUEST['project_team_list'];
+            $projectTeam = [];
+
+            foreach ($project_team_list as $i => $team_member) {
+                if (isset($team_member['id']) && isset($team_member['role'])) {
+                    $projectTeamObject = [
+                        'id' => $team_member['id'],
+                        'role' => $team_member['role'],
+                    ];
+
+                    $projectTeam[] = $projectTeamObject;
+                }
+            }
+
+            return $projectTeam;
+        } else {
+            return [];
+        }
+    }
+
+    function save_project($post_id)
     {
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
