@@ -56,7 +56,7 @@ class JS
 
     function load_front_page_react()
     {
-        if (is_front_page()) {
+        if ($_SERVER['REQUEST_URI'] === '/') {
             if (is_array($this->front_page_react) && !empty($this->front_page_react)) {
                 foreach ($this->front_page_react as $section) {
                     $fileName = ucwords($section);
@@ -81,22 +81,41 @@ class JS
 
     function load_pages_react()
     {
-        if (is_array($this->page_titles) && !empty($this->page_titles)) {
+        if (!empty($this->page_titles) && is_array($this->page_titles)) {
             foreach ($this->page_titles as $page) {
-                $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
+                $full_url = explode('/', $page);
+                $full_path = explode('/', $_SERVER['REQUEST_URI']);
 
-                $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+                $full_url = array_filter($full_url, function ($value) {
+                    return $value !== "";
+                });
 
-                wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+                $full_path = array_filter($full_path, function ($value) {
+                    return $value !== "";
+                });
 
-                if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
-                } else {
-                    error_log($page . ' page has not been created in react JSX.');
+                $full_url = array_values($full_url);
+                $full_path = array_values($full_path);
+
+                $differences = array_diff($full_url, $full_path);
+
+                if (empty($differences)) {
+
+                    $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
+
+                    $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
+
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log($page . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             }
         } else {
             error_log('There are no page titles in the array at ' . $this->dir . ' Pages');
