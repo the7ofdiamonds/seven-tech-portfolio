@@ -30,9 +30,9 @@ const initialState = {
     onboarding_id: '',
 };
 
-export const createProjectOnboarding = createAsyncThunk('onboarding/createProjectOnboarding', async (formData) => {
+export const createProjectOnboarding = createAsyncThunk('portfolioOnboarding/createProjectOnboarding', async (formData) => {
     try {
-        const response = await fetch(`/wp-json/seven-tech/v1/project/onboarding/${formData?.project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -82,8 +82,8 @@ export const createProjectOnboarding = createAsyncThunk('onboarding/createProjec
 });
 
 
-export const onboardingSlice = createSlice({
-    name: 'onboarding',
+export const portfolioOnboardingSlice = createSlice({
+    name: 'portfolioOnboarding',
     initialState,
     extraReducers: (builder) => {
         builder
@@ -103,4 +103,4 @@ export const onboardingSlice = createSlice({
     }
 })
 
-export default onboardingSlice;
+export default portfolioOnboardingSlice;

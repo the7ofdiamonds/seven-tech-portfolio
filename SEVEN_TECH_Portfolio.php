@@ -1,6 +1,6 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio;
+namespace SEVEN_TECH\Portfolio;
 
 /**
  * @package SEVEN_TECH_Portfolio
@@ -26,29 +26,26 @@ define('SEVEN_TECH_PORTFOLIO_URL', WP_PLUGIN_URL . '/seven-tech-portfolio/');
 
 require_once SEVEN_TECH_PORTFOLIO . 'vendor/autoload.php';
 
-use SEVEN_TECH_Portfolio\API\API;
-use SEVEN_TECH_Portfolio\CSS\CSS;
-use SEVEN_TECH_Portfolio\Database\Database;
-use SEVEN_TECH_Portfolio\JS\JS;
-use SEVEN_TECH_Portfolio\Pages\Pages;
-use SEVEN_TECH_Portfolio\Post_Types\Post_Types;
-use SEVEN_TECH_Portfolio\Shortcodes\Shortcodes;
-use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
-use SEVEN_TECH_Portfolio\Templates\Templates;
+use SEVEN_TECH\Portfolio\Admin\Admin;
+use SEVEN_TECH\Portfolio\API\API;
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Router\Router;
 
 class SEVEN_TECH_Portfolio
 {
     public function __construct()
     {
-        new API;
-        new CSS;
-        new Database;
-        new JS;
-        new Pages;
-        new Post_Types;
-        new Shortcodes;
-        new Taxonomies;
-        new Templates;
+        add_action('admin_init', function () {
+            new Admin;
+        });
+
+        add_action('rest_api_init', function () {
+            new API;
+        });
+
+        add_action('init', function () {
+            new Router;
+        });
     }
 
     function activate()
@@ -60,3 +57,6 @@ class SEVEN_TECH_Portfolio
 $seven_tech_portfolio = new SEVEN_TECH_Portfolio();
 register_activation_hook(__FILE__, array($seven_tech_portfolio, 'activate'));
 // register_deactivation_hook( __FILE__, array( $seven_tech_portfolio, 'deactivate' ) );
+
+// $seven_tech_portfolio_post_types = new Post_Types();
+// register_activation_hook(__FILE__, array($seven_tech_portfolio_post_types, 'custom_post_type'));

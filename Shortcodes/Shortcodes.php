@@ -1,13 +1,12 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Shortcodes;
+namespace SEVEN_TECH\Portfolio\Shortcodes;
 
 class Shortcodes
 {
 
     public function __construct()
     {
-        add_shortcode('seven-tech-portfolio', [$this, 'portfolio_shortcode']);
     }
 
     function portfolio_shortcode()

@@ -1,12 +1,12 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\CSS;
+namespace SEVEN_TECH\Portfolio\CSS;
 
-use SEVEN_TECH_Portfolio\Pages\Pages;
-use SEVEN_TECH_Portfolio\Post_Types\Post_Types;
-use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
+use SEVEN_TECH\Portfolio\Pages\Pages;
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
-use SEVEN_TECH_Portfolio\CSS\Customizer\Customizer;
+use SEVEN_TECH\Portfolio\CSS\Customizer\Customizer;
 
 class CSS
 {
@@ -16,8 +16,8 @@ class CSS
     private $cssFileName;
     private $filePath;
     private $page_titles;
-    private $post_types;
-    private $taxonomies;
+    private $post_types_list;
+    private $taxonomies_list;
 
     public function __construct()
     {
@@ -33,11 +33,11 @@ class CSS
         $tax = new Taxonomies;
 
         $this->page_titles = [
-            ...$pages->pages,
-            ...$pages->protected_pages
+            ...$pages->pages_list,
+            ...$pages->protected_pages_list
         ];
-        $this->post_types = $posttypes->post_types;
-        $this->taxonomies = $tax->taxonomies;
+        $this->post_types_list = $posttypes->post_types_list;
+        $this->taxonomies_list = $tax->taxonomies_list;
 
         // new Customizer;
     }
@@ -86,8 +86,8 @@ class CSS
 
     function load_post_types_css()
     {
-        foreach ($this->post_types as $post_type) {
-            if (is_post_type_archive($post_type['name']) || is_singular($post_type['name'])) {
+        foreach ($this->post_types_list as $post_type) {
+            if (is_post_type_archive($post_type) || is_singular($post_type)) {
                 if ($this->filePath) {
                     wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');
                     wp_enqueue_style($this->handle_prefix . 'css');
@@ -100,7 +100,7 @@ class CSS
 
     function load_taxonomies_css()
     {
-        foreach ($this->taxonomies as $taxonomy) {
+        foreach ($this->taxonomies_list as $taxonomy) {
             if (is_tax($taxonomy['taxonomy'])) {
                 if ($this->filePath) {
                     wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');

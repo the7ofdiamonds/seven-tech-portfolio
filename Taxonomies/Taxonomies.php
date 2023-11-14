@@ -1,14 +1,14 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Taxonomies;
+namespace SEVEN_TECH\Portfolio\Taxonomies;
 
 class Taxonomies
 {
-    public $taxonomies;
+    public $taxonomies_list;
 
     public function __construct()
     {
-        $this->taxonomies = [
+        $this->taxonomies_list = [
             [
                 'name' => 'Project Types',
                 'singular' => 'Project Types',
@@ -29,16 +29,11 @@ class Taxonomies
                 'post_type' => 'portfolio'
             ]
         ];
-
-        add_action('init', [$this, 'custom_taxonomy']);
-
-        // new TaxonomiesProjectTypes;
-        // new TaxonomiesProjectTags;
     }
 
     function custom_taxonomy()
     {
-        foreach ($this->taxonomies as $taxonomy) {
+        foreach ($this->taxonomies_list as $taxonomy) {
             $labels = array(
                 'name' => $taxonomy['name'],
                 'singular_name' => $taxonomy['singular'],
@@ -83,7 +78,7 @@ class Taxonomies
     function getTaxTermLinks($post_id, $taxonomy)
     {
         $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
-
+        error_log($post_id . $taxonomy);
         $term_links = [];
 
         foreach ($terms as $term) {

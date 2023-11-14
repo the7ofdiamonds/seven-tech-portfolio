@@ -1,6 +1,6 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Post_Types\Portfolio;
+namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 
 class Uploads
 {

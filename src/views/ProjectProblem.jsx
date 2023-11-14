@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
 import { getProjectByClientID } from '../controllers/projectSlice';
-import { createTheProblem } from '../controllers/theProblemSlice';
+import { createTheProblem } from '../controllers/problemSlice';
 
 import LoadingComponent from '../loading/LoadingComponent';
 import ErrorComponent from '../error/ErrorComponent';

@@ -41,9 +41,9 @@ const initialState = {
   project_tags: '',
 };
 
-export const getProject = createAsyncThunk('project/getProject', async (projectSlug) => {
+export const getProject = createAsyncThunk('portfolioProject/getProject', async (projectSlug) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -63,11 +63,11 @@ export const getProject = createAsyncThunk('project/getProject', async (projectS
   }
 });
 
-export const getProjectByClientID = createAsyncThunk('project/getProjectByClientID', async (projectSlug, { getState }) => {
+export const getProjectByClientID = createAsyncThunk('portfolioProject/getProjectByClientID', async (projectSlug, { getState }) => {
   try {
     const { client_id } = getState().client;
 
-    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}/id`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}/id`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -90,8 +90,8 @@ export const getProjectByClientID = createAsyncThunk('project/getProjectByClient
   }
 });
 
-export const projectSlice = createSlice({
-  name: 'project',
+export const portfolioProjectSlice = createSlice({
+  name: 'portfolioProject',
   initialState,
   extraReducers: (builder) => {
     builder
@@ -195,4 +195,4 @@ export const projectSlice = createSlice({
 })
 
 
-export default projectSlice;
+export default portfolioProjectSlice;

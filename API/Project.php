@@ -1,13 +1,13 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\API;
+namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
 
 use WP_REST_Request;
 use WP_Query;
 
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio\PortfolioProject;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProject;
 
 class Project
 {
@@ -19,30 +19,6 @@ class Project
     {
         $this->post_type = 'portfolio';
         $this->portfolio_project = new PortfolioProject;
-
-        add_action('rest_api_init', function () {
-            register_rest_route('seven-tech/v1', '/portfolio', array(
-                'methods' => 'POST',
-                'callback' => array($this, 'post_project'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('seven-tech/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_project'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('seven-tech/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)/id', array(
-                'methods' => 'POST',
-                'callback' => array($this, 'get_project_by_client_id'),
-                'permission_callback' => '__return_true',
-            ));
-        });
     }
 
     public function post_project(WP_REST_Request $request)

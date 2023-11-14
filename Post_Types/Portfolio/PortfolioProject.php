@@ -1,13 +1,13 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Post_Types\Portfolio;
+namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 
 use Exception;
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
-use SEVEN_TECH_Portfolio\Database\DatabaseProject;
-use SEVEN_TECH_Portfolio\Database\DatabaseOnboarding;
-use SEVEN_TECH_Portfolio\Database\DatabaseTheProblem;
-use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Database\DatabaseOnboarding;
+use SEVEN_TECH\Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class PortfolioProject
 {

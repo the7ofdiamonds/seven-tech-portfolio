@@ -1,15 +1,15 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\API;
+namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
 
 use WP_REST_Request;
 use WP_Query;
 
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
-use SEVEN_TECH_Portfolio\Database\Database;
-use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH\Portfolio\Database\Database;
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 
 class Portfolio
 {
@@ -24,30 +24,6 @@ class Portfolio
         $database = new Database;
 
         $this->project_database = new DatabaseProject($database->project_table);
-
-        add_action('rest_api_init', function () {
-            register_rest_route('seven-tech/v1', '/portfolio', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_portfolio'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/portfolio/types', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_portfolio_types'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/portfolio/tags', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_portfolio_tags'),
-                'permission_callback' => '__return_true',
-            ));
-        });
     }
 
     public function get_portfolio()
@@ -115,6 +91,10 @@ class Portfolio
             $slug = $request->get_param('slug');
 
             $project_types = [];
+            
+            if (empty($slug)) {
+                throw new Exception('Project name required.', 400);
+            }
 
             $terms = get_terms(array(
                 'taxonomy'   => 'project_types',
@@ -122,6 +102,7 @@ class Portfolio
             ));
 
             if ($terms) {
+
                 foreach ($terms as $term) {
                     $project_type = [
                         'name' => $term->name,
@@ -164,6 +145,10 @@ class Portfolio
     {
         try {
             $slug = $request->get_param('slug');
+
+            if (empty($slug)) {
+                throw new Exception('Project name required.', 400);
+            }
 
             $project_tags = [];
 

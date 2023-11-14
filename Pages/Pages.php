@@ -1,12 +1,12 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Pages;
+namespace SEVEN_TECH\Portfolio\Pages;
 
 class Pages
 {
     public $front_page_react;
-    public $pages;
-    public $protected_pages;
+    public $pages_list;
+    public $protected_pages_list;
     public $page_titles;
 
     public function __construct()
@@ -15,16 +15,16 @@ class Pages
             'portfolio',
         ];
 
-        $this->protected_pages = [
+        $this->protected_pages_list = [
             'project/onboarding',
             'project/problem',
         ];
 
-        $this->pages = [];
+        $this->pages_list = [];
 
         $this->page_titles = [
-            ...$this->protected_pages,
-            ...$this->pages
+            ...$this->protected_pages_list,
+            ...$this->pages_list
         ];
 
         add_action('init', [$this, 'react_rewrite_rules']);

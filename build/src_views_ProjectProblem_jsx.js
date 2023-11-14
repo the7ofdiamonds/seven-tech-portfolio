@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
-/* harmony import */ var _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/theProblemSlice */ "./src/controllers/theProblemSlice.js");
+/* harmony import */ var _controllers_problemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/problemSlice */ "./src/controllers/problemSlice.js");
 /* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
 /* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
 
@@ -158,7 +158,7 @@ function TheProblemComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_5__.createTheProblem)(formData)).then(response => {
+    dispatch((0,_controllers_problemSlice__WEBPACK_IMPORTED_MODULE_5__.createTheProblem)(formData)).then(response => {
       if (response.error !== undefined) {
         console.error(response.error.message);
         setMessageType('error');

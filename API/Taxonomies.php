@@ -1,15 +1,15 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\API;
+namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
 
 use WP_REST_Request;
 use WP_Query;
 
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio\Uploads;
-use SEVEN_TECH_Portfolio\Database\Database;
-use SEVEN_TECH_Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH\Portfolio\Database\Database;
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 
 class Taxonomies
 {
@@ -24,26 +24,10 @@ class Taxonomies
         $database = new Database;
 
         $this->project_database = new DatabaseProject($database->project_table);
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/projects/type/(?P<slug>[a-zA-Z0-9-_]+)', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_projects_type'),
-                'permission_callback' => '__return_true',
-            ));
-        });
-
-        add_action('rest_api_init', function () {
-            register_rest_route('thfw/v1', '/projects/tag/(?P<slug>[a-zA-Z0-9-_]+)', array(
-                'methods' => 'GET',
-                'callback' => array($this, 'get_projects_tag'),
-                'permission_callback' => '__return_true',
-            ));
-        });
     }
 
     public function get_projects_type(WP_REST_Request $request)
-    {
+    {error_log('get_projects_type');
         $slug = $request->get_param('slug');
 
         $args = array(

@@ -8356,8 +8356,8 @@ function App() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   clientSlice: function() { return /* binding */ clientSlice; },
-/* harmony export */   getClient: function() { return /* binding */ getClient; }
+/* harmony export */   getClient: function() { return /* binding */ getClient; },
+/* harmony export */   portfolioClientSlice: function() { return /* binding */ portfolioClientSlice; }
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -8370,7 +8370,7 @@ const initialState = {
   first_name: '',
   last_name: ''
 };
-const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('client/getClient', async (_, {
+const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('portfolioClient/getClient', async (_, {
   getState
 }) => {
   const {
@@ -8378,7 +8378,7 @@ const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncTh
   } = getState().client;
   const encodedEmail = encodeURIComponent(user_email);
   try {
-    const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/users/client/${encodedEmail}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -8395,8 +8395,8 @@ const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncTh
     throw error;
   }
 });
-const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'client',
+const portfolioClientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'portfolioClient',
   initialState,
   extraReducers: builder => {
     builder.addCase(getClient.pending, state => {
@@ -8415,7 +8415,7 @@ const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
     });
   }
 });
-/* harmony default export */ __webpack_exports__["default"] = (clientSlice);
+/* harmony default export */ __webpack_exports__["default"] = (portfolioClientSlice);
 
 /***/ }),
 
@@ -8429,7 +8429,7 @@ const clientSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createProjectOnboarding: function() { return /* binding */ createProjectOnboarding; },
-/* harmony export */   onboardingSlice: function() { return /* binding */ onboardingSlice; }
+/* harmony export */   portfolioOnboardingSlice: function() { return /* binding */ portfolioOnboardingSlice; }
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -8462,9 +8462,9 @@ const initialState = {
   plan_url: '',
   onboarding_id: ''
 };
-const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('onboarding/createProjectOnboarding', async formData => {
+const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('portfolioOnboarding/createProjectOnboarding', async formData => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/v1/project/onboarding/${formData?.project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -8510,8 +8510,8 @@ const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     throw error.message;
   }
 });
-const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'onboarding',
+const portfolioOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'portfolioOnboarding',
   initialState,
   extraReducers: builder => {
     builder.addCase(createProjectOnboarding.pending, state => {
@@ -8527,7 +8527,7 @@ const onboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createS
     });
   }
 });
-/* harmony default export */ __webpack_exports__["default"] = (onboardingSlice);
+/* harmony default export */ __webpack_exports__["default"] = (portfolioOnboardingSlice);
 
 /***/ }),
 
@@ -8562,7 +8562,7 @@ const initialState = {
 };
 const getPortfolio = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getPortfolio', async () => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/v1/portfolio`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/portfolio/v1/portfolio`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8570,7 +8570,7 @@ const getPortfolio = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyn
 });
 const getProjectsType = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getProjectsType', async projectType => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/projects/type/${projectType}`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/portfolio/v1/projects/type/${projectType}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -8579,7 +8579,7 @@ const getProjectsType = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createA
 });
 const getProjectsTag = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getProjectsTag', async projectTag => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/projects/tag/${projectTag}`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/portfolio/v1/projects/tag/${projectTag}`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8587,7 +8587,7 @@ const getProjectsTag = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAs
 });
 const getPortfolioTypes = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getPortfolioTypes', async () => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio/types`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/portfolio/v1/portfolio/types`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8595,7 +8595,7 @@ const getPortfolioTypes = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.creat
 });
 const getPortfolioTags = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('portfolio/getPortfolioTags', async () => {
   try {
-    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/thfw/v1/portfolio/tags`);
+    const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`/wp-json/seven-tech/portfolio/v1/portfolio/tags`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -8657,6 +8657,97 @@ const portfolioSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSl
 
 /***/ }),
 
+/***/ "./src/controllers/problemSlice.js":
+/*!*****************************************!*\
+  !*** ./src/controllers/problemSlice.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createTheProblem: function() { return /* binding */ createTheProblem; },
+/* harmony export */   portfolioProblemSlice: function() { return /* binding */ portfolioProblemSlice; }
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const initialState = {
+  loading: false,
+  error: '',
+  customers_impacted: '',
+  problem_affected: '',
+  challenges: '',
+  affected_operations: '',
+  change_event: '',
+  factors_contributed: '',
+  patterns_trends: '',
+  first_notice_date: '',
+  recurring_issue: '',
+  tried_solutions: '',
+  tried_solutions_results: '',
+  ideal_resolution: '',
+  the_problem_id: ''
+};
+const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('portfolioProblem/createTheProblem', async (formData, {
+  getState
+}) => {
+  try {
+    const {
+      client_id
+    } = getState().client;
+    const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_id: client_id,
+        customers_impacted: formData?.customers_impacted,
+        problem_affected: formData?.problem_affected,
+        challenges: formData?.challenges,
+        affected_operations: formData?.affected_operations,
+        change_event: formData?.change_event,
+        factors_contributed: formData?.factors_contributed,
+        patterns_trends: formData?.patterns_trends,
+        first_notice_date: formData?.first_notice_date,
+        recurring_issue: formData?.recurring_issue,
+        tried_solutions: formData?.tried_solutions,
+        tried_solutions_results: formData?.tried_solutions_results,
+        ideal_resolution: formData?.ideal_resolution
+      })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.log(error);
+    throw error.message;
+  }
+});
+const portfolioProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'portfolioProblem',
+  initialState,
+  extraReducers: builder => {
+    builder.addCase(createTheProblem.pending, state => {
+      state.loading = true;
+      state.error = null;
+    }).addCase(createTheProblem.fulfilled, (state, action) => {
+      state.loading = false;
+      state.the_problem_id = action.payload;
+    }).addCase(createTheProblem.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (portfolioProblemSlice);
+
+/***/ }),
+
 /***/ "./src/controllers/projectSlice.js":
 /*!*****************************************!*\
   !*** ./src/controllers/projectSlice.js ***!
@@ -8668,7 +8759,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getProject: function() { return /* binding */ getProject; },
 /* harmony export */   getProjectByClientID: function() { return /* binding */ getProjectByClientID; },
-/* harmony export */   projectSlice: function() { return /* binding */ projectSlice; }
+/* harmony export */   portfolioProjectSlice: function() { return /* binding */ portfolioProjectSlice; }
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
@@ -8712,9 +8803,9 @@ const initialState = {
   project_team: '',
   project_tags: ''
 };
-const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProject', async projectSlug => {
+const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('portfolioProject/getProject', async projectSlug => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -8731,14 +8822,14 @@ const getProject = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncT
     throw error;
   }
 });
-const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('project/getProjectByClientID', async (projectSlug, {
+const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('portfolioProject/getProjectByClientID', async (projectSlug, {
   getState
 }) => {
   try {
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/v1/portfolio/${projectSlug}/id`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}/id`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -8758,8 +8849,8 @@ const getProjectByClientID = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     throw error;
   }
 });
-const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'project',
+const portfolioProjectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'portfolioProject',
   initialState,
   extraReducers: builder => {
     builder.addCase(getProject.pending, state => {
@@ -8855,144 +8946,7 @@ const projectSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlic
     });
   }
 });
-/* harmony default export */ __webpack_exports__["default"] = (projectSlice);
-
-/***/ }),
-
-/***/ "./src/controllers/theProblemSlice.js":
-/*!********************************************!*\
-  !*** ./src/controllers/theProblemSlice.js ***!
-  \********************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   createTheProblem: function() { return /* binding */ createTheProblem; },
-/* harmony export */   definingTheProblemSlice: function() { return /* binding */ definingTheProblemSlice; },
-/* harmony export */   getClient: function() { return /* binding */ getClient; }
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-
-
-const initialState = {
-  loading: false,
-  error: '',
-  customers_impacted: '',
-  problem_affected: '',
-  challenges: '',
-  affected_operations: '',
-  change_event: '',
-  factors_contributed: '',
-  patterns_trends: '',
-  first_notice_date: '',
-  recurring_issue: '',
-  tried_solutions: '',
-  tried_solutions_results: '',
-  ideal_resolution: '',
-  the_problem_id: ''
-};
-const createTheProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('definingTheProblem/createTheProblem', async (formData, {
-  getState
-}) => {
-  try {
-    // const { client_id } = getState().client;
-    const client_id = 14;
-    const response = await fetch('/wp-json/thfw/v1/users/client/problem', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        client_id: client_id,
-        customers_impacted: formData?.customers_impacted,
-        problem_affected: formData?.problem_affected,
-        challenges: formData?.challenges,
-        affected_operations: formData?.affected_operations,
-        change_event: formData?.change_event,
-        factors_contributed: formData?.factors_contributed,
-        patterns_trends: formData?.patterns_trends,
-        first_notice_date: formData?.first_notice_date,
-        recurring_issue: formData?.recurring_issue,
-        tried_solutions: formData?.tried_solutions,
-        tried_solutions_results: formData?.tried_solutions_results,
-        ideal_resolution: formData?.ideal_resolution
-      })
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.log(error);
-    throw error.message;
-  }
-});
-const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('client/getClient', async (_, {
-  getState
-}) => {
-  const {
-    user_email
-  } = getState().client;
-  const encodedEmail = encodeURIComponent(user_email);
-  try {
-    const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.log(error);
-    throw error.message;
-  }
-});
-const definingTheProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
-  name: 'definingTheProblem',
-  initialState,
-  extraReducers: builder => {
-    builder.addCase(createTheProblem.pending, state => {
-      state.loading = true;
-      state.error = null;
-    }).addCase(createTheProblem.fulfilled, (state, action) => {
-      state.loading = false;
-      state.the_problem_id = action.payload;
-    }).addCase(createTheProblem.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message;
-    });
-    // .addCase(getClient.pending, (state) => {
-    //     state.loading = true
-    //     state.error = null
-    // })
-    // .addCase(getClient.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //     state.error = null;
-    //     state.client_id = action.payload.id
-    //     state.first_name = action.payload.first_name
-    //     state.last_name = action.payload.last_name
-    //     state.stripe_customer_id = action.payload.stripe_customer_id
-    // })
-    // .addCase(getClient.rejected, (state, action) => {
-    //     state.loading = false
-    //     state.error = action.error.message
-    // })
-  }
-});
-
-/* harmony default export */ __webpack_exports__["default"] = (definingTheProblemSlice);
+/* harmony default export */ __webpack_exports__["default"] = (portfolioProjectSlice);
 
 /***/ }),
 
@@ -9007,7 +8961,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
-/* harmony import */ var _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controllers/theProblemSlice */ "./src/controllers/theProblemSlice.js");
+/* harmony import */ var _controllers_problemSlice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../controllers/problemSlice */ "./src/controllers/problemSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
 /* harmony import */ var _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/portfolioSlice */ "./src/controllers/portfolioSlice.js");
 
@@ -9018,11 +8972,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const store = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_5__.configureStore)({
   reducer: {
-    client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.clientSlice.reducer,
-    project: _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__.projectSlice.reducer,
+    client: _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_0__.portfolioClientSlice.reducer,
+    project: _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_3__.portfolioProjectSlice.reducer,
     portfolio: _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.portfolioSlice.reducer,
-    onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.onboardingSlice.reducer,
-    theProblem: _controllers_theProblemSlice__WEBPACK_IMPORTED_MODULE_2__.definingTheProblemSlice.reducer
+    onboarding: _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_1__.portfolioOnboardingSlice.reducer,
+    problem: _controllers_problemSlice__WEBPACK_IMPORTED_MODULE_2__.portfolioProblemSlice.reducer
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

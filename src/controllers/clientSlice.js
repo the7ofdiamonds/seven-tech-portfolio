@@ -10,12 +10,12 @@ const initialState = {
     last_name: '',
 };
 
-export const getClient = createAsyncThunk('client/getClient', async (_, { getState }) => {
+export const getClient = createAsyncThunk('portfolioClient/getClient', async (_, { getState }) => {
     const { user_email } = getState().client;
     const encodedEmail = encodeURIComponent(user_email);
 
     try {
-        const response = await fetch(`/wp-json/orb/v1/users/client/${encodedEmail}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/users/client/${encodedEmail}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,8 +35,8 @@ export const getClient = createAsyncThunk('client/getClient', async (_, { getSta
     }
 });
 
-export const clientSlice = createSlice({
-    name: 'client',
+export const portfolioClientSlice = createSlice({
+    name: 'portfolioClient',
     initialState,
     extraReducers: (builder) => {
         builder
@@ -59,4 +59,4 @@ export const clientSlice = createSlice({
     }
 })
 
-export default clientSlice;
+export default portfolioClientSlice;

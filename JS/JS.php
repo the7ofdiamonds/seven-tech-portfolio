@@ -1,10 +1,10 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\JS;
+namespace SEVEN_TECH\Portfolio\JS;
 
-use SEVEN_TECH_Portfolio\Pages\Pages;
-use SEVEN_TECH_Portfolio\Post_Types\Post_Types;
-use SEVEN_TECH_Portfolio\Taxonomies\Taxonomies;
+use SEVEN_TECH\Portfolio\Pages\Pages;
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class JS
 {
@@ -17,7 +17,7 @@ class JS
     private $buildFilePrefixURL;
     private $front_page_react;
     private $page_titles;
-    private $post_types;
+    private $post_types_list;
     private $includes_url;
     private $taxonomies;
 
@@ -37,14 +37,14 @@ class JS
         $tax = new Taxonomies;
 
         $this->page_titles = [
-            ...$pages->pages,
-            ...$pages->protected_pages
+            ...$pages->pages_list,
+            ...$pages->protected_pages_list
         ];
         $this->front_page_react = $pages->front_page_react;
-        $this->post_types = $posttypes->post_types;
+        $this->post_types_list = $posttypes->post_types_list;
 
         $this->includes_url = includes_url();
-        $this->taxonomies = $tax->taxonomies;
+        $this->taxonomies = $tax->taxonomies_list;
     }
 
     function load_js()
@@ -124,9 +124,9 @@ class JS
 
     function load_post_types_archive_react()
     {
-        foreach ($this->post_types as $post_type) {
-            if (is_array($post_type) && isset($post_type['name']) && isset($post_type['archive_page'])) {
-                $fileName = ucwords($post_type['archive_page']);
+        foreach ($this->post_types_list as $post_type) {
+            if (is_array($this->post_types_list)) {
+                $fileName = ucwords($post_type);
                 $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                 $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -135,7 +135,7 @@ class JS
                 if (file_exists($filePath)) {
                     wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                 } else {
-                    error_log('Post Type ' . $post_type['archive_page'] . ' page has not been created in react JSX.');
+                    error_log('Post Type ' . ucfirst($post_type) . ' page has not been created in react JSX.');
                 }
 
                 wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
@@ -147,10 +147,10 @@ class JS
 
     function load_post_types_single_react()
     {
-        foreach ($this->post_types as $post_type) {
-            if (is_array($post_type) && isset($post_type['name']) && isset($post_type['single_page'])) {
-                if (is_singular($post_type['name'])) {
-                    $fileName = ucwords($post_type['single_page']);
+        foreach ($this->post_types_list as $post_type) {
+            if (is_array($this->post_types_list)) {
+                if (is_singular($post_type)) {
+                    $fileName = ucwords($post_type);
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -159,7 +159,7 @@ class JS
                     if (file_exists($filePath)) {
                         wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                     } else {
-                        error_log('Post Type ' . $post_type['single_page'] . ' page has not been created in react JSX.');
+                        error_log('Post Type ' . ucfirst($post_type) . ' page has not been created in react JSX.');
                     }
 
                     wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);

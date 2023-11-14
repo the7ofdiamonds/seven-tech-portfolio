@@ -1,12 +1,12 @@
 <?php
 
-namespace SEVEN_TECH_Portfolio\Post_Types\Portfolio;
+namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 
 use Exception;
 
-use SEVEN_TECH_Portfolio\Database\Database;
-use SEVEN_TECH_Portfolio\Database\DatabaseProject;
-use SEVEN_TECH_Portfolio\Post_Types\Portfolio\PortfolioProject;
+use SEVEN_TECH\Portfolio\Database\Database;
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProject;
 
 class Portfolio
 {
