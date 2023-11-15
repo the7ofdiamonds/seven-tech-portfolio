@@ -19,12 +19,6 @@ class Database
         $this->project_table = $table_prefix;
         $this->project_onboarding_table = $table_prefix . '_project_onboarding';
         $this->project_problem_table = $table_prefix . '_project_problem';
-
-        $this->createTables();
-
-        new DatabaseProject();
-        new DatabaseOnboarding();
-        new DatabaseTheProblem();
     }
 
     function createTables()

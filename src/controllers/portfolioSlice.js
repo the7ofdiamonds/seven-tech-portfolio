@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -12,48 +11,111 @@ const initialState = {
 
 export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () => {
   try {
-    const response = await axios.get(`/wp-json/seven-tech/portfolio/v1/portfolio`);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
 
 export const getProjectsType = createAsyncThunk('portfolio/getProjectsType', async (projectType) => {
   try {
-    const response = await axios.get(`/wp-json/seven-tech/portfolio/v1/projects/type/${projectType}`);
-   
-    console.log(response.data);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/type/${projectType}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
 
 export const getProjectsTag = createAsyncThunk('portfolio/getProjectsTag', async (projectTag) => {
   try {
-    const response = await axios.get(`/wp-json/seven-tech/portfolio/v1/projects/tag/${projectTag}`);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/tag/${projectTag}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
 
 export const getPortfolioTypes = createAsyncThunk('portfolio/getPortfolioTypes', async () => {
   try {
-    const response = await axios.get(`/wp-json/seven-tech/portfolio/v1/portfolio/types`);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/types`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
 
 export const getPortfolioTags = createAsyncThunk('portfolio/getPortfolioTags', async () => {
   try {
-    const response = await axios.get(`/wp-json/seven-tech/portfolio/v1/portfolio/tags`);
-    return response.data;
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/tags`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   } catch (error) {
-    throw new Error(error.message);
+    throw error;
   }
 });
 

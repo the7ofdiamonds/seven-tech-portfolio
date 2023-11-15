@@ -24,8 +24,6 @@ class Router
         $this->protected_pages_list = $this->pages->protected_pages_list;
         $this->pages_list = $this->pages->pages_list;
         $this->post_types_list = $this->post_types->post_types_list;
-
-        $this->load_page();
     }
 
     function load_page()
@@ -47,7 +45,7 @@ class Router
             }
         }
 
-        if (!empty($this->pages_list)) {
+        if (!empty($this->pages_list) && $path !== '/') {
             foreach ($this->pages_list as $pattern) {
                 $regex = '#^/' . $pattern . '/$#';
 
@@ -58,19 +56,22 @@ class Router
             }
         }
 
-        if (!empty($this->post_types_list)) {
-            foreach ($this->post_types_list as $post_type) {
+        if (!empty($this->post_types_list) && $path !== '/') {
+            foreach ($this->post_types_list as $post_type_name => $post_type_class) {
                 $url = array_filter(explode('/', $path), function ($value) {
                     return !empty($value);
                 });
 
-                if (count($url) === 1 && $url[1] === $post_type) {
-                    add_filter('archive_template', [$this->templates, 'get_archive_page_template']);
+                if ($url[1] === $post_type_name) {
+                    if (count($url) === 1) {
+                        add_filter('archive_template', [$this->templates, 'get_archive_page_template']);
+                        break;
+                    }
+
+                    add_filter('single_template', [$this->templates, 'get_single_page_template']);
                     break;
                 }
             }
-
-            add_filter('single_template', [$this->templates, 'get_single_page_template']);
         }
     }
 }

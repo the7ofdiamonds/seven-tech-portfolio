@@ -86,8 +86,8 @@ class CSS
 
     function load_post_types_css()
     {
-        foreach ($this->post_types_list as $post_type) {
-            if (is_post_type_archive($post_type) || is_singular($post_type)) {
+        foreach ($this->post_types_list as $post_type_name => $post_type_class) {
+            if (is_post_type_archive($post_type_name) || is_singular($post_type_name)) {
                 if ($this->filePath) {
                     wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');
                     wp_enqueue_style($this->handle_prefix . 'css');

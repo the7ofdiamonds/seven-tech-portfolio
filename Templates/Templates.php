@@ -32,7 +32,6 @@ class Templates
         $this->js_file = new JS;
         $this->shortcodes = new Shortcodes;
 
-        $this->portfolio = new Post_Type_Portfolio;
     }
 
     function get_front_page_template($frontpage_template)
@@ -80,23 +79,20 @@ class Templates
     public function get_archive_page_template($archive_template)
     {
         if (!empty($this->post_types_list)) {
-            foreach ($this->post_types_list as $post_type) {
-
-                if (is_post_type_archive($post_type)) {
-                    $archive_template = SEVEN_TECH_PORTFOLIO . 'Post_Types/' . ucfirst($post_type) . '/archive-' . $post_type . '.php';
+            foreach ($this->post_types_list as $post_type_name => $post_type_class) {
+                do_action('init_post_type', $post_type_class);
+                if (is_post_type_archive($post_type_name)) {
+                    $archive_template = SEVEN_TECH_PORTFOLIO . 'Post_Types/' . ucfirst($post_type_name) . '/archive-' . $post_type_name . '.php';
 
                     if (file_exists($archive_template)) {
                         add_action('wp_head', [$this->css_file, 'load_post_types_css']);
                         add_action('wp_footer', [$this->js_file, 'load_post_types_archive_react']);
-                        add_action('init', function () use ($post_type) {
-                            $this->$post_type;
-                            $this->post_types->get_taxonomies($post_type);
-                        });
 
                         return $archive_template;
+                    } else {
+                        error_log('can not find temlate');
+                        return $archive_template;
                     }
-
-                    break;
                 }
             }
         }
@@ -108,10 +104,10 @@ class Templates
     function get_single_page_template($single_template)
     {
         if (!empty($this->post_types_list)) {
-            foreach ($this->post_types_list as $post_type) {
+            foreach ($this->post_types_list as $post_type_name => $post_type_class) {
 
-                if (is_singular($post_type)) {
-                    $single_template = SEVEN_TECH_PORTFOLIO . 'Post_Types/' . ucfirst($post_type) . '/single-' . $post_type . '.php';
+                if (is_singular($post_type_name)) {
+                    $single_template = SEVEN_TECH_PORTFOLIO . 'Post_Types/' . ucfirst($post_type_name) . '/single-' . $post_type_name . '.php';
 
                     if (file_exists($single_template)) {
                         add_action('wp_head', [$this->css_file, 'load_post_types_css']);

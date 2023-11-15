@@ -11,14 +11,10 @@ class Post_Type_Portfolio
         add_action('admin_init', function () {
             new Portfolio;
         });
-
-        $this->custom_post_type();
     }
 
-    function custom_post_type()
+    public function custom_post_type()
     {
-        error_log('portfolio post type');
-
         $labels = array(
             'name' => 'PORTFOLIO',
             'singular_name' => 'Project',

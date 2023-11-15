@@ -28,8 +28,11 @@ require_once SEVEN_TECH_PORTFOLIO . 'vendor/autoload.php';
 
 use SEVEN_TECH\Portfolio\Admin\Admin;
 use SEVEN_TECH\Portfolio\API\API;
-use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Router\Router;
+
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class SEVEN_TECH_Portfolio
 {
@@ -44,19 +47,20 @@ class SEVEN_TECH_Portfolio
         });
 
         add_action('init', function () {
-            new Router;
+            (new Router)->load_page();
+            new Post_Types;
+            new Taxonomies;
         });
     }
 
     function activate()
     {
         flush_rewrite_rules();
+        $database = new Database();
+        $database->createTables();
     }
 }
 
 $seven_tech_portfolio = new SEVEN_TECH_Portfolio();
 register_activation_hook(__FILE__, array($seven_tech_portfolio, 'activate'));
 // register_deactivation_hook( __FILE__, array( $seven_tech_portfolio, 'deactivate' ) );
-
-// $seven_tech_portfolio_post_types = new Post_Types();
-// register_activation_hook(__FILE__, array($seven_tech_portfolio_post_types, 'custom_post_type'));

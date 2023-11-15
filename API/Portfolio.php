@@ -10,12 +10,14 @@ use WP_Query;
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
 use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class Portfolio
 {
     private $post_type;
     private $portfolio_uploads;
     private $project_database;
+    private $taxonomies;
 
     public function __construct()
     {
@@ -24,6 +26,7 @@ class Portfolio
         $database = new Database;
 
         $this->project_database = new DatabaseProject($database->project_table);
+        $this->taxonomies = new Taxonomies;
     }
 
     public function get_portfolio()
@@ -85,38 +88,17 @@ class Portfolio
         }
     }
 
-    public function get_portfolio_types(WP_REST_Request $request)
+    public function get_portfolio_types()
     {
         try {
-            $slug = $request->get_param('slug');
+            $project_types = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'project_types');
 
-            $project_types = [];
-            
-            if (empty($slug)) {
-                throw new Exception('Project name required.', 400);
-            }
-
-            $terms = get_terms(array(
-                'taxonomy'   => 'project_types',
-                'slug' => $slug
-            ));
-
-            if ($terms) {
-
-                foreach ($terms as $term) {
-                    $project_type = [
-                        'name' => $term->name,
-                        'slug' => get_term_link($term)
-                    ];
-
-                    $project_types[] = $project_type;
-                }
-
+            if ($project_types) {
                 return rest_ensure_response($project_types);
             } else {
                 $status_code = 404;
                 $response_data = [
-                    'message' => 'No portfolio items found',
+                    'message' => 'No Project Types found',
                     'status' => $status_code
                 ];
 
@@ -141,37 +123,17 @@ class Portfolio
         }
     }
 
-    public function get_portfolio_tags(WP_REST_Request $request)
+    public function get_portfolio_tags()
     {
         try {
-            $slug = $request->get_param('slug');
+            $project_types = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'project_tags');
 
-            if (empty($slug)) {
-                throw new Exception('Project name required.', 400);
-            }
-
-            $project_tags = [];
-
-            $post_tags = get_terms(array(
-                'taxonomy'   => 'project_tags',
-                'slug' => $slug
-            ));
-
-            if ($post_tags) {
-                foreach ($post_tags as $tag) {
-                    $project_tag = [
-                        'name' => $tag->name,
-                        'slug' => get_term_link($tag)
-                    ];
-
-                    $project_tags[] = $project_tag;
-                }
-
-                return rest_ensure_response($project_tags);
+            if ($project_types) {
+                return rest_ensure_response($project_types);
             } else {
                 $status_code = 404;
                 $response_data = [
-                    'message' => 'No tags found',
+                    'message' => 'No Project Tags found',
                     'status' => $status_code
                 ];
 

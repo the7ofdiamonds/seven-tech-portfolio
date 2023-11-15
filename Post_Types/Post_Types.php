@@ -9,15 +9,9 @@ class Post_Types
     public function __construct()
     {
         $this->post_types_list = [
-            'portfolio',
+            'portfolio' => '\SEVEN_TECH\Portfolio\Post_Types\Post_Type_Portfolio',
         ];
-    }
 
-    public function get_taxonomies($post_type){
-        error_log($post_type);
-        $taxonomies = get_object_taxonomies($post_type);
-
-        error_log(print_r($taxonomies, true));
-
+        (new Post_Type_Portfolio)->custom_post_type();
     }
 }

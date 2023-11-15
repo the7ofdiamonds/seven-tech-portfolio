@@ -124,9 +124,9 @@ class JS
 
     function load_post_types_archive_react()
     {
-        foreach ($this->post_types_list as $post_type) {
+        foreach ($this->post_types_list as $post_type_name => $post_type_class) {
             if (is_array($this->post_types_list)) {
-                $fileName = ucwords($post_type);
+                $fileName = ucwords($post_type_name);
                 $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                 $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -135,7 +135,7 @@ class JS
                 if (file_exists($filePath)) {
                     wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                 } else {
-                    error_log('Post Type ' . ucfirst($post_type) . ' page has not been created in react JSX.');
+                    error_log('Post Type ' . ucfirst($post_type_name) . ' page has not been created in react JSX.');
                 }
 
                 wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
@@ -147,10 +147,10 @@ class JS
 
     function load_post_types_single_react()
     {
-        foreach ($this->post_types_list as $post_type) {
+        foreach ($this->post_types_list as $post_type_name => $post_name_class) {
             if (is_array($this->post_types_list)) {
-                if (is_singular($post_type)) {
-                    $fileName = ucwords($post_type);
+                if (is_singular($post_type_name)) {
+                    $fileName = ucwords($post_type_name);
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -159,7 +159,7 @@ class JS
                     if (file_exists($filePath)) {
                         wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                     } else {
-                        error_log('Post Type ' . ucfirst($post_type) . ' page has not been created in react JSX.');
+                        error_log('Post Type ' . ucfirst($post_type_name) . ' page has not been created in react JSX.');
                     }
 
                     wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);

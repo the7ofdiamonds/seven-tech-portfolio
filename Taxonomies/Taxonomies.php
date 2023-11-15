@@ -2,6 +2,8 @@
 
 namespace SEVEN_TECH\Portfolio\Taxonomies;
 
+use Exception;
+
 class Taxonomies
 {
     public $taxonomies_list;
@@ -29,6 +31,8 @@ class Taxonomies
                 'post_type' => 'portfolio'
             ]
         ];
+
+        $this->custom_taxonomy();
     }
 
     function custom_taxonomy()
@@ -75,10 +79,37 @@ class Taxonomies
         }
     }
 
+    function get_post_type_taxonomy($post_type, $taxonomy)
+    {
+        try {
+            $taxonomies = get_object_taxonomies($post_type, 'objects');
+
+            $taxonomy_data = [];
+
+            foreach ($taxonomies as $tax) {
+                $terms = get_terms([
+                    'taxonomy'   => $tax->name,
+                    'hide_empty' => false,
+                ]);
+
+                if ($tax->name === $taxonomy) {
+                    foreach ($terms as $term) {
+                        $taxonomy_data[] = $term;
+                    }
+                }
+            }
+
+            return $taxonomy_data;
+        } catch (Exception $e) {
+            // Handle exceptions if needed
+            return false;
+        }
+    }
+
     function getTaxTermLinks($post_id, $taxonomy)
     {
         $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
-        error_log($post_id . $taxonomy);
+
         $term_links = [];
 
         foreach ($terms as $term) {
