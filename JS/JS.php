@@ -47,13 +47,6 @@ class JS
         $this->includes_url = includes_url();
     }
 
-    function load_js()
-    {
-        // Animations
-        wp_register_script($this->handle_prefix, SEVEN_TECH_PORTFOLIO_URL . 'JS/seven-tech.js', array('jquery'), false, false);
-        wp_enqueue_script($this->handle_prefix);
-    }
-
     function load_front_page_react()
     {
         if ($_SERVER['REQUEST_URI'] === '/') {

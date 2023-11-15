@@ -1,6 +1,6 @@
 <?php
 
-namespace SEVEN_TECH\Roles;
+namespace SEVEN_TECH\Portfolio\Roles;
 
 class Roles
 {

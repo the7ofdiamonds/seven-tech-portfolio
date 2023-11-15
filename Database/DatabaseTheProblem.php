@@ -15,105 +15,148 @@ class DatabaseTheProblem
         $this->wpdb = $wpdb;
         $this->table_name = 'SEVEN_TECH_Portfolio_project_problem';
     }
-    
-    public function saveProblem($problem)
+
+    protected function saveProblem($problem)
     {
-        $result = $this->wpdb->insert(
-            $this->table_name,
-            [
-                'post_id' => $problem['post_id'],
-                'client_id' => $problem['client_id'],
-                'customers_impacted' => $problem['customers_impacted'],
-                'problem_affected' => $problem['problem_affected'],
-                'challenges' => $problem['challenges'],
-                'affected_operations' => $problem['affected_operations'],
-                'change_event' => $problem['change_event'],
-                'factors_contributed' => $problem['factors_contributed'],
-                'patterns_trends' => $problem['patterns_trends'],
-                'first_notice_date' => $problem['first_notice_date'],
-                'recurring_issue' => $problem['recurring_issue'],
-                'tried_solutions' => $problem['tried_solutions'],
-                'tried_solutions_results' => $problem['tried_solutions_results'],
-                'ideal_resolution' => $problem['ideal_resolution'],
-            ]
-        );
+        try {
+            if (!is_array($problem)) {
+                throw new Exception('Project problem data is needed to save to the database.', 400);
+            }
 
-        if (!$result) {
-            $error_message = $this->wpdb->last_error;
-            throw new Exception($error_message);
+            $result = $this->wpdb->insert(
+                $this->table_name,
+                [
+                    'post_id' => $problem['post_id'],
+                    'client_id' => $problem['client_id'],
+                    'customers_impacted' => $problem['customers_impacted'],
+                    'problem_affected' => $problem['problem_affected'],
+                    'challenges' => $problem['challenges'],
+                    'affected_operations' => $problem['affected_operations'],
+                    'change_event' => $problem['change_event'],
+                    'factors_contributed' => $problem['factors_contributed'],
+                    'patterns_trends' => $problem['patterns_trends'],
+                    'first_notice_date' => $problem['first_notice_date'],
+                    'recurring_issue' => $problem['recurring_issue'],
+                    'tried_solutions' => $problem['tried_solutions'],
+                    'tried_solutions_results' => $problem['tried_solutions_results'],
+                    'ideal_resolution' => $problem['ideal_resolution'],
+                ]
+            );
+
+            if (!$result) {
+                throw new Exception('Unable to save the project problem. ' . $this->wpdb->last_error, 500);
+            }
+
+            return $this->wpdb->insert_id;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at saveProblem');
+
+            return $response;
         }
-
-        $problem_id = $this->wpdb->insert_id;
-
-        return $problem_id;
     }
 
-    public function getProblem($post_id)
+    protected function getProblem($post_id)
     {
-        $problem = $this->wpdb->get_row(
-            $this->wpdb->prepare(
-                "SELECT * FROM {$this->table_name} WHERE post_id = %d",
-                $post_id
-            )
-        );
+        try {
+            if (empty($post_id)) {
+                throw new Exception('Post ID is required.', 400);
+            }
 
-        if ($problem === null) {
-            return 'Problem not found';
+            $problem = $this->wpdb->get_row(
+                $this->wpdb->prepare(
+                    "SELECT * FROM {$this->table_name} WHERE post_id = %d",
+                    $post_id
+                )
+            );
+
+            if (!is_object($problem)) {
+                throw new Exception('Project problem not found', 404);
+            }
+
+            $problem_data = [
+                'id' => $problem->id,
+                'post_id' => $problem->post_id,
+                'client_id' => $problem->client_id,
+                'customers_impacted' => $problem->customers_impacted,
+                'problem_affected' => $problem->problem_affected,
+                'challenges' => $problem->challenges,
+                'affected_operations' => $problem->affected_operations,
+                'change_event' => $problem->change_event,
+                'factors_contributed' => $problem->factors_contributed,
+                'patterns_trends' => $problem->patterns_trends,
+                'first_notice_date' => $problem->first_notice_date,
+                'recurring_issue' => $problem->recurring_issue,
+                'tried_solutions' => $problem->tried_solutions,
+                'tried_solutions_results' => $problem->tried_solutions_results,
+                'ideal_resolution' => $problem->ideal_resolution,
+            ];
+
+            return $problem_data;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getProblem');
+
+            return $response;
         }
-
-        $problem_data = [
-            'id' => $problem->id,
-            'post_id' => $problem->post_id,
-            'client_id' => $problem->client_id,
-            'customers_impacted' => $problem->customers_impacted,
-            'problem_affected' => $problem->problem_affected,
-            'challenges' => $problem->challenges,
-            'affected_operations' => $problem->affected_operations,
-            'change_event' => $problem->change_event,
-            'factors_contributed' => $problem->factors_contributed,
-            'patterns_trends' => $problem->patterns_trends,
-            'first_notice_date' => $problem->first_notice_date,
-            'recurring_issue' => $problem->recurring_issue,
-            'tried_solutions' => $problem->tried_solutions,
-            'tried_solutions_results' => $problem->tried_solutions_results,
-            'ideal_resolution' => $problem->ideal_resolution,
-        ];
-
-        return $problem_data;
     }
 
-    public function updateProblem($post_id, $problem)
+    protected function updateProblem($post_id, $problem)
     {
-        $data = array(
-            'post_id' => $problem->post_id,
-            'client_id' => $problem->client_id,
-            'customers_impacted' => $problem->customers_impacted,
-            'problem_affected' => $problem->problem_affected,
-            'challenges' => $problem->challenges,
-            'affected_operations' => $problem->affected_operations,
-            'change_event' => $problem->change_event,
-            'factors_contributed' => $problem->factors_contributed,
-            'patterns_trends' => $problem->patterns_trends,
-            'first_notice_date' => $problem->first_notice_date,
-            'recurring_issue' => $problem->recurring_issue,
-            'tried_solutions' => $problem->tried_solutions,
-            'tried_solutions_results' => $problem->tried_solutions_results,
-            'ideal_resolution' => $problem->ideal_resolution,
-        );
+        try {
+            if (empty($post_id)) {
+                throw new Exception('Post ID is required.', 400);
+            }
 
-        $where = array(
-            'post_id' => $post_id,
-        );
+            if (!is_object($problem)) {
+                throw new Exception('Invalid Project Data', 400);
+            }
 
-        if (!empty($data)) {
-            $updated = $this->wpdb->update($this->table_name, $data, $where);
+            $data = array(
+                'post_id' => $problem->post_id,
+                'client_id' => $problem->client_id,
+                'customers_impacted' => $problem->customers_impacted,
+                'problem_affected' => $problem->problem_affected,
+                'challenges' => $problem->challenges,
+                'affected_operations' => $problem->affected_operations,
+                'change_event' => $problem->change_event,
+                'factors_contributed' => $problem->factors_contributed,
+                'patterns_trends' => $problem->patterns_trends,
+                'first_notice_date' => $problem->first_notice_date,
+                'recurring_issue' => $problem->recurring_issue,
+                'tried_solutions' => $problem->tried_solutions,
+                'tried_solutions_results' => $problem->tried_solutions_results,
+                'ideal_resolution' => $problem->ideal_resolution,
+            );
+
+            $where = array(
+                'post_id' => $post_id,
+            );
+
+            if (!empty($data)) {
+                $updated = $this->wpdb->update($this->table_name, $data, $where);
+            }
+
+            if ($updated === false) {
+
+                throw new Exception($this->wpdb->last_error ?: 'Problem not found');
+            }
+
+            return $updated;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at updateProblem');
+
+            return $response;
         }
-
-        if ($updated === false) {
-
-            throw new Exception($this->wpdb->last_error ?: 'Problem not found');
-        }
-
-        return $updated;
     }
 }

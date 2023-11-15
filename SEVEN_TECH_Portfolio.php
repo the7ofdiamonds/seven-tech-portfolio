@@ -30,6 +30,7 @@ use SEVEN_TECH\Portfolio\Admin\Admin;
 use SEVEN_TECH\Portfolio\API\API;
 use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Roles\Roles;
 use SEVEN_TECH\Portfolio\Router\Router;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
@@ -55,8 +56,8 @@ class SEVEN_TECH_Portfolio
     function activate()
     {
         flush_rewrite_rules();
-        $database = new Database();
-        $database->createTables();
+        (new Database)->createTables();
+        (new Roles)->add_roles();
     }
 }
 

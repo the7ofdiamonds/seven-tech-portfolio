@@ -74,7 +74,7 @@ class Templates
 
     public function get_archive_page_template($archive_template)
     {
-        if (!empty($this->post_types_list)) {
+        if (is_array($this->post_types_list)) {
             foreach ($this->post_types_list as $post_type) {
 
                 if (is_post_type_archive($post_type['name'])) {
@@ -83,7 +83,6 @@ class Templates
                     add_action('wp_footer', [$this->js_file, 'load_post_types_archive_react']);
 
                     if (file_exists($archive_template)) {
-
                         return $archive_template;
                     }
                     
@@ -98,7 +97,7 @@ class Templates
 
     function get_single_page_template($single_template)
     {
-        if (!empty($this->post_types_list)) {
+        if (is_array($this->post_types_list)) {
             foreach ($this->post_types_list as $post_type) {
 
                 if (is_singular($post_type['name'])) {
@@ -120,7 +119,7 @@ class Templates
 
     function get_taxonomy_page_template($taxonomy_template)
     {
-        if (!empty($this->taxonomies_list)) {
+        if (is_array($this->taxonomies_list)) {
             foreach ($this->taxonomies_list as $taxonomy) {
 
                 if (is_tax($taxonomy['taxonomy'])) {

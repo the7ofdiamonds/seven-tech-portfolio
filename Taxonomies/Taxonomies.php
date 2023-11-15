@@ -82,6 +82,14 @@ class Taxonomies
     function get_post_type_taxonomy($post_type, $taxonomy)
     {
         try {
+            if (empty($post_type)) {
+                throw new Exception('Post ID is required.', 400);
+            }
+
+            if (empty($taxonomy)) {
+                throw new Exception('Taxonomy is required.', 400);
+            }
+
             $taxonomies = get_object_taxonomies($post_type, 'objects');
 
             $taxonomy_data = [];
@@ -101,30 +109,51 @@ class Taxonomies
 
             return $taxonomy_data;
         } catch (Exception $e) {
-            // Handle exceptions if needed
-            return false;
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at get_post_type_taxonomy');
+            return $response;
         }
     }
 
     function getTaxTermLinks($post_id, $taxonomy)
     {
-        $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
-
-        $term_links = [];
-
-        foreach ($terms as $term) {
-            $term = get_term_by('slug', $term->slug, $taxonomy);
-
-            if ($term) {
-                $term_link = get_term_link($term);
-
-                $term_links[] = [
-                    'name' => $term->name,
-                    'slug' => $term_link
-                ];
+        try {
+            if (empty($post_id)) {
+                throw new Exception('Post ID is required.', 400);
             }
-        }
 
-        return $term_links;
+            if (empty($taxonomy)) {
+                throw new Exception('Taxonomy is required.', 400);
+            }
+
+            $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
+
+            $term_links = [];
+
+            foreach ($terms as $term) {
+                $term = get_term_by('slug', $term->slug, $taxonomy);
+
+                if ($term) {
+                    $term_link = get_term_link($term);
+
+                    $term_links[] = [
+                        'name' => $term->name,
+                        'slug' => $term_link
+                    ];
+                }
+            }
+
+            return $term_links;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at get_post_type_taxonomy');
+            return $response;
+        }
     }
 }

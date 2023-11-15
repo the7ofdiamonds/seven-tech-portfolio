@@ -91,7 +91,8 @@ class Database
             summary_url VARCHAR(255) DEFAULT NULL,
             plan VARCHAR(255) DEFAULT NULL,
             plan_url VARCHAR(255) DEFAULT NULL,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            UNIQUE KEY post_id (post_id)
         ) $charset_collate;";
 
         dbDelta($sql);
@@ -118,7 +119,8 @@ class Database
             tried_solutions VARCHAR(255) DEFAULT NULL,
             tried_solutions_results VARCHAR(255) DEFAULT NULL,
             ideal_resolution VARCHAR(255) DEFAULT NULL,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            UNIQUE KEY post_id (post_id)
         ) $charset_collate;";
 
         dbDelta($sql);
