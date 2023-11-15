@@ -160,14 +160,14 @@ class Portfolio
     // This should be automatically added when payment is recieved.
     function client_id()
     { ?>
-        <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id']); ?>" />
+        <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id'] ?? ''); ?>" />
     <?php }
 
     function project_urls()
     { ?>
         <div class="project-urls-list" id="project_urls_list">
             <?php
-            $project_urls_list = $this->project['project_urls_list'];
+            $project_urls_list = $this->project['project_urls_list'] ?? '';
 
             if (is_array($project_urls_list)) {
                 foreach ($project_urls_list as $i => $project_url) {
@@ -185,7 +185,7 @@ class Portfolio
 
     function project_details()
     {
-        $project_details_list = $this->project['project_details_list'];
+        $project_details_list = $this->project['project_details_list'] ?? '';
         $client_name = isset($project_details_list['client_name']) ? $this->project['project_details_list']['client_name'] : '';
         $start_date = isset($project_details_list['start_date']) ? $this->project['project_details_list']['start_date'] : '';
         $end_date = isset($project_details_list['end_date']) ? $this->project['project_details_list']['end_date'] : '';
@@ -203,14 +203,14 @@ class Portfolio
     function project_status()
     { ?>
         <div>
-            <h2><?php echo esc_attr($this->project['project_status']); ?></h2>
+            <h2><?php echo esc_attr($this->project['project_status'] ?? ''); ?></h2>
         </div>
     <?php
     }
 
     function project_versions()
     {
-        $project_versions_list = $this->project['project_versions_list'];
+        $project_versions_list = $this->project['project_versions_list'] ?? '';
         $current_version = isset($project_versions_list['current_version']) ? $project_versions_list['current_version'] : '';
         $upcoming_versions = isset($this->project['project_versions_list'][0]) ? $this->project['project_versions_list'][0] : '';
 
@@ -250,14 +250,14 @@ class Portfolio
 
     function design()
     { ?>
-        <textarea name="design"><?php echo esc_textarea($this->project['design']); ?></textarea>
+        <textarea name="design"><?php echo esc_textarea($this->project['design'] ?? ''); ?></textarea>
     <?php }
 
     function design_check_list()
     { ?>
         <div class="task-list" id="design_task_list">
             <?php
-            $design_check_list = $this->project['design_check_list'];
+            $design_check_list = $this->project['design_check_list'] ?? '';
 
             if (is_array($design_check_list)) {
                 foreach ($design_check_list as $i => $task) {
@@ -277,7 +277,7 @@ class Portfolio
     { ?>
         <div class="colors-list" id="colors_list">
             <?php
-            $colors_list = $this->project['colors_list'];
+            $colors_list = $this->project['colors_list'] ?? '';
 
             if (is_array($colors_list)) {
                 foreach ($colors_list as $i => $color) {
@@ -294,14 +294,14 @@ class Portfolio
 
     function development()
     { ?>
-        <textarea name="development"><?php echo esc_attr($this->project['development']); ?></textarea>
+        <textarea name="development"><?php echo esc_attr($this->project['development'] ?? ''); ?></textarea>
     <?php }
 
     function development_check_list()
     { ?>
         <div class="task-list" id="development_task_list">
             <?php
-            $development_check_list = $this->project['development_check_list'];
+            $development_check_list = $this->project['development_check_list'] ?? '';
 
             if (is_array($development_check_list)) {
                 foreach ($development_check_list as $i => $task) {
@@ -319,19 +319,19 @@ class Portfolio
 
     function git_repo()
     { ?>
-        <input type='text' name="git_repo" value="<?php echo esc_attr($this->project['git_repo']); ?>" />
+        <input type='text' name="git_repo" value="<?php echo esc_attr($this->project['git_repo'] ?? ''); ?>" />
     <?php }
 
     function delivery()
     { ?>
-        <textarea name="delivery"><?php echo esc_attr($this->project['delivery']); ?></textarea>
+        <textarea name="delivery"><?php echo esc_attr($this->project['delivery'] ?? ''); ?></textarea>
     <?php }
 
     function delivery_check_list()
     { ?>
         <div class="task-list" id="delivery_task_list">
             <?php
-            $delivery_check_list = $this->project['delivery_check_list'];
+            $delivery_check_list = $this->project['delivery_check_list'] ?? '';
 
             if (is_array($delivery_check_list)) {
                 foreach ($delivery_check_list as $i => $task) { ?>
@@ -350,7 +350,7 @@ class Portfolio
     { ?>
         <div class="project-team-list" id="project_team">
             <?php
-            $project_team_list = $this->project['project_team_list'];
+            $project_team_list = $this->project['project_team_list'] ?? ''; 
 
             if (is_array($project_team_list)) {
                 foreach ($project_team_list as $i => $team_member) {

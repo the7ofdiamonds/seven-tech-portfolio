@@ -29,9 +29,8 @@ require_once SEVEN_TECH_PORTFOLIO . 'vendor/autoload.php';
 use SEVEN_TECH\Portfolio\Admin\Admin;
 use SEVEN_TECH\Portfolio\API\API;
 use SEVEN_TECH\Portfolio\Database\Database;
-use SEVEN_TECH\Portfolio\Router\Router;
-
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Router\Router;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class SEVEN_TECH_Portfolio
@@ -48,8 +47,8 @@ class SEVEN_TECH_Portfolio
 
         add_action('init', function () {
             (new Router)->load_page();
-            new Post_Types;
-            new Taxonomies;
+           (new Post_Types)->custom_post_types();
+            (new Taxonomies)->custom_taxonomy();
         });
     }
 

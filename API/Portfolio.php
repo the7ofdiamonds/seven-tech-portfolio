@@ -32,9 +32,7 @@ class Portfolio
     public function get_portfolio()
     {
         try {
-            $args = array(
-                'post_type' => $this->post_type,
-            );
+            $args = ['post_type' => $this->post_type];
 
             $query = new WP_Query($args);
             $portfolio = [];

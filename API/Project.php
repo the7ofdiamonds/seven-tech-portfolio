@@ -70,7 +70,7 @@ class Project
     }
 
     function get_project_team($team)
-    {error_log(print_r($team));
+    {
         $project_team = [];
 
         if (isset($team) && is_array($team)) {

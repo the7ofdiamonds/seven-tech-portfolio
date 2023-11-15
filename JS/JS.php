@@ -19,7 +19,7 @@ class JS
     private $page_titles;
     private $post_types_list;
     private $includes_url;
-    private $taxonomies;
+    private $taxonomies_list;
 
     public function __construct()
     {
@@ -36,15 +36,15 @@ class JS
         $posttypes = new Post_Types;
         $tax = new Taxonomies;
 
+        $this->front_page_react = $pages->front_page_react;
         $this->page_titles = [
             ...$pages->pages_list,
             ...$pages->protected_pages_list
         ];
-        $this->front_page_react = $pages->front_page_react;
         $this->post_types_list = $posttypes->post_types_list;
+        $this->taxonomies_list = $tax->taxonomies_list;
 
         $this->includes_url = includes_url();
-        $this->taxonomies = $tax->taxonomies_list;
     }
 
     function load_js()
@@ -124,9 +124,9 @@ class JS
 
     function load_post_types_archive_react()
     {
-        foreach ($this->post_types_list as $post_type_name => $post_type_class) {
+        foreach ($this->post_types_list as $post_type) {
             if (is_array($this->post_types_list)) {
-                $fileName = ucwords($post_type_name);
+                $fileName = ucwords($post_type['name']);
                 $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                 $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -135,7 +135,7 @@ class JS
                 if (file_exists($filePath)) {
                     wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                 } else {
-                    error_log('Post Type ' . ucfirst($post_type_name) . ' page has not been created in react JSX.');
+                    error_log('Post Type ' . ucfirst($post_type['name']) . ' page has not been created in react JSX.');
                 }
 
                 wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
@@ -147,10 +147,10 @@ class JS
 
     function load_post_types_single_react()
     {
-        foreach ($this->post_types_list as $post_type_name => $post_name_class) {
+        foreach ($this->post_types_list as $post_type) {
             if (is_array($this->post_types_list)) {
-                if (is_singular($post_type_name)) {
-                    $fileName = ucwords($post_type_name);
+                if (is_singular($post_type['name'])) {
+                    $fileName = ucwords($post_type['name']);
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
 
@@ -159,7 +159,7 @@ class JS
                     if (file_exists($filePath)) {
                         wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                     } else {
-                        error_log('Post Type ' . ucfirst($post_type_name) . ' page has not been created in react JSX.');
+                        error_log('Post Type ' . ucfirst($post_type['name']) . ' page has not been created in react JSX.');
                     }
 
                     wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
@@ -167,4 +167,27 @@ class JS
             }
         }
     }
+
+    function load_taxonomies_react()
+    {
+        foreach ($this->taxonomies_list as $taxonomy) {
+            if (is_array($this->taxonomies_list)) {
+                if (is_tax($taxonomy['taxonomy'])) {
+                    $filePath = $this->buildFilePrefix . $taxonomy['file_name'] . '_jsx.js';
+                    $filePathURL = $this->buildFilePrefixURL . $taxonomy['file_name'] . '_jsx.js';
+
+                    wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
+
+                    if (file_exists($filePath)) {
+                        wp_enqueue_script($this->handle_prefix . 'react_' . $taxonomy['file_name'], $filePathURL, ['wp-element'], 1.0, true);
+                    } else {
+                        error_log('Taxonomy ' . ucfirst($taxonomy['name']) . ' page has not been created in react JSX.');
+                    }
+
+                    wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
+                }
+            }
+        }
+    }
+
 }
