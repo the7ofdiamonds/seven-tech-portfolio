@@ -15,7 +15,7 @@ export const getClient = createAsyncThunk('portfolioClient/getClient', async (_,
     const encodedEmail = encodeURIComponent(user_email);
 
     try {
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/users/client/${encodedEmail}`, {
+        const response = await fetch(`/wp-json/orb/services/v1/users/client/${encodedEmail}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

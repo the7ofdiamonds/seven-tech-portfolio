@@ -25,9 +25,9 @@ class Database
     {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-        $this->create_onboarding_table();
-        $this->create_problem_table();
         $this->create_project_table();
+        $this->create_project_onboarding_table();
+        $this->create_project_problem_table();
     }
 
     function create_project_table()
@@ -58,7 +58,7 @@ class Database
         dbDelta($sql);
     }
 
-    function create_onboarding_table()
+    function create_project_onboarding_table()
     {
         $charset_collate = $this->wpdb->get_charset_collate();
 
@@ -98,7 +98,7 @@ class Database
         dbDelta($sql);
     }
 
-    function create_problem_table()
+    function create_project_problem_table()
     {
         $charset_collate = $this->wpdb->get_charset_collate();
 

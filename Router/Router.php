@@ -42,7 +42,7 @@ class Router
 
         if (!empty($this->protected_pages_list)) {
             foreach ($this->protected_pages_list as $pattern) {
-                $regex = '#^/' . $pattern . '/$#';
+                $regex = '#^/' . $pattern['url'] . '/$#';
 
                 if (preg_match($regex, $path)) {
                     add_filter('template_include', [$this->templates, 'get_protected_page_template']);

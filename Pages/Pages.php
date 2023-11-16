@@ -16,8 +16,8 @@ class Pages
         ];
 
         $this->protected_pages_list = [
-            'project/onboarding',
-            'project/problem',
+            ['url' => 'project/onboarding'],
+            ['url' => 'project/problem/([a-zA-Z+-]+)'],
         ];
 
         $this->pages_list = [];
@@ -27,10 +27,6 @@ class Pages
             ...$this->pages_list
         ];
 
-        add_action('init', [$this, 'react_rewrite_rules']);
-
-        add_filter('query_vars', [$this, 'add_query_vars']);
-
         add_action('init', [$this, 'is_user_logged_in']);
     }
 
@@ -39,11 +35,11 @@ class Pages
         if (is_array($this->page_titles) && count($this->page_titles) > 0) {
 
             foreach ($this->page_titles as $page_title) {
-                $url = explode('/', $page_title);
+                $url = explode('/', $page_title['url']);
                 $segment = count($url) - 1;
 
                 if (isset($url[$segment])) {
-                    add_rewrite_rule('^' . $page_title, 'index.php?' . $url[$segment] . '=$1', 'top');
+                    add_rewrite_rule('^' . $page_title['url'], 'index.php?' . $url[$segment] . '=$1', 'top');
                 }
             }
         }
@@ -54,7 +50,7 @@ class Pages
         if (is_array($this->page_titles) && count($this->page_titles) > 0) {
 
             foreach ($this->page_titles as $page_title) {
-                $url = explode('/', $page_title);
+                $url = explode('/', $page_title['url']);
                 $segment = count($url) - 1;
 
                 $query_vars[] = $url[$segment];

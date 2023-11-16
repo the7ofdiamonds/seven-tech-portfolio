@@ -3,7 +3,7 @@
 namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
-
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use WP_REST_Request;
 use WP_Query;
 
@@ -19,6 +19,7 @@ class Project
     {
         $this->post_type = 'portfolio';
         $this->portfolio_project = new PortfolioProject;
+        $this->project_database = new DatabaseProject;
     }
 
     public function post_project(WP_REST_Request $request)
@@ -162,7 +163,8 @@ class Project
 
             $query = new WP_Query($args);
 
-            if ($query->post) {
+
+            if ($query->have_posts()) {
                 $query->the_post();
 
                 $project_id = get_the_ID();

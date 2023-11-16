@@ -24,7 +24,7 @@ class Post_Types
 
     function custom_post_types()
     {
-        if (!is_array($this->post_types_list)) {
+        if (is_array($this->post_types_list)) {
             foreach ($this->post_types_list as $post_type) {
                 $labels = array(
                     'name' => $post_type['title'],

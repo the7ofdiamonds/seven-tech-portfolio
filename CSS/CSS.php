@@ -57,7 +57,7 @@ class CSS
     function load_pages_css()
     {
         foreach ($this->page_titles as $page) {
-            $full_url = explode('/', $page);
+            $full_url = explode('/', $page['url']);
             $full_path = explode('/', $_SERVER['REQUEST_URI']);
 
             $full_url = array_filter($full_url, function ($value) {

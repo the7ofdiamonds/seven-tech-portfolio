@@ -91,7 +91,7 @@ function TheProblemComponent() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
   const {
     the_problem_id
-  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.theProblem);
+  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     customers_impacted: '',
     problem_affected: '',

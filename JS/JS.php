@@ -76,25 +76,11 @@ class JS
     {
         if (!empty($this->page_titles) && is_array($this->page_titles)) {
             foreach ($this->page_titles as $page) {
-                $full_url = explode('/', $page);
-                $full_path = explode('/', $_SERVER['REQUEST_URI']);
+                $path = $_SERVER['REQUEST_URI'];
+                $regex = '#^/' . $page['url'] . '/$#';
 
-                $full_url = array_filter($full_url, function ($value) {
-                    return $value !== "";
-                });
-
-                $full_path = array_filter($full_path, function ($value) {
-                    return $value !== "";
-                });
-
-                $full_url = array_values($full_url);
-                $full_path = array_values($full_path);
-
-                $differences = array_diff($full_url, $full_path);
-
-                if (empty($differences)) {
-
-                    $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page)));
+                if (preg_match($regex, $path)) {
+                    $fileName = str_replace(' ', '', ucwords(str_replace('/', ' ', $page['url'])));
 
                     $filePath = $this->buildFilePrefix . $fileName . '_jsx.js';
                     $filePathURL = $this->buildFilePrefixURL . $fileName . '_jsx.js';
@@ -104,7 +90,7 @@ class JS
                     if (file_exists($filePath)) {
                         wp_enqueue_script($this->handle_prefix . 'react_' . $fileName, $filePathURL, ['wp-element'], 1.0, true);
                     } else {
-                        error_log($page . ' page has not been created in react JSX.');
+                        error_log($page['url'] . ' page has not been created in react JSX.');
                     }
 
                     wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);

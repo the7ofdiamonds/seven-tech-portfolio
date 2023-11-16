@@ -26,7 +26,7 @@ function TheProblemComponent() {
   const { projectLoading, projectError } = useSelector(
     (state) => state.project
   );
-  const { the_problem_id } = useSelector((state) => state.theProblem);
+  const { the_problem_id } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
     customers_impacted: '',

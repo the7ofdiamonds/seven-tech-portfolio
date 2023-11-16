@@ -58,7 +58,7 @@ class Templates
     }
 
     function get_protected_page_template($template)
-    {
+    {error_log('get_protected_page_template');
         $template = SEVEN_TECH_PORTFOLIO . 'Pages/page-protected.php';
 
         if (file_exists($template)) {

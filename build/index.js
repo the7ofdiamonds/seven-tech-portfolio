@@ -6161,10 +6161,10 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingComponent, null)
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "project/problem/:project",
+    path: "project/problem/:project/",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "project/onboarding/:project",
+    path: "project/onboarding/",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
@@ -6221,7 +6221,7 @@ const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncTh
   } = getState().client;
   const encodedEmail = encodeURIComponent(user_email);
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/users/client/${encodedEmail}`, {
+    const response = await fetch(`/wp-json/orb/services/v1/users/client/${encodedEmail}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

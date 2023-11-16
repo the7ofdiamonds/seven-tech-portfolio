@@ -16,7 +16,7 @@ class DatabaseProject
         $this->table_name = 'SEVEN_TECH_Portfolio';
     }
 
-    protected function saveProject($project)
+    function saveProject($project)
     {
         try {
             if (!is_array($project)) {
@@ -60,7 +60,7 @@ class DatabaseProject
         }
     }
 
-    protected function getProject($post_id)
+    function getProject($post_id)
     {
         try {
             if (empty($post_id)) {
@@ -109,7 +109,7 @@ class DatabaseProject
         }
     }
 
-    protected function getProjectByClientID($post_id, $client_id)
+    function getProjectByClientID($post_id, $client_id)
     {
         try {
             if (empty($post_id)) {
@@ -163,7 +163,7 @@ class DatabaseProject
         }
     }
 
-    protected function updateProject($post_id, $project)
+    function updateProject($post_id, $project)
     {
         try {
             if (empty($post_id)) {

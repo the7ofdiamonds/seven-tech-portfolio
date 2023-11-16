@@ -16,7 +16,7 @@ class DatabaseOnboarding
         $this->table_name = 'SEVEN_TECH_Portfolio_project_onboarding';
     }
 
-    protected function saveOnboarding($onboarding)
+    function saveOnboarding($onboarding)
     {
         try {
             $result = $this->wpdb->insert(
@@ -69,7 +69,7 @@ class DatabaseOnboarding
         }
     }
 
-    protected function getOnboarding($post_id)
+    function getOnboarding($post_id)
     {
         try {
             if (empty($post_id)) {
@@ -124,11 +124,12 @@ class DatabaseOnboarding
             $response = $errorMessage . ' ' . $errorCode;
 
             error_log($response . ' at getOnboarding');
+            
             return $response;
         }
     }
 
-    protected function updateOnboarding($client_id, $onboarding)
+   function updateOnboarding($client_id, $onboarding)
     {
         try {
 

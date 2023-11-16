@@ -4,7 +4,7 @@ namespace SEVEN_TECH\Portfolio\Database;
 
 use Exception;
 
-class DatabaseTheProblem
+class DatabaseProjectProblem
 {
     private $wpdb;
     private $table_name;
@@ -16,7 +16,7 @@ class DatabaseTheProblem
         $this->table_name = 'SEVEN_TECH_Portfolio_project_problem';
     }
 
-    protected function saveProblem($problem)
+    function saveProblem($problem)
     {
         try {
             if (!is_array($problem)) {
@@ -59,7 +59,7 @@ class DatabaseTheProblem
         }
     }
 
-    protected function getProblem($post_id)
+    function getProblem($post_id)
     {
         try {
             if (empty($post_id)) {
@@ -107,7 +107,7 @@ class DatabaseTheProblem
         }
     }
 
-    protected function updateProblem($post_id, $problem)
+   function updateProblem($post_id, $problem)
     {
         try {
             if (empty($post_id)) {

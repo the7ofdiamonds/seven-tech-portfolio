@@ -28,10 +28,13 @@ require_once SEVEN_TECH_PORTFOLIO . 'vendor/autoload.php';
 
 use SEVEN_TECH\Portfolio\Admin\Admin;
 use SEVEN_TECH\Portfolio\API\API;
+use SEVEN_TECH\Portfolio\CSS\Customizer;
 use SEVEN_TECH\Portfolio\Database\Database;
+use SEVEN_TECH\Portfolio\Pages\Pages;
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH\Portfolio\Roles\Roles;
 use SEVEN_TECH\Portfolio\Router\Router;
+use SEVEN_TECH\Portfolio\Shortcodes\Shortcodes;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class SEVEN_TECH_Portfolio
@@ -47,10 +50,16 @@ class SEVEN_TECH_Portfolio
         });
 
         add_action('init', function () {
+            (new Pages)->react_rewrite_rules();
+            (new Post_Types)->custom_post_types();
             (new Router)->load_page();
-           (new Post_Types)->custom_post_types();
+            new Shortcodes;
             (new Taxonomies)->custom_taxonomy();
         });
+
+        // add_action('customize_register', [(new Customizer), 'register_customizer_panel']);
+
+        add_filter('query_vars', [(new Pages), 'add_query_vars']);
     }
 
     function activate()

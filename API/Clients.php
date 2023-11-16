@@ -7,7 +7,7 @@ use WP_REST_Request;
 
 use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Database\DatabaseOnboarding;
-use SEVEN_TECH\Portfolio\Database\DatabaseTheProblem;
+use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
 
 class Clients
 {
@@ -20,7 +20,7 @@ class Clients
 
         $this->onboarding_database = new DatabaseOnboarding($database->project_onboarding_table);
 
-        $this->the_problem_database = new DatabaseTheProblem($database->project_problem_table);
+        $this->the_problem_database = new DatabaseProjectProblem($database->project_problem_table);
     }
 
 
