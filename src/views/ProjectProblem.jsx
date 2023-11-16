@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
 import { getProjectByClientID } from '../controllers/projectSlice';
-import { createTheProblem } from '../controllers/problemSlice';
+import { createProjectProblem } from '../controllers/projectProblemSlice';
 
 import LoadingComponent from '../loading/LoadingComponent';
 import ErrorComponent from '../error/ErrorComponent';
@@ -23,12 +23,14 @@ function TheProblemComponent() {
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
   );
-  const { projectLoading, projectError } = useSelector(
+  const { projectLoading, projectError, project_id } = useSelector(
     (state) => state.project
   );
-  const { the_problem_id } = useSelector((state) => state.problem);
+  const { problem_id } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
+    client_id: client_id,
+    project_id: project_id,
     customers_impacted: '',
     problem_affected: '',
     challenges: '',
@@ -78,13 +80,13 @@ function TheProblemComponent() {
   }, [dispatch, project, client_id]);
 
   useEffect(() => {
-    if (the_problem_id) {
+    if (problem_id) {
       setDisplay('flex');
       setTimeout(() => {
         window.location.href = '/dashboard';
       }, 5000);
     }
-  }, [the_problem_id, dispatch]);
+  }, [problem_id, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -96,7 +98,7 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createTheProblem(formData)).then((response) => {
+    dispatch(createProjectProblem(formData)).then((response) => {
       if (response.error !== undefined) {
         console.error(response.error.message);
         setMessageType('error');

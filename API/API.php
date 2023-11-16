@@ -7,19 +7,45 @@ class API
     public function __construct()
     {
         $clients = new Clients;
+        $onboarding = new Onboarding;
         $portfolio = new Portfolio;
+        $problem = new Problem;
         $project = new Project;
         $taxonomies = new Taxonomies;
 
-        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding', [
             'methods' => 'POST',
-            'callback' => [$clients, 'create_project_onboarding'],
+            'callback' => [$onboarding, 'create_project_onboarding'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'POST',
+            'callback' => [$onboarding, 'get_project_onboarding'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'PUT',
+            'callback' => [$onboarding, 'update_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);
 
         register_rest_route('seven-tech/portfolio/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'POST',
-            'callback' => [$clients, 'create_project_problem'],
+            'callback' => [$problem, 'create_project_problem'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'POST',
+            'callback' => [$problem, 'get_project_problem'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'PUT',
+            'callback' => [$problem, 'update_project_problem'],
             'permission_callback' => '__return_true',
         ]);
 

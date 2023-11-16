@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
 import { getProjectByClientID } from '../controllers/projectSlice';
-import { createProjectOnboarding } from '../controllers/onboardingSlice';
+import { createProjectOnboarding } from '../controllers/projectOnboardingSlice';
 
 import LoadingComponent from '../loading/LoadingComponent';
 import ErrorComponent from '../error/ErrorComponent';
@@ -23,14 +23,14 @@ function OnBoardingComponent() {
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
   );
-  const { projectLoading, projectError } = useSelector(
+  const { projectLoading, projectError, project_id } = useSelector(
     (state) => state.project
   );
   const { onboarding_id } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
-    post_id: '',
-    client_id: '',
+    client_id: client_id,
+    project_id: project_id,
     deadline: '',
     deadline_date: '',
     where_business: '',

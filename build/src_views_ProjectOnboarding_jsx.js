@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
-/* harmony import */ var _controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/onboardingSlice */ "./src/controllers/onboardingSlice.js");
+/* harmony import */ var _controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/projectOnboardingSlice */ "./src/controllers/projectOnboardingSlice.js");
 /* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
 /* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
 
@@ -86,14 +86,15 @@ function OnBoardingComponent() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const {
     projectLoading,
-    projectError
+    projectError,
+    project_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
   const {
     onboarding_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-    post_id: '',
-    client_id: '',
+    client_id: client_id,
+    project_id: project_id,
     deadline: '',
     deadline_date: '',
     where_business: '',
@@ -173,7 +174,7 @@ function OnBoardingComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_onboardingSlice__WEBPACK_IMPORTED_MODULE_5__.createProjectOnboarding)(formData)).then(response => {
+    dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_5__.createProjectOnboarding)(formData)).then(response => {
       if (response.error !== undefined) {
         console.error(response.error.message);
         setMessageType('error');

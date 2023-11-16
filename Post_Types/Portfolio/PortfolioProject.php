@@ -5,7 +5,7 @@ namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 use Exception;
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
-use SEVEN_TECH\Portfolio\Database\DatabaseOnboarding;
+use SEVEN_TECH\Portfolio\Database\DatabaseProjectOnboarding;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
@@ -24,7 +24,7 @@ class PortfolioProject
         $this->portfolio_uploads = new Uploads;
 
         $this->project_database = new DatabaseProject();
-        $this->onboarding_database = new DatabaseOnboarding();
+        $this->onboarding_database = new DatabaseProjectOnboarding();
         $this->theproblem_database = new DatabaseProjectProblem();
 
         $this->taxonomies = new Taxonomies;

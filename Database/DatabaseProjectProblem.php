@@ -26,20 +26,20 @@ class DatabaseProjectProblem
             $result = $this->wpdb->insert(
                 $this->table_name,
                 [
-                    'post_id' => $problem['post_id'],
-                    'client_id' => $problem['client_id'],
-                    'customers_impacted' => $problem['customers_impacted'],
-                    'problem_affected' => $problem['problem_affected'],
-                    'challenges' => $problem['challenges'],
-                    'affected_operations' => $problem['affected_operations'],
-                    'change_event' => $problem['change_event'],
-                    'factors_contributed' => $problem['factors_contributed'],
-                    'patterns_trends' => $problem['patterns_trends'],
-                    'first_notice_date' => $problem['first_notice_date'],
-                    'recurring_issue' => $problem['recurring_issue'],
-                    'tried_solutions' => $problem['tried_solutions'],
-                    'tried_solutions_results' => $problem['tried_solutions_results'],
-                    'ideal_resolution' => $problem['ideal_resolution'],
+                    'project_id' => isset($problem['project_id']) ? $problem['project_id'] : '',
+                    'client_id' => isset($problem['client_id']) ? $problem['client_id'] : '',
+                    'customers_impacted' => isset($problem['customers_impacted']) ? $problem['customers_impacted'] : '',
+                    'problem_affected' => isset($problem['problem_affected']) ? $problem['problem_affected'] : '',
+                    'challenges' => isset($problem['challenges']) ? $problem['challenges'] : '',
+                    'affected_operations' => isset($problem['affected_operations']) ? $problem['affected_operations'] : '',
+                    'change_event' => isset($problem['change_event']) ? $problem['change_event'] : '',
+                    'factors_contributed' => isset($problem['factors_contributed']) ? $problem['factors_contributed'] : '',
+                    'patterns_trends' => isset($problem['patterns_trends']) ? $problem['patterns_trends'] : '',
+                    'first_notice_date' => isset($problem['first_notice_date']) ? $problem['first_notice_date'] : '',
+                    'recurring_issue' => isset($problem['recurring_issue']) ? $problem['recurring_issue'] : '',
+                    'tried_solutions' => isset($problem['tried_solutions']) ? $problem['tried_solutions'] : '',
+                    'tried_solutions_results' => isset($problem['tried_solutions_results']) ? $problem['tried_solutions_results'] : '',
+                    'ideal_resolution' => isset($problem['ideal_resolution']) ? $problem['ideal_resolution'] : '',
                 ]
             );
 
@@ -59,17 +59,17 @@ class DatabaseProjectProblem
         }
     }
 
-    function getProblem($post_id)
+    function getProblem($project_id)
     {
         try {
-            if (empty($post_id)) {
+            if (empty($project_id)) {
                 throw new Exception('Post ID is required.', 400);
             }
 
             $problem = $this->wpdb->get_row(
                 $this->wpdb->prepare(
-                    "SELECT * FROM {$this->table_name} WHERE post_id = %d",
-                    $post_id
+                    "SELECT * FROM {$this->table_name} WHERE project_id = %d",
+                    $project_id
                 )
             );
 
@@ -79,7 +79,7 @@ class DatabaseProjectProblem
 
             $problem_data = [
                 'id' => $problem->id,
-                'post_id' => $problem->post_id,
+                'project_id' => $problem->project_id,
                 'client_id' => $problem->client_id,
                 'customers_impacted' => $problem->customers_impacted,
                 'problem_affected' => $problem->problem_affected,
@@ -107,10 +107,10 @@ class DatabaseProjectProblem
         }
     }
 
-   function updateProblem($post_id, $problem)
+   function updateProblem($project_id, $problem)
     {
         try {
-            if (empty($post_id)) {
+            if (empty($project_id)) {
                 throw new Exception('Post ID is required.', 400);
             }
 
@@ -119,7 +119,7 @@ class DatabaseProjectProblem
             }
 
             $data = array(
-                'post_id' => $problem->post_id,
+                'project_id' => $problem->project_id,
                 'client_id' => $problem->client_id,
                 'customers_impacted' => $problem->customers_impacted,
                 'problem_affected' => $problem->problem_affected,
@@ -136,7 +136,7 @@ class DatabaseProjectProblem
             );
 
             $where = array(
-                'post_id' => $post_id,
+                'project_id' => $project_id,
             );
 
             if (!empty($data)) {

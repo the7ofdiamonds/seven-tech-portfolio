@@ -59,7 +59,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
 /* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
-/* harmony import */ var _controllers_problemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/problemSlice */ "./src/controllers/problemSlice.js");
+/* harmony import */ var _controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/projectProblemSlice */ "./src/controllers/projectProblemSlice.js");
 /* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
 /* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
 
@@ -87,12 +87,15 @@ function TheProblemComponent() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const {
     projectLoading,
-    projectError
+    projectError,
+    project_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
   const {
-    the_problem_id
+    problem_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+    client_id: client_id,
+    project_id: project_id,
     customers_impacted: '',
     problem_affected: '',
     challenges: '',
@@ -139,13 +142,13 @@ function TheProblemComponent() {
     }
   }, [dispatch, project, client_id]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (the_problem_id) {
+    if (problem_id) {
       setDisplay('flex');
       setTimeout(() => {
         window.location.href = '/dashboard';
       }, 5000);
     }
-  }, [the_problem_id, dispatch]);
+  }, [problem_id, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -158,7 +161,7 @@ function TheProblemComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_problemSlice__WEBPACK_IMPORTED_MODULE_5__.createTheProblem)(formData)).then(response => {
+    dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_5__.createProjectProblem)(formData)).then(response => {
       if (response.error !== undefined) {
         console.error(response.error.message);
         setMessageType('error');
