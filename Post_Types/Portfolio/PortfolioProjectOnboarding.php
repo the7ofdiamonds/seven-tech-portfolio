@@ -18,7 +18,40 @@ class PortfolioProjectOnboarding
     function createProjectOnboarding($onboarding)
     {
         try {
+            $client_id = $onboarding['client_id'];
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+
+            // create Project at Portfolio project
+            $project_title = $onboarding['project_title'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
+            $project_data = array(
+                'post_title'    => $project_title,
+                'post_status'   => 'pending',
+                'post_author'   => $client_id,
+                'post_type'     => 'portfolio',
+            );
+
+            $project_id = wp_insert_post($project_data);
+            // 
+            
+            if (is_wp_error($project_id)) {
+                throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+            }
+
+            if (!is_array($onboarding)) {
+                throw new Exception('Project problem data is needed to save to the database.', 400);
+            }
+
             $onboarding_data = [
+                'project_id' => $onboarding['project_id'],
+                'project_title' => $onboarding['project_title'],
                 'client_id' => $onboarding['client_id'],
                 'deadline' => $onboarding['deadline'],
                 'deadline_date' => $onboarding['deadline_date'],
@@ -47,14 +80,62 @@ class PortfolioProjectOnboarding
             ];
 
             $onboarding_id = $this->project_onboarding->saveOnboarding($onboarding_data);
+
             return $onboarding_id;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             $response = $errorMessage . ' ' . $errorCode;
 
+            error_log($response . ' at createProjectOnboarding');
+
             return $response;
         }
     }
 
+    function getProjectOnboarding($project_id)
+    {
+        try {
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
+            }
+
+            $projectOnboarding = $this->project_onboarding->getOnboarding($project_id);
+
+            return $projectOnboarding;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getProjectOnboarding');
+
+            return $response;
+        }
+    }
+
+    function updateProjectOnboarding($client_id, $onboarding)
+    {
+        try {
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+
+            if (!is_object($onboarding)) {
+                throw new Exception('Onboarding data is required to update.', 400);
+            }
+
+            $projectOnboarding = $this->project_onboarding->updateOnboarding($client_id, $onboarding);
+
+            return $projectOnboarding;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at updateProjectOnboarding');
+
+            return $response;
+        }
+    }
 }

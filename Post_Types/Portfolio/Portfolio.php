@@ -621,8 +621,10 @@ class Portfolio
         $existing_project = $this->project_database->getProject($post_id);
 
         if (is_array($existing_project)) {
+            // use update project at portfolio project
             return $this->project_database->updateProject($post_id, $project);
         } else {
+            // use create project at portfolio project
             return $this->project_database->saveProject($project);
         }
     }

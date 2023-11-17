@@ -18,8 +18,24 @@ class PortfolioProjectProblem
     function createProjectProblem($problem)
     {
         try {
+            if (!is_array($problem)) {
+                throw new Exception('Project problem data is needed to save to the database.', 400);
+            }
+
+            $project_id = $problem['project_id'];
+            $client_id = $problem['client_id'];
+
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
+            }
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+
             $problem_data = [
-                'client_id' => $problem['client_id'],
+                'project_id' => $project_id,
+                'client_id' => $client_id,
                 'customers_impacted' => $problem['customers_impacted'],
                 'problem_affected' => $problem['problem_affected'],
                 'challenges' => $problem['challenges'],
@@ -35,11 +51,60 @@ class PortfolioProjectProblem
             ];
 
             $problem_id = $this->project_problem->saveProblem($problem_data);
+
             return $problem_id;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . 'at createProjectProblem');
+
+            return $response;
+        }
+    }
+
+    function getProjectProblem($project_id)
+    {
+        try {
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
+            }
+
+            $problem = $this->project_problem->getProblem($project_id);
+
+            return $problem;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getProjectProblem');
+
+            return $response;
+        }
+    }
+
+    function updateProjectProblem($project_id, $problem)
+    {
+        try {
+            if (empty($project_id)) {
+                throw new Exception('Post ID is required.', 400);
+            }
+
+            if (!is_object($problem)) {
+                throw new Exception('Invalid Project Data', 400);
+            }
+
+            $projectProblem = $this->project_problem->updateProblem($project_id, $problem);
+
+            return $projectProblem;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at updateProjectProblem');
 
             return $response;
         }

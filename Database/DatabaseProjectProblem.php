@@ -23,11 +23,22 @@ class DatabaseProjectProblem
                 throw new Exception('Project problem data is needed to save to the database.', 400);
             }
 
+            $project_id = $problem['project_id'];
+            $client_id = $problem['client_id'];
+
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
+            }
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+
             $result = $this->wpdb->insert(
                 $this->table_name,
                 [
-                    'project_id' => isset($problem['project_id']) ? $problem['project_id'] : '',
-                    'client_id' => isset($problem['client_id']) ? $problem['client_id'] : '',
+                    'project_id' => $project_id,
+                    'client_id' => $client_id,
                     'customers_impacted' => isset($problem['customers_impacted']) ? $problem['customers_impacted'] : '',
                     'problem_affected' => isset($problem['problem_affected']) ? $problem['problem_affected'] : '',
                     'challenges' => isset($problem['challenges']) ? $problem['challenges'] : '',
@@ -63,7 +74,7 @@ class DatabaseProjectProblem
     {
         try {
             if (empty($project_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Project ID is required.', 400);
             }
 
             $problem = $this->wpdb->get_row(
@@ -111,28 +122,28 @@ class DatabaseProjectProblem
     {
         try {
             if (empty($project_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Project ID is required.', 400);
             }
 
-            if (!is_object($problem)) {
+            if (!is_array($problem)) {
                 throw new Exception('Invalid Project Data', 400);
             }
 
             $data = array(
-                'project_id' => $problem->project_id,
-                'client_id' => $problem->client_id,
-                'customers_impacted' => $problem->customers_impacted,
-                'problem_affected' => $problem->problem_affected,
-                'challenges' => $problem->challenges,
-                'affected_operations' => $problem->affected_operations,
-                'change_event' => $problem->change_event,
-                'factors_contributed' => $problem->factors_contributed,
-                'patterns_trends' => $problem->patterns_trends,
-                'first_notice_date' => $problem->first_notice_date,
-                'recurring_issue' => $problem->recurring_issue,
-                'tried_solutions' => $problem->tried_solutions,
-                'tried_solutions_results' => $problem->tried_solutions_results,
-                'ideal_resolution' => $problem->ideal_resolution,
+                'project_id' => $problem['project_id'],
+                'client_id' => $problem['client_id'],
+                'customers_impacted' => $problem['customers_impacted'],
+                'problem_affected' => $problem['problem_affected'],
+                'challenges' => $problem['challenges'],
+                'affected_operations' => $problem['affected_operations'],
+                'change_event' => $problem['change_event'],
+                'factors_contributed' => $problem['factors_contributed'],
+                'patterns_trends' => $problem['patterns_trends'],
+                'first_notice_date' => $problem['first_notice_date'],
+                'recurring_issue' => $problem['recurring_issue'],
+                'tried_solutions' => $problem['tried_solutions'],
+                'tried_solutions_results' => $problem['tried_solutions_results'],
+                'ideal_resolution' => $problem['ideal_resolution'],
             );
 
             $where = array(
@@ -144,8 +155,7 @@ class DatabaseProjectProblem
             }
 
             if ($updated === false) {
-
-                throw new Exception($this->wpdb->last_error ?: 'Problem not found');
+                throw new Exception('Project problem could not be updated' . $this->wpdb->last_error, 500);
             }
 
             return $updated;

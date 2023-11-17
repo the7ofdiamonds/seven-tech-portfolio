@@ -38,7 +38,7 @@ class Database
         id INT NOT NULL AUTO_INCREMENT,
         created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         post_id VARCHAR(255) DEFAULT NULL,
-        client_id VARCHAR(255) DEFAULT NULL,
+        project_title TEXT DEFAULT NULL,
         project_urls_list TEXT DEFAULT NULL,
         project_details_list TEXT DEFAULT NULL,
         project_status VARCHAR(255) DEFAULT NULL,
@@ -52,6 +52,7 @@ class Database
         delivery VARCHAR(255) DEFAULT NULL,
         delivery_check_list TEXT DEFAULT NULL,
         project_team_list TEXT DEFAULT NULL,
+        client_id VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY post_id (post_id)
     ) $charset_collate;";
@@ -67,6 +68,7 @@ class Database
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             project_id INTEGER DEFAULT NULL,
+            project_title VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             deadline VARCHAR(255) DEFAULT NULL,
             deadline_date VARCHAR(255) DEFAULT NULL,

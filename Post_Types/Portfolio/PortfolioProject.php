@@ -30,6 +30,10 @@ class PortfolioProject
         $this->taxonomies = new Taxonomies;
     }
 
+    function createProject(){
+
+    }
+
     function getProjectStatus($post_id)
     {
         try {
@@ -208,4 +212,6 @@ class PortfolioProject
             return $response;
         }
     }
+
+    function updateProject(){}
 }
