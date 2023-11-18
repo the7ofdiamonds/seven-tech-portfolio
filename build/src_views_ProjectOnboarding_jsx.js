@@ -1,30 +1,6 @@
 "use strict";
 (self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_ProjectOnboarding_jsx"],{
 
-/***/ "./src/error/ErrorComponent.jsx":
-/*!**************************************!*\
-  !*** ./src/error/ErrorComponent.jsx ***!
-  \**************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-
-function ErrorComponent(props) {
-  const {
-    error
-  } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
-    className: "error"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "status-bar card error"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, error)));
-}
-/* harmony default export */ __webpack_exports__["default"] = (ErrorComponent);
-
-/***/ }),
-
 /***/ "./src/loading/LoadingComponent.jsx":
 /*!******************************************!*\
   !*** ./src/loading/LoadingComponent.jsx ***!
@@ -55,15 +31,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
-/* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
-/* harmony import */ var _controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/projectOnboardingSlice */ "./src/controllers/projectOnboardingSlice.js");
-/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
-/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
-
-
+/* harmony import */ var _controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectOnboardingSlice */ "./src/controllers/projectOnboardingSlice.js");
+/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
 
 
 
@@ -74,7 +46,7 @@ __webpack_require__.r(__webpack_exports__);
 function OnBoardingComponent() {
   const {
     project
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useParams)();
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To better serve your needs and wants, please fill out the form below.');
@@ -85,38 +57,59 @@ function OnBoardingComponent() {
     client_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const {
-    projectLoading,
-    projectError,
-    project_id
-  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
-  const {
-    onboarding_id
+    onboardingLoading,
+    onboardingError,
+    project_title,
+    deadline,
+    deadline_date,
+    where_business,
+    website,
+    website_url,
+    hosting,
+    satisfied,
+    signage,
+    signage_url,
+    social,
+    social_facebook,
+    social_x,
+    social_linkedin,
+    social_instagram,
+    logo,
+    logo_url,
+    colors,
+    colors_primary,
+    colors_secondary,
+    colors_tertiary,
+    plan,
+    plan_url,
+    onboarding_id,
+    onboarding_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
-    project_id: project_id,
-    deadline: '',
-    deadline_date: '',
-    where_business: '',
-    website: '',
-    website_url: '',
-    hosting: '',
-    satisfied: '',
-    signage: '',
-    signage_url: '',
-    social: '',
-    social_facebook: '',
-    social_x: '',
-    social_linkedin: '',
-    social_instagram: '',
-    logo: '',
-    logo_url: '',
-    colors: '',
-    colors_primary: '#000000',
-    colors_secondary: '#000000',
-    colors_tertiary: '#000000',
-    plan: '',
-    plan_url: ''
+    project_title: project_title,
+    deadline: deadline,
+    deadline_date: deadline_date,
+    where_business: where_business,
+    website: website,
+    website_url: website_url,
+    hosting: hosting,
+    satisfied: satisfied,
+    signage: signage,
+    signage_url: signage_url,
+    social: social,
+    social_facebook: social_facebook,
+    social_x: social_x,
+    social_linkedin: social_linkedin,
+    social_instagram: social_instagram,
+    logo: logo,
+    logo_url: logo_url,
+    colors: colors,
+    colors_primary: colors_primary,
+    colors_secondary: colors_secondary,
+    colors_tertiary: colors_tertiary,
+    plan: plan,
+    plan_url: plan_url
   });
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (user_email) {
@@ -134,34 +127,6 @@ function OnBoardingComponent() {
       });
     }
   }, [user_email, dispatch]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (project && client_id) {
-      dispatch((0,_controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectByClientID)(project, client_id)).then(response => {
-        if (response.error !== undefined) {
-          console.error(response);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData(prevData => ({
-            ...prevData,
-            post_id: response.payload.post_id
-          }));
-        }
-      });
-    }
-  }, [dispatch, project, client_id]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (onboarding_id) {
-      setDisplay('flex');
-      setTimeout(() => {
-        if (formData?.plan === 'no') {
-          window.location.href = `/project/problem/${project}`;
-        } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
-          window.location.href = '/dashboard';
-        }
-      }, 5000);
-    }
-  }, [onboarding_id, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -174,21 +139,25 @@ function OnBoardingComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_5__.createProjectOnboarding)(formData)).then(response => {
-      if (response.error !== undefined) {
-        console.error(response.error.message);
-        setMessageType('error');
-        setMessage(response.error.message);
-      }
-    });
+    if (onboarding_id) {
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData));
+    } else {
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
+        if (response.payload) {
+          setDisplay('flex');
+          setTimeout(() => {
+            if (formData?.plan === 'no') {
+              window.location.href = `/project/problem/${project_title}`;
+            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
+    }
   };
-  if (projectLoading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null);
-  }
-  if (projectError) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      error: projectError
-    });
+  if (onboardingLoading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_5__["default"], null);
   }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "title"
@@ -199,7 +168,20 @@ function OnBoardingComponent() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
     className: "on-boarding",
     action: ""
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: ""
+  }, "Project title"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "options-column"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "option"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "text",
+    id: "project_title",
+    name: "project_title",
+    value: formData.project_title,
+    className: "input-radio",
+    onChange: handleInputChange
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: ""
   }, "Does (your company or organization) have a specific deadline that it needs to meet? If Yes, provide it below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
@@ -646,10 +628,14 @@ function OnBoardingComponent() {
     }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card modal"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct a solution."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct a solution."))), onboardingError && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `status-bar card error`
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, onboardingError)), onboarding_message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `status-bar card success`
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, onboarding_message)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE"))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, onboarding_id ? 'UPDATE' : 'SAVE'))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (OnBoardingComponent);
 

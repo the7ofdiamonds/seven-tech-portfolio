@@ -191,7 +191,6 @@ class DatabaseProject
                 'project_team_list' => serialize($project['project_team_list']),
             );
 
-
             $where = array(
                 'post_id' => $post_id,
             );

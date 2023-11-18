@@ -3,8 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
-import { getProjectByClientID } from '../controllers/projectSlice';
-import { createProjectProblem } from '../controllers/projectProblemSlice';
+import {
+  createProjectProblem,
+  updateProjectProblem,
+} from '../controllers/projectProblemSlice';
 
 import LoadingComponent from '../loading/LoadingComponent';
 import ErrorComponent from '../error/ErrorComponent';
@@ -23,26 +25,43 @@ function TheProblemComponent() {
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
   );
-  const { projectLoading, projectError, project_id } = useSelector(
-    (state) => state.project
-  );
-  const { problem_id } = useSelector((state) => state.problem);
+  const {
+    problemLoading,
+    problemError,
+    summary,
+    summary_url,
+    customers_impacted,
+    problem_affected,
+    challenges,
+    affected_operations,
+    change_event,
+    factors_contributed,
+    patterns_trends,
+    first_notice_date,
+    recurring_issue,
+    tried_solutions,
+    tried_solutions_results,
+    ideal_resolution,
+    problem_id,
+    problem_message,
+  } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
     client_id: client_id,
-    project_id: project_id,
-    customers_impacted: '',
-    problem_affected: '',
-    challenges: '',
-    affected_operations: '',
-    change_event: '',
-    factors_contributed: '',
-    patterns_trends: '',
-    first_notice_date: '',
-    recurring_issue: '',
-    tried_solutions: '',
-    tried_solutions_results: '',
-    ideal_resolution: '',
+    summary: summary,
+    summary_url: summary_url,
+    customers_impacted: customers_impacted,
+    problem_affected: problem_affected,
+    challenges: challenges,
+    affected_operations: affected_operations,
+    change_event: change_event,
+    factors_contributed: factors_contributed,
+    patterns_trends: patterns_trends,
+    first_notice_date: first_notice_date,
+    recurring_issue: recurring_issue,
+    tried_solutions: tried_solutions,
+    tried_solutions_results: tried_solutions_results,
+    ideal_resolution: ideal_resolution,
   });
 
   useEffect(() => {
@@ -62,32 +81,6 @@ function TheProblemComponent() {
     }
   }, [user_email, dispatch]);
 
-  useEffect(() => {
-    if (project && client_id) {
-      dispatch(getProjectByClientID(project, client_id)).then((response) => {
-        if (response.error !== undefined) {
-          console.error(response);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            post_id: response.payload.post_id,
-          }));
-        }
-      });
-    }
-  }, [dispatch, project, client_id]);
-
-  useEffect(() => {
-    if (problem_id) {
-      setDisplay('flex');
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 5000);
-    }
-  }, [problem_id, dispatch]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -98,22 +91,26 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProjectProblem(formData)).then((response) => {
-      if (response.error !== undefined) {
-        console.error(response.error.message);
-        setMessageType('error');
-        setMessage(response.error.message);
-      }
-    });
+    if (problem_id) {
+      dispatch(updateProjectProblem(formData));
+    } else {
+      dispatch(createProjectProblem(formData)).then((response) => {
+        if (response.payload) {
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 5000);
+        }
+      });
+    }
   };
 
-  if (projectLoading) {
+  if (problemLoading) {
     return <LoadingComponent />;
   }
 
-  if (projectError) {
-    return <ErrorComponent error={projectError} />;
-  }
+  // if (projectError) {
+  //   return <ErrorComponent error={projectError} />;
+  // }
 
   return (
     <>
@@ -328,8 +325,20 @@ function TheProblemComponent() {
           </div>
         </span>
 
+        {problemError && (
+          <div className={`status-bar card error`}>
+            <span>{problemError}</span>
+          </div>
+        )}
+
+        {problem_message && (
+          <div className={`status-bar card success`}>
+            <span>{problem_message}</span>
+          </div>
+        )}
+
         <button type="submit" onClick={handleSubmit}>
-          <h3>SAVE</h3>
+          <h3>{problem_id ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </section>
     </>

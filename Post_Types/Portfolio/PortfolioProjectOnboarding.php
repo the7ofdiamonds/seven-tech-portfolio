@@ -9,23 +9,27 @@ use Exception;
 class PortfolioProjectOnboarding
 {
     private $project_onboarding;
+    private $portfolio_project;
 
     public function __construct()
     {
         $this->project_onboarding = new DatabaseProjectOnboarding;
+        $this->portfolio_project = new PortfolioProject;
     }
 
     function createProjectOnboarding($onboarding)
     {
         try {
+            if (!is_array($onboarding)) {
+                throw new Exception('Project problem data is needed to save to the database.', 400);
+            }
+
             $client_id = $onboarding['client_id'];
+            $project_title = $onboarding['project_title'];
 
             if (empty($client_id)) {
                 throw new Exception('Client ID is required.', 400);
             }
-
-            // create Project at Portfolio project
-            $project_title = $onboarding['project_title'];
 
             if (empty($project_title)) {
                 throw new Exception('Project title is required.', 400);
@@ -39,20 +43,15 @@ class PortfolioProjectOnboarding
             );
 
             $project_id = wp_insert_post($project_data);
-            // 
-            
+
             if (is_wp_error($project_id)) {
                 throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
             }
 
-            if (!is_array($onboarding)) {
-                throw new Exception('Project problem data is needed to save to the database.', 400);
-            }
-
             $onboarding_data = [
-                'project_id' => $onboarding['project_id'],
-                'project_title' => $onboarding['project_title'],
-                'client_id' => $onboarding['client_id'],
+                'project_id' => $project_id,
+                'project_title' => $project_title,
+                'client_id' => $client_id,
                 'deadline' => $onboarding['deadline'],
                 'deadline_date' => $onboarding['deadline_date'],
                 'where_business' => $onboarding['where_business'],
@@ -79,9 +78,8 @@ class PortfolioProjectOnboarding
                 'plan_url' => $onboarding['plan_url'],
             ];
 
-            $onboarding_id = $this->project_onboarding->saveOnboarding($onboarding_data);
-
-            return $onboarding_id;
+            $this->portfolio_project->createPortfolioProject($onboarding_data);
+            $this->project_onboarding->saveOnboarding($onboarding_data);
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
@@ -114,18 +112,18 @@ class PortfolioProjectOnboarding
         }
     }
 
-    function updateProjectOnboarding($client_id, $onboarding)
+    function updateProjectOnboarding($project_id, $onboarding)
     {
         try {
-            if (empty($client_id)) {
-                throw new Exception('Client ID is required.', 400);
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
             }
 
-            if (!is_object($onboarding)) {
+            if (!is_array($onboarding)) {
                 throw new Exception('Onboarding data is required to update.', 400);
             }
 
-            $projectOnboarding = $this->project_onboarding->updateOnboarding($client_id, $onboarding);
+            $projectOnboarding = $this->project_onboarding->updateOnboarding($project_id, $onboarding);
 
             return $projectOnboarding;
         } catch (Exception $e) {

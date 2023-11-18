@@ -16,13 +16,18 @@ function App() {
       <Router basename="/">
         <Suspense fallback={<LoadingComponent />}>
           <Routes>
+            
+            <Route
+              path="project/onboarding/:project/"
+              element={<ProjectOnboarding />}
+            />
+                        <Route
+              path="project/onboarding/"
+              element={<ProjectOnboarding />}
+            />
             <Route
               path="project/problem/:project/"
               element={<ProjectProblem />}
-            />
-            <Route
-              path="project/onboarding/"
-              element={<ProjectOnboarding />}
             />
             <Route index path="/" element={<Portfolio />} />
             <Route path="portfolio" element={<Portfolio />} />

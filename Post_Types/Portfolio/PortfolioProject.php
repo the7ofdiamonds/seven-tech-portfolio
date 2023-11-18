@@ -30,8 +30,65 @@ class PortfolioProject
         $this->taxonomies = new Taxonomies;
     }
 
-    function createProject(){
+    function createPortfolioProject($project){
+        try {
+            if (!is_array($project)) {
+                throw new Exception('Project data is needed to save to the database.', 400);
+            }
 
+            $project_title = $project['project_title'];
+            $project_id = $project['project_id'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
+            if (empty($project_id)) {
+                throw new Exception('Project id is required.', 400);
+            }
+
+            $project_data = [
+                'project_id' => $project_id,
+                'project_title' => $project_title,
+                'client_id' => $project['client_id'],
+                'deadline' => $project['deadline'],
+                'deadline_date' => $project['deadline_date'],
+                'where_business' => $project['where_business'],
+                'website' => $project['website'],
+                'website_url' => $project['website_url'],
+                'hosting' => $project['hosting'],
+                'satisfied' => $project['satisfied'],
+                'signage' => $project['signage'],
+                'signage_url' => $project['signage_url'],
+                'social' => $project['social'],
+                'social_facebook' => $project['social_facebook'],
+                'social_x' => $project['social_x'],
+                'social_linkedin' => $project['social_linkedin'],
+                'social_instagram' => $project['social_instagram'],
+                'logo' => $project['logo'],
+                'logo_url' => $project['logo_url'],
+                'colors' => $project['colors'],
+                'colors_primary' => $project['colors_primary'],
+                'colors_secondary' => $project['colors_secondary'],
+                'colors_tertiary' => $project['colors_tertiary'],
+                'summary' => $project['summary'],
+                'summary_url' => $project['summary_url'],
+                'plan' => $project['plan'],
+                'plan_url' => $project['plan_url'],
+            ];
+
+            $project_id = $this->project_database->saveProject($project_data);
+
+            return $project_id;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at createProjectOnboarding');
+
+            return $response;
+        }
     }
 
     function getProjectStatus($post_id)
@@ -150,7 +207,7 @@ class PortfolioProject
         return $project_team;
     }
 
-    function getProject($post_id)
+    function getPortfolioProject($post_id)
     {
         try {
             $project = $this->project_database->getProject($post_id);
@@ -213,5 +270,65 @@ class PortfolioProject
         }
     }
 
-    function updateProject(){}
+    function updatePortfolioProject($project){
+        try {
+            $project_title = $project['project_title'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
+            $project_id = $project['project_id'];
+
+            if (empty($project_id)) {
+                throw new Exception('Project id is required.', 400);
+            }
+
+            if (!is_array($project)) {
+                throw new Exception('Project data is needed to save to the database.', 400);
+            }
+
+            $project_data = [
+                'project_id' => $project_id,
+                'project_title' => $project_title,
+                'client_id' => $project['client_id'],
+                'deadline' => $project['deadline'],
+                'deadline_date' => $project['deadline_date'],
+                'where_business' => $project['where_business'],
+                'website' => $project['website'],
+                'website_url' => $project['website_url'],
+                'hosting' => $project['hosting'],
+                'satisfied' => $project['satisfied'],
+                'signage' => $project['signage'],
+                'signage_url' => $project['signage_url'],
+                'social' => $project['social'],
+                'social_facebook' => $project['social_facebook'],
+                'social_x' => $project['social_x'],
+                'social_linkedin' => $project['social_linkedin'],
+                'social_instagram' => $project['social_instagram'],
+                'logo' => $project['logo'],
+                'logo_url' => $project['logo_url'],
+                'colors' => $project['colors'],
+                'colors_primary' => $project['colors_primary'],
+                'colors_secondary' => $project['colors_secondary'],
+                'colors_tertiary' => $project['colors_tertiary'],
+                'summary' => $project['summary'],
+                'summary_url' => $project['summary_url'],
+                'plan' => $project['plan'],
+                'plan_url' => $project['plan_url'],
+            ];
+
+            $updatedProject = $this->project_database->updateProject($project_id, $project_data);
+
+            return $updatedProject;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at createProjectOnboarding');
+
+            return $response;
+        }
+    }
 }

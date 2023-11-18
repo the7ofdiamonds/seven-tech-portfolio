@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 const initialState = {
     onboardingLoading: false,
     onboardingError: '',
+    project_title: '',
     deadline: '',
     deadline_date: '',
     where_business: '',
@@ -23,11 +24,10 @@ const initialState = {
     colors_primary: '#000000',
     colors_secondary: '#000000',
     colors_tertiary: '#000000',
-    summary: '',
-    summary_url: '',
     plan: '',
     plan_url: '',
     onboarding_id: '',
+    onboarding_message: ''
 };
 
 export const createProjectOnboarding = createAsyncThunk('projectOnboarding/createProjectOnboarding', async (formData, { getState }) => {
@@ -41,7 +41,7 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_id: formData?.project_id,
+                project_title: formData?.project_title,
                 deadline: formData?.deadline,
                 deadline_date: formData?.deadline_date,
                 where_business: formData?.where_business,
@@ -87,7 +87,7 @@ export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProje
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${project}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -115,14 +115,14 @@ export const updateProjectOnboarding = createAsyncThunk('projectOnboarding/updat
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_id: formData?.project_id,
+                project_title: formData?.project_title,
                 deadline: formData?.deadline,
                 deadline_date: formData?.deadline_date,
                 where_business: formData?.where_business,
@@ -177,7 +177,7 @@ export const projectOnboardingSlice = createSlice({
             .addCase(getProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
-                state.project_id = action.payload.project_id
+                state.project_title = action.payload.project_title
                 state.deadline = action.payload.deadline
                 state.deadline_date = action.payload.deadline_date
                 state.where_business = action.payload.where_business
@@ -198,15 +198,13 @@ export const projectOnboardingSlice = createSlice({
                 state.colors_primary = action.payload.colors_primary
                 state.colors_secondary = action.payload.colors_secondary
                 state.colors_tertiary = action.payload.colors_tertiary
-                state.summary = action.payload.summary
-                state.summary_url = action.payload.summary_url
                 state.plan = action.payload.plan
                 state.plan_url = action.payload.plan_url
             })
             .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
-                state.onboarding_id = action.payload
+                state.onboarding_message = action.payload
             })
             .addMatcher(isAnyOf(
                 createProjectOnboarding.pending,

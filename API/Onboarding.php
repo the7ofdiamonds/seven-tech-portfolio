@@ -20,9 +20,21 @@ class Onboarding
     function create_project_onboarding(WP_REST_Request $request)
     {
         try {
+            $client_id = $request['client_id'];
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+            
+            $project_title = $request['project_title'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
             $onboarding = [
-                'project_id' => isset($request['project_id']) ? $request['project_id'] : '',
-                'client_id' => isset($request['client_id']) ? $request['client_id'] : '',
+                'project_title' => $project_title,
+                'client_id' => $client_id,
                 'deadline' => isset($request['deadline']) ? $request['deadline'] : '',
                 'deadline_date' => isset($request['deadline_date']) ? $request['deadline_date'] : '',
                 'where_business' => isset($request['where_business']) ? $request['where_business'] : '',

@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 const initialState = {
     problemLoading: false,
     problemError: '',
+    summary: '',
+    summary_url: '',
     customers_impacted: '',
     problem_affected: '',
     challenges: '',
@@ -15,21 +17,24 @@ const initialState = {
     tried_solutions: '',
     tried_solutions_results: '',
     ideal_resolution: '',
-    problem_id: ''
+    problem_id: '',
+    problem_message: ''
 };
 
 export const createProjectProblem = createAsyncThunk('projectProblem/createProjectProblem', async (formData, { getState }) => {
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_id: formData?.project_id,
+                project_title: formData?.project_title,
+                summary: formData?.summary,
+                summary_url: formData?.summary_url,
                 customers_impacted: formData?.customers_impacted,
                 problem_affected: formData?.problem_affected,
                 challenges: formData?.challenges,
@@ -98,7 +103,9 @@ export const updateProjectProblem = createAsyncThunk('projectProblem/updateProje
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_id: formData?.project_id,
+                project_title: formData?.project_title,
+                summary: formData?.summary,
+                summary_url: formData?.summary_url,
                 customers_impacted: formData?.customers_impacted,
                 problem_affected: formData?.problem_affected,
                 challenges: formData?.challenges,
@@ -142,7 +149,9 @@ export const projectProblemSlice = createSlice({
                 state.problemLoading = false
                 state.problemError = ''
                 state.problem_id = action.payload
-                state.project_id = action.payload.project_id
+                state.project_title = action.payload.project_title
+                state.summary = action.payload.summary
+                state.summary_url = action.payload.summary_url
                 state.customers_impacted = action.payload.customers_impacted
                 state.problem_affected = action.payload.problem_affected
                 state.challenges = action.payload.challenges
@@ -159,7 +168,7 @@ export const projectProblemSlice = createSlice({
             .addCase(updateProjectProblem.fulfilled, (state, action) => {
                 state.problemLoading = false
                 state.problemError = ''
-                state.problem_id = action.payload
+                state.problem_message = action.payload
             })
             .addMatcher(isAnyOf(
                 createProjectProblem.pending,

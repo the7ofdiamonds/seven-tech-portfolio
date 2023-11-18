@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
-import { getProjectByClientID } from '../controllers/projectSlice';
-import { createProjectOnboarding } from '../controllers/projectOnboardingSlice';
+import {
+  createProjectOnboarding,
+  updateProjectOnboarding,
+} from '../controllers/projectOnboardingSlice';
 
 import LoadingComponent from '../loading/LoadingComponent';
-import ErrorComponent from '../error/ErrorComponent';
 
 function OnBoardingComponent() {
   const { project } = useParams();
@@ -23,36 +24,61 @@ function OnBoardingComponent() {
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
   );
-  const { projectLoading, projectError, project_id } = useSelector(
-    (state) => state.project
-  );
-  const { onboarding_id } = useSelector((state) => state.onboarding);
+  const {
+    onboardingLoading,
+    onboardingError,
+    project_title,
+    deadline,
+    deadline_date,
+    where_business,
+    website,
+    website_url,
+    hosting,
+    satisfied,
+    signage,
+    signage_url,
+    social,
+    social_facebook,
+    social_x,
+    social_linkedin,
+    social_instagram,
+    logo,
+    logo_url,
+    colors,
+    colors_primary,
+    colors_secondary,
+    colors_tertiary,
+    plan,
+    plan_url,
+    onboarding_id,
+    onboarding_message,
+  } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
     client_id: client_id,
-    project_id: project_id,
-    deadline: '',
-    deadline_date: '',
-    where_business: '',
-    website: '',
-    website_url: '',
-    hosting: '',
-    satisfied: '',
-    signage: '',
-    signage_url: '',
-    social: '',
-    social_facebook: '',
-    social_x: '',
-    social_linkedin: '',
-    social_instagram: '',
-    logo: '',
-    logo_url: '',
-    colors: '',
-    colors_primary: '#000000',
-    colors_secondary: '#000000',
-    colors_tertiary: '#000000',
-    plan: '',
-    plan_url: '',
+    project_title: project_title,
+    deadline: deadline,
+    deadline_date: deadline_date,
+    where_business: where_business,
+    website: website,
+    website_url: website_url,
+    hosting: hosting,
+    satisfied: satisfied,
+    signage: signage,
+    signage_url: signage_url,
+    social: social,
+    social_facebook: social_facebook,
+    social_x: social_x,
+    social_linkedin: social_linkedin,
+    social_instagram: social_instagram,
+    logo: logo,
+    logo_url: logo_url,
+    colors: colors,
+    colors_primary: colors_primary,
+    colors_secondary: colors_secondary,
+    colors_tertiary: colors_tertiary,
+    plan: plan,
+    plan_url: plan_url,
   });
 
   useEffect(() => {
@@ -71,37 +97,7 @@ function OnBoardingComponent() {
       });
     }
   }, [user_email, dispatch]);
-
-  useEffect(() => {
-    if (project && client_id) {
-      dispatch(getProjectByClientID(project, client_id)).then((response) => {
-        if (response.error !== undefined) {
-          console.error(response);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            post_id: response.payload.post_id,
-          }));
-        }
-      });
-    }
-  }, [dispatch, project, client_id]);
-
-  useEffect(() => {
-    if (onboarding_id) {
-      setDisplay('flex');
-      setTimeout(() => {
-        if (formData?.plan === 'no') {
-          window.location.href = `/project/problem/${project}`;
-        } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
-          window.location.href = '/dashboard';
-        }
-      }, 5000);
-    }
-  }, [onboarding_id, dispatch]);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -112,21 +108,26 @@ function OnBoardingComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProjectOnboarding(formData)).then((response) => {
-      if (response.error !== undefined) {
-        console.error(response.error.message);
-        setMessageType('error');
-        setMessage(response.error.message);
-      }
-    });
+    if (onboarding_id) {
+      dispatch(updateProjectOnboarding(formData));
+    } else {
+      dispatch(createProjectOnboarding(formData)).then((response) => {
+        if (response.payload) {
+          setDisplay('flex');
+          setTimeout(() => {
+            if (formData?.plan === 'no') {
+              window.location.href = `/project/problem/${project_title}`;
+            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
+    }
   };
 
-  if (projectLoading) {
+  if (onboardingLoading) {
     return <LoadingComponent />;
-  }
-
-  if (projectError) {
-    return <ErrorComponent error={projectError} />;
   }
 
   return (
@@ -144,6 +145,21 @@ function OnBoardingComponent() {
           <form className="on-boarding" action="">
             <table>
               <tbody>
+                <tr>
+                  <label htmlFor="">Project title</label>
+                  <div className="options-column">
+                    <span className="option">
+                      <input
+                        type="text"
+                        id="project_title"
+                        name="project_title"
+                        value={formData.project_title}
+                        className="input-radio"
+                        onChange={handleInputChange}
+                      />
+                    </span>
+                  </div>
+                </tr>
                 <tr>
                   <td>
                     <label htmlFor="">
@@ -707,8 +723,20 @@ function OnBoardingComponent() {
           </div>
         </span>
 
+        {onboardingError && (
+          <div className={`status-bar card error`}>
+            <span>{onboardingError}</span>
+          </div>
+        )}
+
+        {onboarding_message && (
+          <div className={`status-bar card success`}>
+            <span>{onboarding_message}</span>
+          </div>
+        )}
+
         <button type="submit" onClick={handleSubmit}>
-          <h3>SAVE</h3>
+          <h3>{onboarding_id ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </section>
     </>

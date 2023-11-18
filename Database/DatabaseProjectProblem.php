@@ -55,7 +55,7 @@ class DatabaseProjectProblem
             );
 
             if (!$result) {
-                throw new Exception('Unable to save the project problem. ' . $this->wpdb->last_error, 500);
+                throw new Exception('Failed to save the project problem. ' . $this->wpdb->last_error, 500);
             }
 
             return $this->wpdb->insert_id;
@@ -85,7 +85,7 @@ class DatabaseProjectProblem
             );
 
             if (!is_object($problem)) {
-                throw new Exception('Project problem not found', 404);
+                throw new Exception('Project problem could not be found.', 404);
             }
 
             $problem_data = [
@@ -126,11 +126,11 @@ class DatabaseProjectProblem
             }
 
             if (!is_array($problem)) {
-                throw new Exception('Invalid Project Data', 400);
+                throw new Exception('Invalid project problem Data.', 400);
             }
 
             $data = array(
-                'project_id' => $problem['project_id'],
+                'project_id' => $project_id,
                 'client_id' => $problem['client_id'],
                 'customers_impacted' => $problem['customers_impacted'],
                 'problem_affected' => $problem['problem_affected'],
@@ -150,15 +150,17 @@ class DatabaseProjectProblem
                 'project_id' => $project_id,
             );
 
-            if (!empty($data)) {
-                $updated = $this->wpdb->update($this->table_name, $data, $where);
-            }
+            $data = array_filter($data, function ($value) {
+                return $value !== null;
+            });
+
+            $updated = $this->wpdb->update($this->table_name, $data, $where);
 
             if ($updated === false) {
-                throw new Exception('Project problem could not be updated' . $this->wpdb->last_error, 500);
+                throw new Exception('Failed to update project problem.' . $this->wpdb->last_error, 500);
             }
 
-            return $updated;
+            return 'Project problem updated successfully.';
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

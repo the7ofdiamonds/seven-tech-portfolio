@@ -20,7 +20,7 @@ class DatabaseProjectOnboarding
     {
         try {
             if (!is_array($onboarding)) {
-                throw new Exception('Project problem data is needed to save to the database.', 400);
+                throw new Exception('Invalid project problem data.', 400);
             }
 
             $project_id = $onboarding['project_id'];
@@ -77,16 +77,14 @@ class DatabaseProjectOnboarding
                 throw new Exception($error_message);
             }
 
-            $onboarding_id = $this->wpdb->insert_id;
-
-            return $onboarding_id;
+            return $this->wpdb->insert_id;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             $response = $errorMessage . ' ' . $errorCode;
 
             error_log($response . ' at saveOnboarding');
-            
+
             return $response;
         }
     }
@@ -95,7 +93,7 @@ class DatabaseProjectOnboarding
     {
         try {
             if (empty($project_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Project ID is required.', 400);
             }
 
             $onboarding = $this->wpdb->get_row(
@@ -105,42 +103,42 @@ class DatabaseProjectOnboarding
                 )
             );
 
-            if (is_object($onboarding)) {
-                $onboarding_data = [
-                    'id' => $onboarding->id,
-                    'project_id' => $onboarding->project_id,
-                    'project_title' => $onboarding->project_title,
-                    'client_id' => $onboarding->client_id,
-                    'deadline' => $onboarding->deadline,
-                    'deadline_date' => $onboarding->deadline_date,
-                    'where_business' => $onboarding->where_business,
-                    'website' => $onboarding->website,
-                    'website_url' => $onboarding->website_url,
-                    'hosting' => $onboarding->hosting,
-                    'satisfied' => $onboarding->satisfied,
-                    'signage' => $onboarding->signage,
-                    'signage_url' => $onboarding->signage_url,
-                    'social' => $onboarding->social,
-                    'social_facebook' => $onboarding->social_facebook,
-                    'social_x' => $onboarding->social_x,
-                    'social_linkedin' => $onboarding->social_linkedin,
-                    'social_instagram' => $onboarding->social_instagram,
-                    'logo' => $onboarding->logo,
-                    'logo_url' => $onboarding->logo_url,
-                    'colors' => $onboarding->colors,
-                    'colors_primary' => $onboarding->colors_primary,
-                    'colors_secondary' => $onboarding->colors_secondary,
-                    'colors_tertiary' => $onboarding->colors_tertiary,
-                    'summary' => $onboarding->summary,
-                    'summary_url' => $onboarding->summary_url,
-                    'plan' => $onboarding->plan,
-                    'plan_url' => $onboarding->plan_url,
-                ];
-
-                return $onboarding_data;
-            } else {
-                throw new Exception('Onboarding not be found.', 404);
+            if (!is_object($onboarding)) {
+                throw new Exception('Project onboarding could not be found.', 404);
             }
+
+            $onboarding_data = [
+                'id' => $onboarding->id,
+                'project_id' => $onboarding->project_id,
+                'project_title' => $onboarding->project_title,
+                'client_id' => $onboarding->client_id,
+                'deadline' => $onboarding->deadline,
+                'deadline_date' => $onboarding->deadline_date,
+                'where_business' => $onboarding->where_business,
+                'website' => $onboarding->website,
+                'website_url' => $onboarding->website_url,
+                'hosting' => $onboarding->hosting,
+                'satisfied' => $onboarding->satisfied,
+                'signage' => $onboarding->signage,
+                'signage_url' => $onboarding->signage_url,
+                'social' => $onboarding->social,
+                'social_facebook' => $onboarding->social_facebook,
+                'social_x' => $onboarding->social_x,
+                'social_linkedin' => $onboarding->social_linkedin,
+                'social_instagram' => $onboarding->social_instagram,
+                'logo' => $onboarding->logo,
+                'logo_url' => $onboarding->logo_url,
+                'colors' => $onboarding->colors,
+                'colors_primary' => $onboarding->colors_primary,
+                'colors_secondary' => $onboarding->colors_secondary,
+                'colors_tertiary' => $onboarding->colors_tertiary,
+                'summary' => $onboarding->summary,
+                'summary_url' => $onboarding->summary_url,
+                'plan' => $onboarding->plan,
+                'plan_url' => $onboarding->plan_url,
+            ];
+
+            return $onboarding_data;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
@@ -152,21 +150,32 @@ class DatabaseProjectOnboarding
         }
     }
 
-    function updateOnboarding($client_id, $onboarding)
+    function updateOnboarding($project_id, $onboarding)
     {
         try {
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
+            }
+
+            if (!is_array($onboarding)) {
+                throw new Exception('Invalid project onboarding data.', 400);
+            }
+
+            $project_title = $onboarding['project_title'];
+            $client_id = $onboarding['client_id'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
             if (empty($client_id)) {
                 throw new Exception('Client ID is required.', 400);
             }
 
-            if (!is_object($onboarding)) {
-                throw new Exception('Onboarding data is required to update.', 400);
-            }
-
             $data = array(
-                'project_id' => $onboarding['project_id'],
-                'project_title' => $onboarding['project_title'],
-                'client_id' => $onboarding['client_id'],
+                'project_id' => $project_id,
+                'project_title' => $project_title,
+                'client_id' => $client_id,
                 'deadline' => $onboarding['deadline'],
                 'deadline_date' => $onboarding['deadline_date'],
                 'where_business' => $onboarding['where_business'],
@@ -195,18 +204,20 @@ class DatabaseProjectOnboarding
             );
 
             $where = array(
-                'client_id' => $client_id,
+                'project_id' => $project_id,
             );
 
-            if (!empty($data)) {
-                $updated = $this->wpdb->update($this->table_name, $data, $where);
-            }
+            $data = array_filter($data, function ($value) {
+                return $value !== null;
+            });
+
+            $updated = $this->wpdb->update($this->table_name, $data, $where);
 
             if ($updated === false) {
-                throw new Exception('Project onboarding could not be updated.' . $this->wpdb->last_error, 500);
+                throw new Exception('Failed to update project onboarding.' . $this->wpdb->last_error, 500);
             }
 
-            return $updated;
+            return 'Project onboarding updated successfully.';
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

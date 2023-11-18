@@ -26,8 +26,6 @@ class Pages
             ...$this->protected_pages_list,
             ...$this->pages_list
         ];
-
-        add_action('init', [$this, 'is_user_logged_in']);
     }
 
     function react_rewrite_rules()

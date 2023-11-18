@@ -10,7 +10,6 @@ use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProject;
 
 class Portfolio
 {
-    private $project_database;
     private $portfolio_project;
     private $inputs;
     private $post_type;
@@ -113,8 +112,6 @@ class Portfolio
 
         add_action('load-post.php', [$this, 'get_project']);
 
-        $database = new Database;
-        $this->project_database = new DatabaseProject($database->project_table);
         $this->portfolio_project = new PortfolioProject;
 
         add_action('save_post', [$this, 'save_project']);
@@ -152,12 +149,14 @@ class Portfolio
             $post_id = absint($_GET['post']);
 
             if ($post_id) {
-                $this->project = $this->portfolio_project->getProject($post_id);
+                $this->project = $this->portfolio_project->getPortfolioProject($post_id);
             }
         }
     }
 
     // This should be automatically added when payment is recieved.
+    // this should be an array of users
+    // Should be a dropdown to select users to give access too
     function client_id()
     { ?>
         <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id'] ?? ''); ?>" />
@@ -601,8 +600,8 @@ class Portfolio
         }
 
         $project = [
-            'client_id' => !empty($_REQUEST['client_id']) ? sanitize_text_field($_REQUEST['client_id']) : '',
-            'post_id' => $post_id,
+            'project_title' => get_the_title($post_id),
+            'project_id' => $post_id,
             'project_urls_list' => $project_urls_list,
             'project_details_list' => $project_details_list,
             'project_status' => $this->portfolio_project->getProjectStatus($post_id),
@@ -616,16 +615,15 @@ class Portfolio
             'delivery' => isset($_REQUEST['delivery']) ? sanitize_text_field($_REQUEST['delivery']) : '',
             'delivery_check_list' => $delivery_check_list,
             'project_team_list' => $project_team_list,
+            'client_id' => !empty($_REQUEST['client_id']) ? sanitize_text_field($_REQUEST['client_id']) : '',
         ];
 
-        $existing_project = $this->project_database->getProject($post_id);
+        $existing_project = $this->portfolio_project->getPortfolioProject($post_id);
 
         if (is_array($existing_project)) {
-            // use update project at portfolio project
-            return $this->project_database->updateProject($post_id, $project);
+            return $this->portfolio_project->updatePortfolioProject($post_id, $project);
         } else {
-            // use create project at portfolio project
-            return $this->project_database->saveProject($project);
+            return $this->portfolio_project->createPortfolioProject($project);
         }
     }
 }

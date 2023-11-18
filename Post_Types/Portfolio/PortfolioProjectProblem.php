@@ -89,11 +89,11 @@ class PortfolioProjectProblem
     {
         try {
             if (empty($project_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Project ID is required.', 400);
             }
 
-            if (!is_object($problem)) {
-                throw new Exception('Invalid Project Data', 400);
+            if (!is_array($problem)) {
+                throw new Exception('Invalid Project problem Data', 400);
             }
 
             $projectProblem = $this->project_problem->updateProblem($project_id, $problem);

@@ -6161,11 +6161,14 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_1__.Suspense, {
     fallback: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(LoadingComponent, null)
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Routes, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
-    path: "project/problem/:project/",
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
+    path: "project/onboarding/:project/",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     path: "project/onboarding/",
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectOnboarding, null)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
+    path: "project/problem/:project/",
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ProjectProblem, null)
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Route, {
     index: true,
     path: "/",
@@ -6456,6 +6459,7 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
   onboardingLoading: false,
   onboardingError: '',
+  project_title: '',
   deadline: '',
   deadline_date: '',
   where_business: '',
@@ -6476,11 +6480,10 @@ const initialState = {
   colors_primary: '#000000',
   colors_secondary: '#000000',
   colors_tertiary: '#000000',
-  summary: '',
-  summary_url: '',
   plan: '',
   plan_url: '',
-  onboarding_id: ''
+  onboarding_id: '',
+  onboarding_message: ''
 };
 const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectOnboarding/createProjectOnboarding', async (formData, {
   getState
@@ -6496,7 +6499,7 @@ const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_id: formData?.project_id,
+        project_title: formData?.project_title,
         deadline: formData?.deadline,
         deadline_date: formData?.deadline_date,
         where_business: formData?.where_business,
@@ -6542,7 +6545,7 @@ const getProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${project}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -6570,14 +6573,14 @@ const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_id: formData?.project_id,
+        project_title: formData?.project_title,
         deadline: formData?.deadline,
         deadline_date: formData?.deadline_date,
         where_business: formData?.where_business,
@@ -6627,7 +6630,7 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
     }).addCase(getProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
-      state.project_id = action.payload.project_id;
+      state.project_title = action.payload.project_title;
       state.deadline = action.payload.deadline;
       state.deadline_date = action.payload.deadline_date;
       state.where_business = action.payload.where_business;
@@ -6648,14 +6651,12 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
       state.colors_primary = action.payload.colors_primary;
       state.colors_secondary = action.payload.colors_secondary;
       state.colors_tertiary = action.payload.colors_tertiary;
-      state.summary = action.payload.summary;
-      state.summary_url = action.payload.summary_url;
       state.plan = action.payload.plan;
       state.plan_url = action.payload.plan_url;
     }).addCase(updateProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
-      state.onboarding_id = action.payload;
+      state.onboarding_message = action.payload;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectOnboarding.pending, getProjectOnboarding.pending, updateProjectOnboarding.pending), state => {
       state.onboardingLoading = true;
       state.onboardingError = null;
@@ -6687,6 +6688,8 @@ __webpack_require__.r(__webpack_exports__);
 const initialState = {
   problemLoading: false,
   problemError: '',
+  summary: '',
+  summary_url: '',
   customers_impacted: '',
   problem_affected: '',
   challenges: '',
@@ -6699,7 +6702,8 @@ const initialState = {
   tried_solutions: '',
   tried_solutions_results: '',
   ideal_resolution: '',
-  problem_id: ''
+  problem_id: '',
+  problem_message: ''
 };
 const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectProblem/createProjectProblem', async (formData, {
   getState
@@ -6708,14 +6712,16 @@ const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_id: formData?.project_id,
+        project_title: formData?.project_title,
+        summary: formData?.summary,
+        summary_url: formData?.summary_url,
         customers_impacted: formData?.customers_impacted,
         problem_affected: formData?.problem_affected,
         challenges: formData?.challenges,
@@ -6784,7 +6790,9 @@ const updateProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_id: formData?.project_id,
+        project_title: formData?.project_title,
+        summary: formData?.summary,
+        summary_url: formData?.summary_url,
         customers_impacted: formData?.customers_impacted,
         problem_affected: formData?.problem_affected,
         challenges: formData?.challenges,
@@ -6823,7 +6831,9 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
       state.problemLoading = false;
       state.problemError = '';
       state.problem_id = action.payload;
-      state.project_id = action.payload.project_id;
+      state.project_title = action.payload.project_title;
+      state.summary = action.payload.summary;
+      state.summary_url = action.payload.summary_url;
       state.customers_impacted = action.payload.customers_impacted;
       state.problem_affected = action.payload.problem_affected;
       state.challenges = action.payload.challenges;
@@ -6839,7 +6849,7 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
     }).addCase(updateProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problem_id = action.payload;
+      state.problem_message = action.payload;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectProblem.pending, getProjectProblem.pending, updateProjectProblem.pending), state => {
       state.problemLoading = true;
       state.problemError = null;

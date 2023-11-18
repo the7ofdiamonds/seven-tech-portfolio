@@ -51,6 +51,7 @@ class SEVEN_TECH_Portfolio
 
         add_action('init', function () {
             (new Pages)->react_rewrite_rules();
+            (new Pages)->is_user_logged_in();
             (new Post_Types)->custom_post_types();
             (new Router)->load_page();
             new Shortcodes;

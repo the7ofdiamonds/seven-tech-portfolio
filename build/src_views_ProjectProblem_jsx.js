@@ -55,14 +55,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
-/* harmony import */ var _controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectSlice */ "./src/controllers/projectSlice.js");
-/* harmony import */ var _controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controllers/projectProblemSlice */ "./src/controllers/projectProblemSlice.js");
-/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
-/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
-
+/* harmony import */ var _controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/projectProblemSlice */ "./src/controllers/projectProblemSlice.js");
+/* harmony import */ var _loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../loading/LoadingComponent */ "./src/loading/LoadingComponent.jsx");
+/* harmony import */ var _error_ErrorComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../error/ErrorComponent */ "./src/error/ErrorComponent.jsx");
 
 
 
@@ -74,9 +72,9 @@ __webpack_require__.r(__webpack_exports__);
 function TheProblemComponent() {
   const {
     project
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useParams)();
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
-  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
+  const navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To come up with the best solution, we must first define the problem below.');
   const [display, setDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('none');
@@ -86,28 +84,41 @@ function TheProblemComponent() {
     client_id
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.client);
   const {
-    projectLoading,
-    projectError,
-    project_id
-  } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.project);
-  const {
-    problem_id
+    problemLoading,
+    problemError,
+    summary,
+    summary_url,
+    customers_impacted,
+    problem_affected,
+    challenges,
+    affected_operations,
+    change_event,
+    factors_contributed,
+    patterns_trends,
+    first_notice_date,
+    recurring_issue,
+    tried_solutions,
+    tried_solutions_results,
+    ideal_resolution,
+    problem_id,
+    problem_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
-    project_id: project_id,
-    customers_impacted: '',
-    problem_affected: '',
-    challenges: '',
-    affected_operations: '',
-    change_event: '',
-    factors_contributed: '',
-    patterns_trends: '',
-    first_notice_date: '',
-    recurring_issue: '',
-    tried_solutions: '',
-    tried_solutions_results: '',
-    ideal_resolution: ''
+    summary: summary,
+    summary_url: summary_url,
+    customers_impacted: customers_impacted,
+    problem_affected: problem_affected,
+    challenges: challenges,
+    affected_operations: affected_operations,
+    change_event: change_event,
+    factors_contributed: factors_contributed,
+    patterns_trends: patterns_trends,
+    first_notice_date: first_notice_date,
+    recurring_issue: recurring_issue,
+    tried_solutions: tried_solutions,
+    tried_solutions_results: tried_solutions_results,
+    ideal_resolution: ideal_resolution
   });
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (user_email) {
@@ -125,30 +136,6 @@ function TheProblemComponent() {
       });
     }
   }, [user_email, dispatch]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (project && client_id) {
-      dispatch((0,_controllers_projectSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectByClientID)(project, client_id)).then(response => {
-        if (response.error !== undefined) {
-          console.error(response);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData(prevData => ({
-            ...prevData,
-            post_id: response.payload.post_id
-          }));
-        }
-      });
-    }
-  }, [dispatch, project, client_id]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (problem_id) {
-      setDisplay('flex');
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 5000);
-    }
-  }, [problem_id, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -161,22 +148,26 @@ function TheProblemComponent() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_5__.createProjectProblem)(formData)).then(response => {
-      if (response.error !== undefined) {
-        console.error(response.error.message);
-        setMessageType('error');
-        setMessage(response.error.message);
-      }
-    });
+    if (problem_id) {
+      dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectProblem)(formData));
+    } else {
+      dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectProblem)(formData)).then(response => {
+        if (response.payload) {
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 5000);
+        }
+      });
+    }
   };
-  if (projectLoading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+  if (problemLoading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_loading_LoadingComponent__WEBPACK_IMPORTED_MODULE_5__["default"], null);
   }
-  if (projectError) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_error_ErrorComponent__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      error: projectError
-    });
-  }
+
+  // if (projectError) {
+  //   return <ErrorComponent error={projectError} />;
+  // }
+
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "project-problem"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
@@ -311,10 +302,14 @@ function TheProblemComponent() {
     }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card modal"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct the best solution for this problem."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct the best solution for this problem."))), problemError && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `status-bar card error`
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, problemError)), problem_message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `status-bar card success`
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, problem_message)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "SAVE"))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, problem_id ? 'UPDATE' : 'SAVE'))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (TheProblemComponent);
 
