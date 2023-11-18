@@ -85,7 +85,7 @@ class PortfolioProjectOnboarding
             ];
 
             $this->project_onboarding->saveOnboarding($onboarding_data);
-            $this->portfolio_project->createPortfolioProject($project_data);
+            return $this->portfolio_project->createPortfolioProject($project_data);
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

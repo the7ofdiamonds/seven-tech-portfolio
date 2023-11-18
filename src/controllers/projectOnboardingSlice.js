@@ -13,17 +13,19 @@ const initialState = {
     satisfied: '',
     signage: '',
     signage_url: '',
-    social: '',
-    social_facebook: '',
-    social_x: '',
-    social_linkedin: '',
-    social_instagram: '',
+    social_networks: [
+        { platform: 'facebook', link: '' },
+        { platform: 'x', link: '' },
+        { platform: 'linkedin', link: '' },
+        { platform: 'instagram', link: '' },
+    ],
     logo: '',
     logo_url: '',
-    colors: '',
-    colors_primary: '#000000',
-    colors_secondary: '#000000',
-    colors_tertiary: '#000000',
+    colors: [
+        { title: 'colors_primary', value: '#000000' },
+        { title: 'colors_secondary', value: '#000000' },
+        { title: 'colors_tertiary', value: '#000000' }
+    ],
     plan: '',
     plan_url: '',
     onboarding_id: '',
@@ -41,31 +43,7 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_title: formData?.project_title,
-                deadline: formData?.deadline,
-                deadline_date: formData?.deadline_date,
-                where_business: formData?.where_business,
-                website: formData?.website,
-                website_url: formData?.website_url,
-                hosting: formData?.hosting,
-                satisfied: formData?.satisfied,
-                signage: formData?.signage,
-                signage_url: formData?.signage_url,
-                social: formData?.social,
-                social_facebook: formData?.social_facebook,
-                social_x: formData?.social_x,
-                social_linkedin: formData?.social_linkedin,
-                social_instagram: formData?.social_instagram,
-                logo: formData?.logo,
-                logo_url: formData?.logo_url,
-                colors: formData?.colors,
-                colors_primary: formData?.colors_primary,
-                colors_secondary: formData?.colors_secondary,
-                colors_tertiary: formData?.colors_tertiary,
-                summary: formData?.summary,
-                summary_url: formData?.summary_url,
-                plan: formData?.plan,
-                plan_url: formData?.plan_url,
+                ...formData
             })
         });
 
@@ -79,7 +57,7 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
         return responseData;
     } catch (error) {
         console.log(error)
-        throw error.message;
+        throw error;
     }
 });
 

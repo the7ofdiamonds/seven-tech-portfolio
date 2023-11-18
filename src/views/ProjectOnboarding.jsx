@@ -29,27 +29,15 @@ function OnBoardingComponent() {
     onboardingError,
     project_title,
     deadline,
-    deadline_date,
     where_business,
     website,
-    website_url,
     hosting,
     satisfied,
     signage,
-    signage_url,
-    social,
-    social_facebook,
-    social_x,
-    social_linkedin,
-    social_instagram,
+    social_networks,
     logo,
-    logo_url,
     colors,
-    colors_primary,
-    colors_secondary,
-    colors_tertiary,
     plan,
-    plan_url,
     onboarding_id,
     onboarding_message,
   } = useSelector((state) => state.onboarding);
@@ -58,27 +46,15 @@ function OnBoardingComponent() {
     client_id: client_id,
     project_title: project_title,
     deadline: deadline,
-    deadline_date: deadline_date,
     where_business: where_business,
     website: website,
-    website_url: website_url,
     hosting: hosting,
     satisfied: satisfied,
     signage: signage,
-    signage_url: signage_url,
-    social: social,
-    social_facebook: social_facebook,
-    social_x: social_x,
-    social_linkedin: social_linkedin,
-    social_instagram: social_instagram,
+    social_networks: social_networks,
     logo: logo,
-    logo_url: logo_url,
     colors: colors,
-    colors_primary: colors_primary,
-    colors_secondary: colors_secondary,
-    colors_tertiary: colors_tertiary,
     plan: plan,
-    plan_url: plan_url,
   });
 
   useEffect(() => {
@@ -97,7 +73,7 @@ function OnBoardingComponent() {
       });
     }
   }, [user_email, dispatch]);
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -106,23 +82,77 @@ function OnBoardingComponent() {
     });
   };
 
+  const handleSocialLinkChange = (e, platform) => {
+    const updatedSocialNetworks = formData.social_networks.map((social) => {
+      if (social.platform === platform) {
+        return {
+          ...social,
+          link: e.target.value,
+        };
+      }
+      return social;
+    });
+
+    setFormData({
+      ...formData,
+      social_networks: updatedSocialNetworks,
+    });
+  };
+
+  const handleColorInputChange = (e, color_title) => {
+    const updatedColorInputs = formData.colors.map((color) => {
+      if (color.title === color_title) {
+        return {
+          ...color,
+          value: e.target.value,
+        };
+      }
+      return color;
+    });
+
+    setFormData({
+      ...formData,
+      colors: updatedColorInputs,
+    });
+  };
+
+  const scrollToQuestion = (id) => {
+    const question = document.getElementById(`${id}`);
+
+    if (question) {
+      question.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onboarding_id) {
-      dispatch(updateProjectOnboarding(formData));
+
+    const unansweredQuestions = Object.keys(formData).filter(
+      (question) => formData[question] === null || formData[question] === ''
+    );
+
+    if (unansweredQuestions.length > 0) {
+      scrollToQuestion(unansweredQuestions[0]);
     } else {
-      dispatch(createProjectOnboarding(formData)).then((response) => {
-        if (response.payload) {
-          setDisplay('flex');
-          setTimeout(() => {
-            if (formData?.plan === 'no') {
-              window.location.href = `/project/problem/${project_title}`;
-            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
-              window.location.href = '/dashboard';
-            }
-          }, 5000);
-        }
-      });
+      if (onboarding_id) {
+        dispatch(updateProjectOnboarding(formData));
+      } else {
+        dispatch(createProjectOnboarding(formData)).then((response) => {
+          if (!isNaN(response.payload)) {
+            setDisplay('flex');
+            setTimeout(() => {
+              if (formData?.plan === 'no') {
+                window.location.href = `/project/problem/${project_title}`;
+              } else if (
+                formData?.plan === 'yes' &&
+                formData?.plan_url !== ''
+              ) {
+                window.location.href = '/dashboard';
+              }
+            }, 5000);
+          }
+        });
+      }
     }
   };
 
@@ -145,8 +175,8 @@ function OnBoardingComponent() {
           <form className="on-boarding" action="">
             <table>
               <tbody>
-                <tr>
-                  <label htmlFor="">Project title</label>
+                <tr id="project_title">
+                  <label htmlFor="project_title">Project title</label>
                   <div className="options-column">
                     <span className="option">
                       <input
@@ -160,53 +190,29 @@ function OnBoardingComponent() {
                     </span>
                   </div>
                 </tr>
-                <tr>
+                <tr id="deadline">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="deadline">
                       Does (your company or organization) have a specific
                       deadline that it needs to meet? If Yes, provide it below.
                     </label>
                     <div className="options-column">
                       <span className="option">
                         <input
-                          type="radio"
-                          id="deadline_yes"
+                          type="date"
+                          id="deadline_date"
                           name="deadline"
-                          value="yes"
-                          className="input-radio"
+                          value={formData.deadline}
+                          className="input-date"
                           onChange={handleInputChange}
-                          checked={formData.deadline === 'yes'}
                         />
-                        <label htmlFor="deadline_yes">Yes</label>
-                        {formData.deadline === 'yes' && (
-                          <input
-                            type="date"
-                            id="deadline_date"
-                            name="deadline_date"
-                            value={formData.deadline_date}
-                            className="input-date"
-                            onChange={handleInputChange}
-                          />
-                        )}
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="deadline_no"
-                          name="deadline"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.deadline === 'no'}
-                        />
-                        <label htmlFor="deadline_no">No</label>
                       </span>
                     </div>
                   </td>
                 </tr>
-                <tr>
+                <tr id="where_business_online">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="where_business_online">
                       How does (your company or organization) currently do
                       business?
                     </label>
@@ -221,7 +227,7 @@ function OnBoardingComponent() {
                           onChange={handleInputChange}
                           checked={formData.where_business === 'online'}
                         />
-                        <label for="where_business_online">Online</label>
+                        <label htmlFor="where_business_online">Online</label>
                       </span>
                       <span className="option">
                         <input
@@ -247,61 +253,37 @@ function OnBoardingComponent() {
                           onChange={handleInputChange}
                           checked={formData.where_business === 'both'}
                         />
-                        <label for="where_business_brick">Both</label>
+                        <label htmlFor="where_business_brick">Both</label>
                       </span>
                     </div>
                   </td>
                 </tr>
                 <tr>
-                  <td>
-                    <label htmlFor="">
+                  <td id="website">
+                    <label htmlFor="website">
                       Does (your company or organization) have a website? If
                       Yes, provide a link to it below.
                     </label>
                     <div className="options-column">
                       <span className="option">
                         <input
-                          type="radio"
-                          id="website_yes"
+                          type="url"
+                          id="website"
                           name="website"
-                          value="yes"
-                          className="input-radio"
+                          className="input-url"
+                          value={formData.website}
                           onChange={handleInputChange}
-                          checked={formData.website === 'yes'}
                         />
-                        <label htmlFor="website_yes">Yes</label>
-                        {formData.website === 'yes' && (
-                          <input
-                            type="url"
-                            id="website_url"
-                            name="website_url"
-                            className="input-url"
-                            value={formData.website_url}
-                            onChange={handleInputChange}
-                          />
-                        )}
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="website_no"
-                          name="website"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.website === 'no'}
-                        />
-                        <label for="website_no">No</label>
                       </span>
                     </div>
                   </td>
                 </tr>
 
-                {formData.website === 'yes' && (
+                {formData.website !== '' && formData.website !== null && (
                   <>
-                    <tr>
+                    <tr id="hosting">
                       <td>
-                        <label htmlFor="">
+                        <label htmlFor="hosting">
                           What hosting service does (your company or
                           organization) currently use?
                         </label>
@@ -380,8 +362,8 @@ function OnBoardingComponent() {
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <label htmlFor="">
+                      <td id="satisfied">
+                        <label htmlFor="satisfied">
                           Is (your company or organization) satisfied with the
                           hosting service?
                         </label>
@@ -418,9 +400,9 @@ function OnBoardingComponent() {
 
                 {formData.where_business === 'brick and mortar' ||
                   (formData.where_business === 'both' && (
-                    <tr>
+                    <tr id="signage">
                       <td>
-                        <label htmlFor="">
+                        <label htmlFor="signage">
                           Does your brick & mortar location(s) of (your company
                           or organization) have signage? If Yes, provide a link
                           to a picture of them below.
@@ -428,245 +410,103 @@ function OnBoardingComponent() {
                         <div className="options-column">
                           <span className="option">
                             <input
-                              type="radio"
-                              id="signage_yes"
+                              type="url"
+                              id="signage"
                               name="signage"
-                              value="yes"
-                              className="input-radio"
+                              className="input-url"
+                              value={formData.signage}
                               onChange={handleInputChange}
-                              checked={formData.signage === 'yes'}
                             />
-                            <label for="signage_yes">Yes</label>
-                            {formData.signage === 'yes' && (
-                              <input
-                                type="url"
-                                id="signage_url"
-                                name="signage_url"
-                                className="input-url"
-                                value={formData.signage_url}
-                                onChange={handleInputChange}
-                              />
-                            )}
-                          </span>
-                          <span className="option">
-                            <input
-                              type="radio"
-                              id="signage_no"
-                              name="signage"
-                              value="no"
-                              className="input-radio"
-                              onChange={handleInputChange}
-                              checked={formData.signage === 'no'}
-                            />
-                            <label for="signage_no">No</label>
                           </span>
                         </div>
                       </td>
                     </tr>
                   ))}
-                <tr>
+                <tr id="social_networks">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="social_networks">
                       Does (your company or organization) have social media
                       pages? If Yes, provide a link to them below.
                     </label>
                     <div className="options-column">
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="social_yes"
-                          name="social"
-                          value="yes"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.social === 'yes'}
-                        />
-                        <label for="social_yes">Yes</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="social_no"
-                          name="social"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.social === 'no'}
-                        />
-                        <label for="social_no">No</label>
-                      </span>
+                      {Object.keys(formData.social_networks).map(
+                        (social_network) => (
+                          <span className="option" key={social_network}>
+                            <label
+                              htmlFor={`social_networks_${formData.social_networks[social_network].platform}`}>
+                              {
+                                formData.social_networks[social_network]
+                                  .platform
+                              }
+                            </label>
+                            <input
+                              type="url"
+                              id={`social_networks_${social_network}_link`}
+                              name={`social_networks_${social_network}_link`}
+                              className="input-url"
+                              value={
+                                formData.social_networks[social_network].link
+                              }
+                              onChange={(e) =>
+                                handleSocialLinkChange(
+                                  e,
+                                  social_networks[social_network].platform
+                                )
+                              }
+                            />
+                          </span>
+                        )
+                      )}
                     </div>
-                    {formData.social === 'yes' && (
-                      <div className="options-column">
-                        <span className="option">
-                          <label htmlFor="facebook">Facebook</label>
-                          <input
-                            type="url"
-                            id="social_facebook"
-                            name="social_facebook"
-                            className="input-url"
-                            onChange={handleInputChange}
-                            checked={formData.social_facebook}
-                          />
-                        </span>
-                        <span className="option">
-                          <label htmlFor="xtwitter">X</label>
-                          <input
-                            type="url"
-                            id="social_x"
-                            name="social_x"
-                            className="input-url"
-                            onChange={handleInputChange}
-                            checked={formData.social_x}
-                          />
-                        </span>
-                        <span className="option">
-                          <label htmlFor="linkedin">LinkedIn</label>
-                          <input
-                            type="url"
-                            id="social_linkedin"
-                            name="social_linkedin"
-                            className="input-url"
-                            onChange={handleInputChange}
-                            checked={formData.social_linkedin}
-                          />
-                        </span>
-                        <span className="option">
-                          <label htmlFor="instagram">Instagram</label>
-                          <input
-                            type="url"
-                            id="social_instagram"
-                            name="social_instagram"
-                            className="input-url"
-                            onChange={handleInputChange}
-                            checked={formData.social_instagram}
-                          />
-                        </span>
-                      </div>
-                    )}
                   </td>
                 </tr>
-                <tr>
+                <tr id="logo">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="logo">
                       Does (your company or organization) have a logo? If Yes,
                       provide a link to it below.
                     </label>
                     <div className="options-column">
                       <span className="option">
                         <input
-                          type="radio"
-                          id="logo_yes"
+                          type="url"
+                          id="logo"
                           name="logo"
-                          value="yes"
-                          className="input-radio"
+                          className="input-url"
+                          value={formData.logo}
                           onChange={handleInputChange}
-                          checked={formData.logo === 'yes'}
                         />
-                        <label for="logo_yes">Yes</label>
-                        {formData.logo === 'yes' && (
-                          <input
-                            type="url"
-                            id="logo_url"
-                            name="logo_url"
-                            className="input-url"
-                            value={formData.logo_url}
-                            onChange={handleInputChange}
-                          />
-                        )}
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="logo_no"
-                          name="logo"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.logo === 'no'}
-                        />
-                        <label for="logo_no">No</label>
                       </span>
                     </div>
                   </td>
                 </tr>
-                <tr>
+                <tr id="colors">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="colors">
                       Does (your company or organization) have colors? If Yes,
                       provide them below.
                     </label>
                     <div className="options-column">
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="colors_yes"
-                          name="colors"
-                          value="yes"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.colors === 'yes'}
-                        />
-                        <label for="colors_yes">Yes</label>
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="colors_no"
-                          name="colors"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.colors === 'no'}
-                        />
-                        <label for="colors_no">No</label>
-                      </span>
+                      {formData.colors.map((color) => (
+                        <div key={color.title} className="color-input">
+                          <label htmlFor={color.title}>{color.title}</label>
+                          <input
+                            type="color"
+                            id={color.title}
+                            name={color.title}
+                            value={color.value}
+                            onChange={(e) =>
+                              handleColorInputChange(e, color.title)
+                            }
+                          />
+                        </div>
+                      ))}
                     </div>
-                    {formData.colors === 'yes' && (
-                      <table>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <label htmlFor="colors_primary">Primary</label>
-                              <input
-                                type="color"
-                                id="colors_primary"
-                                name="colors_primary"
-                                value={formData.colors_primary}
-                                onChange={handleInputChange}
-                              />
-                            </td>
-                            <td>
-                              <label htmlFor="colors_secondary">
-                                Secondary
-                              </label>
-                              <input
-                                type="color"
-                                id="colors_secondary"
-                                name="colors_secondary"
-                                value={formData.colors_secondary}
-                                onChange={handleInputChange}
-                              />
-                            </td>
-                            <td>
-                              <label htmlFor="colors_tertiary">Tertiary</label>
-                              <input
-                                type="color"
-                                id="colors_tertiary"
-                                name="colors_tertiary"
-                                value={formData.colors_tertiary}
-                                onChange={handleInputChange}
-                              />
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    )}
                   </td>
                 </tr>
-                <tr>
+                <tr id="plan">
                   <td>
-                    <label htmlFor="">
+                    <label htmlFor="plan">
                       Does (your company or organization) have a one-page or
                       full business plan that can be provided to define the
                       problem? If Yes, provide a link to it below.
@@ -674,37 +514,13 @@ function OnBoardingComponent() {
                     <div className="options-column">
                       <span className="option">
                         <input
-                          type="radio"
-                          id="plan_yes"
+                          type="url"
+                          id="plan"
                           name="plan"
-                          value="yes"
-                          className="input-radio"
+                          className="input-url"
+                          value={formData.plan}
                           onChange={handleInputChange}
-                          checked={formData.plan === 'yes'}
                         />
-                        <label for="plan_yes">Yes</label>
-                        {formData.plan === 'yes' && (
-                          <input
-                            type="url"
-                            id="plan_url"
-                            name="plan_url"
-                            className="input-url"
-                            value={formData.plan_url}
-                            onChange={handleInputChange}
-                          />
-                        )}
-                      </span>
-                      <span className="option">
-                        <input
-                          type="radio"
-                          id="plan_no"
-                          name="plan"
-                          value="no"
-                          className="input-radio"
-                          onChange={handleInputChange}
-                          checked={formData.plan === 'no'}
-                        />
-                        <label for="plan_no">No</label>
                       </span>
                     </div>
                   </td>

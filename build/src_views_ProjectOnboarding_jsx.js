@@ -61,27 +61,15 @@ function OnBoardingComponent() {
     onboardingError,
     project_title,
     deadline,
-    deadline_date,
     where_business,
     website,
-    website_url,
     hosting,
     satisfied,
     signage,
-    signage_url,
-    social,
-    social_facebook,
-    social_x,
-    social_linkedin,
-    social_instagram,
+    social_networks,
     logo,
-    logo_url,
     colors,
-    colors_primary,
-    colors_secondary,
-    colors_tertiary,
     plan,
-    plan_url,
     onboarding_id,
     onboarding_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
@@ -89,27 +77,15 @@ function OnBoardingComponent() {
     client_id: client_id,
     project_title: project_title,
     deadline: deadline,
-    deadline_date: deadline_date,
     where_business: where_business,
     website: website,
-    website_url: website_url,
     hosting: hosting,
     satisfied: satisfied,
     signage: signage,
-    signage_url: signage_url,
-    social: social,
-    social_facebook: social_facebook,
-    social_x: social_x,
-    social_linkedin: social_linkedin,
-    social_instagram: social_instagram,
+    social_networks: social_networks,
     logo: logo,
-    logo_url: logo_url,
     colors: colors,
-    colors_primary: colors_primary,
-    colors_secondary: colors_secondary,
-    colors_tertiary: colors_tertiary,
-    plan: plan,
-    plan_url: plan_url
+    plan: plan
   });
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (user_email) {
@@ -137,23 +113,66 @@ function OnBoardingComponent() {
       [name]: value
     });
   };
+  const handleSocialLinkChange = (e, platform) => {
+    const updatedSocialNetworks = formData.social_networks.map(social => {
+      if (social.platform === platform) {
+        return {
+          ...social,
+          link: e.target.value
+        };
+      }
+      return social;
+    });
+    setFormData({
+      ...formData,
+      social_networks: updatedSocialNetworks
+    });
+  };
+  const handleColorInputChange = (e, color_title) => {
+    const updatedColorInputs = formData.colors.map(color => {
+      if (color.title === color_title) {
+        return {
+          ...color,
+          value: e.target.value
+        };
+      }
+      return color;
+    });
+    setFormData({
+      ...formData,
+      colors: updatedColorInputs
+    });
+  };
+  const scrollToQuestion = id => {
+    const question = document.getElementById(`${id}`);
+    if (question) {
+      question.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  };
   const handleSubmit = e => {
     e.preventDefault();
-    if (onboarding_id) {
-      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData));
+    const unansweredQuestions = Object.keys(formData).filter(question => formData[question] === null || formData[question] === '');
+    if (unansweredQuestions.length > 0) {
+      scrollToQuestion(unansweredQuestions[0]);
     } else {
-      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
-        if (response.payload) {
-          setDisplay('flex');
-          setTimeout(() => {
-            if (formData?.plan === 'no') {
-              window.location.href = `/project/problem/${project_title}`;
-            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
-              window.location.href = '/dashboard';
-            }
-          }, 5000);
-        }
-      });
+      if (onboarding_id) {
+        dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData));
+      } else {
+        dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
+          if (!isNaN(response.payload)) {
+            setDisplay('flex');
+            setTimeout(() => {
+              if (formData?.plan === 'no') {
+                window.location.href = `/project/problem/${project_title}`;
+              } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+                window.location.href = '/dashboard';
+              }
+            }, 5000);
+          }
+        });
+      }
     }
   };
   if (onboardingLoading) {
@@ -168,8 +187,10 @@ function OnBoardingComponent() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
     className: "on-boarding",
     action: ""
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "project_title"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "project_title"
   }, "Project title"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -181,43 +202,25 @@ function OnBoardingComponent() {
     value: formData.project_title,
     className: "input-radio",
     onChange: handleInputChange
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "deadline"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "deadline"
   }, "Does (your company or organization) have a specific deadline that it needs to meet? If Yes, provide it below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "deadline_yes",
-    name: "deadline",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.deadline === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "deadline_yes"
-  }, "Yes"), formData.deadline === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "date",
     id: "deadline_date",
-    name: "deadline_date",
-    value: formData.deadline_date,
+    name: "deadline",
+    value: formData.deadline,
     className: "input-date",
     onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "deadline_no",
-    name: "deadline",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.deadline === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "deadline_no"
-  }, "No"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "where_business_online"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "where_business_online"
   }, "How does (your company or organization) currently do business?"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -231,7 +234,7 @@ function OnBoardingComponent() {
     onChange: handleInputChange,
     checked: formData.where_business === 'online'
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "where_business_online"
+    htmlFor: "where_business_online"
   }, "Online")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
@@ -255,44 +258,26 @@ function OnBoardingComponent() {
     onChange: handleInputChange,
     checked: formData.where_business === 'both'
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "where_business_brick"
-  }, "Both"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    htmlFor: "where_business_brick"
+  }, "Both"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+    id: "website"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "website"
   }, "Does (your company or organization) have a website? If Yes, provide a link to it below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "website_yes",
-    name: "website",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.website === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "website_yes"
-  }, "Yes"), formData.website === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "url",
-    id: "website_url",
-    name: "website_url",
-    className: "input-url",
-    value: formData.website_url,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "website_no",
+    id: "website",
     name: "website",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.website === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "website_no"
-  }, "No"))))), formData.website === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    className: "input-url",
+    value: formData.website,
+    onChange: handleInputChange
+  }))))), formData.website !== '' && formData.website !== null && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "hosting"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "hosting"
   }, "What hosting service does (your company or organization) currently use?"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -362,8 +347,10 @@ function OnBoardingComponent() {
     className: "other",
     value: formData.hosting_other,
     onChange: handleInputChange
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", {
+    id: "satisfied"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "satisfied"
   }, "Is (your company or organization) satisfied with the hosting service?"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
@@ -390,238 +377,87 @@ function OnBoardingComponent() {
     checked: formData.satisfied === 'no'
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     for: "satisfied_no"
-  }, "No")))))), formData.where_business === 'brick and mortar' || formData.where_business === 'both' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+  }, "No")))))), formData.where_business === 'brick and mortar' || formData.where_business === 'both' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "signage"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "signage"
   }, "Does your brick & mortar location(s) of (your company or organization) have signage? If Yes, provide a link to a picture of them below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "signage_yes",
-    name: "signage",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.signage === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "signage_yes"
-  }, "Yes"), formData.signage === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "url",
-    id: "signage_url",
-    name: "signage_url",
-    className: "input-url",
-    value: formData.signage_url,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "signage_no",
+    id: "signage",
     name: "signage",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.signage === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "signage_no"
-  }, "No"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    className: "input-url",
+    value: formData.signage,
+    onChange: handleInputChange
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "social_networks"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "social_networks"
   }, "Does (your company or organization) have social media pages? If Yes, provide a link to them below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "social_yes",
-    name: "social",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.social === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "social_yes"
-  }, "Yes")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "social_no",
-    name: "social",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.social === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "social_no"
-  }, "No"))), formData.social === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "options-column"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
+  }, Object.keys(formData.social_networks).map(social_network => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "option",
+    key: social_network
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "facebook"
-  }, "Facebook"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    htmlFor: `social_networks_${formData.social_networks[social_network].platform}`
+  }, formData.social_networks[social_network].platform), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "url",
-    id: "social_facebook",
-    name: "social_facebook",
+    id: `social_networks_${social_network}_link`,
+    name: `social_networks_${social_network}_link`,
     className: "input-url",
-    onChange: handleInputChange,
-    checked: formData.social_facebook
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "xtwitter"
-  }, "X"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "url",
-    id: "social_x",
-    name: "social_x",
-    className: "input-url",
-    onChange: handleInputChange,
-    checked: formData.social_x
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "linkedin"
-  }, "LinkedIn"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "url",
-    id: "social_linkedin",
-    name: "social_linkedin",
-    className: "input-url",
-    onChange: handleInputChange,
-    checked: formData.social_linkedin
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "instagram"
-  }, "Instagram"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "url",
-    id: "social_instagram",
-    name: "social_instagram",
-    className: "input-url",
-    onChange: handleInputChange,
-    checked: formData.social_instagram
-  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    value: formData.social_networks[social_network].link,
+    onChange: e => handleSocialLinkChange(e, social_networks[social_network].platform)
+  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "logo"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "logo"
   }, "Does (your company or organization) have a logo? If Yes, provide a link to it below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "logo_yes",
-    name: "logo",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.logo === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "logo_yes"
-  }, "Yes"), formData.logo === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "url",
-    id: "logo_url",
-    name: "logo_url",
-    className: "input-url",
-    value: formData.logo_url,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "logo_no",
+    id: "logo",
     name: "logo",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.logo === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "logo_no"
-  }, "No"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    className: "input-url",
+    value: formData.logo,
+    onChange: handleInputChange
+  }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "colors"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "colors"
   }, "Does (your company or organization) have colors? If Yes, provide them below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "colors_yes",
-    name: "colors",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.colors === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "colors_yes"
-  }, "Yes")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "colors_no",
-    name: "colors",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.colors === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "colors_no"
-  }, "No"))), formData.colors === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("table", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tbody", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "colors_primary"
-  }, "Primary"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, formData.colors.map(color => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: color.title,
+    className: "color-input"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: color.title
+  }, color.title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "color",
-    id: "colors_primary",
-    name: "colors_primary",
-    value: formData.colors_primary,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "colors_secondary"
-  }, "Secondary"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "color",
-    id: "colors_secondary",
-    name: "colors_secondary",
-    value: formData.colors_secondary,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "colors_tertiary"
-  }, "Tertiary"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "color",
-    id: "colors_tertiary",
-    name: "colors_tertiary",
-    value: formData.colors_tertiary,
-    onChange: handleInputChange
-  }))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: ""
+    id: color.title,
+    name: color.title,
+    value: color.value,
+    onChange: e => handleColorInputChange(e, color.title)
+  })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
+    id: "plan"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "plan"
   }, "Does (your company or organization) have a one-page or full business plan that can be provided to define the problem? If Yes, provide a link to it below."), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "options-column"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "option"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "plan_yes",
-    name: "plan",
-    value: "yes",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.plan === 'yes'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "plan_yes"
-  }, "Yes"), formData.plan === 'yes' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "url",
-    id: "plan_url",
-    name: "plan_url",
-    className: "input-url",
-    value: formData.plan_url,
-    onChange: handleInputChange
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "option"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    type: "radio",
-    id: "plan_no",
+    id: "plan",
     name: "plan",
-    value: "no",
-    className: "input-radio",
-    onChange: handleInputChange,
-    checked: formData.plan === 'no'
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    for: "plan_no"
-  }, "No"))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "input-url",
+    value: formData.plan,
+    onChange: handleInputChange
+  }))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "overlay",
     style: {
       display: `${display}`
