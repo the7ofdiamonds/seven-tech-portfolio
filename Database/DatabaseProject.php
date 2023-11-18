@@ -26,26 +26,27 @@ class DatabaseProject
             $result = $this->wpdb->insert(
                 $this->table_name,
                 [
-                    'client_id' => $project['client_id'],
-                    'post_id' => $project['post_id'],
-                    'project_urls_list' => serialize($project['project_urls_list']),
-                    'project_details_list' => serialize($project['project_details_list']),
-                    'project_status' => $project['project_status'],
-                    'project_versions_list' => serialize($project['project_versions_list']),
-                    'design' => $project['design'],
-                    'design_check_list' => serialize($project['design_check_list']),
-                    'colors_list' => serialize($project['colors_list']),
-                    'development' => $project['development'],
-                    'development_check_list' => serialize($project['development_check_list']),
-                    'git_repo' => $project['git_repo'],
-                    'delivery' => $project['delivery'],
-                    'delivery_check_list' => serialize($project['delivery_check_list']),
-                    'project_team_list' => serialize($project['project_team_list']),
+                    'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
+                    'project_id' => !empty($project['project_id']) ? $project['project_id'] : '',
+                    'project_title' => !empty($project['project_title']) ? $project['project_title'] : '',
+                    'project_urls_list' => !empty($project['project_urls_list']) ? serialize($project['project_urls_list']) : '',
+                    'project_details_list' => !empty($project['project_details_list']) ? serialize($project['project_details_list']) : '',
+                    'project_status' => !empty($project['project_status']) ? $project['project_status'] : '',
+                    'project_versions_list' => !empty($project['project_versions_list']) ? serialize($project['project_versions_list']) : '',
+                    'design' => !empty($project['design']) ? $project['design'] : '',
+                    'design_check_list' => !empty($project['design_check_list']) ? serialize($project['design_check_list']) : '',
+                    'colors_list' => !empty($project['colors_list']) ? serialize($project['colors_list']) : '',
+                    'development' => !empty($project['development']) ? $project['development'] : '',
+                    'development_check_list' => !empty($project['development_check_list']) ? serialize($project['development_check_list']) : '',
+                    'git_repo' => !empty($project['git_repo']) ? $project['git_repo'] : '',
+                    'delivery' => !empty($project['delivery']) ? $project['delivery'] : '',
+                    'delivery_check_list' => !empty($project['delivery_check_list']) ? serialize($project['delivery_check_list']) : '',
+                    'project_team_list' => !empty($project['project_team_list']) ? serialize($project['project_team_list']) : '',
                 ]
             );
 
             if (!$result) {
-                throw new Exception('Unable to save the project. ' . $this->wpdb->last_error, 500);
+                throw new Exception('Failed to save the project. ' . $this->wpdb->last_error, 500);
             }
 
             return $this->wpdb->insert_id;
@@ -135,7 +136,7 @@ class DatabaseProject
             $project_data = [
                 'id' => $project->id,
                 'client_id' => $project->client_id,
-                'post_id' => $project->post_id,
+                'project_id' => $project->project_id,
                 'project_urls_list' => $project->project_urls,
                 'project_details_list' => $project->project_details,
                 'project_status' => $project->project_status,
@@ -163,10 +164,10 @@ class DatabaseProject
         }
     }
 
-    function updateProject($post_id, $project)
+    function updateProject($project_id, $project)
     {
         try {
-            if (empty($post_id)) {
+            if (empty($project_id)) {
                 throw new Exception('Post ID is required.', 400);
             }
 
@@ -192,7 +193,7 @@ class DatabaseProject
             );
 
             $where = array(
-                'post_id' => $post_id,
+                'project_id' => $project_id,
             );
 
             $data = array_filter($data, function ($value) {

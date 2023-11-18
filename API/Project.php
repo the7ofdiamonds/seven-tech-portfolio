@@ -115,7 +115,7 @@ class Project
 
                 $project_id = get_the_ID();
 
-                $project = $this->portfolio_project->getProject($project_id);
+                $project = $this->portfolio_project->getPortfolioProject($project_id);
 
                 return rest_ensure_response($project);
             } else {

@@ -78,8 +78,14 @@ class PortfolioProjectOnboarding
                 'plan_url' => $onboarding['plan_url'],
             ];
 
-            $this->portfolio_project->createPortfolioProject($onboarding_data);
+            $project_data = [
+                'project_id' => $project_id,
+                'project_title' => $project_title,
+                'client_id' => $client_id,
+            ];
+
             $this->project_onboarding->saveOnboarding($onboarding_data);
+            $this->portfolio_project->createPortfolioProject($project_data);
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
