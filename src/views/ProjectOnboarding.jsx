@@ -81,6 +81,7 @@ function OnBoardingComponent() {
       [name]: value,
     });
   };
+  console.log(formData);
 
   const handleSocialLinkChange = (e, platform) => {
     const updatedSocialNetworks = formData.social_networks.map((social) => {

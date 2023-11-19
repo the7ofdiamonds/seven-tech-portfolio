@@ -6461,14 +6461,11 @@ const initialState = {
   onboardingError: '',
   project_title: '',
   deadline: '',
-  deadline_date: '',
   where_business: '',
   website: '',
-  website_url: '',
   hosting: '',
   satisfied: '',
   signage: '',
-  signage_url: '',
   social_networks: [{
     platform: 'facebook',
     link: ''
@@ -6483,7 +6480,6 @@ const initialState = {
     link: ''
   }],
   logo: '',
-  logo_url: '',
   colors: [{
     title: 'colors_primary',
     value: '#000000'
@@ -6495,7 +6491,6 @@ const initialState = {
     value: '#000000'
   }],
   plan: '',
-  plan_url: '',
   onboarding_id: '',
   onboarding_message: ''
 };
@@ -6524,7 +6519,7 @@ const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 });
@@ -6553,7 +6548,7 @@ const getProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     return responseData;
   } catch (error) {
     console.error(error);
-    throw error.message;
+    throw error;
   }
 });
 const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectOnboarding/updateProjectOnboarding', async (formData, {
@@ -6572,29 +6567,15 @@ const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
         client_id: client_id,
         project_title: formData?.project_title,
         deadline: formData?.deadline,
-        deadline_date: formData?.deadline_date,
         where_business: formData?.where_business,
         website: formData?.website,
-        website_url: formData?.website_url,
         hosting: formData?.hosting,
         satisfied: formData?.satisfied,
         signage: formData?.signage,
-        signage_url: formData?.signage_url,
-        social: formData?.social,
-        social_facebook: formData?.social_facebook,
-        social_x: formData?.social_x,
-        social_linkedin: formData?.social_linkedin,
-        social_instagram: formData?.social_instagram,
+        social_networks: formData?.social_networks,
         logo: formData?.logo,
-        logo_url: formData?.logo_url,
         colors: formData?.colors,
-        colors_primary: formData?.colors_primary,
-        colors_secondary: formData?.colors_secondary,
-        colors_tertiary: formData?.colors_tertiary,
-        summary: formData?.summary,
-        summary_url: formData?.summary_url,
-        plan: formData?.plan,
-        plan_url: formData?.plan_url
+        plan: formData?.plan
       })
     });
     if (!response.ok) {
@@ -6605,8 +6586,8 @@ const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
-    throw error.message;
+    console.error(error);
+    throw error;
   }
 });
 const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
@@ -6622,27 +6603,15 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
       state.onboardingError = '';
       state.project_title = action.payload.project_title;
       state.deadline = action.payload.deadline;
-      state.deadline_date = action.payload.deadline_date;
       state.where_business = action.payload.where_business;
       state.website = action.payload.website;
-      state.website_url = action.payload.website_url;
       state.hosting = action.payload.hosting;
       state.satisfied = action.payload.satisfied;
       state.signage = action.payload.signage;
-      state.signage_url = action.payload.signage_url;
-      state.social = action.payload.social;
-      state.social_facebook = action.payload.social_facebook;
-      state.social_x = action.payload.social_x;
-      state.social_linkedin = action.payload.social_linkedin;
-      state.social_instagram = action.payload.social_instagram;
+      state.social_networks = action.payload.social_networks;
       state.logo = action.payload.logo;
-      state.logo_url = action.payload.logo_url;
       state.colors = action.payload.colors;
-      state.colors_primary = action.payload.colors_primary;
-      state.colors_secondary = action.payload.colors_secondary;
-      state.colors_tertiary = action.payload.colors_tertiary;
       state.plan = action.payload.plan;
-      state.plan_url = action.payload.plan_url;
     }).addCase(updateProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';

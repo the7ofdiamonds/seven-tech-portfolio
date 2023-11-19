@@ -53,29 +53,15 @@ class PortfolioProjectOnboarding
                 'project_title' => $project_title,
                 'client_id' => $client_id,
                 'deadline' => $onboarding['deadline'],
-                'deadline_date' => $onboarding['deadline_date'],
                 'where_business' => $onboarding['where_business'],
                 'website' => $onboarding['website'],
-                'website_url' => $onboarding['website_url'],
                 'hosting' => $onboarding['hosting'],
                 'satisfied' => $onboarding['satisfied'],
                 'signage' => $onboarding['signage'],
-                'signage_url' => $onboarding['signage_url'],
-                'social' => $onboarding['social'],
-                'social_facebook' => $onboarding['social_facebook'],
-                'social_x' => $onboarding['social_x'],
-                'social_linkedin' => $onboarding['social_linkedin'],
-                'social_instagram' => $onboarding['social_instagram'],
+                'social_networks' => !empty($onboarding['social_networks']) ? $onboarding['social_networks'] : '',
                 'logo' => $onboarding['logo'],
-                'logo_url' => $onboarding['logo_url'],
-                'colors' => $onboarding['colors'],
-                'colors_primary' => $onboarding['colors_primary'],
-                'colors_secondary' => $onboarding['colors_secondary'],
-                'colors_tertiary' => $onboarding['colors_tertiary'],
-                'summary' => $onboarding['summary'],
-                'summary_url' => $onboarding['summary_url'],
+                'colors' => !empty($onboarding['colors']) ? $onboarding['colors'] : '',
                 'plan' => $onboarding['plan'],
-                'plan_url' => $onboarding['plan_url'],
             ];
 
             $project_data = [
@@ -85,7 +71,7 @@ class PortfolioProjectOnboarding
             ];
 
             $this->project_onboarding->saveOnboarding($onboarding_data);
-            return $this->portfolio_project->createPortfolioProject($project_data);
+            $this->portfolio_project->createPortfolioProject($project_data);
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

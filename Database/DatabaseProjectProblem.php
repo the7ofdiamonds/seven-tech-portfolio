@@ -39,18 +39,18 @@ class DatabaseProjectProblem
                 [
                     'project_id' => $project_id,
                     'client_id' => $client_id,
-                    'customers_impacted' => isset($problem['customers_impacted']) ? $problem['customers_impacted'] : '',
-                    'problem_affected' => isset($problem['problem_affected']) ? $problem['problem_affected'] : '',
-                    'challenges' => isset($problem['challenges']) ? $problem['challenges'] : '',
-                    'affected_operations' => isset($problem['affected_operations']) ? $problem['affected_operations'] : '',
-                    'change_event' => isset($problem['change_event']) ? $problem['change_event'] : '',
-                    'factors_contributed' => isset($problem['factors_contributed']) ? $problem['factors_contributed'] : '',
-                    'patterns_trends' => isset($problem['patterns_trends']) ? $problem['patterns_trends'] : '',
-                    'first_notice_date' => isset($problem['first_notice_date']) ? $problem['first_notice_date'] : '',
-                    'recurring_issue' => isset($problem['recurring_issue']) ? $problem['recurring_issue'] : '',
-                    'tried_solutions' => isset($problem['tried_solutions']) ? $problem['tried_solutions'] : '',
-                    'tried_solutions_results' => isset($problem['tried_solutions_results']) ? $problem['tried_solutions_results'] : '',
-                    'ideal_resolution' => isset($problem['ideal_resolution']) ? $problem['ideal_resolution'] : '',
+                    'customers_impacted' => !empty($problem['customers_impacted']) ? $problem['customers_impacted'] : '',
+                    'problem_affected' => !empty($problem['problem_affected']) ? $problem['problem_affected'] : '',
+                    'challenges' => !empty($problem['challenges']) ? $problem['challenges'] : '',
+                    'affected_operations' => !empty($problem['affected_operations']) ? $problem['affected_operations'] : '',
+                    'change_event' => !empty($problem['change_event']) ? $problem['change_event'] : '',
+                    'factors_contributed' => !empty($problem['factors_contributed']) ? $problem['factors_contributed'] : '',
+                    'patterns_trends' => !empty($problem['patterns_trends']) ? $problem['patterns_trends'] : '',
+                    'first_notice_date' => !empty($problem['first_notice_date']) ? $problem['first_notice_date'] : '',
+                    'recurring_issue' => !empty($problem['recurring_issue']) ? $problem['recurring_issue'] : '',
+                    'tried_solutions' => !empty($problem['tried_solutions']) ? $problem['tried_solutions'] : '',
+                    'tried_solutions_results' => !empty($problem['tried_solutions_results']) ? $problem['tried_solutions_results'] : '',
+                    'ideal_resolution' => !empty($problem['ideal_resolution']) ? $problem['ideal_resolution'] : '',
                 ]
             );
 
@@ -129,9 +129,15 @@ class DatabaseProjectProblem
                 throw new Exception('Invalid project problem Data.', 400);
             }
 
+            $client_id = $problem['client_id'];
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 400);
+            }
+
             $data = array(
                 'project_id' => $project_id,
-                'client_id' => $problem['client_id'],
+                'client_id' => $client_id,
                 'customers_impacted' => $problem['customers_impacted'],
                 'problem_affected' => $problem['problem_affected'],
                 'challenges' => $problem['challenges'],

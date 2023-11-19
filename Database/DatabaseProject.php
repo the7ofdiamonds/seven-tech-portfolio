@@ -61,17 +61,17 @@ class DatabaseProject
         }
     }
 
-    function getProject($post_id)
+    function getProject($project_id)
     {
         try {
-            if (empty($post_id)) {
-                throw new Exception('Post ID is required.', 400);
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
             }
 
             $project = $this->wpdb->get_row(
                 $this->wpdb->prepare(
-                    "SELECT * FROM {$this->table_name} WHERE post_id = %d",
-                    $post_id
+                    "SELECT * FROM {$this->table_name} WHERE project_id = %d",
+                    $project_id
                 )
             );
 
@@ -82,7 +82,7 @@ class DatabaseProject
             $project_data = [
                 'id' => $project->id,
                 'client_id' => $project->client_id,
-                'post_id' => $project->post_id,
+                'project_id' => $project->project_id,
                 'project_urls_list' => $project->project_urls_list,
                 'project_details_list' => $project->project_details_list,
                 'project_status' => $project->project_status,

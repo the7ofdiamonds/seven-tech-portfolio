@@ -40,18 +40,18 @@ class Problem
                 $problem = [
                     'project_id' => $project->ID,
                     'client_id' => $client_id,
-                    'customers_impacted' => isset($request['customers_impacted']) ? $request['customers_impacted'] : '',
-                    'problem_affected' => isset($request['problem_affected']) ? $request['problem_affected'] : '',
-                    'challenges' => isset($request['challenges']) ? $request['challenges'] : '',
-                    'affected_operations' => isset($request['affected_operations']) ? $request['affected_operations'] : '',
-                    'change_event' => isset($request['change_event']) ? $request['change_event'] : '',
-                    'factors_contributed' => isset($request['factors_contributed']) ? $request['factors_contributed'] : '',
-                    'patterns_trends' => isset($request['patterns_trends']) ? $request['patterns_trends'] : '',
-                    'first_notice_date' => isset($request['first_notice_date']) ? $request['first_notice_date'] : '',
-                    'recurring_issue' => isset($request['recurring_issue']) ? $request['recurring_issue'] : '',
-                    'tried_solutions' => isset($request['tried_solutions']) ? $request['tried_solutions'] : '',
-                    'tried_solutions_results' => isset($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
-                    'ideal_resolution' => isset($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
+                    'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
+                    'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
+                    'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
+                    'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
+                    'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
+                    'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
+                    'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
+                    'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
+                    'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
+                    'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
+                    'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
+                    'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
                 ];
 
                 $problem_id = $this->project_problem->createProjectProblem($problem);
@@ -82,7 +82,7 @@ class Problem
             $slug = $request->get_param('slug');
             $args = array(
                 'post_type' => 'portfolio',
-                'pagename' => $slug,
+                'post_name' => $slug,
                 'posts_per_page' => 1,
             );
             $query = new WP_Query($args);
@@ -135,18 +135,18 @@ class Problem
                 $problem = [
                     'project_id' => $project->ID,
                     'client_id' => $client_id,
-                    'customers_impacted' => isset($request['customers_impacted']) ? $request['customers_impacted'] : '',
-                    'problem_affected' => isset($request['problem_affected']) ? $request['problem_affected'] : '',
-                    'challenges' => isset($request['challenges']) ? $request['challenges'] : '',
-                    'affected_operations' => isset($request['affected_operations']) ? $request['affected_operations'] : '',
-                    'change_event' => isset($request['change_event']) ? $request['change_event'] : '',
-                    'factors_contributed' => isset($request['factors_contributed']) ? $request['factors_contributed'] : '',
-                    'patterns_trends' => isset($request['patterns_trends']) ? $request['patterns_trends'] : '',
-                    'first_notice_date' => isset($request['first_notice_date']) ? $request['first_notice_date'] : '',
-                    'recurring_issue' => isset($request['recurring_issue']) ? $request['recurring_issue'] : '',
-                    'tried_solutions' => isset($request['tried_solutions']) ? $request['tried_solutions'] : '',
-                    'tried_solutions_results' => isset($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
-                    'ideal_resolution' => isset($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
+                    'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
+                    'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
+                    'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
+                    'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
+                    'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
+                    'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
+                    'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
+                    'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
+                    'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
+                    'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
+                    'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
+                    'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
                 ];
 
                 $projectProblem = $this->project_problem->updateProjectProblem($project->ID, $problem);
