@@ -6223,6 +6223,7 @@ const getClient = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncTh
     user_email
   } = getState().client;
   const encodedEmail = encodeURIComponent(user_email);
+  console.log(user_email);
   try {
     const response = await fetch(`/wp-json/orb/services/v1/users/client/${encodedEmail}`, {
       method: 'GET',

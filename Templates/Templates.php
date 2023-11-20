@@ -27,7 +27,6 @@ class Templates
         $this->css_file = new CSS;
         $this->js_file = new JS;
         $this->shortcodes = new Shortcodes;
-
     }
 
     function get_front_page_template($frontpage_template)
@@ -85,7 +84,7 @@ class Templates
                     if (file_exists($archive_template)) {
                         return $archive_template;
                     }
-                    
+
                     break;
                 }
             }
@@ -127,12 +126,12 @@ class Templates
                     $taxonomy_template = SEVEN_TECH_PORTFOLIO . "Taxonomies/taxonomy-{$taxonomy['file_name']}.php";
                     add_action('wp_footer', [$this->js_file, 'load_taxonomies_react']);
 
-                    if (file_exists($taxonomy_template)) {              
+                    if (file_exists($taxonomy_template)) {
                         return $taxonomy_template;
                     }
 
                     break;
-                } 
+                }
             }
         }
 

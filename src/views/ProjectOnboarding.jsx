@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import {
   createProjectOnboarding,
+  getProjectOnboarding,
   updateProjectOnboarding,
 } from '../controllers/projectOnboardingSlice';
 
@@ -41,7 +42,7 @@ function OnBoardingComponent() {
     onboarding_id,
     onboarding_message,
   } = useSelector((state) => state.onboarding);
-
+  console.log(website);
   const [formData, setFormData] = useState({
     client_id: client_id,
     project_title: project_title,
@@ -74,6 +75,12 @@ function OnBoardingComponent() {
     }
   }, [user_email, dispatch]);
 
+  useEffect(() => {
+    if (project) {
+      dispatch(getProjectOnboarding(project));
+    }
+  }, [project, dispatch]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -81,7 +88,6 @@ function OnBoardingComponent() {
       [name]: value,
     });
   };
-  console.log(formData);
 
   const handleSocialLinkChange = (e, platform) => {
     const updatedSocialNetworks = formData.social_networks.map((social) => {

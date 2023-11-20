@@ -103,6 +103,7 @@ function TheProblemComponent() {
     problem_id,
     problem_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
+  console.log(client_id);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
     summary: summary,
@@ -136,6 +137,11 @@ function TheProblemComponent() {
       });
     }
   }, [user_email, dispatch]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (project) {
+      dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectProblem)(project));
+    }
+  }, [project, dispatch]);
   const handleInputChange = e => {
     const {
       name,

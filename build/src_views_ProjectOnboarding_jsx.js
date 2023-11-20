@@ -73,6 +73,7 @@ function OnBoardingComponent() {
     onboarding_id,
     onboarding_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
+  console.log(website);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
     project_title: project_title,
@@ -103,6 +104,11 @@ function OnBoardingComponent() {
       });
     }
   }, [user_email, dispatch]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (project) {
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectOnboarding)(project));
+    }
+  }, [project, dispatch]);
   const handleInputChange = e => {
     const {
       name,
@@ -113,7 +119,6 @@ function OnBoardingComponent() {
       [name]: value
     });
   };
-  console.log(formData);
   const handleSocialLinkChange = (e, platform) => {
     const updatedSocialNetworks = formData.social_networks.map(social => {
       if (social.platform === platform) {

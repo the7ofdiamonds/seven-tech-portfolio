@@ -9,18 +9,19 @@ use SEVEN_TECH\Portfolio\Templates\Templates;
 
 class Router
 {
-    private $pages;
     private $templates;
     private $protected_pages_list;
     private $pages_list;
+    private $page_titles;
 
     public function __construct()
     {
-        $this->pages = new Pages;
+        $pages = new Pages;
         $this->templates = new Templates;
 
-        $this->protected_pages_list = $this->pages->protected_pages_list;
-        $this->pages_list = $this->pages->pages_list;
+        $this->protected_pages_list = $pages->protected_pages_list;
+        $this->pages_list = $pages->pages_list;
+        $this->page_titles = $pages->page_titles;
     }
 
     function load_page()
@@ -61,5 +62,46 @@ class Router
 
             return $response;
         }
+    }
+
+    function get_last_url_segment($regex)
+    {
+        $regex = preg_replace("/\([^)]+\)/", "", $regex);
+        $path = preg_replace("#[^a-zA-Z/]+#", "", $regex);
+        $url = explode('/', $path);
+        $url = array_filter($url, function ($value) {
+            return !empty($value);
+        });
+        $lastSegment = end($url);
+
+        return $lastSegment;
+    }
+
+    function get_last_url_index($url)
+    {
+        $url_array = explode('/', $url);
+
+        return count($url_array);
+    }
+
+    function react_rewrite_rules()
+    {
+        add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
+        add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
+    }
+
+    function add_query_vars($query_vars)
+    {
+        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
+            foreach ($this->page_titles as $page_title) {
+                $lastSegment = $this->get_last_url_segment($page_title['regex']);
+
+                $query_vars[] = $lastSegment;
+            }
+
+            return $query_vars;
+        }
+
+        return $query_vars;
     }
 }

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import {
   createProjectProblem,
+  getProjectProblem,
   updateProjectProblem,
 } from '../controllers/projectProblemSlice';
 
@@ -45,7 +46,7 @@ function TheProblemComponent() {
     problem_id,
     problem_message,
   } = useSelector((state) => state.problem);
-
+  console.log(client_id);
   const [formData, setFormData] = useState({
     client_id: client_id,
     summary: summary,
@@ -80,6 +81,12 @@ function TheProblemComponent() {
       });
     }
   }, [user_email, dispatch]);
+
+  useEffect(() => {
+    if (project) {
+      dispatch(getProjectProblem(project));
+    }
+  }, [project, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
