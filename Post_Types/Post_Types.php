@@ -16,8 +16,9 @@ class Post_Types
                 'title' => 'PORTFOLIO',
                 'singular' => 'Project',
                 'plural' => 'Portfolio',
-                'archive_page' => 'portfolio',
-                'single_page' => 'project'
+                'archive_page' => 'Portfolio',
+                'single_page' => 'Project',
+                'slug' => 'portfolio'
             ],
         ];
     }
@@ -53,7 +54,7 @@ class Post_Types
                     'query_var' => true,
                     'rewrite' => array(
                         'with_front' => false,
-                        'slug'       => $post_type['archive_page']
+                        'slug'       => $post_type['slug']
                     ),
                     'hierarchical' => true,
                     'supports' => [

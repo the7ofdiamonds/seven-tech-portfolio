@@ -12,13 +12,19 @@ class Pages
     public function __construct()
     {
         $this->front_page_react = [
-            'portfolio',
+            'Portfolio',
         ];
 
         $this->protected_pages_list = [
-            ['url' => 'project/onboarding'],
-            ['url' => 'project/problem/([a-zA-Z+-]+)'],
-        ];
+            [
+                'regex' => '#^/project/onboarding/[^/]+#',
+                'file_name' => 'ProjectOnboarding'
+            ],
+            [
+                'regex' => '#^/project/problem/[^/]+#',
+                'file_name' => 'ProjectProblem'
+            ],
+        ];        
 
         $this->pages_list = [];
 
@@ -28,17 +34,27 @@ class Pages
         ];
     }
 
+    function get_last_url_segment($regex)
+    {
+        $regex = preg_replace("/\([^)]+\)/", "", $regex);
+        $path = preg_replace("#[^a-zA-Z/]+#", "", $regex);
+        $url = explode('/', $path);
+        $url = array_filter($url, function ($value) {
+            return !empty($value);
+        });
+        $lastSegment = end($url);
+
+        return $lastSegment;
+    }
+
     function react_rewrite_rules()
     {
         if (is_array($this->page_titles) && count($this->page_titles) > 0) {
-
             foreach ($this->page_titles as $page_title) {
-                $url = explode('/', $page_title['url']);
-                $segment = count($url) - 1;
+                $lastSegment = $this->get_last_url_segment($page_title['regex']);
 
-                if (isset($url[$segment])) {
-                    add_rewrite_rule('^' . $page_title['url'], 'index.php?' . $url[$segment] . '=$1', 'top');
-                }
+                add_rewrite_rule($page_title['regex'], 'index.php?' . $lastSegment . '=$matches[1]', 'top');
+                break;
             }
         }
     }
@@ -46,16 +62,15 @@ class Pages
     function add_query_vars($query_vars)
     {
         if (is_array($this->page_titles) && count($this->page_titles) > 0) {
-
             foreach ($this->page_titles as $page_title) {
-                $url = explode('/', $page_title['url']);
-                $segment = count($url) - 1;
+                $lastSegment = $this->get_last_url_segment($page_title['regex']);
 
-                $query_vars[] = $url[$segment];
+                $query_vars[] = $lastSegment;
             }
 
             return $query_vars;
         }
+
         return $query_vars;
     }
 

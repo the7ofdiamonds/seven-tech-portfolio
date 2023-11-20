@@ -56,29 +56,17 @@ class CSS
 
     function load_pages_css()
     {
-        foreach ($this->page_titles as $page) {
-            $full_url = explode('/', $page['url']);
-            $full_path = explode('/', $_SERVER['REQUEST_URI']);
+        if (!empty($this->page_titles) && is_array($this->page_titles)) {
+            foreach ($this->page_titles as $page) {
+                $path = $_SERVER['REQUEST_URI'];
 
-            $full_url = array_filter($full_url, function ($value) {
-                return $value !== "";
-            });
-
-            $full_path = array_filter($full_path, function ($value) {
-                return $value !== "";
-            });
-
-            $full_url = array_values($full_url);
-            $full_path = array_values($full_path);
-
-            $differences = array_diff($full_url, $full_path);
-
-            if (empty($differences)) {
-                if ($this->filePath) {
-                    wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');
-                    wp_enqueue_style($this->handle_prefix . 'css');
-                } else {
-                    error_log('CSS file is missing at :' . $this->filePath);
+                if (preg_match($page['regex'], $path)) {
+                    if ($this->filePath) {
+                        wp_register_style($this->handle_prefix . 'css',  $this->cssFolderPathURL . $this->cssFileName, array(), false, 'all');
+                        wp_enqueue_style($this->handle_prefix . 'css');
+                    } else {
+                        error_log('CSS file is missing at :' . $this->filePath);
+                    }
                 }
             }
         }

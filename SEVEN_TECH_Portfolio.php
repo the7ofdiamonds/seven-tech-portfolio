@@ -36,6 +36,7 @@ use SEVEN_TECH\Portfolio\Roles\Roles;
 use SEVEN_TECH\Portfolio\Router\Router;
 use SEVEN_TECH\Portfolio\Shortcodes\Shortcodes;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
+use SEVEN_TECH\Portfolio\Templates\Templates;
 
 class SEVEN_TECH_Portfolio
 {
@@ -50,8 +51,8 @@ class SEVEN_TECH_Portfolio
         });
 
         add_action('init', function () {
-            (new Pages)->react_rewrite_rules();
-            (new Pages)->is_user_logged_in();
+            // (new Pages)->react_rewrite_rules();
+            // (new Pages)->is_user_logged_in();
             (new Post_Types)->custom_post_types();
             (new Router)->load_page();
             new Shortcodes;
@@ -59,8 +60,14 @@ class SEVEN_TECH_Portfolio
         });
 
         // add_action('customize_register', [(new Customizer), 'register_customizer_panel']);
+        
+        add_filter('taxonomy_template', [(new Templates), 'get_taxonomy_page_template']);
 
-        add_filter('query_vars', [(new Pages), 'add_query_vars']);
+        add_filter('archive_template', [(new Templates), 'get_archive_page_template']);
+        add_filter('single_template', [(new Templates), 'get_single_page_template']);
+
+        // add_filter('query_vars', [(new Pages), 'add_query_vars']);
+        flush_rewrite_rules();
     }
 
     function activate()
