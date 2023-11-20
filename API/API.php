@@ -13,13 +13,13 @@ class API
         $project = new Project;
         $taxonomies = new Taxonomies;
 
-        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding', [
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio/onboarding', [
             'methods' => 'POST',
             'callback' => [$onboarding, 'create_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/portfolio/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'POST',
             'callback' => [$onboarding, 'get_project_onboarding'],
             'permission_callback' => '__return_true',
@@ -31,13 +31,13 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'POST',
             'callback' => [$problem, 'create_project_problem'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/portfolio/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'POST',
             'callback' => [$problem, 'get_project_problem'],
             'permission_callback' => '__return_true',

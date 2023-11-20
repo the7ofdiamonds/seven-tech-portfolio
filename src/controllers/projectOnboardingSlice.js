@@ -31,7 +31,7 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/onboarding`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProje
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${project}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ export const updateProjectOnboarding = createAsyncThunk('projectOnboarding/updat
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_title}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,6 +147,8 @@ export const projectOnboardingSlice = createSlice({
                 state.logo = action.payload.logo
                 state.colors = action.payload.colors
                 state.plan = action.payload.plan
+                state.onboarding_id = action.payload.client_id
+                state.onboarding_message
             })
             .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false

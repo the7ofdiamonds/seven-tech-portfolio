@@ -25,7 +25,7 @@ export const createProjectProblem = createAsyncThunk('projectProblem/createProje
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${formData?.project_title}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ export const createProjectProblem = createAsyncThunk('projectProblem/createProje
         return responseData;
     } catch (error) {
         console.log(error)
-        throw error.message;
+        throw error;
     }
 });
 
@@ -88,7 +88,7 @@ export const getProjectProblem = createAsyncThunk('projectProblem/getProjectProb
         return responseData;
     } catch (error) {
         console.log(error)
-        throw error.message;
+        throw error;
     }
 });
 
@@ -131,7 +131,7 @@ export const updateProjectProblem = createAsyncThunk('projectProblem/updateProje
         return responseData;
     } catch (error) {
         console.log(error)
-        throw error.message;
+        throw error;
     }
 });
 

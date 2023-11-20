@@ -5,7 +5,7 @@ const initialState = {
     error: '',
     client_id: '',
     stripe_customer_id: '',
-    user_email: sessionStorage.getItem('user_email'),
+    user_email: sessionStorage.getItem('email'),
     first_name: '',
     last_name: '',
 };
@@ -13,7 +13,7 @@ const initialState = {
 export const getClient = createAsyncThunk('portfolioClient/getClient', async (_, { getState }) => {
     const { user_email } = getState().client;
     const encodedEmail = encodeURIComponent(user_email);
-    console.log(user_email);
+
     try {
         const response = await fetch(`/wp-json/orb/services/v1/users/client/${encodedEmail}`, {
             method: 'GET',

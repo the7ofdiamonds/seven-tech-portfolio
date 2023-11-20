@@ -46,7 +46,7 @@ function TheProblemComponent() {
     problem_id,
     problem_message,
   } = useSelector((state) => state.problem);
-  console.log(client_id);
+
   const [formData, setFormData] = useState({
     client_id: client_id,
     summary: summary,
