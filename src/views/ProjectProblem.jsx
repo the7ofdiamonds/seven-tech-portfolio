@@ -48,6 +48,7 @@ function TheProblemComponent() {
   } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
+    project_title: project,
     client_id: client_id,
     summary: summary,
     summary_url: summary_url,
@@ -84,7 +85,18 @@ function TheProblemComponent() {
 
   useEffect(() => {
     if (project) {
-      dispatch(getProjectProblem(project));
+      dispatch(getProjectProblem(project)).then((response) => {
+        if (response.error) {
+          console.error(response.error.message);
+          setMessageType('error');
+          // setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            ...response.payload,
+          }));
+        }
+      });
     }
   }, [project, dispatch]);
 
@@ -102,7 +114,10 @@ function TheProblemComponent() {
       dispatch(updateProjectProblem(formData));
     } else {
       dispatch(createProjectProblem(formData)).then((response) => {
-        if (response.payload) {
+        console.log(response);
+        if (!isNaN(response.payload)) {
+          setMessageType('success');
+          setMessage('Your problem has been saved, and information on a suitable solution will be provided shortly.');
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -154,7 +169,9 @@ function TheProblemComponent() {
                     <textarea
                       name="problem_affected"
                       onChange={handleInputChange}
-                      value={formData.problem_affected}></textarea>
+                      value={formData.problem_affected}>
+                      {formData.problem_affected}
+                    </textarea>
                   </td>
                 </tr>
                 <tr>

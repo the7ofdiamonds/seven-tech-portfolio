@@ -104,6 +104,7 @@ function TheProblemComponent() {
     problem_message
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+    project_title: project,
     client_id: client_id,
     summary: summary,
     summary_url: summary_url,
@@ -138,7 +139,18 @@ function TheProblemComponent() {
   }, [user_email, dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (project) {
-      dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectProblem)(project));
+      dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectProblem)(project)).then(response => {
+        if (response.error) {
+          console.error(response.error.message);
+          setMessageType('error');
+          // setMessage(response.error.message);
+        } else {
+          setFormData(prevData => ({
+            ...prevData,
+            ...response.payload
+          }));
+        }
+      });
     }
   }, [project, dispatch]);
   const handleInputChange = e => {
@@ -157,7 +169,10 @@ function TheProblemComponent() {
       dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectProblem)(formData));
     } else {
       dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectProblem)(formData)).then(response => {
-        if (response.payload) {
+        console.log(response);
+        if (!isNaN(response.payload)) {
+          setMessageType('success');
+          setMessage('Your problem has been saved, and information on a suitable solution will be provided shortly.');
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -196,7 +211,7 @@ function TheProblemComponent() {
     name: "problem_affected",
     onChange: handleInputChange,
     value: formData.problem_affected
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+  }, formData.problem_affected))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: ""
   }, "What are the key challenges (your company or organization) is encountering?"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
     name: "challenges",

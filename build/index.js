@@ -6705,7 +6705,6 @@ const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 });
@@ -6733,7 +6732,6 @@ const getProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.creat
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 });
@@ -6744,7 +6742,7 @@ const updateProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -6776,7 +6774,6 @@ const updateProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 });
@@ -6791,7 +6788,7 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
     }).addCase(getProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problem_id = action.payload;
+      state.problem_id = action.payload.id;
       state.project_title = action.payload.project_title;
       state.summary = action.payload.summary;
       state.summary_url = action.payload.summary_url;

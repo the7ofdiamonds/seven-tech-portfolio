@@ -34,32 +34,32 @@ class Problem
             );
             $query = new WP_Query($args);
 
-            if ($query->have_posts()) {
-                $project = $query->posts[0];
-
-                $problem = [
-                    'project_id' => $project->ID,
-                    'client_id' => $client_id,
-                    'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
-                    'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
-                    'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
-                    'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
-                    'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
-                    'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
-                    'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
-                    'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
-                    'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
-                    'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
-                    'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
-                    'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
-                ];
-
-                $problem_id = $this->project_problem->createProjectProblem($problem);
-
-                return rest_ensure_response($problem_id);
+            if (!$query->have_posts()) {
+                throw new Exception("Problem definition for project {$slug} could not found", 404);
             } else {
-                return rest_ensure_response("Problem definition for project {$slug} could not found");
+                $project = $query->posts[0];
             }
+
+            $problem = [
+                'project_id' => $project->ID,
+                'client_id' => $client_id,
+                'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
+                'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
+                'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
+                'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
+                'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
+                'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
+                'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
+                'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
+                'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
+                'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
+                'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
+                'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
+            ];
+
+            $problem_id = $this->project_problem->createProjectProblem($problem);
+
+            return rest_ensure_response($problem_id);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();
@@ -87,15 +87,15 @@ class Problem
             );
             $query = new WP_Query($args);
 
-            if ($query->have_posts()) {
-                $project = $query->posts[0];
-
-                $projectProblem = $this->project_problem->getProjectProblem($project->ID);
-
-                return rest_ensure_response($projectProblem);
+            if (!$query->have_posts()) {
+                throw new Exception("Problem definition for project {$slug} could not found", 404);
             } else {
-                return rest_ensure_response("Onboarding for project {$slug} not found");
+                $project = $query->posts[0];
             }
+
+            $projectProblem = $this->project_problem->getProjectProblem($project->ID);
+
+            return rest_ensure_response($projectProblem);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();
@@ -129,32 +129,32 @@ class Problem
             );
             $query = new WP_Query($args);
 
-            if ($query->have_posts()) {
-                $project = $query->posts[0];
-
-                $problem = [
-                    'project_id' => $project->ID,
-                    'client_id' => $client_id,
-                    'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
-                    'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
-                    'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
-                    'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
-                    'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
-                    'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
-                    'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
-                    'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
-                    'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
-                    'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
-                    'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
-                    'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
-                ];
-
-                $projectProblem = $this->project_problem->updateProjectProblem($project->ID, $problem);
-
-                return rest_ensure_response($projectProblem);
+            if (!$query->have_posts()) {
+                throw new Exception("Problem definition for project {$slug} could not found", 404);
             } else {
-                return rest_ensure_response("Problem definition for project {$slug} could not found");
+                $project = $query->posts[0];
             }
+
+            $problem = [
+                'project_id' => $project->ID,
+                'client_id' => $client_id,
+                'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
+                'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
+                'challenges' => !empty($request['challenges']) ? $request['challenges'] : '',
+                'affected_operations' => !empty($request['affected_operations']) ? $request['affected_operations'] : '',
+                'change_event' => !empty($request['change_event']) ? $request['change_event'] : '',
+                'factors_contributed' => !empty($request['factors_contributed']) ? $request['factors_contributed'] : '',
+                'patterns_trends' => !empty($request['patterns_trends']) ? $request['patterns_trends'] : '',
+                'first_notice_date' => !empty($request['first_notice_date']) ? $request['first_notice_date'] : '',
+                'recurring_issue' => !empty($request['recurring_issue']) ? $request['recurring_issue'] : '',
+                'tried_solutions' => !empty($request['tried_solutions']) ? $request['tried_solutions'] : '',
+                'tried_solutions_results' => !empty($request['tried_solutions_results']) ? $request['tried_solutions_results'] : '',
+                'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
+            ];
+
+            $projectProblem = $this->project_problem->updateProjectProblem($project->ID, $problem);
+
+            return rest_ensure_response($projectProblem);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();
