@@ -23,8 +23,9 @@ class PortfolioProjectOnboarding
             throw new Exception('Project problem data is needed to save to the database.', 400);
         }
 
-        $client_id = $onboarding['client_id'];
+        $project_id = $onboarding['project_id'];
         $project_title = $onboarding['project_title'];
+        $client_id = $onboarding['client_id'];
 
         if (empty($client_id)) {
             throw new Exception('Client ID is required.', 400);
@@ -34,17 +35,21 @@ class PortfolioProjectOnboarding
             throw new Exception('Project title is required.', 400);
         }
 
-        $project_data = array(
-            'post_title'    => $project_title,
-            'post_status'   => 'pending',
-            'post_author'   => $client_id,
-            'post_type'     => 'portfolio',
-        );
+        $project = get_page_by_title($project_title, OBJECT, 'portfolio');
 
-        $project_id = wp_insert_post($project_data);
+        if (empty($project_id) || empty($project)) {
+            $project_data = array(
+                'post_title'    => $project_title,
+                'post_status'   => 'pending',
+                'post_author'   => $client_id,
+                'post_type'     => 'portfolio',
+            );
 
-        if (is_wp_error($project_id)) {
-            throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+            $project_id = wp_insert_post($project_data);
+
+            if (is_wp_error($project_id)) {
+                throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+            }
         }
 
         $onboarding_data = [

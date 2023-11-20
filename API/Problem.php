@@ -27,21 +27,16 @@ class Problem
             }
 
             $slug = $request->get_param('slug');
-            $args = array(
-                'post_type' => 'portfolio',
-                'pagename' => $slug,
-                'posts_per_page' => 1,
-            );
-            $query = new WP_Query($args);
+            $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
-            if (!$query->have_posts()) {
-                throw new Exception("Problem definition for project {$slug} could not found", 404);
+            if (empty($page)) {
+                throw new Exception("Problem definition for project {$slug} could not found.", 404);
             } else {
-                $project = $query->posts[0];
+                $project_id = $page->ID;
             }
 
             $problem = [
-                'project_id' => $project->ID,
+                'project_id' => $project_id,
                 'client_id' => $client_id,
                 'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
                 'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
@@ -80,20 +75,15 @@ class Problem
     {
         try {
             $slug = $request->get_param('slug');
-            $args = array(
-                'post_type' => 'portfolio',
-                'post_name' => $slug,
-                'posts_per_page' => 1,
-            );
-            $query = new WP_Query($args);
+            $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
-            if (!$query->have_posts()) {
-                throw new Exception("Problem definition for project {$slug} could not found", 404);
+            if (empty($page)) {
+                throw new Exception("Problem definition for project {$slug} could not found.", 404);
             } else {
-                $project = $query->posts[0];
+                $project_id = $page->ID;
             }
 
-            $projectProblem = $this->project_problem->getProjectProblem($project->ID);
+            $projectProblem = $this->project_problem->getProjectProblem($project_id);
 
             return rest_ensure_response($projectProblem);
         } catch (Exception $e) {
@@ -122,21 +112,16 @@ class Problem
             }
 
             $slug = $request->get_param('slug');
-            $args = array(
-                'post_type' => 'portfolio',
-                'pagename' => $slug,
-                'posts_per_page' => 1,
-            );
-            $query = new WP_Query($args);
+            $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
-            if (!$query->have_posts()) {
+            if (empty($page)) {
                 throw new Exception("Problem definition for project {$slug} could not found", 404);
             } else {
-                $project = $query->posts[0];
+                $project_id = $page->ID;
             }
 
             $problem = [
-                'project_id' => $project->ID,
+                'project_id' => $project_id,
                 'client_id' => $client_id,
                 'customers_impacted' => !empty($request['customers_impacted']) ? $request['customers_impacted'] : '',
                 'problem_affected' => !empty($request['problem_affected']) ? $request['problem_affected'] : '',
@@ -152,7 +137,7 @@ class Problem
                 'ideal_resolution' => !empty($request['ideal_resolution']) ? $request['ideal_resolution'] : '',
             ];
 
-            $projectProblem = $this->project_problem->updateProjectProblem($project->ID, $problem);
+            $projectProblem = $this->project_problem->updateProjectProblem($project_id, $problem);
 
             return rest_ensure_response($projectProblem);
         } catch (Exception $e) {

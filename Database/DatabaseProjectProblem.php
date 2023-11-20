@@ -142,7 +142,7 @@ class DatabaseProjectProblem
         $updated = $this->wpdb->update($this->table_name, $data, $where);
 
         if ($updated === false) {
-            throw new Exception('Failed to update project problem.' . $this->wpdb->last_error, 500);
+            throw new Exception('Failed to update project problem. ' . $this->wpdb->last_error, 500);
         }
 
         return 'Project problem updated successfully.';

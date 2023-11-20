@@ -32,7 +32,25 @@ class Onboarding
                 throw new Exception('Project title is required.', 400);
             }
 
+            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+            if (empty($project)) {
+                $project_data = array(
+                    'post_title'    => $project_title,
+                    'post_status'   => 'pending',
+                    'post_author'   => $client_id,
+                    'post_type'     => 'portfolio',
+                );
+
+                $project_id = wp_insert_post($project_data);
+
+                if (is_wp_error($project_id)) {
+                    throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+                }
+            }
+
             $onboarding = [
+                'project_id' => $project_id,
                 'project_title' => $project_title,
                 'client_id' => $client_id,
                 'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
@@ -70,22 +88,17 @@ class Onboarding
     {
         try {
             $slug = $request->get_param('slug');
-            $args = array(
-                'post_type' => 'portfolio',
-                'post_name' => $slug,
-                'posts_per_page' => 1,
-            );
-            $query = new WP_Query($args);
+            $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
-            if ($query->have_posts()) {
-                $project = $query->posts[0];
-
-                $onboarding = $this->project_onboarding->getProjectOnboarding($project->ID);
-
-                return rest_ensure_response($onboarding);
+            if (empty($page)) {
+                throw new Exception("Onboarding for project {$slug} not found.", 404);
             } else {
-                return rest_ensure_response("Onboarding for project {$slug} not found");
+                $project_id = $page->ID;
             }
+
+            $onboarding = $this->project_onboarding->getProjectOnboarding($project_id);
+
+            return rest_ensure_response($onboarding);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();
@@ -112,37 +125,32 @@ class Onboarding
             }
 
             $slug = $request->get_param('slug');
-            $args = array(
-                'post_type' => 'portfolio',
-                'pagename' => $slug,
-                'posts_per_page' => 1,
-            );
-            $query = new WP_Query($args);
+            $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
-            if ($query->have_posts()) {
-                $project = $query->posts[0];
-
-                $onboarding_data = [
-                    'project_id' => $project->ID,
-                    'client_id' => $client_id,
-                    'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
-                    'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',
-                    'website' => !empty($request['website']) ? $request['website'] : '',
-                    'hosting' => !empty($request['hosting']) ? $request['hosting'] : '',
-                    'satisfied' => !empty($request['satisfied']) ? $request['satisfied'] : '',
-                    'signage' => !empty($request['signage']) ? $request['signage'] : '',
-                    'social_networks' => !empty($request['social_networks']) ? $request['social_networks'] : '',
-                    'logo' => !empty($request['logo']) ? $request['logo'] : '',
-                    'colors' => !empty($request['colors']) ? $request['colors'] : '',
-                    'plan' => !empty($request['plan']) ? $request['plan'] : '',
-                ];
-
-                $onboarding_id = $this->project_onboarding->updateProjectOnboarding($client_id, $onboarding_data);
-
-                return rest_ensure_response($onboarding_id);
+            if (empty($page)) {
+                throw new Exception("Onboarding for project {$slug} not found.", 404);
             } else {
-                return rest_ensure_response("Onboarding for project {$slug} not found");
+                $project_id = $page->ID;
             }
+
+            $onboarding_data = [
+                'project_id' => $project_id,
+                'client_id' => $client_id,
+                'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
+                'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',
+                'website' => !empty($request['website']) ? $request['website'] : '',
+                'hosting' => !empty($request['hosting']) ? $request['hosting'] : '',
+                'satisfied' => !empty($request['satisfied']) ? $request['satisfied'] : '',
+                'signage' => !empty($request['signage']) ? $request['signage'] : '',
+                'social_networks' => !empty($request['social_networks']) ? $request['social_networks'] : '',
+                'logo' => !empty($request['logo']) ? $request['logo'] : '',
+                'colors' => !empty($request['colors']) ? $request['colors'] : '',
+                'plan' => !empty($request['plan']) ? $request['plan'] : '',
+            ];
+
+            $onboarding_id = $this->project_onboarding->updateProjectOnboarding($client_id, $onboarding_data);
+
+            return rest_ensure_response($onboarding_id);
         } catch (Exception $e) {
             $error_message = $e->getMessage();
             $status_code = $e->getCode();
