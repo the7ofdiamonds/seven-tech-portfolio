@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getClient } from '../controllers/clientSlice';
 import { getProject } from '../controllers/projectSlice';
 
-import Card from './components/Card';
+import LoadingComponent from '../views/components/global/LoadingComponent';
+import ErrorComponent from '../views/components/global/ErrorComponent';
+import Card from '../views/components/global/Card';
+
 import ProjectTypes from './components/ProjectTypes';
 import ProjectStatus from './components/ProjectStatus';
 import Gallery from './components/Gallery';
@@ -61,6 +64,10 @@ function Project() {
   useEffect(() => {
     dispatch(getProject(project));
   }, [dispatch, project]);
+
+  if (onboardingLoading) {
+    return <LoadingComponent />;
+  }
 
   const handleClick = () => {};
 

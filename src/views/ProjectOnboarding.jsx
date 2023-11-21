@@ -9,7 +9,9 @@ import {
   updateProjectOnboarding,
 } from '../controllers/projectOnboardingSlice';
 
-import LoadingComponent from '../loading/LoadingComponent';
+import LoadingComponent from '../views/components/global/LoadingComponent';
+import StatusBar from '../views/components/global/StatusBar';
+import Modal from '../views/components/global/Modal';
 
 function OnBoardingComponent() {
   const { project } = useParams();
@@ -40,9 +42,9 @@ function OnBoardingComponent() {
     colors,
     plan,
     onboarding_id,
-    onboarding_message,
+    onboardingMessage,
   } = useSelector((state) => state.onboarding);
-  console.log(website);
+
   const [formData, setFormData] = useState({
     client_id: client_id,
     project_title: project_title,
@@ -77,9 +79,24 @@ function OnBoardingComponent() {
 
   useEffect(() => {
     if (project) {
-      dispatch(getProjectOnboarding(project));
+      dispatch(getProjectOnboarding(project)).then((response) => {
+        if (response.error) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            ...response.payload,
+          }));
+        }
+      });
     }
   }, [project, dispatch]);
+
+  if (onboardingLoading) {
+    return <LoadingComponent />;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -142,7 +159,14 @@ function OnBoardingComponent() {
       scrollToQuestion(unansweredQuestions[0]);
     } else {
       if (onboarding_id) {
-        dispatch(updateProjectOnboarding(formData));
+        dispatch(updateProjectOnboarding(formData)).then((response) => {
+          if (!isNaN(response.payload.id)) {
+            setDisplay('flex');
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 5000);
+          }
+        });
       } else {
         dispatch(createProjectOnboarding(formData)).then((response) => {
           if (!isNaN(response.payload)) {
@@ -163,20 +187,12 @@ function OnBoardingComponent() {
     }
   };
 
-  if (onboardingLoading) {
-    return <LoadingComponent />;
-  }
-
   return (
     <>
       <section>
         <h2 className="title">CLIENT ONBOARDING</h2>
 
-        {message && (
-          <div className={`status-bar card ${messageType}`}>
-            <span>{message}</span>
-          </div>
-        )}
+        <StatusBar message={message} messageType={messageType} />
 
         <div className="card">
           <form className="on-boarding" action="">
@@ -546,17 +562,9 @@ function OnBoardingComponent() {
           </div>
         </span>
 
-        {onboardingError && (
-          <div className={`status-bar card error`}>
-            <span>{onboardingError}</span>
-          </div>
-        )}
+        <Modal message={onboardingMessage} display={display} />
 
-        {onboarding_message && (
-          <div className={`status-bar card success`}>
-            <span>{onboarding_message}</span>
-          </div>
-        )}
+        <StatusBar message={onboardingError} messageType={'error'} />
 
         <button type="submit" onClick={handleSubmit}>
           <h3>{onboarding_id ? 'UPDATE' : 'SAVE'}</h3>

@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const LoadingComponent = lazy(() => import('./loading/LoadingComponent.jsx'));
+const LoadingComponent = lazy(() => import('./views/components/global/LoadingComponent.jsx'));
 
 const Portfolio = lazy(() => import('./views/Portfolio'));
 const ProjectTypes = lazy(() => import('./views/ProjectTypes'));

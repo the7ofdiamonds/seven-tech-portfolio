@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getClient } from '../controllers/clientSlice';
@@ -9,13 +9,13 @@ import {
   updateProjectProblem,
 } from '../controllers/projectProblemSlice';
 
-import LoadingComponent from '../loading/LoadingComponent';
-import ErrorComponent from '../error/ErrorComponent';
+import LoadingComponent from '../views/components/global/LoadingComponent';
+import StatusBar from '../views/components/global/StatusBar';
+import Modal from '../views/components/global/Modal';
 
-function TheProblemComponent() {
+function ProjectProblem() {
   const { project } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [messageType, setMessageType] = useState('info');
   const [message, setMessage] = useState(
@@ -43,8 +43,8 @@ function TheProblemComponent() {
     tried_solutions,
     tried_solutions_results,
     ideal_resolution,
-    problem_id,
-    problem_message,
+    problemID,
+    problemMessage,
   } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
@@ -89,7 +89,7 @@ function TheProblemComponent() {
         if (response.error) {
           console.error(response.error.message);
           setMessageType('error');
-          // setMessage(response.error.message);
+          setMessage(response.error.message);
         } else {
           setFormData((prevData) => ({
             ...prevData,
@@ -99,6 +99,10 @@ function TheProblemComponent() {
       });
     }
   }, [project, dispatch]);
+
+  if (problemLoading) {
+    return <LoadingComponent />;
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -110,14 +114,19 @@ function TheProblemComponent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (problem_id) {
-      dispatch(updateProjectProblem(formData));
+    if (problemID) {
+      dispatch(updateProjectProblem(formData)).then((response) => {
+        if (!isNaN(response.payload.id)) {
+          setDisplay('flex');
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 5000);
+        }
+      });
     } else {
       dispatch(createProjectProblem(formData)).then((response) => {
-        console.log(response);
-        if (!isNaN(response.payload)) {
-          setMessageType('success');
-          setMessage('Your problem has been saved, and information on a suitable solution will be provided shortly.');
+        if (!isNaN(response.payload.id)) {
+          setDisplay('flex');
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -126,24 +135,12 @@ function TheProblemComponent() {
     }
   };
 
-  if (problemLoading) {
-    return <LoadingComponent />;
-  }
-
-  // if (projectError) {
-  //   return <ErrorComponent error={projectError} />;
-  // }
-
   return (
     <>
       <section className="project-problem">
         <h2 className="title">THE PROBLEM</h2>
 
-        {message && (
-          <div className={`status-bar card ${messageType}`}>
-            <span>{message}</span>
-          </div>
-        )}
+        <StatusBar message={message} messageType={messageType} />
 
         <div className="card">
           <form className="the-problem" action="">
@@ -340,33 +337,16 @@ function TheProblemComponent() {
           </form>
         </div>
 
-        <span className="overlay" style={{ display: `${display}` }}>
-          <div className="card modal">
-            <h4>
-              Thank you {first_name}, this information will be used to construct
-              the best solution for this problem.
-            </h4>
-          </div>
-        </span>
+        <Modal message={problemMessage} display={display} />
 
-        {problemError && (
-          <div className={`status-bar card error`}>
-            <span>{problemError}</span>
-          </div>
-        )}
-
-        {problem_message && (
-          <div className={`status-bar card success`}>
-            <span>{problem_message}</span>
-          </div>
-        )}
+        <StatusBar message={problemError} messageType={'error'} />
 
         <button type="submit" onClick={handleSubmit}>
-          <h3>{problem_id ? 'UPDATE' : 'SAVE'}</h3>
+          <h3>{problemID ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </section>
     </>
   );
 }
 
-export default TheProblemComponent;
+export default ProjectProblem;

@@ -57,7 +57,12 @@ class DatabaseProjectProblem
             throw new Exception('Failed to save the project problem. ' . $this->wpdb->last_error, 500);
         }
 
-        return $this->wpdb->insert_id;
+        $problem_response =  [
+            'id' => $this->wpdb->insert_id,
+            'message' => 'Your problem has been saved, and information on a suitable solution will be provided shortly.'
+        ];
+
+        return $problem_response;
     }
 
     function getProblem($project_id)

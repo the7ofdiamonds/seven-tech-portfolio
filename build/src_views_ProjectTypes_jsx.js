@@ -13,12 +13,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var _controllers_clientSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/clientSlice */ "./src/controllers/clientSlice.js");
-/* harmony import */ var _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controllers/portfolioSlice */ "./src/controllers/portfolioSlice.js");
-/* harmony import */ var _components_Projects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Projects */ "./src/views/components/Projects.jsx");
-/* harmony import */ var _components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ProjectTypes */ "./src/views/components/ProjectTypes.jsx");
-/* harmony import */ var _components_ProjectTags__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/ProjectTags */ "./src/views/components/ProjectTags.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controllers/portfolioSlice */ "./src/controllers/portfolioSlice.js");
+/* harmony import */ var _components_Projects__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Projects */ "./src/views/components/Projects.jsx");
+/* harmony import */ var _components_ProjectTypes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ProjectTypes */ "./src/views/components/ProjectTypes.jsx");
+/* harmony import */ var _components_ProjectTags__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/ProjectTags */ "./src/views/components/ProjectTags.jsx");
+/* harmony import */ var _views_components_global_LoadingComponent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/components/global/LoadingComponent */ "./src/views/components/global/LoadingComponent.jsx");
+/* harmony import */ var _views_components_global_ErrorComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/components/global/ErrorComponent */ "./src/views/components/global/ErrorComponent.jsx");
+
 
 
 
@@ -31,33 +33,36 @@ __webpack_require__.r(__webpack_exports__);
 function ProjectTypesPage() {
   const {
     type
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useParams)();
   const {
-    loading,
-    error,
+    portfolioLoading,
+    portfolioError,
     projects,
     project_types,
     project_tags
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.portfolio);
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectsType)(type));
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_3__.getProjectsType)(type));
   }, [dispatch, type]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTypes)());
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_3__.getPortfolioTypes)());
   }, [dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_4__.getPortfolioTags)());
+    dispatch((0,_controllers_portfolioSlice__WEBPACK_IMPORTED_MODULE_3__.getPortfolioTags)());
   }, [dispatch]);
+  if (portfolioLoading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_LoadingComponent__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+  }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "project-types"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "title"
-  }, type, " projects"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, type, " projects"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Projects__WEBPACK_IMPORTED_MODULE_4__["default"], {
     projects: projects
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTypes__WEBPACK_IMPORTED_MODULE_5__["default"], {
     project_types: project_types
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTags__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ProjectTags__WEBPACK_IMPORTED_MODULE_6__["default"], {
     project_tags: project_tags
   })));
 }
@@ -262,6 +267,49 @@ function Projects(props) {
   }))) : 'There are no projects to display');
 }
 /* harmony default export */ __webpack_exports__["default"] = (Projects);
+
+/***/ }),
+
+/***/ "./src/views/components/global/ErrorComponent.jsx":
+/*!********************************************************!*\
+  !*** ./src/views/components/global/ErrorComponent.jsx ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+function ErrorComponent(props) {
+  const {
+    error
+  } = props;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "error"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "status-bar card error"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, error)));
+}
+/* harmony default export */ __webpack_exports__["default"] = (ErrorComponent);
+
+/***/ }),
+
+/***/ "./src/views/components/global/LoadingComponent.jsx":
+/*!**********************************************************!*\
+  !*** ./src/views/components/global/LoadingComponent.jsx ***!
+  \**********************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+function LoadingComponent() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "loading"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "Loading......"));
+}
+/* harmony default export */ __webpack_exports__["default"] = (LoadingComponent);
 
 /***/ })
 

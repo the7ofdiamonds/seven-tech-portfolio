@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { getClient } from '../controllers/clientSlice';
 import {
   getPortfolioTypes,
   getPortfolioTags,
@@ -13,10 +12,13 @@ import Projects from './components/Projects';
 import ProjectTypes from './components/ProjectTypes';
 import ProjectTags from './components/ProjectTags';
 
+import LoadingComponent from '../views/components/global/LoadingComponent';
+import ErrorComponent from '../views/components/global/ErrorComponent';
+
 function ProjectTagsPage() {
   const { tag } = useParams();
 
-  const { loading, error, projects, project_types, project_tags } = useSelector(
+  const { portfolioLoading, portfolioError, projects, project_types, project_tags } = useSelector(
     (state) => state.portfolio
   );
 
@@ -33,6 +35,10 @@ function ProjectTagsPage() {
   useEffect(() => {
     dispatch(getPortfolioTags());
   }, [dispatch]);
+
+  if (portfolioLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <>

@@ -6148,7 +6148,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const LoadingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_loading_LoadingComponent_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./loading/LoadingComponent.jsx */ "./src/loading/LoadingComponent.jsx")));
+const LoadingComponent = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_components_global_LoadingComponent_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/components/global/LoadingComponent.jsx */ "./src/views/components/global/LoadingComponent.jsx")));
 const Portfolio = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_Portfolio_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/Portfolio */ "./src/views/Portfolio.jsx")));
 const ProjectTypes = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTypes_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTypes */ "./src/views/ProjectTypes.jsx")));
 const ProjectTags = (0,react__WEBPACK_IMPORTED_MODULE_1__.lazy)(() => __webpack_require__.e(/*! import() */ "src_views_ProjectTags_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ./views/ProjectTags */ "./src/views/ProjectTags.jsx")));
@@ -6663,8 +6663,8 @@ const initialState = {
   tried_solutions: '',
   tried_solutions_results: '',
   ideal_resolution: '',
-  problem_id: '',
-  problem_message: ''
+  problemID: '',
+  problemMessage: ''
 };
 const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectProblem/createProjectProblem', async (formData, {
   getState
@@ -6784,11 +6784,12 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
     builder.addCase(createProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problem_id = action.payload;
+      state.problemID = action.payload.id;
+      state.problemMessage = action.payload.message;
     }).addCase(getProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problem_id = action.payload.id;
+      state.problemID = action.payload.id;
       state.project_title = action.payload.project_title;
       state.summary = action.payload.summary;
       state.summary_url = action.payload.summary_url;
@@ -6807,7 +6808,7 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
     }).addCase(updateProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problem_message = action.payload;
+      state.problemMessage = action.payload;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectProblem.pending, getProjectProblem.pending, updateProjectProblem.pending), state => {
       state.problemLoading = true;
       state.problemError = null;

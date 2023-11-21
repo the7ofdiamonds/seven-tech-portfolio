@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_loading_LoadingComponent_jsx"],{
+(self["webpackChunkseven_tech_portfolio"] = self["webpackChunkseven_tech_portfolio"] || []).push([["src_views_components_global_LoadingComponent_jsx"],{
 
-/***/ "./src/loading/LoadingComponent.jsx":
-/*!******************************************!*\
-  !*** ./src/loading/LoadingComponent.jsx ***!
-  \******************************************/
+/***/ "./src/views/components/global/LoadingComponent.jsx":
+/*!**********************************************************!*\
+  !*** ./src/views/components/global/LoadingComponent.jsx ***!
+  \**********************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -21,4 +21,4 @@ function LoadingComponent() {
 /***/ })
 
 }]);
-//# sourceMappingURL=src_loading_LoadingComponent_jsx.js.map
+//# sourceMappingURL=src_views_components_global_LoadingComponent_jsx.js.map
