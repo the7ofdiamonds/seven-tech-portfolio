@@ -57,12 +57,10 @@ class DatabaseProjectProblem
             throw new Exception('Failed to save the project problem. ' . $this->wpdb->last_error, 500);
         }
 
-        $problem_response =  [
+        return [
             'id' => $this->wpdb->insert_id,
             'message' => 'Your problem has been saved, and information on a suitable solution will be provided shortly.'
         ];
-
-        return $problem_response;
     }
 
     function getProblem($project_id)
@@ -79,7 +77,7 @@ class DatabaseProjectProblem
         );
 
         if (!is_object($problem)) {
-            throw new Exception('Project problem could not be found.', 404);
+            return ['message' => 'To come up with the best solution, we must first define the problem below.'];
         }
 
         $problem_data = [
@@ -144,12 +142,15 @@ class DatabaseProjectProblem
             return $value !== null;
         });
 
-        $updated = $this->wpdb->update($this->table_name, $data, $where);
+        $updated_rows = $this->wpdb->update($this->table_name, $data, $where);
 
-        if ($updated === false) {
-            throw new Exception('Failed to update project problem. ' . $this->wpdb->last_error, 500);
+        if ($updated_rows === 0) {
+            throw new Exception('Project problem was not updated; no changes were saved. ' . $this->wpdb->last_error, 500);
         }
 
-        return 'Project problem updated successfully.';
+        return [
+            'results' => $updated_rows,
+            'message' => 'Project problem updated successfully.'
+        ];
     }
 }

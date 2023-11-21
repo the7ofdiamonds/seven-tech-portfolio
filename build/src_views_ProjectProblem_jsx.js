@@ -35,7 +35,6 @@ function ProjectProblem() {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
   const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To come up with the best solution, we must first define the problem below.');
-  const [display, setDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('none');
   const {
     user_email,
     first_name,
@@ -128,8 +127,7 @@ function ProjectProblem() {
     e.preventDefault();
     if (problemID) {
       dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectProblem)(formData)).then(response => {
-        if (!isNaN(response.payload.id)) {
-          setDisplay('flex');
+        if (response.payload && !isNaN(response.payload.result)) {
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -137,8 +135,7 @@ function ProjectProblem() {
       });
     } else {
       dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectProblem)(formData)).then(response => {
-        if (!isNaN(response.payload.id)) {
-          setDisplay('flex');
+        if (response.payload && !isNaN(response.payload.id)) {
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -275,8 +272,7 @@ function ProjectProblem() {
     onChange: handleInputChange,
     value: formData.ideal_resolution
   }))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_Modal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    message: problemMessage,
-    display: display
+    message: problemMessage
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_StatusBar__WEBPACK_IMPORTED_MODULE_6__["default"], {
     message: problemError,
     messageType: 'error'
@@ -323,17 +319,13 @@ __webpack_require__.r(__webpack_exports__);
 
 function Modal(props) {
   const {
-    problemMessage,
-    display
+    message
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, problemMessage && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "overlay",
-    style: {
-      display: `${display}`
-    }
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "overlay"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "status-bar card success modal"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, problemMessage))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, message))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Modal);
 

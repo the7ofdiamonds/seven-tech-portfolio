@@ -6491,8 +6491,9 @@ const initialState = {
     value: '#000000'
   }],
   plan: '',
-  onboarding_id: '',
-  onboarding_message: ''
+  onboardingID: '',
+  onboardingMessage: '',
+  onboardingResults: ''
 };
 const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectOnboarding/createProjectOnboarding', async (formData, {
   getState
@@ -6519,7 +6520,6 @@ const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 });
@@ -6547,7 +6547,6 @@ const getProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 });
@@ -6558,8 +6557,8 @@ const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_title}`, {
-      method: 'PUT',
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -6586,7 +6585,6 @@ const updateProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 });
@@ -6597,7 +6595,8 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
     builder.addCase(createProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
-      state.onboarding_id = action.payload;
+      state.onboardingID = action.payload.id;
+      state.onboardingMessage = action.payload.message;
     }).addCase(getProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
@@ -6612,12 +6611,13 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
       state.logo = action.payload.logo;
       state.colors = action.payload.colors;
       state.plan = action.payload.plan;
-      state.onboarding_id = action.payload.client_id;
-      state.onboarding_message;
+      state.onboardingID = action.payload.id;
+      state.onboardingMessage = action.payload.message;
     }).addCase(updateProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
-      state.onboarding_message = action.payload;
+      state.onboardingMessage = action.payload.message;
+      state.onboardingResults = action.payload.results;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectOnboarding.pending, getProjectOnboarding.pending, updateProjectOnboarding.pending), state => {
       state.onboardingLoading = true;
       state.onboardingError = null;
@@ -6664,7 +6664,8 @@ const initialState = {
   tried_solutions_results: '',
   ideal_resolution: '',
   problemID: '',
-  problemMessage: ''
+  problemMessage: '',
+  problemResults: ''
 };
 const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectProblem/createProjectProblem', async (formData, {
   getState
@@ -6808,7 +6809,8 @@ const projectProblemSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cre
     }).addCase(updateProjectProblem.fulfilled, (state, action) => {
       state.problemLoading = false;
       state.problemError = '';
-      state.problemMessage = action.payload;
+      state.problemMessage = action.payload.message;
+      state.problemResults = action.payload.results;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectProblem.pending, getProjectProblem.pending, updateProjectProblem.pending), state => {
       state.problemLoading = true;
       state.problemError = null;

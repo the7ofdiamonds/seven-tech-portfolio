@@ -18,7 +18,8 @@ const initialState = {
     tried_solutions_results: '',
     ideal_resolution: '',
     problemID: '',
-    problemMessage: ''
+    problemMessage: '',
+    problemResults: ''
 };
 
 export const createProjectProblem = createAsyncThunk('projectProblem/createProjectProblem', async (formData, { getState }) => {
@@ -166,7 +167,9 @@ export const projectProblemSlice = createSlice({
             .addCase(updateProjectProblem.fulfilled, (state, action) => {
                 state.problemLoading = false
                 state.problemError = ''
-                state.problemMessage = action.payload
+                state.problemMessage = action.payload.message
+                state.problemResults = action.payload.results
+
             })
             .addMatcher(isAnyOf(
                 createProjectProblem.pending,

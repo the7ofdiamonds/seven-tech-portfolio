@@ -19,12 +19,12 @@ class DatabaseProjectOnboarding
     function saveOnboarding($onboarding)
     {
         if (!is_array($onboarding)) {
-            throw new Exception('Invalid project problem data.', 400);
+            throw new Exception('Project ondoarding data is needed to save to the database.', 400);
         }
 
-        $project_id = $onboarding['project_id'];
-        $project_title = $onboarding['project_title'];
-        $client_id = $onboarding['client_id'];
+        $project_id = $onboarding['project_id'] ?? '';
+        $project_title = $onboarding['project_title'] ?? '';
+        $client_id = $onboarding['client_id'] ?? '';
 
         if (empty($project_id)) {
             throw new Exception('Project ID is required.', 400);
@@ -62,7 +62,10 @@ class DatabaseProjectOnboarding
             throw new Exception($error_message);
         }
 
-        return $this->wpdb->insert_id;
+        return [
+            'id' => $this->wpdb->insert_id,
+            'message' => 'Project onboarding saved successfully.'
+        ];
     }
 
     function getOnboarding($project_id)
@@ -79,7 +82,7 @@ class DatabaseProjectOnboarding
         );
 
         if (!is_object($onboarding)) {
-            throw new Exception('Project onboarding could not be found.', 404);
+            return ['message' => 'To better serve your needs and wants, please fill out the onboarding form.'];
         }
 
         $onboarding_data = [
@@ -112,8 +115,8 @@ class DatabaseProjectOnboarding
             throw new Exception('Invalid project onboarding data.', 400);
         }
 
-        $project_title = $onboarding['project_title'];
-        $client_id = $onboarding['client_id'];
+        $project_title = $onboarding['project_title'] ?? '';
+        $client_id = $onboarding['client_id'] ?? '';
 
         if (empty($project_title)) {
             throw new Exception('Project title is required.', 400);
@@ -147,12 +150,15 @@ class DatabaseProjectOnboarding
             return $value !== null;
         });
 
-        $updated = $this->wpdb->update($this->table_name, $data, $where);
+        $updated_rows = $this->wpdb->update($this->table_name, $data, $where);
 
-        if ($updated === false) {
-            throw new Exception('Failed to update project onboarding.' . $this->wpdb->last_error, 500);
+        if ($updated_rows == 0) {
+            throw new Exception('Project onboarding was not updated; no changes were saved. ' . $this->wpdb->last_error, 500);
         }
 
-        return 'Project onboarding updated successfully.';
+        return [
+            'results' => $updated_rows,
+            'message' => 'Project onboarding updated successfully.'
+        ];
     }
 }

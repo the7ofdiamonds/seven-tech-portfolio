@@ -34,8 +34,7 @@ function OnBoardingComponent() {
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useParams)();
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
   const [messageType, setMessageType] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('info');
-  const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To better serve your needs and wants, please fill out the form below.');
-  const [display, setDisplay] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('none');
+  const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('To better serve your needs and wants, please fill out the onboarding form.');
   const {
     user_email,
     first_name,
@@ -55,11 +54,12 @@ function OnBoardingComponent() {
     logo,
     colors,
     plan,
-    onboarding_id,
+    onboardingID,
     onboardingMessage
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
+    project_slug: project,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -160,30 +160,20 @@ function OnBoardingComponent() {
     const unansweredQuestions = Object.keys(formData).filter(question => formData[question] === null || formData[question] === '');
     if (unansweredQuestions.length > 0) {
       scrollToQuestion(unansweredQuestions[0]);
+    } else if (onboardingID) {
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData));
     } else {
-      if (onboarding_id) {
-        dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData)).then(response => {
-          if (!isNaN(response.payload.id)) {
-            setDisplay('flex');
-            setTimeout(() => {
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
+        if (response.payload && !isNaN(response.payload.id)) {
+          setTimeout(() => {
+            if (formData?.plan === 'no') {
+              window.location.href = `/project/problem/${project_title}`;
+            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
               window.location.href = '/dashboard';
-            }, 5000);
-          }
-        });
-      } else {
-        dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
-          if (!isNaN(response.payload)) {
-            setDisplay('flex');
-            setTimeout(() => {
-              if (formData?.plan === 'no') {
-                window.location.href = `/project/problem/${project_title}`;
-              } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
-                window.location.href = '/dashboard';
-              }
-            }, 5000);
-          }
-        });
-      }
+            }
+          }, 5000);
+        }
+      });
     }
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
@@ -466,23 +456,15 @@ function OnBoardingComponent() {
     className: "input-url",
     value: formData.plan,
     onChange: handleInputChange
-  }))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "overlay",
-    style: {
-      display: `${display}`
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "card modal"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, "Thank you ", first_name, ", this information will be used to construct a solution."))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_Modal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    message: onboardingMessage,
-    display: display
+  }))))))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_Modal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    message: onboardingMessage
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_components_global_StatusBar__WEBPACK_IMPORTED_MODULE_6__["default"], {
     message: onboardingError,
     messageType: 'error'
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     onClick: handleSubmit
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, onboarding_id ? 'UPDATE' : 'SAVE'))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, onboardingID ? 'UPDATE' : 'SAVE'))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (OnBoardingComponent);
 
@@ -522,17 +504,13 @@ __webpack_require__.r(__webpack_exports__);
 
 function Modal(props) {
   const {
-    problemMessage,
-    display
+    message
   } = props;
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, problemMessage && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "overlay",
-    style: {
-      display: `${display}`
-    }
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, message && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "overlay"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "status-bar card success modal"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, problemMessage))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, message))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Modal);
 

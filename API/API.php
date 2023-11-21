@@ -26,7 +26,7 @@ class API
         ]);
 
         register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'PUT',
+            'methods' => 'PATCH',
             'callback' => [$onboarding, 'update_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);

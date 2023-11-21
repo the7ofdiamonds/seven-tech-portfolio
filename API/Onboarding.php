@@ -124,6 +124,12 @@ class Onboarding
                 throw new Exception('Client ID is required.', 400);
             }
 
+            $project_title = $request['project_title'];
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 400);
+            }
+
             $slug = $request->get_param('slug');
             $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
@@ -132,9 +138,10 @@ class Onboarding
             } else {
                 $project_id = $page->ID;
             }
-
+            
             $onboarding_data = [
                 'project_id' => $project_id,
+                'project_title' => $project_title,
                 'client_id' => $client_id,
                 'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
                 'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',
@@ -148,7 +155,7 @@ class Onboarding
                 'plan' => !empty($request['plan']) ? $request['plan'] : '',
             ];
 
-            $onboarding_id = $this->project_onboarding->updateProjectOnboarding($client_id, $onboarding_data);
+            $onboarding_id = $this->project_onboarding->updateProjectOnboarding($project_id, $onboarding_data);
 
             return rest_ensure_response($onboarding_id);
         } catch (Exception $e) {

@@ -23,8 +23,9 @@ const initialState = {
         { title: 'colors_tertiary', value: '#000000' }
     ],
     plan: '',
-    onboarding_id: '',
-    onboarding_message: ''
+    onboardingID: '',
+    onboardingMessage: '',
+    onboardingResults: ''
 };
 
 export const createProjectOnboarding = createAsyncThunk('projectOnboarding/createProjectOnboarding', async (formData, { getState }) => {
@@ -51,7 +52,6 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
         const responseData = await response.json();
         return responseData;
     } catch (error) {
-        console.error(error)
         throw error;
     }
 });
@@ -79,7 +79,6 @@ export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProje
         const responseData = await response.json();
         return responseData;
     } catch (error) {
-        console.error(error)
         throw error;
     }
 });
@@ -88,8 +87,8 @@ export const updateProjectOnboarding = createAsyncThunk('projectOnboarding/updat
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_title}`, {
-            method: 'PUT',
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -118,7 +117,6 @@ export const updateProjectOnboarding = createAsyncThunk('projectOnboarding/updat
         const responseData = await response.json();
         return responseData;
     } catch (error) {
-        console.error(error)
         throw error;
     }
 });
@@ -131,7 +129,8 @@ export const projectOnboardingSlice = createSlice({
             .addCase(createProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
-                state.onboarding_id = action.payload
+                state.onboardingID = action.payload.id
+                state.onboardingMessage = action.payload.message
             })
             .addCase(getProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
@@ -147,13 +146,14 @@ export const projectOnboardingSlice = createSlice({
                 state.logo = action.payload.logo
                 state.colors = action.payload.colors
                 state.plan = action.payload.plan
-                state.onboarding_id = action.payload.client_id
-                state.onboarding_message
+                state.onboardingID = action.payload.id
+                state.onboardingMessage = action.payload.message
             })
             .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
-                state.onboarding_message = action.payload
+                state.onboardingMessage = action.payload.message
+                state.onboardingResults = action.payload.results
             })
             .addMatcher(isAnyOf(
                 createProjectOnboarding.pending,

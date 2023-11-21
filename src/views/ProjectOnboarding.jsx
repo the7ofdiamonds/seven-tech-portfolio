@@ -15,14 +15,12 @@ import Modal from '../views/components/global/Modal';
 
 function OnBoardingComponent() {
   const { project } = useParams();
-
   const dispatch = useDispatch();
 
   const [messageType, setMessageType] = useState('info');
   const [message, setMessage] = useState(
-    'To better serve your needs and wants, please fill out the form below.'
+    'To better serve your needs and wants, please fill out the onboarding form.'
   );
-  const [display, setDisplay] = useState('none');
 
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
@@ -41,12 +39,13 @@ function OnBoardingComponent() {
     logo,
     colors,
     plan,
-    onboarding_id,
+    onboardingID,
     onboardingMessage,
   } = useSelector((state) => state.onboarding);
 
   const [formData, setFormData] = useState({
     client_id: client_id,
+    project_slug: project,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -157,33 +156,20 @@ function OnBoardingComponent() {
 
     if (unansweredQuestions.length > 0) {
       scrollToQuestion(unansweredQuestions[0]);
+    } else if (onboardingID) {
+      dispatch(updateProjectOnboarding(formData));
     } else {
-      if (onboarding_id) {
-        dispatch(updateProjectOnboarding(formData)).then((response) => {
-          if (!isNaN(response.payload.id)) {
-            setDisplay('flex');
-            setTimeout(() => {
+      dispatch(createProjectOnboarding(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.id)) {
+          setTimeout(() => {
+            if (formData?.plan === 'no') {
+              window.location.href = `/project/problem/${project_title}`;
+            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
               window.location.href = '/dashboard';
-            }, 5000);
-          }
-        });
-      } else {
-        dispatch(createProjectOnboarding(formData)).then((response) => {
-          if (!isNaN(response.payload)) {
-            setDisplay('flex');
-            setTimeout(() => {
-              if (formData?.plan === 'no') {
-                window.location.href = `/project/problem/${project_title}`;
-              } else if (
-                formData?.plan === 'yes' &&
-                formData?.plan_url !== ''
-              ) {
-                window.location.href = '/dashboard';
-              }
-            }, 5000);
-          }
-        });
-      }
+            }
+          }, 5000);
+        }
+      });
     }
   };
 
@@ -553,21 +539,12 @@ function OnBoardingComponent() {
           </form>
         </div>
 
-        <span className="overlay" style={{ display: `${display}` }}>
-          <div className="card modal">
-            <h4>
-              Thank you {first_name}, this information will be used to construct
-              a solution.
-            </h4>
-          </div>
-        </span>
-
-        <Modal message={onboardingMessage} display={display} />
+        <Modal message={onboardingMessage}/>
 
         <StatusBar message={onboardingError} messageType={'error'} />
 
         <button type="submit" onClick={handleSubmit}>
-          <h3>{onboarding_id ? 'UPDATE' : 'SAVE'}</h3>
+          <h3>{onboardingID ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </section>
     </>

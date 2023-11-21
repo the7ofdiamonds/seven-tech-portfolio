@@ -1,14 +1,14 @@
 import React from 'react';
 
 function Modal(props) {
-  const { problemMessage, display } = props;
+  const { message } = props;
 
   return (
     <>
-      {problemMessage && (
-        <span className="overlay" style={{ display: `${display}` }}>
+      {message && (
+        <span className="overlay">
           <div className="status-bar card success modal">
-            <h4>{problemMessage}</h4>
+            <h4>{message}</h4>
           </div>
         </span>
       )}

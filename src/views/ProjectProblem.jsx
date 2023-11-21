@@ -21,7 +21,6 @@ function ProjectProblem() {
   const [message, setMessage] = useState(
     'To come up with the best solution, we must first define the problem below.'
   );
-  const [display, setDisplay] = useState('none');
 
   const { user_email, first_name, client_id } = useSelector(
     (state) => state.client
@@ -116,8 +115,7 @@ function ProjectProblem() {
     e.preventDefault();
     if (problemID) {
       dispatch(updateProjectProblem(formData)).then((response) => {
-        if (!isNaN(response.payload.id)) {
-          setDisplay('flex');
+        if (response.payload && !isNaN(response.payload.result)) {
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -125,8 +123,7 @@ function ProjectProblem() {
       });
     } else {
       dispatch(createProjectProblem(formData)).then((response) => {
-        if (!isNaN(response.payload.id)) {
-          setDisplay('flex');
+        if (response.payload && !isNaN(response.payload.id)) {
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);
@@ -337,7 +334,7 @@ function ProjectProblem() {
           </form>
         </div>
 
-        <Modal message={problemMessage} display={display} />
+        <Modal message={problemMessage} />
 
         <StatusBar message={problemError} messageType={'error'} />
 
