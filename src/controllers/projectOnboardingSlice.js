@@ -4,6 +4,7 @@ const initialState = {
     onboardingLoading: false,
     onboardingError: '',
     project_title: '',
+    project_slug: '',
     deadline: '',
     where_business: '',
     website: '',
@@ -130,12 +131,13 @@ export const projectOnboardingSlice = createSlice({
                 state.onboardingLoading = false
                 state.onboardingError = ''
                 state.onboardingID = action.payload.id
-                state.onboardingMessage = action.payload.message
+                state.project_slug = action.payload.project_slug
             })
             .addCase(getProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
                 state.project_title = action.payload.project_title
+                state.project_slug = action.payload.project_slug
                 state.deadline = action.payload.deadline
                 state.where_business = action.payload.where_business
                 state.website = action.payload.website
@@ -147,7 +149,6 @@ export const projectOnboardingSlice = createSlice({
                 state.colors = action.payload.colors
                 state.plan = action.payload.plan
                 state.onboardingID = action.payload.id
-                state.onboardingMessage = action.payload.message
             })
             .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false

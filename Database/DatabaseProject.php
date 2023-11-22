@@ -26,13 +26,14 @@ class DatabaseProject
             $result = $this->wpdb->insert(
                 $this->table_name,
                 [
-                    'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
                     'project_id' => !empty($project['project_id']) ? $project['project_id'] : '',
                     'project_title' => !empty($project['project_title']) ? $project['project_title'] : '',
+                    'project_slug' => !empty($project['project_slug']) ? $project['project_slug'] : '',
                     'project_urls_list' => !empty($project['project_urls_list']) ? serialize($project['project_urls_list']) : '',
                     'project_details_list' => !empty($project['project_details_list']) ? serialize($project['project_details_list']) : '',
                     'project_status' => !empty($project['project_status']) ? $project['project_status'] : '',
                     'project_versions_list' => !empty($project['project_versions_list']) ? serialize($project['project_versions_list']) : '',
+                    'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
                     'design' => !empty($project['design']) ? $project['design'] : '',
                     'design_check_list' => !empty($project['design_check_list']) ? serialize($project['design_check_list']) : '',
                     'colors_list' => !empty($project['colors_list']) ? serialize($project['colors_list']) : '',
@@ -81,12 +82,13 @@ class DatabaseProject
 
             $project_data = [
                 'id' => $project->id,
-                'client_id' => $project->client_id,
                 'project_id' => $project->project_id,
+                'project_slug' => $project->project_slug,
                 'project_urls_list' => $project->project_urls_list,
                 'project_details_list' => $project->project_details_list,
                 'project_status' => $project->project_status,
                 'project_versions_list' => $project->project_versions_list,
+                'client_id' => $project->client_id,
                 'design' => $project->design,
                 'design_check_list' => $project->design_check_list,
                 'colors_list' => $project->colors_list,
@@ -135,12 +137,13 @@ class DatabaseProject
 
             $project_data = [
                 'id' => $project->id,
-                'client_id' => $project->client_id,
                 'project_id' => $project->project_id,
+                'project_slug' => $project->project_slug,
                 'project_urls_list' => $project->project_urls,
                 'project_details_list' => $project->project_details,
                 'project_status' => $project->project_status,
                 'project_versions_list' => $project->project_versions,
+                'client_id' => $project->client_id,
                 'design' => $project->design,
                 'design_check_list' => $project->design_check_list,
                 'colors_list' => $project->colors,
@@ -176,11 +179,12 @@ class DatabaseProject
             }
 
             $data = array(
-                'client_id' => $project['client_id'],
+                'project_slug' => $project['project_slug'],
                 'project_urls_list' => serialize($project['project_urls_list']),
                 'project_details_list' => serialize($project['project_details_list']),
                 'project_status' => $project['project_status'],
                 'project_versions_list' => serialize($project['project_versions_list']),
+                'client_id' => $project['client_id'],
                 'design' => $project['design'],
                 'design_check_list' => serialize($project['design_check_list']),
                 'colors_list' => serialize($project['colors_list']),

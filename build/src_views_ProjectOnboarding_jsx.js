@@ -44,6 +44,7 @@ function OnBoardingComponent() {
     onboardingLoading,
     onboardingError,
     project_title,
+    project_slug,
     deadline,
     where_business,
     website,
@@ -59,7 +60,7 @@ function OnBoardingComponent() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
-    project_slug: project,
+    project_slug: project !== null && project !== void 0 ? project : project_slug,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -90,18 +91,7 @@ function OnBoardingComponent() {
   }, [user_email, dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (project) {
-      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectOnboarding)(project)).then(response => {
-        if (response.error) {
-          console.error(response.error.message);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData(prevData => ({
-            ...prevData,
-            ...response.payload
-          }));
-        }
-      });
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectOnboarding)(project));
     }
   }, [project, dispatch]);
   if (onboardingLoading) {
@@ -161,14 +151,24 @@ function OnBoardingComponent() {
     if (unansweredQuestions.length > 0) {
       scrollToQuestion(unansweredQuestions[0]);
     } else if (onboardingID) {
-      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData));
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData)).then(response => {
+        if (response.payload && !isNaN(response.payload.results)) {
+          setTimeout(() => {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
     } else {
       dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.createProjectOnboarding)(formData)).then(response => {
         if (response.payload && !isNaN(response.payload.id)) {
           setTimeout(() => {
-            if (formData?.plan === 'no') {
-              window.location.href = `/project/problem/${project_title}`;
-            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
               window.location.href = '/dashboard';
             }
           }, 5000);

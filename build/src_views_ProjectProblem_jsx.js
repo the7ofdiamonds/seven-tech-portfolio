@@ -127,7 +127,7 @@ function ProjectProblem() {
     e.preventDefault();
     if (problemID) {
       dispatch((0,_controllers_projectProblemSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectProblem)(formData)).then(response => {
-        if (response.payload && !isNaN(response.payload.result)) {
+        if (response.payload && !isNaN(response.payload.results)) {
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 5000);

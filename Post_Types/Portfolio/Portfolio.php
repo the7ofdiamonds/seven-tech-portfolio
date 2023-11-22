@@ -600,8 +600,8 @@ class Portfolio
         }
 
         $project = [
-            'project_title' => get_the_title($post_id),
             'project_id' => $post_id,
+            'project_title' => get_the_title($post_id),
             'project_urls_list' => $project_urls_list,
             'project_details_list' => $project_details_list,
             'project_status' => $this->portfolio_project->getProjectStatus($post_id),

@@ -46,12 +46,16 @@ class Onboarding
 
                 if (is_wp_error($project_id)) {
                     throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+                } else {
+                    $post = get_post($project_id);
+                    $project_slug = $post->post_name;
                 }
             }
 
             $onboarding = [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
+                'project_slug' => $project_slug,
                 'client_id' => $client_id,
                 'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
                 'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',
@@ -137,11 +141,13 @@ class Onboarding
                 throw new Exception("Onboarding for project {$slug} not found.", 404);
             } else {
                 $project_id = $page->ID;
+                $project_slug = $page->post_name;
             }
-            
+
             $onboarding_data = [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
+                'project_slug' => $project_slug,
                 'client_id' => $client_id,
                 'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
                 'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',

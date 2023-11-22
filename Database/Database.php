@@ -69,6 +69,7 @@ class Database
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             project_id INTEGER DEFAULT NULL,
             project_title VARCHAR(255) DEFAULT NULL,
+            project_slug VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             deadline VARCHAR(255) DEFAULT NULL,
             where_business VARCHAR(255) DEFAULT NULL,

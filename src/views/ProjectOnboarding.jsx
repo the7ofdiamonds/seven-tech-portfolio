@@ -29,6 +29,7 @@ function OnBoardingComponent() {
     onboardingLoading,
     onboardingError,
     project_title,
+    project_slug,
     deadline,
     where_business,
     website,
@@ -45,7 +46,7 @@ function OnBoardingComponent() {
 
   const [formData, setFormData] = useState({
     client_id: client_id,
-    project_slug: project,
+    project_slug: project ?? project_slug,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -78,18 +79,7 @@ function OnBoardingComponent() {
 
   useEffect(() => {
     if (project) {
-      dispatch(getProjectOnboarding(project)).then((response) => {
-        if (response.error) {
-          console.error(response.error.message);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            ...response.payload,
-          }));
-        }
-      });
+      dispatch(getProjectOnboarding(project));
     }
   }, [project, dispatch]);
 
@@ -157,14 +147,24 @@ function OnBoardingComponent() {
     if (unansweredQuestions.length > 0) {
       scrollToQuestion(unansweredQuestions[0]);
     } else if (onboardingID) {
-      dispatch(updateProjectOnboarding(formData));
+      dispatch(updateProjectOnboarding(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.results)) {
+          setTimeout(() => {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
     } else {
       dispatch(createProjectOnboarding(formData)).then((response) => {
         if (response.payload && !isNaN(response.payload.id)) {
           setTimeout(() => {
-            if (formData?.plan === 'no') {
-              window.location.href = `/project/problem/${project_title}`;
-            } else if (formData?.plan === 'yes' && formData?.plan_url !== '') {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
               window.location.href = '/dashboard';
             }
           }, 5000);

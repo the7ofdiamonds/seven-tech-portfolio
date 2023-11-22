@@ -30,7 +30,8 @@ class PortfolioProject
         $this->taxonomies = new Taxonomies;
     }
 
-    function createPortfolioProject($project){
+    function createPortfolioProject($project)
+    {
         try {
             if (!is_array($project)) {
                 throw new Exception('Project data is needed to save to the database.', 400);
@@ -47,9 +48,16 @@ class PortfolioProject
                 throw new Exception('Project id is required.', 400);
             }
 
+            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+            if (empty($project)) {
+                throw new Exception('No project found with that title.', 404);
+            }
+
             $project_data = [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
+                'project_slug' => $project->post_name,
                 'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
                 'deadline' => !empty($project['deadline']) ? $project['deadline'] : '',
                 'deadline_date' => !empty($project['deadline_date']) ? $project['deadline_date'] : '',
@@ -231,6 +239,7 @@ class PortfolioProject
             $project_data = [
                 'id' => $post_id,
                 'title' => get_the_title($post_id),
+                'project_slug' => isset($project['project_slug']) ? $project['project_slug'] : '',
                 'post_status' => get_post_field('post_status', $post_id),
                 'post_date' => get_post_field('post_date', $post_id),
                 'client_id' => isset($project['client_id']) ? $project['client_id'] : '',
@@ -270,7 +279,8 @@ class PortfolioProject
         }
     }
 
-    function updatePortfolioProject($project){
+    function updatePortfolioProject($project)
+    {
         try {
             $project_title = $project['project_title'];
 
@@ -288,9 +298,18 @@ class PortfolioProject
                 throw new Exception('Project data is needed to save to the database.', 400);
             }
 
+            $page = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+            if (empty($page)) {
+                throw new Exception("Project {$project_title} not found.", 404);
+            } else {
+                $project_slug = $page->post_name;
+            }
+
             $project_data = [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
+                'project_slug' => $project_slug,
                 'client_id' => $project['client_id'],
                 'deadline' => $project['deadline'],
                 'deadline_date' => $project['deadline_date'],
