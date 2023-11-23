@@ -48,16 +48,16 @@ class PortfolioProject
                 throw new Exception('Project id is required.', 400);
             }
 
-            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+            $project_page = get_page_by_title($project_title, OBJECT, 'portfolio');
 
-            if (empty($project)) {
+            if (empty($project_page)) {
                 throw new Exception('No project found with that title.', 404);
             }
 
             $project_data = [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
-                'project_slug' => $project->post_name,
+                'project_slug' => $project_page->post_name,
                 'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
                 'deadline' => !empty($project['deadline']) ? $project['deadline'] : '',
                 'deadline_date' => !empty($project['deadline_date']) ? $project['deadline_date'] : '',

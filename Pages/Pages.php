@@ -17,6 +17,11 @@ class Pages
 
         $this->protected_pages_list = [
             [
+                'url' => '^project/onboarding/?',
+                'regex' => '#^/project/onboarding+#',
+                'file_name' => 'ProjectOnboarding'
+            ],
+            [
                 'url' => '^project/onboarding/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/project/onboarding/[^/]+#',
                 'file_name' => 'ProjectOnboarding'

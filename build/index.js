@@ -6524,20 +6524,21 @@ const createProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__
     throw error;
   }
 });
-const getProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectOnboarding/getProjectOnboarding', async (project, {
+const getProjectOnboarding = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('projectOnboarding/getProjectOnboarding', async (formData, {
   getState
 }) => {
   try {
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${project}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        client_id: client_id
+        client_id: client_id,
+        project_title: formData?.project_title
       })
     });
     if (!response.ok) {
@@ -6597,6 +6598,7 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
       state.onboardingLoading = false;
       state.onboardingError = '';
       state.onboardingID = action.payload.id;
+      state.onboardingMessage = action.payload.message;
       state.project_slug = action.payload.project_slug;
     }).addCase(getProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
@@ -6617,6 +6619,7 @@ const projectOnboardingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.
     }).addCase(updateProjectOnboarding.fulfilled, (state, action) => {
       state.onboardingLoading = false;
       state.onboardingError = '';
+      state.project_slug = action.payload.project_slug;
       state.onboardingMessage = action.payload.message;
       state.onboardingResults = action.payload.results;
     }).addMatcher((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.isAnyOf)(createProjectOnboarding.pending, getProjectOnboarding.pending, updateProjectOnboarding.pending), state => {
@@ -6675,14 +6678,13 @@ const createProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${formData?.project_title}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${formData?.project_slug}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_title: formData?.project_title,
         summary: formData?.summary,
         summary_url: formData?.summary_url,
         customers_impacted: formData?.customers_impacted,
@@ -6744,14 +6746,13 @@ const updateProjectProblem = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.cr
     const {
       client_id
     } = getState().client;
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_slug}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         client_id: client_id,
-        project_title: formData?.project_title,
         summary: formData?.summary,
         summary_url: formData?.summary_url,
         customers_impacted: formData?.customers_impacted,

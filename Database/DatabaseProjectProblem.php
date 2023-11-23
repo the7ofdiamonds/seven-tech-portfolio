@@ -144,7 +144,7 @@ class DatabaseProjectProblem
 
         $updated_rows = $this->wpdb->update($this->table_name, $data, $where);
 
-        if ($updated_rows === 0) {
+        if ($updated_rows == 0) {
             throw new Exception('Project problem was not updated; no changes were saved. ' . $this->wpdb->last_error, 500);
         }
 

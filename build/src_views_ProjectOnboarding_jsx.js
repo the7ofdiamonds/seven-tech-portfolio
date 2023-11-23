@@ -60,7 +60,7 @@ function OnBoardingComponent() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.onboarding);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
     client_id: client_id,
-    project_slug: project !== null && project !== void 0 ? project : project_slug,
+    project_slug: project,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -91,7 +91,7 @@ function OnBoardingComponent() {
   }, [user_email, dispatch]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (project) {
-      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectOnboarding)(project));
+      dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.getProjectOnboarding)(formData));
     }
   }, [project, dispatch]);
   if (onboardingLoading) {
@@ -149,8 +149,9 @@ function OnBoardingComponent() {
     e.preventDefault();
     const unansweredQuestions = Object.keys(formData).filter(question => formData[question] === null || formData[question] === '');
     if (unansweredQuestions.length > 0) {
-      scrollToQuestion(unansweredQuestions[0]);
-    } else if (onboardingID) {
+      return scrollToQuestion(unansweredQuestions[0]);
+    }
+    if (onboardingID) {
       dispatch((0,_controllers_projectOnboardingSlice__WEBPACK_IMPORTED_MODULE_4__.updateProjectOnboarding)(formData)).then(response => {
         if (response.payload && !isNaN(response.payload.results)) {
           setTimeout(() => {
@@ -408,7 +409,7 @@ function OnBoardingComponent() {
     name: `social_networks_${social_network}_link`,
     className: "input-url",
     value: formData.social_networks[social_network].link,
-    onChange: e => handleSocialLinkChange(e, social_networks[social_network].platform)
+    onChange: e => handleSocialLinkChange(e, formData.social_networks[social_network].platform)
   })))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {
     id: "logo"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("td", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {

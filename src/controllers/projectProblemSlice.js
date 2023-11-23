@@ -26,14 +26,13 @@ export const createProjectProblem = createAsyncThunk('projectProblem/createProje
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${formData?.project_title}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/problem/${formData?.project_slug}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_title: formData?.project_title,
                 summary: formData?.summary,
                 summary_url: formData?.summary_url,
                 customers_impacted: formData?.customers_impacted,
@@ -95,14 +94,13 @@ export const updateProjectProblem = createAsyncThunk('projectProblem/updateProje
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_title}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/problem/${formData?.project_slug}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 client_id: client_id,
-                project_title: formData?.project_title,
                 summary: formData?.summary,
                 summary_url: formData?.summary_url,
                 customers_impacted: formData?.customers_impacted,

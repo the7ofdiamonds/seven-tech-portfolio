@@ -4,7 +4,6 @@ namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
 use WP_REST_Request;
-use WP_Query;
 
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProjectOnboarding;
 
@@ -21,18 +20,18 @@ class Onboarding
     {
         try {
             $client_id = $request['client_id'];
+            $project_title = $request['project_title'];
 
             if (empty($client_id)) {
                 throw new Exception('Client ID is required.', 400);
             }
-
-            $project_title = $request['project_title'];
 
             if (empty($project_title)) {
                 throw new Exception('Project title is required.', 400);
             }
 
             $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+            error_log($project_title);
 
             if (empty($project)) {
                 $project_data = array(
@@ -44,12 +43,23 @@ class Onboarding
 
                 $project_id = wp_insert_post($project_data);
 
-                if (is_wp_error($project_id)) {
+                if (is_wp_error($project_id) || empty($project_id)) {
                     throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
                 } else {
                     $post = get_post($project_id);
                     $project_slug = $post->post_name;
                 }
+            } else {
+                $project_id = $project->ID;
+                $project_slug = $project->post_name;
+            }
+
+            if (empty($project_id)) {
+                throw new Exception('Project id is required.', 404);
+            }
+
+            if (empty($project_slug)) {
+                throw new Exception('Project slug is required.', 404);
             }
 
             $onboarding = [
@@ -95,7 +105,19 @@ class Onboarding
             $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
             if (empty($page)) {
-                throw new Exception("Onboarding for project {$slug} not found.", 404);
+                $project_title = $request['project_title'];
+
+                if (empty($project_title)) {
+                    throw new Exception('Project title is required.', 400);
+                }
+
+                $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+                if (empty($project)) {
+                    throw new Exception("Onboarding for project {$project_title} not found.", 404);
+                } else {
+                    $project_id = $project->ID;
+                }
             } else {
                 $project_id = $page->ID;
             }
@@ -123,12 +145,11 @@ class Onboarding
     {
         try {
             $client_id = $request['client_id'];
+            $project_title = $request['project_title'];
 
             if (empty($client_id)) {
                 throw new Exception('Client ID is required.', 400);
             }
-
-            $project_title = $request['project_title'];
 
             if (empty($project_title)) {
                 throw new Exception('Project title is required.', 400);
@@ -138,7 +159,14 @@ class Onboarding
             $page = get_page_by_path($slug, OBJECT, 'portfolio');
 
             if (empty($page)) {
-                throw new Exception("Onboarding for project {$slug} not found.", 404);
+                $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+                if (empty($project)) {
+                    throw new Exception("Onboarding for project {$project_title} not found.", 404);
+                } else {
+                    $project_id = $project->ID;
+                    $project_slug = $project->post_name;
+                }
             } else {
                 $project_id = $page->ID;
                 $project_slug = $page->post_name;

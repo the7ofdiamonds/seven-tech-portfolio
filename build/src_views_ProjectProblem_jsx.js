@@ -61,7 +61,7 @@ function ProjectProblem() {
     problemMessage
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(state => state.problem);
   const [formData, setFormData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
-    project_title: project,
+    project_slug: project,
     client_id: client_id,
     summary: summary,
     summary_url: summary_url,

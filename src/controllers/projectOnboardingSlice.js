@@ -57,17 +57,18 @@ export const createProjectOnboarding = createAsyncThunk('projectOnboarding/creat
     }
 });
 
-export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProjectOnboarding', async (project, { getState }) => {
+export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProjectOnboarding', async (formData, { getState }) => {
     try {
         const { client_id } = getState().client;
 
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${project}`, {
+        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 client_id: client_id,
+                project_title: formData?.project_title
             })
         });
 
@@ -131,6 +132,7 @@ export const projectOnboardingSlice = createSlice({
                 state.onboardingLoading = false
                 state.onboardingError = ''
                 state.onboardingID = action.payload.id
+                state.onboardingMessage = action.payload.message
                 state.project_slug = action.payload.project_slug
             })
             .addCase(getProjectOnboarding.fulfilled, (state, action) => {
@@ -153,6 +155,7 @@ export const projectOnboardingSlice = createSlice({
             .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
                 state.onboardingLoading = false
                 state.onboardingError = ''
+                state.project_slug = action.payload.project_slug
                 state.onboardingMessage = action.payload.message
                 state.onboardingResults = action.payload.results
             })

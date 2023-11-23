@@ -23,17 +23,45 @@ class DatabaseProject
                 throw new Exception('Project data is needed to save to the database.', 400);
             }
 
+            $project_id = !empty($project['project_id']) ? $project['project_id'] : '';
+            $project_title = !empty($project['project_title']) ? $project['project_title'] : '';
+            $client_id = !empty($project['client_id']) ? $project['client_id'] : '';
+
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 404);
+            }
+
+            if (empty($project_title)) {
+                throw new Exception('Project title is required.', 404);
+            }
+
+            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+            if (empty($project)) {
+                throw new Exception('Project could not be found.', 404);
+            } else {
+                $project_slug = $project->post_name;
+            }
+
+            if (empty($project_slug)) {
+                throw new Exception('Project slug is required.', 404);
+            }
+
+            if (empty($client_id)) {
+                throw new Exception('Client ID is required.', 404);
+            }
+
             $result = $this->wpdb->insert(
                 $this->table_name,
                 [
-                    'project_id' => !empty($project['project_id']) ? $project['project_id'] : '',
-                    'project_title' => !empty($project['project_title']) ? $project['project_title'] : '',
-                    'project_slug' => !empty($project['project_slug']) ? $project['project_slug'] : '',
+                    'project_id' => $project_id,
+                    'project_title' => $project_title,
+                    'project_slug' => $project_slug,
+                    'client_id' => $client_id,
                     'project_urls_list' => !empty($project['project_urls_list']) ? serialize($project['project_urls_list']) : '',
                     'project_details_list' => !empty($project['project_details_list']) ? serialize($project['project_details_list']) : '',
                     'project_status' => !empty($project['project_status']) ? $project['project_status'] : '',
                     'project_versions_list' => !empty($project['project_versions_list']) ? serialize($project['project_versions_list']) : '',
-                    'client_id' => !empty($project['client_id']) ? $project['client_id'] : '',
                     'design' => !empty($project['design']) ? $project['design'] : '',
                     'design_check_list' => !empty($project['design_check_list']) ? serialize($project['design_check_list']) : '',
                     'colors_list' => !empty($project['colors_list']) ? serialize($project['colors_list']) : '',
@@ -77,18 +105,19 @@ class DatabaseProject
             );
 
             if (!is_object($project)) {
-                throw new Exception('Project not found', 404);
+                return ['message' => 'Project not found'];
             }
 
             $project_data = [
                 'id' => $project->id,
                 'project_id' => $project->project_id,
+                'project_title' => $project->project_title,
                 'project_slug' => $project->project_slug,
+                'client_id' => $project->client_id,
                 'project_urls_list' => $project->project_urls_list,
                 'project_details_list' => $project->project_details_list,
                 'project_status' => $project->project_status,
                 'project_versions_list' => $project->project_versions_list,
-                'client_id' => $project->client_id,
                 'design' => $project->design,
                 'design_check_list' => $project->design_check_list,
                 'colors_list' => $project->colors_list,
@@ -112,11 +141,11 @@ class DatabaseProject
         }
     }
 
-    function getProjectByClientID($post_id, $client_id)
+    function getProjectByClientID($project_id, $client_id)
     {
         try {
-            if (empty($post_id)) {
-                throw new Exception('Post ID is required.', 400);
+            if (empty($project_id)) {
+                throw new Exception('Project ID is required.', 400);
             }
 
             if (empty($client_id)) {
@@ -125,25 +154,26 @@ class DatabaseProject
 
             $project = $this->wpdb->get_row(
                 $this->wpdb->prepare(
-                    "SELECT * FROM {$this->table_name} WHERE post_id = %d AND client_id = %d",
-                    $post_id,
+                    "SELECT * FROM {$this->table_name} WHERE project_id = %d AND client_id = %d",
+                    $project_id,
                     $client_id
                 )
             );
 
-            if ($project === null) {
-                return 'Project not found';
+            if (!is_object($project)) {
+                return ['message' => 'Project could not be found'];
             }
 
             $project_data = [
                 'id' => $project->id,
                 'project_id' => $project->project_id,
+                'project_title' => $project->project_title,
                 'project_slug' => $project->project_slug,
+                'client_id' => $project->client_id,
                 'project_urls_list' => $project->project_urls,
                 'project_details_list' => $project->project_details,
                 'project_status' => $project->project_status,
                 'project_versions_list' => $project->project_versions,
-                'client_id' => $project->client_id,
                 'design' => $project->design,
                 'design_check_list' => $project->design_check_list,
                 'colors_list' => $project->colors,
@@ -171,20 +201,30 @@ class DatabaseProject
     {
         try {
             if (empty($project_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Project ID is required.', 400);
             }
 
             if (!is_array($project)) {
                 throw new Exception('Invalid Project Data', 400);
             }
 
+            $project_title = $project['project_title'];
+
+            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
+
+            if (empty($project)) {
+                throw new Exception('Project could not be found.', 404);
+            } else {
+                $project_slug = $project->post_name;
+            }
+
             $data = array(
-                'project_slug' => $project['project_slug'],
+                'project_title' => $project_title,
+                'project_slug' => $project_slug,
                 'project_urls_list' => serialize($project['project_urls_list']),
                 'project_details_list' => serialize($project['project_details_list']),
                 'project_status' => $project['project_status'],
                 'project_versions_list' => serialize($project['project_versions_list']),
-                'client_id' => $project['client_id'],
                 'design' => $project['design'],
                 'design_check_list' => serialize($project['design_check_list']),
                 'colors_list' => serialize($project['colors_list']),
@@ -204,13 +244,17 @@ class DatabaseProject
                 return $value !== null;
             });
 
-            $updated = $this->wpdb->update($this->table_name, $data, $where);
+            $updated_rows = $this->wpdb->update($this->table_name, $data, $where);
 
-            if ($updated === false) {
+            if ($updated_rows == 0) {
                 throw new Exception('Failed to update project data : ' . $this->wpdb->last_error);
             }
 
-            return 'Project updated successfully';
+            return [
+                'project_slug' => $project_slug,
+                'results' => $updated_rows,
+                'message' => 'Project updated successfully'
+            ];
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

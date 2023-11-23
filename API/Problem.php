@@ -4,7 +4,6 @@ namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
 use WP_REST_Request;
-use WP_Query;
 
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProjectProblem;
 

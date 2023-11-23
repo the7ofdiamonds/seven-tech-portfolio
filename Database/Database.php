@@ -38,7 +38,9 @@ class Database
         id INT NOT NULL AUTO_INCREMENT,
         created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         project_id VARCHAR(255) DEFAULT NULL,
-        project_title TEXT DEFAULT NULL,
+        project_title VARCHAR(255) DEFAULT NULL,
+        project_slug VARCHAR(255) DEFAULT NULL,
+        client_id VARCHAR(255) DEFAULT NULL,
         project_urls_list TEXT DEFAULT NULL,
         project_details_list TEXT DEFAULT NULL,
         project_status VARCHAR(255) DEFAULT NULL,
@@ -52,7 +54,6 @@ class Database
         delivery VARCHAR(255) DEFAULT NULL,
         delivery_check_list TEXT DEFAULT NULL,
         project_team_list TEXT DEFAULT NULL,
-        client_id VARCHAR(255) DEFAULT NULL,
         PRIMARY KEY (id),
         UNIQUE KEY project_id (project_id)
     ) $charset_collate;";
@@ -67,7 +68,7 @@ class Database
         $sql = "CREATE TABLE {$this->project_onboarding_table} (
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            project_id INTEGER DEFAULT NULL,
+            project_id VARCHAR(255) DEFAULT NULL,
             project_title VARCHAR(255) DEFAULT NULL,
             project_slug VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
@@ -96,6 +97,8 @@ class Database
             id INT NOT NULL AUTO_INCREMENT,
             created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             project_id VARCHAR(255) DEFAULT NULL,
+            project_title VARCHAR(255) DEFAULT NULL,
+            project_slug VARCHAR(255) DEFAULT NULL,
             client_id VARCHAR(255) DEFAULT NULL,
             customers_impacted VARCHAR(255) DEFAULT NULL,
             problem_affected VARCHAR(255) DEFAULT NULL,

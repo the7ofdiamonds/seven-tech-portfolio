@@ -46,7 +46,7 @@ function OnBoardingComponent() {
 
   const [formData, setFormData] = useState({
     client_id: client_id,
-    project_slug: project ?? project_slug,
+    project_slug: project,
     project_title: project_title,
     deadline: deadline,
     where_business: where_business,
@@ -79,7 +79,7 @@ function OnBoardingComponent() {
 
   useEffect(() => {
     if (project) {
-      dispatch(getProjectOnboarding(project));
+      dispatch(getProjectOnboarding(formData));
     }
   }, [project, dispatch]);
 
@@ -145,8 +145,10 @@ function OnBoardingComponent() {
     );
 
     if (unansweredQuestions.length > 0) {
-      scrollToQuestion(unansweredQuestions[0]);
-    } else if (onboardingID) {
+      return scrollToQuestion(unansweredQuestions[0]);
+    } 
+    
+    if (onboardingID) {
       dispatch(updateProjectOnboarding(formData)).then((response) => {
         if (response.payload && !isNaN(response.payload.results)) {
           setTimeout(() => {
@@ -459,7 +461,8 @@ function OnBoardingComponent() {
                               onChange={(e) =>
                                 handleSocialLinkChange(
                                   e,
-                                  social_networks[social_network].platform
+                                  formData.social_networks[social_network]
+                                    .platform
                                 )
                               }
                             />
@@ -539,7 +542,7 @@ function OnBoardingComponent() {
           </form>
         </div>
 
-        <Modal message={onboardingMessage}/>
+        <Modal message={onboardingMessage} />
 
         <StatusBar message={onboardingError} messageType={'error'} />
 

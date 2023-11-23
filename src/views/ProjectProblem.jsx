@@ -47,7 +47,7 @@ function ProjectProblem() {
   } = useSelector((state) => state.problem);
 
   const [formData, setFormData] = useState({
-    project_title: project,
+    project_slug: project,
     client_id: client_id,
     summary: summary,
     summary_url: summary_url,

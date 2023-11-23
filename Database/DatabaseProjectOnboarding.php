@@ -24,6 +24,7 @@ class DatabaseProjectOnboarding
 
         $project_id = $onboarding['project_id'] ?? '';
         $project_title = $onboarding['project_title'] ?? '';
+        $project_slug = $onboarding['project_slug'] ?? '';
         $client_id = $onboarding['client_id'] ?? '';
 
         if (empty($project_id)) {
@@ -32,6 +33,10 @@ class DatabaseProjectOnboarding
 
         if (empty($project_title)) {
             throw new Exception('Project title is required.', 400);
+        }
+
+        if (empty($project_slug)) {
+            throw new Exception('Project slug is required.', 400);
         }
 
         if (empty($client_id)) {
@@ -43,6 +48,7 @@ class DatabaseProjectOnboarding
             [
                 'project_id' => $project_id,
                 'project_title' => $project_title,
+                'project_slug' => $project_slug,
                 'client_id' => $client_id,
                 'deadline' => !empty($onboarding['deadline']) ? $onboarding['deadline'] : '',
                 'where_business' => !empty($onboarding['where_business']) ? $onboarding['where_business'] : '',
@@ -64,6 +70,7 @@ class DatabaseProjectOnboarding
 
         return [
             'id' => $this->wpdb->insert_id,
+            'project_slug' => $project_slug,
             'message' => 'Project onboarding saved successfully.'
         ];
     }
@@ -89,6 +96,7 @@ class DatabaseProjectOnboarding
             'id' => $onboarding->id,
             'project_id' => $onboarding->project_id,
             'project_title' => $onboarding->project_title,
+            'project_slug' => $onboarding->project_slug,
             'client_id' => $onboarding->client_id,
             'deadline' => $onboarding->deadline,
             'where_business' => $onboarding->where_business,
@@ -116,10 +124,15 @@ class DatabaseProjectOnboarding
         }
 
         $project_title = $onboarding['project_title'] ?? '';
+        $project_slug = $onboarding['project_slug'] ?? '';
         $client_id = $onboarding['client_id'] ?? '';
 
         if (empty($project_title)) {
             throw new Exception('Project title is required.', 400);
+        }
+
+        if (empty($project_slug)) {
+            throw new Exception('Project slug is required.', 400);
         }
 
         if (empty($client_id)) {
@@ -129,6 +142,7 @@ class DatabaseProjectOnboarding
         $data = array(
             'project_id' => $project_id,
             'project_title' => $project_title,
+            'project_slug' => $project_slug,
             'client_id' => $client_id,
             'deadline' => !empty($onboarding['deadline']) ? $onboarding['deadline'] : '',
             'where_business' => !empty($onboarding['where_business']) ? $onboarding['where_business'] : '',
@@ -157,6 +171,7 @@ class DatabaseProjectOnboarding
         }
 
         return [
+            'project_slug' => $project_slug,
             'results' => $updated_rows,
             'message' => 'Project onboarding updated successfully.'
         ];
