@@ -199,7 +199,7 @@ function OnBoardingComponent() {
     type: "text",
     id: "project_title",
     name: "project_title",
-    value: formData.project_title,
+    value: project_title,
     className: "input-radio",
     onChange: handleInputChange
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("tr", {

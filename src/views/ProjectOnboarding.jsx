@@ -194,7 +194,7 @@ function OnBoardingComponent() {
                         type="text"
                         id="project_title"
                         name="project_title"
-                        value={formData.project_title}
+                        value={project_title}
                         className="input-radio"
                         onChange={handleInputChange}
                       />

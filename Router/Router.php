@@ -5,23 +5,35 @@ namespace SEVEN_TECH\Portfolio\Router;
 use Exception;
 
 use SEVEN_TECH\Portfolio\Pages\Pages;
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 use SEVEN_TECH\Portfolio\Templates\Templates;
 
 class Router
 {
-    private $templates;
+    private $front_page_react;
+    private $custom_pages_list;
     private $protected_pages_list;
     private $pages_list;
-    private $page_titles;
+    private $post_types;
+    private $taxonomies_list;
+    private $templates;
 
-    public function __construct()
-    {
-        $pages = new Pages;
-        $this->templates = new Templates;
-
+    public function __construct(
+        Pages $pages,
+        Post_Types $posttypes,
+        Taxonomies $taxonomies,
+        Templates $templates
+    ) {
+        $this->front_page_react = $pages->front_page_react;
+        $this->custom_pages_list = $pages->custom_pages_list;
         $this->protected_pages_list = $pages->protected_pages_list;
         $this->pages_list = $pages->pages_list;
-        $this->page_titles = $pages->page_titles;
+
+        $this->post_types = $posttypes->post_types_list;
+        $this->taxonomies_list = $taxonomies->taxonomies_list;
+
+        $this->templates = $templates;
     }
 
     function load_page()
@@ -29,28 +41,65 @@ class Router
         try {
             $path = $_SERVER['REQUEST_URI'];
 
-            if ($path === '/') {
-                add_filter('frontpage_template', [$this->templates, 'get_front_page_template']);
-                return;
+            if (!empty($this->front_page_react)) {
+                foreach ($this->front_page_react as $section) {
+                    add_filter('frontpage_template', function ($frontpage_template) use ($section) {
+                        return $this->templates->get_front_page_template($frontpage_template, $section);
+                    });
+                }
             }
 
-            if (!empty($this->protected_pages_list)) {
-                foreach ($this->protected_pages_list as $protected_page) {
-
-                    if (preg_match($protected_page['regex'], $path)) {
-                        add_filter('template_include', [$this->templates, 'get_protected_page_template']);
-                        break;
+            if (!empty($this->custom_pages_list)) {
+                foreach ($this->custom_pages_list as $custom_page) {
+                    if (preg_match($custom_page['regex'], $path)) {
+                        add_filter('template_include', function ($template_include) use ($custom_page) {
+                            return $this->templates->get_custom_page_template($template_include, $custom_page);
+                        });
                     }
                 }
             }
 
-            if (!empty($this->pages_list) && $path !== '/') {
-                foreach ($this->pages_list as $page) {
-
-                    if (preg_match($page['regex'], $path)) {
-                        add_filter('template_include', [$this->templates, 'get_page_template']);
-                        break;
+            if (!empty($this->protected_pages_list)) {
+                foreach ($this->protected_pages_list as $protected_page) {
+                    if (preg_match($protected_page['regex'], $path)) {
+                        add_filter('template_include',  function ($template_include) use ($protected_page) {
+                            return $this->templates->get_protected_page_template($template_include, $protected_page);
+                        });
                     }
+                }
+            }
+
+            if (!empty($this->pages_list)) {
+                foreach ($this->pages_list as $page) {
+                    if (preg_match($page['regex'], $path)) {
+                        add_filter('template_include', function ($template_include) use ($page) {
+                            return $this->templates->get_page_template($template_include, $page);
+                        });
+                    }
+                }
+            }
+
+            if (!empty($this->taxonomies_list)) {
+                foreach ($this->taxonomies_list as $taxonomy) {
+                    add_filter('taxonomy_template', function ($taxonomy_template) use ($taxonomy) {
+                        return $this->templates->get_archive_page_template($taxonomy_template, $taxonomy);
+                    });
+                }
+            }
+
+            if (!empty($this->post_types)) {
+                foreach ($this->post_types as $post_type) {
+                    add_filter('archive_template', function ($archive_template) use ($post_type) {
+                        return $this->templates->get_archive_page_template($archive_template, $post_type);
+                    });
+                }
+            }
+
+            if (!empty($this->post_types)) {
+                foreach ($this->post_types as $post_type) {
+                    add_filter('single_template', function ($single_template) use ($post_type) {
+                        return $this->templates->get_single_page_template($single_template, $post_type);
+                    });
                 }
             }
         } catch (Exception $e) {
@@ -64,45 +113,10 @@ class Router
         }
     }
 
-    function get_last_url_segment($regex)
-    {
-        $regex = preg_replace("/\([^)]+\)/", "", $regex);
-        $path = preg_replace("#[^a-zA-Z/]+#", "", $regex);
-        $url = explode('/', $path);
-        $url = array_filter($url, function ($value) {
-            return !empty($value);
-        });
-        $lastSegment = end($url);
-
-        return $lastSegment;
-    }
-
-    function get_last_url_index($url)
-    {
-        $url_array = explode('/', $url);
-
-        return count($url_array);
-    }
-
     function react_rewrite_rules()
     {
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
-    }
-
-    function add_query_vars($query_vars)
-    {
-        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
-            foreach ($this->page_titles as $page_title) {
-                $lastSegment = $this->get_last_url_segment($page_title['regex']);
-
-                $query_vars[] = $lastSegment;
-            }
-
-            return $query_vars;
-        }
-
-        return $query_vars;
     }
 }

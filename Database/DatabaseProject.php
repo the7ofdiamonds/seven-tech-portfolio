@@ -25,6 +25,7 @@ class DatabaseProject
 
             $project_id = !empty($project['project_id']) ? $project['project_id'] : '';
             $project_title = !empty($project['project_title']) ? $project['project_title'] : '';
+            $project_slug = !empty($project['project_slug']) ? $project['project_slug'] : '';
             $client_id = !empty($project['client_id']) ? $project['client_id'] : '';
 
             if (empty($project_id)) {
@@ -33,14 +34,6 @@ class DatabaseProject
 
             if (empty($project_title)) {
                 throw new Exception('Project title is required.', 404);
-            }
-
-            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
-
-            if (empty($project)) {
-                throw new Exception('Project could not be found.', 404);
-            } else {
-                $project_slug = $project->post_name;
             }
 
             if (empty($project_slug)) {
@@ -78,7 +71,10 @@ class DatabaseProject
                 throw new Exception('Failed to save the project. ' . $this->wpdb->last_error, 500);
             }
 
-            return $this->wpdb->insert_id;
+            return [
+                'id' => $this->wpdb->insert_id,
+                'message' => 'Project saved successfully'
+            ];
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

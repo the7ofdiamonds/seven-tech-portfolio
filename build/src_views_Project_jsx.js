@@ -57,8 +57,8 @@ function Project() {
     project
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_20__.useParams)();
   const {
-    loading,
-    error,
+    onboardingLoading,
+    onboardingError,
     id,
     post_status,
     post_author,

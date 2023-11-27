@@ -30,42 +30,8 @@ class Onboarding
                 throw new Exception('Project title is required.', 400);
             }
 
-            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
-            error_log($project_title);
-
-            if (empty($project)) {
-                $project_data = array(
-                    'post_title'    => $project_title,
-                    'post_status'   => 'pending',
-                    'post_author'   => $client_id,
-                    'post_type'     => 'portfolio',
-                );
-
-                $project_id = wp_insert_post($project_data);
-
-                if (is_wp_error($project_id) || empty($project_id)) {
-                    throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
-                } else {
-                    $post = get_post($project_id);
-                    $project_slug = $post->post_name;
-                }
-            } else {
-                $project_id = $project->ID;
-                $project_slug = $project->post_name;
-            }
-
-            if (empty($project_id)) {
-                throw new Exception('Project id is required.', 404);
-            }
-
-            if (empty($project_slug)) {
-                throw new Exception('Project slug is required.', 404);
-            }
-
             $onboarding = [
-                'project_id' => $project_id,
                 'project_title' => $project_title,
-                'project_slug' => $project_slug,
                 'client_id' => $client_id,
                 'deadline' => !empty($request['deadline']) ? $request['deadline'] : '',
                 'where_business' => !empty($request['where_business']) ? $request['where_business'] : '',

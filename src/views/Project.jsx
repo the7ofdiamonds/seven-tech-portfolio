@@ -26,8 +26,8 @@ function Project() {
   const { project } = useParams();
 
   const {
-    loading,
-    error,
+    onboardingLoading,
+    onboardingError,
     id,
     post_status,
     post_author,

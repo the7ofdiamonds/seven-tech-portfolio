@@ -6,7 +6,6 @@ class API
 {
     public function __construct()
     {
-        $clients = new Clients;
         $onboarding = new Onboarding;
         $portfolio = new Portfolio;
         $problem = new Problem;
@@ -96,8 +95,6 @@ class API
             'callback' => [$taxonomies, 'get_projects_tag'],
             'permission_callback' => '__return_true',
         ]);
-
-        add_action('rest_api_init', [$this, 'allow_cors_headers']);
     }
 
     public function allow_cors_headers()

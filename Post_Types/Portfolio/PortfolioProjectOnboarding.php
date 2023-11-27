@@ -23,7 +23,6 @@ class PortfolioProjectOnboarding
             throw new Exception('Project problem data is needed to save to the database.', 400);
         }
 
-        $project_id = $onboarding['project_id'];
         $project_title = $onboarding['project_title'];
         $client_id = $onboarding['client_id'];
 
@@ -37,24 +36,39 @@ class PortfolioProjectOnboarding
 
         $project = get_page_by_title($project_title, OBJECT, 'portfolio');
 
-        if (empty($project_id) || empty($project)) {
+        if (empty($project) || empty($project->post_name)) {
             $project_data = array(
                 'post_title'    => $project_title,
-                'post_status'   => 'pending',
                 'post_author'   => $client_id,
                 'post_type'     => 'portfolio',
+                'post_name'     => sanitize_title($project_title)
             );
 
             $project_id = wp_insert_post($project_data);
 
-            if (is_wp_error($project_id)) {
+            if (is_wp_error($project_id) || empty($project_id)) {
                 throw new Exception('Error creating post: ' . $project_id->get_error_message(), 500);
+            } else {
+                $post = get_post($project_id);
+                $project_slug = $post->post_name;
             }
+        } else {
+            $project_id = $project->ID;
+            $project_slug = $project->post_name;
+        }
+
+        if (empty($project_id)) {
+            throw new Exception('Project id is required.', 404);
+        }
+
+        if (empty($project_slug)) {
+            throw new Exception('Project slug is required.', 404);
         }
 
         $onboarding_data = [
             'project_id' => $project_id,
             'project_title' => $project_title,
+            'project_slug' => $project_slug,
             'client_id' => $client_id,
             'deadline' => $onboarding['deadline'],
             'where_business' => $onboarding['where_business'],
@@ -71,6 +85,7 @@ class PortfolioProjectOnboarding
         $project_data = [
             'project_id' => $project_id,
             'project_title' => $project_title,
+            'project_slug' => $project_slug,
             'client_id' => $client_id,
         ];
 
