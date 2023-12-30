@@ -7,27 +7,27 @@ use Exception;
 use WP_REST_Request;
 use WP_Query;
 
-use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
+use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 
 class Taxonomies
 {
     private $post_type;
-    private $portfolio_uploads;
+    private $media;
     private $project_database;
 
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        $this->portfolio_uploads = new Uploads;
+        $this->media = new Media;
         $database = new Database;
 
         $this->project_database = new DatabaseProject($database->project_table);
     }
 
     public function get_projects_type(WP_REST_Request $request)
-    {error_log('get_projects_type');
+    {
         $slug = $request->get_param('slug');
 
         $args = array(
@@ -50,7 +50,7 @@ class Taxonomies
             foreach ($posts as $post) {
                 $project_id = $post->ID;
                 $project = $this->project_database->getProject($project_id);
-                $solution_gallery = $this->portfolio_uploads->getPhotos(get_the_title($project_id), 'solution');
+                $solution_gallery = $this->media->urls("portfolio/{$project_id}/solution-gallery", 'image/');
 
                 $project_data = array(
                     'id' => $project_id,
@@ -104,7 +104,7 @@ class Taxonomies
             foreach ($posts as $post) {
                 $project_id = $post->ID;
                 $project = $this->project_database->getProject($project_id);
-                $solution_gallery = $this->portfolio_uploads->getPhotos(get_the_title($project_id), 'solution');
+                $solution_gallery = $this->media->urls("portfolio/{$project_id}/solution-gallery", 'image/');
 
                 $project_data = array(
                     'id' => $project_id,

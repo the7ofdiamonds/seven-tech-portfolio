@@ -32,6 +32,7 @@ use SEVEN_TECH\Portfolio\CSS\CSS;
 use SEVEN_TECH\Portfolio\CSS\Customizer;
 use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\JS\JS;
+use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Pages\Pages;
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH\Portfolio\Roles\Roles;
@@ -93,10 +94,10 @@ class SEVEN_TECH_Portfolio
 
     function activate()
     {
-        flush_rewrite_rules();
         (new Database)->createTables();
         $this->pages->add_pages();
         (new Roles)->add_roles();
+        flush_rewrite_rules();
     }
 
     public function settings_link($links)

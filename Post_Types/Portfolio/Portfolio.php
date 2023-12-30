@@ -156,7 +156,7 @@ class Portfolio
         add_action('save_post', [$this, 'save_post_icons_gallery']);
         add_action('save_post', [$this, 'save_post_animations_gallery']);
         add_action('save_post', [$this, 'save_post_uml_diagrams_gallery']);
-        add_action('save_post', [$this, 'save_project']);
+        // add_action('save_post', [$this, 'save_project']);
     }
 
     function get_project()
@@ -206,7 +206,7 @@ class Portfolio
 
     function solution_gallery($post)
     {
-        $solution_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/solution-gallery");
+        $solution_gallery = (new Media)->urls("portfolio/{$post->ID}/solution-gallery");
     ?>
         <label for="solution_gallery">Upload Design Images:</label>
         <input type="file" id="solution_gallery" name="solution_gallery" accept="image/*">
@@ -310,7 +310,7 @@ class Portfolio
 
     function design_gallery($post)
     {
-        $design_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery");
+        $design_gallery = (new Media)->urls("portfolio/{$post->ID}/design-gallery");
     ?>
         <label for="design_gallery">Upload Design Images:</label>
         <input type="file" id="design_gallery" name="design_gallery" accept="image/*">
@@ -363,7 +363,7 @@ class Portfolio
 
     function logos_gallery($post)
     {
-        $logos_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/logos");
+        $logos_gallery = (new Media)->urls("portfolio/{$post->ID}/design-gallery/logos");
     ?>
         <label for="logos_gallery">Upload Logo:</label>
         <input type="file" id="logos_gallery" name="logos_gallery" accept="image/*">
@@ -377,7 +377,7 @@ class Portfolio
 
     function icons_gallery($post)
     {
-        $icons_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/icons");
+        $icons_gallery = (new Media)->urls("portfolio/{$post->ID}/design-gallery/icons");
         ?>
         <label for="icons_gallery">Upload Icon:</label>
         <input type="file" id="icons_gallery" name="icons_gallery" accept="image/*">
@@ -391,7 +391,7 @@ class Portfolio
 
     function animations_gallery($post)
     {
-        $animations_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/animations");
+        $animations_gallery = (new Media)->urls("portfolio/{$post->ID}/design-gallery/animations");
         ?>
         <label for="animations_gallery">Upload Logo:</label>
         <input type="file" id="animations_gallery" name="animations_gallery" accept="image/*">
@@ -405,7 +405,7 @@ class Portfolio
 
     function uml_diagrams_gallery($post)
     {
-        $uml_diagrams_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/uml-diagrams");
+        $uml_diagrams_gallery = (new Media)->urls("portfolio/{$post->ID}/design-gallery/uml-diagrams");
         ?>
         <label for="uml_diagrams_gallery">Upload Logo:</label>
         <input type="file" id="uml_diagrams_gallery" name="uml_diagrams_gallery" accept="image/*">
@@ -767,7 +767,7 @@ class Portfolio
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
-        error_log('save_post_uml_diagrams_gallery');
+
         if (isset($_FILES['uml_diagrams_gallery']['tmp_name']) && !empty($_FILES['uml_diagrams_gallery']['tmp_name'])) {
             $subdir = "/portfolio/{$post_id}/design-gallery/uml-diagrams";
             $file = $_FILES['uml_diagrams_gallery'];

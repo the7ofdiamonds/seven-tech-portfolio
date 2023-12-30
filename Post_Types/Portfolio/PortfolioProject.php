@@ -3,7 +3,8 @@
 namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 
 use Exception;
-use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Uploads;
+
+use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectOnboarding;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
@@ -12,7 +13,7 @@ use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 class PortfolioProject
 {
     public $post_type;
-    public $portfolio_uploads;
+    public $media;
     public $project_database;
     public $onboarding_database;
     public $theproblem_database;
@@ -21,7 +22,7 @@ class PortfolioProject
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        $this->portfolio_uploads = new Uploads;
+        $this->media = new Media;
 
         $this->project_database = new DatabaseProject();
         $this->onboarding_database = new DatabaseProjectOnboarding();
@@ -220,12 +221,12 @@ class PortfolioProject
         try {
             $project = $this->project_database->getProject($post_id);
 
-            $solution_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/solution-gallery');
-            $design_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery');
-            $logos_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/logos');
-            $icons_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/icons');
-            $animations_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/animations');
-            $uml_diagrams_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/umldiagrams');
+            $solution_gallery = $this->media->urls("portfolio/{$post_id}/solution-gallery");
+            $design_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery");
+            $logos_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery/logos");
+            $icons_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery/icons");
+            $animations_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery/animations");
+            $uml_diagrams_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery/umldiagrams");
 
             $onboarding = $this->onboarding_database->getOnboarding($post_id);
             $the_problem = $this->theproblem_database->getProblem($post_id);
