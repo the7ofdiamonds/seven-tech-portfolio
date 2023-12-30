@@ -8,8 +8,6 @@ class Admin
 {
     public function __construct()
     {
-        add_action('load-post.php', function () {
-            new Portfolio;
-        });
+        new Portfolio;
     }
 }

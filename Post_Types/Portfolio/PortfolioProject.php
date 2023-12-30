@@ -220,12 +220,12 @@ class PortfolioProject
         try {
             $project = $this->project_database->getProject($post_id);
 
-            $solution_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'solution');
-            $design_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'design');
-            $logos_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'design/logos');
-            $icons_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'design/icons');
-            $animations_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'design/animations');
-            $uml_diagrams_gallery = $this->portfolio_uploads->getPhotos(get_the_title($post_id), 'design/umldiagrams');
+            $solution_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/solution-gallery');
+            $design_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery');
+            $logos_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/logos');
+            $icons_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/icons');
+            $animations_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/animations');
+            $uml_diagrams_gallery = $this->portfolio_uploads->getPhotos('portfolio/' . $post_id . '/design-gallery/umldiagrams');
 
             $onboarding = $this->onboarding_database->getOnboarding($post_id);
             $the_problem = $this->theproblem_database->getProblem($post_id);

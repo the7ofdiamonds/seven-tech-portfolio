@@ -4,12 +4,12 @@ namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 
 use Exception;
 
-use SEVEN_TECH\Portfolio\Database\Database;
-use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProject;
 
 class Portfolio
 {
+    private $post_id;
     private $portfolio_project;
     private $inputs;
     private $post_type;
@@ -17,6 +17,8 @@ class Portfolio
 
     public function __construct()
     {
+        add_action('load-post.php', [$this, 'get_project']);
+
         add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
 
         $this->inputs = [
@@ -24,6 +26,12 @@ class Portfolio
                 "name" => "Client ID",
                 "alias" => "client_id",
                 "position" => "side",
+                "priority" => "low"
+            ],
+            [
+                "name" => "Solution Gallery",
+                "alias" => "solution_gallery",
+                "position" => "normal",
                 "priority" => "low"
             ],
             [
@@ -57,6 +65,12 @@ class Portfolio
                 "priority" => "low"
             ],
             [
+                "name" => "Design Gallery",
+                "alias" => "design_gallery",
+                "position" => "normal",
+                "priority" => "low"
+            ],
+            [
                 "name" => "Design Check List",
                 "alias" => "design_check_list",
                 "position" => "normal",
@@ -65,6 +79,30 @@ class Portfolio
             [
                 "name" => "Colors",
                 "alias" => "colors",
+                "position" => "normal",
+                "priority" => "low"
+            ],
+            [
+                "name" => "Logos Gallery",
+                "alias" => "logos_gallery",
+                "position" => "normal",
+                "priority" => "low"
+            ],
+            [
+                "name" => "Icons Gallery",
+                "alias" => "icons_gallery",
+                "position" => "normal",
+                "priority" => "low"
+            ],
+            [
+                "name" => "Animations Gallery",
+                "alias" => "animations_gallery",
+                "position" => "normal",
+                "priority" => "low"
+            ],
+            [
+                "name" => "UML Diagrams Gallery",
+                "alias" => "uml_diagrams_gallery",
                 "position" => "normal",
                 "priority" => "low"
             ],
@@ -110,11 +148,26 @@ class Portfolio
         add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
         add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
-        add_action('load-post.php', [$this, 'get_project']);
-
         $this->portfolio_project = new PortfolioProject;
 
+        add_action('save_post', [$this, 'save_post_solution_gallery']);
+        add_action('save_post', [$this, 'save_post_design_gallery']);
+        add_action('save_post', [$this, 'save_post_logos_gallery']);
+        add_action('save_post', [$this, 'save_post_icons_gallery']);
+        add_action('save_post', [$this, 'save_post_animations_gallery']);
+        add_action('save_post', [$this, 'save_post_uml_diagrams_gallery']);
         add_action('save_post', [$this, 'save_project']);
+    }
+
+    function get_project()
+    {
+        if (!empty($_GET['post'])) {
+            $this->post_id = absint($_GET['post']);
+
+            if ($this->post_id) {
+                $this->project = $this->portfolio_project->getPortfolioProject($this->post_id);
+            }
+        }
     }
 
     function add_custom_meta_boxes()
@@ -143,17 +196,6 @@ class Portfolio
         wp_enqueue_script('custom-js', SEVEN_TECH_PORTFOLIO_URL . 'Post_Types/Portfolio/Portfolio.js', array('jquery'), '1.0', true);
     }
 
-    function get_project()
-    {
-        if (isset($_GET['post'])) {
-            $post_id = absint($_GET['post']);
-
-            if ($post_id) {
-                $this->project = $this->portfolio_project->getPortfolioProject($post_id);
-            }
-        }
-    }
-
     // This should be automatically added when payment is recieved.
     // this should be an array of users
     // Should be a dropdown to select users to give access too
@@ -161,6 +203,20 @@ class Portfolio
     { ?>
         <input type='text' name="client_id" value="<?php echo esc_attr($this->project['client_id'] ?? ''); ?>" />
     <?php }
+
+    function solution_gallery($post)
+    {
+        $solution_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/solution-gallery");
+    ?>
+        <label for="solution_gallery">Upload Design Images:</label>
+        <input type="file" id="solution_gallery" name="solution_gallery" accept="image/*">
+        <?php
+        if (is_array($solution_gallery)) {
+            foreach ($solution_gallery as $solution_img) {
+                echo '<p><a href="' . $solution_img . '" target="_blank">' . $solution_img . '</a></p>';
+            }
+        }
+    }
 
     function project_urls()
     { ?>
@@ -252,6 +308,20 @@ class Portfolio
         <textarea name="design"><?php echo esc_textarea($this->project['design'] ?? ''); ?></textarea>
     <?php }
 
+    function design_gallery($post)
+    {
+        $design_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery");
+    ?>
+        <label for="design_gallery">Upload Design Images:</label>
+        <input type="file" id="design_gallery" name="design_gallery" accept="image/*">
+        <?php
+        if (is_array($design_gallery)) {
+            foreach ($design_gallery as $design_img) {
+                echo '<p><a href="' . $design_img . '" target="_blank">' . $design_img . '</a></p>';
+            }
+        }
+    }
+
     function design_check_list()
     { ?>
         <div class="task-list" id="design_task_list">
@@ -290,6 +360,62 @@ class Portfolio
         </div>
         <button id="add_color_button">Add Color</button>
     <?php }
+
+    function logos_gallery($post)
+    {
+        $logos_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/logos");
+    ?>
+        <label for="logos_gallery">Upload Logo:</label>
+        <input type="file" id="logos_gallery" name="logos_gallery" accept="image/*">
+        <?php
+        if (is_array($logos_gallery)) {
+            foreach ($logos_gallery as $logo_img) {
+                echo '<p><a href="' . $logo_img . '" target="_blank">' . $logo_img . '</a></p>';
+            }
+        }
+    }
+
+    function icons_gallery($post)
+    {
+        $icons_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/icons");
+        ?>
+        <label for="icons_gallery">Upload Icon:</label>
+        <input type="file" id="icons_gallery" name="icons_gallery" accept="image/*">
+        <?php
+        if (is_array($icons_gallery)) {
+            foreach ($icons_gallery as $icon) {
+                echo '<p><a href="' . $icon . '" target="_blank">' . $icon . '</a></p>';
+            }
+        }
+    }
+
+    function animations_gallery($post)
+    {
+        $animations_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/animations");
+        ?>
+        <label for="animations_gallery">Upload Logo:</label>
+        <input type="file" id="animations_gallery" name="animations_gallery" accept="image/*">
+        <?php
+        if (is_array($animations_gallery)) {
+            foreach ($animations_gallery as $animation) {
+                echo '<p><a href="' . $animation . '" target="_blank">' . $animation . '</a></p>';
+            }
+        }
+    }
+
+    function uml_diagrams_gallery($post)
+    {
+        $uml_diagrams_gallery = (new Uploads)->getPhotos("portfolio/{$post->ID}/design-gallery/uml-diagrams");
+        ?>
+        <label for="uml_diagrams_gallery">Upload Logo:</label>
+        <input type="file" id="uml_diagrams_gallery" name="uml_diagrams_gallery" accept="image/*">
+        <?php
+        if (is_array($uml_diagrams_gallery)) {
+            foreach ($uml_diagrams_gallery as $logo_img) {
+                echo '<p><a href="' . $logo_img . '" target="_blank">' . $logo_img . '</a></p>';
+            }
+        }
+    }
 
     function development()
     { ?>
@@ -349,7 +475,7 @@ class Portfolio
     { ?>
         <div class="project-team-list" id="project_team">
             <?php
-            $project_team_list = $this->project['project_team_list'] ?? ''; 
+            $project_team_list = $this->project['project_team_list'] ?? '';
 
             if (is_array($project_team_list)) {
                 foreach ($project_team_list as $i => $team_member) {
@@ -549,6 +675,107 @@ class Portfolio
             return $projectTeam;
         } else {
             return [];
+        }
+    }
+
+    function save_post_solution_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        if (isset($_FILES['solution_gallery']['tmp_name']) && !empty($_FILES['solution_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/solution-gallery";
+            $file = $_FILES['solution_gallery'];
+            $filename = '/Solution_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
+        }
+    }
+
+    function save_post_design_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        if (isset($_FILES['design_gallery']['tmp_name']) && !empty($_FILES['design_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/design-gallery";
+            $file = $_FILES['design_gallery'];
+            $filename = '/Design_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
+        }
+    }
+
+    function save_post_logos_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        if (isset($_FILES['logos_gallery']['tmp_name']) && !empty($_FILES['logos_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/design-gallery/logos";
+            $file = $_FILES['logos_gallery'];
+            $filename = '/Logos_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
+        }
+    }
+
+    function save_post_icons_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        if (isset($_FILES['icons_gallery']['tmp_name']) && !empty($_FILES['icons_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/design-gallery/icons";
+            $file = $_FILES['icons_gallery'];
+            $filename = '/Icons_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
+        }
+    }
+
+    function save_post_animations_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        if (isset($_FILES['animations_gallery']['tmp_name']) && !empty($_FILES['animations_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/design-gallery/animations";
+            $file = $_FILES['animations_gallery'];
+            $filename = '/Animations_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
+        }
+    }
+
+    function save_post_uml_diagrams_gallery($post_id)
+    {
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        error_log('save_post_uml_diagrams_gallery');
+        if (isset($_FILES['uml_diagrams_gallery']['tmp_name']) && !empty($_FILES['uml_diagrams_gallery']['tmp_name'])) {
+            $subdir = "/portfolio/{$post_id}/design-gallery/uml-diagrams";
+            $file = $_FILES['uml_diagrams_gallery'];
+            $filename = '/UML_Diagrams_Gallery' . '_' . $post_id . '_' . $file['full_path'];
+
+            $image_url = (new Media)->upload($subdir, $file, $filename);
+
+            return $image_url;
         }
     }
 
