@@ -15,9 +15,13 @@ import LoadingComponent from '../views/components/global/LoadingComponent';
 import ErrorComponent from '../views/components/global/ErrorComponent';
 
 function Portfolio() {
-  const { portfolioLoading, portfolioError, projects, project_types, project_tags } = useSelector(
-    (state) => state.portfolio
-  );
+  const {
+    portfolioLoading,
+    portfolioError,
+    projects,
+    project_types,
+    project_tags,
+  } = useSelector((state) => state.portfolio);
 
   const dispatch = useDispatch();
 
@@ -39,15 +43,13 @@ function Portfolio() {
 
   return (
     <>
-      <section className="portfolio">
-        <h2 class="title">portfolio</h2>
+      <h2 class="title">portfolio</h2>
 
-        <Projects projects={projects} />
+      <Projects projects={projects} />
 
-        <ProjectTypes project_types={project_types} />
+      <ProjectTypes project_types={project_types} />
 
-        <ProjectTags project_tags={project_tags} />
-      </section>
+      <ProjectTags project_tags={project_tags} />
     </>
   );
 }

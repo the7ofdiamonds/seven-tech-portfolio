@@ -8,7 +8,7 @@ namespace SEVEN_TECH\Portfolio;
 /*
 Plugin Name: SEVEN TECH Portfolio
 Plugin URI: 
-Description: Portfolio Custom Post Type.
+Description: Portfolio.
 Version: 1.0.0
 Author: THE7OFDIAMONDS.TECH
 Author URI: http://THE7OFDIAMONDS.TECH
@@ -44,7 +44,6 @@ use SEVEN_TECH\Portfolio\Templates\Templates;
 class SEVEN_TECH_Portfolio
 {
     public $pages;
-    public $plugin;
     public $css;
     public $js;
     public $posttypes;
@@ -53,11 +52,13 @@ class SEVEN_TECH_Portfolio
 
     public function __construct()
     {
-        $this->plugin = plugin_basename(__FILE__);
-        add_filter("plugin_action_links_$this->plugin", [$this, 'settings_link']);
+        $plugin = plugin_basename(__FILE__);
+        add_filter("plugin_action_links_{$plugin}", [$this, 'settings_link']);
 
-        add_action('admin_init', function () {
-            new Admin;
+        $admin = new Admin;
+
+        add_action('admin_init', function () use ($admin) {
+            $admin;
         });
 
         add_action('rest_api_init', function () {
@@ -102,7 +103,7 @@ class SEVEN_TECH_Portfolio
 
     public function settings_link($links)
     {
-        $settings_link = '<a href="' . admin_url('admin.php?page=orb_services') . '">Settings</a>';
+        $settings_link = '<a href="' . admin_url('admin.php?page=seven-tech-portfolio') . '">Settings</a>';
         array_push($links, $settings_link);
 
         return $links;

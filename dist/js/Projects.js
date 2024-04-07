@@ -1,0 +1,2 @@
+import{j as r}from"./index.js";import{G as a,b as n}from"./ProjectTags2.js";function i(e){var s=e.projects;return r.jsx(r.Fragment,{children:s&&s.length>0?s.map(function(t,o){return r.jsxs("div",{className:"project card",children:[r.jsx("h3",{children:t.title}),r.jsx("a",{href:"/portfolio/".concat(t.post_name),children:r.jsx(a,{gallery:t.solution_gallery})}),r.jsx(n,{project_status:t.project_status})]},o)}):"There are no projects to display"})}export{i as P};
+//# sourceMappingURL=Projects.js.map

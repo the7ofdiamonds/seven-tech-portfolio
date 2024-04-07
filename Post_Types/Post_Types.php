@@ -12,13 +12,14 @@ class Post_Types
             [
                 'name' => 'portfolio',
                 'menu_icon' => '',
-                'menu_position' => 13,
+                'menu_position' => 15,
                 'title' => 'PORTFOLIO',
                 'singular' => 'Project',
                 'plural' => 'Portfolio',
                 'archive_page' => 'Portfolio',
                 'single_page' => 'Project',
-                'slug' => 'portfolio'
+                'slug' => 'portfolio',
+                'file_name' => 'Portfolio'
             ],
         ];
     }

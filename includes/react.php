@@ -1,1 +1,1 @@
-<div id="seven_tech_portfolio"></div>
+<section id="seven_tech_portfolio"></section>

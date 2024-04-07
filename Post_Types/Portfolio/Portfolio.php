@@ -795,35 +795,35 @@ class Portfolio
         $project_team_list = [];
 
         if (isset($_REQUEST['project_urls_list'])) {
-            $project_urls_list = $this->getProjectURLsList();
+            $project_urls_list = $this->getProjectURLsList($post_id);
         }
 
         if (isset($_REQUEST['project_details_list'])) {
-            $project_details_list = $this->getProjectDetailsList();
+            $project_details_list = $this->getProjectDetailsList($post_id);
         }
 
         if (isset($_REQUEST['project_versions_list'])) {
-            $project_versions_list = $this->getProjectVersionsList();
+            $project_versions_list = $this->getProjectVersionsList($post_id);
         }
 
         if (isset($_REQUEST['design_check_list'])) {
-            $design_check_list = $this->getDesignCheckList();
+            $design_check_list = $this->getDesignCheckList($post_id);
         }
 
         if (isset($_REQUEST['colors_list'])) {
-            $colors_list = $this->getColorsList();
+            $colors_list = $this->getColorsList($post_id);
         }
 
         if (isset($_REQUEST['development_check_list'])) {
-            $development_check_list = $this->getDevelopmentCheckList();
+            $development_check_list = $this->getDevelopmentCheckList($post_id);
         }
 
         if (isset($_REQUEST['delivery_check_list'])) {
-            $delivery_check_list = $this->getDeliveryCheckList();
+            $delivery_check_list = $this->getDeliveryCheckList($post_id);
         }
 
         if (isset($_REQUEST['project_team_list'])) {
-            $project_team_list = $this->getProjectTeamList();
+            $project_team_list = $this->getProjectTeamList($post_id);
         }
 
         $project = [

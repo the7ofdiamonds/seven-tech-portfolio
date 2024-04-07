@@ -6,46 +6,54 @@ use Exception;
 
 class JS
 {
-    private $handle_prefix;
     private $dir;
     private $dirURL;
     private $buildDir;
     private $buildDirURL;
-    private $buildFilePrefix;
-    private $buildFilePrefixURL;
     private $includes_url;
 
     public function __construct()
     {
-        $this->handle_prefix = 'seven_tech_portfolio_';
         $this->dir = SEVEN_TECH_PORTFOLIO;
         $this->dirURL = SEVEN_TECH_PORTFOLIO_URL;
 
-        $this->buildDir = $this->dir . 'build/';
-        $this->buildDirURL = $this->dirURL . 'build/';
-        $this->buildFilePrefix = $this->buildDir . 'src_views_';
-        $this->buildFilePrefixURL = $this->buildDirURL . 'src_views_';
+        $this->buildDir = $this->dir . 'dist/js/';
+        $this->buildDirURL = $this->dirURL . 'dist/js/';
 
         $this->includes_url = includes_url();
+    }
+
+
+    function load_react_index()
+    {
+        $indexPath = $this->buildDir . 'index.js';
+        $indexPathURL = $this->buildDirURL . 'index.js';
+
+        if (file_exists($indexPath)) {
+            echo '<script type="module" src="' . esc_url($indexPathURL) . '"></script>';
+
+        } else {
+            throw new Exception('Index page has not been created in react JSX.', 404);
+        }
     }
 
     function load_front_page_react($section)
     {
         try {
-            if (!empty($section)) {
-                $filePath = $this->buildFilePrefix . $section . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $section . '_jsx.js';
+            $this->load_react_index();
 
+            if (!empty($section)) {
                 wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
+                $filePath = $this->buildDir . $section . '.js';
+                $filePathURL = $this->buildDirURL . $section . '.js';
+
                 if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $section, $filePathURL, ['wp-element'], 1.0, true);
+                    echo '<script type="module" src="' . esc_url($filePathURL) . '"></script>';
                 } else {
                     throw new Exception($section . ' page has not been created in react JSX.', 404);
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
-            } 
+            }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
@@ -60,20 +68,20 @@ class JS
     function load_pages_react($page)
     {
         try {
+            $this->load_react_index();
+
             if (!empty($page) && is_array($page)) {
-                $filePath = $this->buildFilePrefix . $page['file_name'] . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $page['file_name'] . '_jsx.js';
+                $filePath = $this->buildDir . $page['file_name'] . '.js';
+                $filePathURL = $this->buildDirURL . $page['file_name'] . '.js';
 
                 wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
                 if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $page['file_name'], $filePathURL, ['wp-element'], 1.0, true);
+                    echo '<script type="module" src="' . esc_url($filePathURL) . '"></script>';
                 } else {
                     throw new Exception($page['file_name'] . ' page has not been created in react JSX.');
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
-            } 
+            }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
@@ -88,19 +96,19 @@ class JS
     function load_taxonomies_react($taxonomy)
     {
         try {
+            $this->load_react_index();
+
             if (!empty($taxonomy) && is_array($taxonomy) && is_tax($taxonomy['taxonomy'])) {
-                $filePath = $this->buildFilePrefix . $taxonomy['file_name'] . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $taxonomy['file_name'] . '_jsx.js';
+                $filePath = $this->buildDir . $taxonomy['file_name'] . '.js';
+                $filePathURL = $this->buildDirURL . $taxonomy['file_name'] . '.js';
 
                 wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
                 if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $taxonomy['file_name'], $filePathURL, ['wp-element'], 1.0, true);
+                    echo '<script type="module" src="' . esc_url($filePathURL) . '"></script>';
                 } else {
                     throw new Exception('Taxonomy ' . ucfirst($taxonomy['name']) . ' page has not been created in react JSX.');
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
@@ -116,19 +124,19 @@ class JS
     function load_post_types_archive_react($post_type)
     {
         try {
+            $this->load_react_index();
+
             if (!empty($post_type) && is_array($post_type) && is_post_type_archive($post_type['name'])) {
-                $filePath = $this->buildFilePrefix . $post_type['archive_page'] . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $post_type['archive_page'] . '_jsx.js';
+                $filePath = $this->buildDir . $post_type['archive_page'] . '.js';
+                $filePathURL = $this->buildDirURL . $post_type['archive_page'] . '.js';
 
                 wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
                 if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $post_type['archive_page'], $filePathURL, ['wp-element'], 1.0, true);
+                    echo '<script type="module" src="' . esc_url($filePathURL) . '"></script>';
                 } else {
                     throw new Exception('Post Type ' . ucfirst($post_type['name']) . ' page has not been created in react JSX.', 404);
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
@@ -144,19 +152,19 @@ class JS
     function load_post_types_single_react($post_type)
     {
         try {
+            $this->load_react_index();
+
             if (!empty($post_type) && is_array($post_type) && is_singular($post_type['name'])) {
-                $filePath = $this->buildFilePrefix . $post_type['single_page'] . '_jsx.js';
-                $filePathURL = $this->buildFilePrefixURL . $post_type['single_page'] . '_jsx.js';
+                $filePath = $this->buildDir . $post_type['single_page'] . '.js';
+                $filePathURL = $this->buildDirURL . $post_type['single_page'] . '.js';
 
                 wp_enqueue_script('wp-element', $this->includes_url . 'js/dist/element.min.js', [], null, true);
 
                 if (file_exists($filePath)) {
-                    wp_enqueue_script($this->handle_prefix . 'react_' . $post_type['single_page'], $filePathURL, ['wp-element'], 1.0, true);
+                    echo '<script type="module" src="' . esc_url($filePathURL) . '"></script>';
                 } else {
                     throw new Exception('Post Type ' . ucfirst($post_type['name']) . ' page has not been created in react JSX.');
                 }
-
-                wp_enqueue_script($this->handle_prefix . 'react_index', $this->buildDirURL . 'index.js', ['wp-element'], '1.0', true);
             }
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();

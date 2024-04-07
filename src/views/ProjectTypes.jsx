@@ -18,9 +18,13 @@ import ErrorComponent from '../views/components/global/ErrorComponent';
 function ProjectTypesPage() {
   const { type } = useParams();
 
-  const { portfolioLoading, portfolioError, projects, project_types, project_tags } = useSelector(
-    (state) => state.portfolio
-  );
+  const {
+    portfolioLoading,
+    portfolioError,
+    projects,
+    project_types,
+    project_tags,
+  } = useSelector((state) => state.portfolio);
 
   const dispatch = useDispatch();
 
@@ -39,18 +43,16 @@ function ProjectTypesPage() {
   if (portfolioLoading) {
     return <LoadingComponent />;
   }
-  
+
   return (
     <>
-      <section className="project-types">
-        <h2 className="title">{type} projects</h2>
+      <h2 className="title">{type} projects</h2>
 
-        <Projects projects={projects} />
+      <Projects projects={projects} />
 
-        <ProjectTypes project_types={project_types} />
+      <ProjectTypes project_types={project_types} />
 
-        <ProjectTags project_tags={project_tags} />
-      </section>
+      <ProjectTags project_tags={project_tags} />
     </>
   );
 }
