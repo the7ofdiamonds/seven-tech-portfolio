@@ -17,7 +17,14 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages_list = [];
+        $this->custom_pages_list = [
+            [
+                'url' => 'founders/([a-zA-Z-]+)/resume',
+                'regex' => '#^/founders/([a-zA-Z-]+)/resume#',
+                'title' => '',
+                'name' => 'founder-resume'
+            ],
+        ];
 
         $this->protected_pages_list = [
             [
@@ -73,7 +80,7 @@ class Pages
             }
         }
     }
-    
+
     function is_user_logged_in()
     {
         return isset($_SESSION['idToken']);

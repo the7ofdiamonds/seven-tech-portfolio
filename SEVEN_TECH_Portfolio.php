@@ -76,13 +76,11 @@ class SEVEN_TECH_Portfolio
             $css,
             $js,
         );
-        $templates_custom = new TemplatesCustom;
         $router = new Router(
             $pages,
             $posttypes,
             $taxonomies,
-            $templates,
-            $templates_custom
+            $templates
         );
 
         add_action('init', function () use ($posttypes, $taxonomies, $router) {
@@ -97,8 +95,7 @@ class SEVEN_TECH_Portfolio
             $pages,
             $posttypes,
             $taxonomies,
-            $templates,
-            $templates_custom
+            $templates
         );
         $this->pages = new Pages;
     }

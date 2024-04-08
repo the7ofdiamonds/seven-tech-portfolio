@@ -44,14 +44,16 @@ class Templates
         $custom_template = $this->pluginDir . "Pages/page-{$custom_page['name']}.php";
 
         if (file_exists($custom_template)) {
-            $filename = $custom_page['file_name'];
+            // $filename = $custom_page['file_name'];
 
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
+            // if (!empty($filename)) {
+            //     add_action('wp_head', function () use ($filename) {
+            //         $this->css->load_pages_css($filename);
+            //     });
+            //     add_action('wp_footer', function () use ($filename) {
+            //         $this->js->load_pages_react($filename);
+            //     });
+            // }
 
             return $custom_template;
         }
