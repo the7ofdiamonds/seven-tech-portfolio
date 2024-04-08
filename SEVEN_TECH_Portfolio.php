@@ -40,6 +40,7 @@ use SEVEN_TECH\Portfolio\Router\Router;
 use SEVEN_TECH\Portfolio\Shortcodes\Shortcodes;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 use SEVEN_TECH\Portfolio\Templates\Templates;
+use SEVEN_TECH\Portfolio\Templates\TemplatesCustom;
 
 class SEVEN_TECH_Portfolio
 {
@@ -66,38 +67,52 @@ class SEVEN_TECH_Portfolio
             (new API)->allow_cors_headers();
         });
 
+        $pages = new Pages;
+        $posttypes = new Post_Types;
+        $taxonomies = new Taxonomies;
         $css = new CSS;
         $js = new JS;
-        $this->pages = new Pages;
+        $templates = new Templates(
+            $css,
+            $js,
+        );
+        $templates_custom = new TemplatesCustom;
+        $router = new Router(
+            $pages,
+            $posttypes,
+            $taxonomies,
+            $templates,
+            $templates_custom
+        );
 
-        add_action('init', function () use ($css, $js) {
-            $posttypes = new Post_Types;
+        add_action('init', function () use ($posttypes, $taxonomies, $router) {
             $posttypes->custom_post_types();
-            $taxonomies = new Taxonomies;
             $taxonomies->custom_taxonomy();
-            $templates = new Templates(
-                $css,
-                $js,
-            );
-            $router = new Router(
-                $this->pages,
-                $posttypes,
-                $taxonomies,
-                $templates
-            );
             $router->load_page();
             $router->react_rewrite_rules();
             new Shortcodes;
         });
 
-        // add_action('customize_register', [(new Customizer), 'register_customizer_panel']);
+        $this->router = new Router(
+            $pages,
+            $posttypes,
+            $taxonomies,
+            $templates,
+            $templates_custom
+        );
+        $this->pages = new Pages;
     }
 
     function activate()
     {
         (new Database)->createTables();
-        $this->pages->add_pages();
         (new Roles)->add_roles();
+        $this->pages->add_pages();
+        $this->router->react_rewrite_rules();
+    }
+
+    function deactivate()
+    {
         flush_rewrite_rules();
     }
 
@@ -112,4 +127,4 @@ class SEVEN_TECH_Portfolio
 
 $seven_tech_portfolio = new SEVEN_TECH_Portfolio();
 register_activation_hook(__FILE__, array($seven_tech_portfolio, 'activate'));
-// register_deactivation_hook( __FILE__, array( $seven_tech_portfolio, 'deactivate' ) );
+register_deactivation_hook(__FILE__, array($seven_tech_portfolio, 'deactivate'));
