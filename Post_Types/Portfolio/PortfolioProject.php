@@ -38,12 +38,12 @@ class PortfolioProject
                 throw new Exception('Project data is needed to save to the database.', 400);
             }
 
-            $project_title = $project['project_title'];
-            $project_id = $project['project_id'];
-
-            if (empty($project_title)) {
+            if (!isset($project['project_title']) || empty($project_title)) {
                 throw new Exception('Project title is required.', 400);
             }
+
+            $project_title = $project['project_title'];
+            $project_id = $project['project_id'];
 
             if (empty($project_id)) {
                 throw new Exception('Project id is required.', 400);
@@ -219,7 +219,15 @@ class PortfolioProject
     function getPortfolioProject($post_id)
     {
         try {
+            if ($post_id) {
+                throw new Exception('Post ID is required to get a project.', 400);
+            }
+
             $project = $this->project_database->getProject($post_id);
+
+            if (empty($project)) {
+                return '';
+            }
 
             $solution_gallery = $this->media->urls("portfolio/{$post_id}/solution-gallery");
             $design_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery");
@@ -283,62 +291,19 @@ class PortfolioProject
     function updatePortfolioProject($project)
     {
         try {
-            $project_title = $project['project_title'];
-
-            if (empty($project_title)) {
-                throw new Exception('Project title is required.', 400);
-            }
-
-            $project_id = $project['project_id'];
-
-            if (empty($project_id)) {
-                throw new Exception('Project id is required.', 400);
-            }
-
             if (!is_array($project)) {
                 throw new Exception('Project data is needed to save to the database.', 400);
             }
 
-            $page = get_page_by_title($project_title, OBJECT, 'portfolio');
-
-            if (empty($page)) {
-                throw new Exception("Project {$project_title} not found.", 404);
-            } else {
-                $project_slug = $page->post_name;
+            if (!isset($project['project_title']) || empty($project['project_title'])) {
+                throw new Exception('Project title is required.', 400);
             }
 
-            $project_data = [
-                'project_id' => $project_id,
-                'project_title' => $project_title,
-                'project_slug' => $project_slug,
-                'client_id' => $project['client_id'],
-                'deadline' => $project['deadline'],
-                'deadline_date' => $project['deadline_date'],
-                'where_business' => $project['where_business'],
-                'website' => $project['website'],
-                'website_url' => $project['website_url'],
-                'hosting' => $project['hosting'],
-                'satisfied' => $project['satisfied'],
-                'signage' => $project['signage'],
-                'signage_url' => $project['signage_url'],
-                'social' => $project['social'],
-                'social_facebook' => $project['social_facebook'],
-                'social_x' => $project['social_x'],
-                'social_linkedin' => $project['social_linkedin'],
-                'social_instagram' => $project['social_instagram'],
-                'logo' => $project['logo'],
-                'logo_url' => $project['logo_url'],
-                'colors' => $project['colors'],
-                'colors_primary' => $project['colors_primary'],
-                'colors_secondary' => $project['colors_secondary'],
-                'colors_tertiary' => $project['colors_tertiary'],
-                'summary' => $project['summary'],
-                'summary_url' => $project['summary_url'],
-                'plan' => $project['plan'],
-                'plan_url' => $project['plan_url'],
-            ];
+            if (!isset($project['project_id']) || empty($project['project_id'])) {
+                throw new Exception('Project id is required.', 400);
+            }
 
-            $updatedProject = $this->project_database->updateProject($project_id, $project_data);
+            $updatedProject = $this->project_database->updateProject($project['project_id'], $project);
 
             return $updatedProject;
         } catch (Exception $e) {

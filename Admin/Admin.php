@@ -2,7 +2,7 @@
 
 namespace SEVEN_TECH\Portfolio\Admin;
 
-use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Portfolio;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PostTypePortfolio;
 
 class Admin
 {
@@ -10,7 +10,7 @@ class Admin
     {
         add_action('admin_menu', [$this, 'register_custom_menu_page']);
 
-        new Portfolio;
+        new PostTypePortfolio;
     }
 
     public function register_custom_menu_page()

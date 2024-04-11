@@ -1,8 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 
 const initialState = {
-  loading: false,
+  projectLoading: false,
   projectError: '',
+  projectErrorMessage: '',
+  projectStatusCode: '',
   id: '',
   title: '',
   client_id: '',
@@ -50,16 +52,12 @@ export const getProject = createAsyncThunk('portfolioProject/getProject', async 
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -77,16 +75,12 @@ export const getProjectByClientID = createAsyncThunk('portfolioProject/getProjec
       })
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+    
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -95,102 +89,65 @@ export const portfolioProjectSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(getProject.pending, (state) => {
-        state.loading = true
-        state.projectError = null
-      })
-      .addCase(getProject.fulfilled, (state, action) => {
-        state.loading = false
-        state.projectError = ''
-        state.id = action.payload.id;
-        state.title = action.payload.title;
-        state.post_id = action.payload.post_id;
-        state.client_id = action.payload.client_id;
-        state.post_status = action.payload.post_status;
-        state.post_author = action.payload.post_author;
-        state.post_date = action.payload.post_date;
-        state.post_content = action.payload.post_date;
-        state.project_types = action.payload.project_types;
-        state.project_status = action.payload.project_status;
-        state.solution_gallery = action.payload.solution_gallery;
-        state.project_versions = action.payload.project_versions_list;
-        state.project_urls = action.payload.project_urls_list;
-        state.project_details = action.payload.project_details_list;
-        state.the_solution = action.payload.the_solution;
-        state.social_networks = action.payload.social_networks;
-        state.app_stores = action.payload.app_stores;
-        state.design = action.payload.design;
-        state.design_gallery = action.payload.design_gallery;
-        state.design_check_list = action.payload.design_check_list;
-        state.colors = action.payload.colors_list;
-        state.logos_gallery = action.payload.logos_gallery;
-        state.icons_gallery = action.payload.icons_gallery;
-        state.animations_gallery = action.payload.animations_gallery;
-        state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
-        state.development = action.payload.development;
-        state.development_gallery = action.payload.development_gallery;
-        state.development_check_list = action.payload.development_check_list;
-        state.git_repo = action.payload.git_repo;
-        state.delivery = action.payload.delivery;
-        state.delivery_gallery = action.payload.delivery_gallery;
-        state.delivery_check_list = action.payload.delivery_check_list;
-        state.onboarding = action.payload.onboarding;
-        state.the_problem = action.payload.the_problem;
-        state.project_team = action.payload.project_team_list;
-        state.project_tags = action.payload.project_tags;
-      })
-      .addCase(getProject.rejected, (state, action) => {
-        state.loading = false
-        state.projectError = action.error.message
-      })
-      .addCase(getProjectByClientID.pending, (state) => {
-        state.loading = true
-        state.projectError = null
-      })
-      .addCase(getProjectByClientID.fulfilled, (state, action) => {
-        state.loading = false
-        state.projectError = ''
-        state.id = action.payload.id;
-        state.title = action.payload.title;
-        state.post_id = action.payload.post_id;
-        state.client_id = action.payload.client_id;
-        state.post_status = action.payload.post_status;
-        state.post_author = action.payload.post_author;
-        state.post_date = action.payload.post_date;
-        state.post_content = action.payload.post_date;
-        state.project_types = action.payload.project_types;
-        state.project_status = action.payload.project_status;
-        state.solution_gallery = action.payload.solution_gallery;
-        state.project_versions = action.payload.project_versions;
-        state.project_urls = action.payload.project_urls;
-        state.project_details = action.payload.project_details;
-        state.the_solution = action.payload.the_solution;
-        state.social_networks = action.payload.social_networks;
-        state.app_stores = action.payload.app_stores;
-        state.design = action.payload.design;
-        state.design_gallery = action.payload.design_gallery;
-        state.design_check_list = action.payload.design_check_list;
-        state.colors = action.payload.colors;
-        state.logos_gallery = action.payload.logos_gallery;
-        state.icons_gallery = action.payload.icons_gallery;
-        state.animations_gallery = action.payload.animations_gallery;
-        state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
-        state.development = action.payload.development;
-        state.development_gallery = action.payload.development_gallery;
-        state.development_check_list = action.payload.development_check_list;
-        state.git_repo = action.payload.git_repo;
-        state.delivery = action.payload.delivery;
-        state.delivery_gallery = action.payload.delivery_gallery;
-        state.delivery_check_list = action.payload.delivery_check_list;
-        state.onboarding = action.payload.onboarding;
-        state.the_problem = action.payload.the_problem;
-        state.project_team = action.payload.project_team_list;
-        state.project_tags = action.payload.project_tags;
-      })
-      .addCase(getProjectByClientID.rejected, (state, action) => {
-        state.loading = false
-        state.projectError = action.error.message
-      })
+      .addMatcher(isAnyOf(
+        getProject.fulfilled,
+        getProjectByClientID.fulfilled), (state, action) => {
+          state.projectLoading = false
+          state.projectErrorMessage = action.payload.errorMessage;
+          state.projectStatusCode = action.payload.statusCode;
+          state.id = action.payload.id;
+          state.title = action.payload.title;
+          state.post_id = action.payload.post_id;
+          state.client_id = action.payload.client_id;
+          state.post_status = action.payload.post_status;
+          state.post_author = action.payload.post_author;
+          state.post_date = action.payload.post_date;
+          state.post_content = action.payload.post_date;
+          state.project_types = action.payload.project_types;
+          state.project_status = action.payload.project_status;
+          state.solution_gallery = action.payload.solution_gallery;
+          state.project_versions = action.payload.project_versions_list;
+          state.project_urls = action.payload.project_urls_list;
+          state.project_details = action.payload.project_details_list;
+          state.the_solution = action.payload.the_solution;
+          state.social_networks = action.payload.social_networks;
+          state.app_stores = action.payload.app_stores;
+          state.design = action.payload.design;
+          state.design_gallery = action.payload.design_gallery;
+          state.design_check_list = action.payload.design_check_list;
+          state.colors = action.payload.colors_list;
+          state.logos_gallery = action.payload.logos_gallery;
+          state.icons_gallery = action.payload.icons_gallery;
+          state.animations_gallery = action.payload.animations_gallery;
+          state.uml_diagrams_gallery = action.payload.uml_diagrams_gallery;
+          state.development = action.payload.development;
+          state.development_gallery = action.payload.development_gallery;
+          state.development_check_list = action.payload.development_check_list;
+          state.git_repo = action.payload.git_repo;
+          state.delivery = action.payload.delivery;
+          state.delivery_gallery = action.payload.delivery_gallery;
+          state.delivery_check_list = action.payload.delivery_check_list;
+          state.onboarding = action.payload.onboarding;
+          state.the_problem = action.payload.the_problem;
+          state.project_team = action.payload.project_team_list;
+          state.project_tags = action.payload.project_tags;
+        })
+      .addMatcher(isAnyOf(
+        getProject.pending,
+        getProjectByClientID.pending), (state) => {
+          state.projectLoading = true;
+          state.projectError = '';
+          state.projectErrorMessage = '';
+          state.projectStatusCode = '';
+        })
+      .addMatcher(isAnyOf(
+        getProject.rejected,
+        getProjectByClientID.rejected), (state, action) => {
+          state.projectLoading = false;
+          state.projectError = action.error;
+          state.projectErrorMessage = action.error.message;
+          state.projectStatusCode = action.error.code;
+        })
   }
 })
 

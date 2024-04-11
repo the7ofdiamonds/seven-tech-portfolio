@@ -100,8 +100,8 @@ class DatabaseProject
                 )
             );
 
-            if (!is_object($project)) {
-                return ['message' => 'Project not found'];
+            if (empty($project) && !is_object($project)) {
+                return '';
             }
 
             $project_data = [
@@ -127,13 +127,7 @@ class DatabaseProject
 
             return $project_data;
         } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            $errorCode = $e->getCode();
-            $response = $errorMessage . ' ' . $errorCode;
-
-            error_log($response . ' at getProject');
-
-            return $response;
+            throw new Exception($e);
         }
     }
 
@@ -183,13 +177,7 @@ class DatabaseProject
 
             return $project_data;
         } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            $errorCode = $e->getCode();
-            $response = $errorMessage . ' ' . $errorCode;
-
-            error_log($response . ' at getProjectByClientID');
-
-            return $response;
+            throw new Exception($e);
         }
     }
 
@@ -206,17 +194,9 @@ class DatabaseProject
 
             $project_title = $project['project_title'];
 
-            $project = get_page_by_title($project_title, OBJECT, 'portfolio');
-
-            if (empty($project)) {
-                throw new Exception('Project could not be found.', 404);
-            } else {
-                $project_slug = $project->post_name;
-            }
-
             $data = array(
                 'project_title' => $project_title,
-                'project_slug' => $project_slug,
+                'project_slug' => $project['project_slug'],
                 'project_urls_list' => serialize($project['project_urls_list']),
                 'project_details_list' => serialize($project['project_details_list']),
                 'project_status' => $project['project_status'],
@@ -247,7 +227,7 @@ class DatabaseProject
             }
 
             return [
-                'project_slug' => $project_slug,
+                'project_slug' => $project['project_slug'],
                 'results' => $updated_rows,
                 'message' => 'Project updated successfully'
             ];

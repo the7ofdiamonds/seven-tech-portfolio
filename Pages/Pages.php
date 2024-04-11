@@ -17,14 +17,7 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages_list = [
-            [
-                'url' => 'founders/([a-zA-Z-]+)/resume',
-                'regex' => '#^/founders/([a-zA-Z-]+)/resume#',
-                'title' => '',
-                'name' => 'founder-resume'
-            ],
-        ];
+        $this->custom_pages_list = [];
 
         $this->protected_pages_list = [
             [

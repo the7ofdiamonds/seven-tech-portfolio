@@ -1,8 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 
 const initialState = {
-  loading: false,
-  error: '',
+  portfolioLoading: false,
+  portfolioError: '',
+  portfolioErrorMessage: '',
+  portfolioStatusCode: '',
   title: '',
   projects: '',
   project_types: '',
@@ -18,16 +20,12 @@ export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () 
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -40,16 +38,12 @@ export const getProjectsType = createAsyncThunk('portfolio/getProjectsType', asy
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+    
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -62,16 +56,12 @@ export const getProjectsTag = createAsyncThunk('portfolio/getProjectsTag', async
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -84,16 +74,12 @@ export const getPortfolioTypes = createAsyncThunk('portfolio/getPortfolioTypes',
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -106,16 +92,12 @@ export const getPortfolioTags = createAsyncThunk('portfolio/getPortfolioTags', a
       }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      const errorMessage = errorData.message;
-      throw new Error(errorMessage);
-    }
-
     const responseData = await response.json();
+
     return responseData;
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(error.message);
   }
 });
 
@@ -124,66 +106,63 @@ export const portfolioSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(getPortfolio.pending, (state) => {
-        state.loading = true
-        state.error = null
-      })
       .addCase(getPortfolio.fulfilled, (state, action) => {
-        state.loading = false
-        state.projects = action.payload;
-      })
-      .addCase(getPortfolio.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message
-      })
-      .addCase(getProjectsType.pending, (state) => {
-        state.loading = true
-        state.error = null
+        state.portfolioLoading = false;
+        state.portfolioError = '';
+        state.portfolioErrorMessage = action.payload.errorMessage;
+        state.portfolioStatusCode = action.payload.statusCode;
+        state.projects = action.payload.projects;
       })
       .addCase(getProjectsType.fulfilled, (state, action) => {
-        state.loading = false
+        state.portfolioLoading = false;
+        state.portfolioError = '';
+        state.portfolioErrorMessage = action.payload.errorMessage;
+        state.portfolioStatusCode = action.payload.statusCode;
         state.projects = action.payload;
-      })
-      .addCase(getProjectsType.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message
-      })
-      .addCase(getProjectsTag.pending, (state) => {
-        state.loading = true
-        state.error = null
       })
       .addCase(getProjectsTag.fulfilled, (state, action) => {
-        state.loading = false
+        state.portfolioLoading = false;
+        state.portfolioError = '';
+        state.portfolioErrorMessage = action.payload.errorMessage;
+        state.portfolioStatusCode = action.payload.statusCode;
         state.projects = action.payload;
       })
-      .addCase(getProjectsTag.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message
-      })
-      .addCase(getPortfolioTypes.pending, (state) => {
-        state.loading = true
-        state.error = null
-      })
       .addCase(getPortfolioTypes.fulfilled, (state, action) => {
-        state.loading = false
+        state.portfolioLoading = false;
+        state.portfolioError = '';
+        state.portfolioErrorMessage = action.payload.errorMessage;
+        state.portfolioStatusCode = action.payload.statusCode;
         state.project_types = action.payload;
       })
-      .addCase(getPortfolioTypes.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message
-      })
-      .addCase(getPortfolioTags.pending, (state) => {
-        state.loading = true
-        state.error = null
-      })
       .addCase(getPortfolioTags.fulfilled, (state, action) => {
-        state.loading = false
+        state.portfolioLoading = false;
+        state.portfolioError = '';
+        state.portfolioErrorMessage = action.payload.errorMessage;
+        state.portfolioStatusCode = action.payload.statusCode;
         state.project_tags = action.payload;
       })
-      .addCase(getPortfolioTags.rejected, (state, action) => {
-        state.loading = false
-        state.error = action.error.message
-      })
+      .addMatcher(isAnyOf(
+        getPortfolio.pending,
+        getProjectsType.pending,
+        getProjectsTag.pending,
+        getPortfolioTypes.pending,
+        getPortfolioTags.pending), (state) => {
+          state.portfolioLoading = true;
+          state.portfolioError = '';
+          state.portfolioErrorMessage = '';
+          state.portfolioStatusCode = '';
+        })
+      .addMatcher(isAnyOf(
+        getPortfolio.rejected,
+        getProjectsType.rejected,
+        getProjectsTag.rejected,
+        getPortfolioTypes.rejected,
+        getPortfolioTags.rejected), (state, action) => {
+          state.portfolioLoading = false;
+          state.portfolioError = action.error;
+          state.portfolioErrorMessage = action.error.message;
+          state.portfolioStatusCode = action.error.code;
+        })
   }
 })
 
