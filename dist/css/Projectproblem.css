@@ -1,1 +1,1 @@
-.project-problem{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;width:100%;max-width:1000px}.project-problem p{width:100%}
+section{min-height:100vh}section main.project-problem{margin:5rem 0}.project-problem{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;width:100%;max-width:1000px}.project-problem p{width:100%}

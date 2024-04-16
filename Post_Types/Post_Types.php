@@ -16,10 +16,8 @@ class Post_Types
                 'title' => 'PORTFOLIO',
                 'singular' => 'Project',
                 'plural' => 'Portfolio',
-                'archive_page' => 'Portfolio',
-                'single_page' => 'Project',
                 'slug' => 'portfolio',
-                'file_name' => 'Portfolio'
+                'regex' => '#^/portfolio/([a-zA-Z0-9-_]+)+#',
             ],
         ];
     }

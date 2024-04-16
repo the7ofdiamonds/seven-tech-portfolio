@@ -1,3 +1,15 @@
+@use '_technologies.scss';
+@use '_project_status.scss';
+@use '_project_type.scss';
+
+section {
+  min-height: 100vh;
+
+  main.portfolio {
+    margin: 5rem 0;
+  }
+}
+
 .project-card {
   .project-featured-image {
     a {

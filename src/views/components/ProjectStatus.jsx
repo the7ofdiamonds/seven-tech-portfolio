@@ -9,9 +9,9 @@ function ProjectStatus(props) {
         project_status === '0' ||
         project_status === undefined ||
         project_status === null ? (
-          <h5>NOT STARTED</h5>
+          <h4>NOT STARTED</h4>
         ) : project_status === 'ongoing' ? (
-          <h5>ONGOING</h5>
+          <h4>ONGOING</h4>
         ) : (
           <>
             <progress min="0" value={project_status} max="100"></progress>

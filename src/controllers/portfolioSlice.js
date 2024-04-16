@@ -111,7 +111,7 @@ export const portfolioSlice = createSlice({
         state.portfolioError = '';
         state.portfolioErrorMessage = action.payload.errorMessage;
         state.portfolioStatusCode = action.payload.statusCode;
-        state.projects = action.payload.projects;
+        state.projects = action.payload;
       })
       .addCase(getProjectsType.fulfilled, (state, action) => {
         state.portfolioLoading = false;

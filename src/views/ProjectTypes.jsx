@@ -46,13 +46,15 @@ function ProjectTypesPage() {
 
   return (
     <>
-      <h2 className="title">{type} projects</h2>
+      <main className="project-tags">
+        <h2 className="title">{type} projects</h2>
 
-      <Projects projects={projects} />
+        <Projects projects={projects} />
 
-      <ProjectTypes project_types={project_types} />
+        <ProjectTypes project_types={project_types} />
 
-      <ProjectTags project_tags={project_tags} />
+        <ProjectTags project_tags={project_tags} />
+      </main>
     </>
   );
 }

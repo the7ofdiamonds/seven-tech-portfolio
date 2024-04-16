@@ -37,7 +37,7 @@ class Portfolio
             );
             $query = new WP_Query($args);
 
-            if ($query->have_posts()) {
+            if (!$query->have_posts()) {
                 return '';
             }
 
@@ -47,18 +47,16 @@ class Portfolio
 
             foreach ($post_data as $project) {
                 $id = $project->ID;
-                $post_name = $project->post_name;
-                $project = $this->project_database->getProject($id);
+                $project_database = $this->project_database->getProject($id);
                 $solution_gallery = $this->media->urls("portfolio/{$id}/solution-gallery", 'image/');
 
                 $portfolio[] = array(
                     'id' => $id,
-                    'post_status' => get_post_field('post_status', $id),
-                    'post_date' => get_post_field('post_date', $id),
-                    'title' => get_the_title($id),
-                    'post_name' => $post_name,
+                    'title' => $project->post_title,
                     'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
-                    'project_status' => $project === 'Status not available' ? '0' : (isset($project['project_status']) ? $project['project_status'] : '0'),
+                    'project_status' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
+                    'technologies' => [['name' => 'java', 'icon' => 'java'], ['name' => 'javascript', 'icon' => 'js']],
+                    'url' => "/{$project->post_type}/{$project->post_name}",
                 );
             }
 

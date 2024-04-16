@@ -47,7 +47,6 @@ class Router
 
                 if (!empty($this->front_page_react)) {
                     $sections = $this->front_page_react;
-                    
                     add_filter('frontpage_template', function ($frontpage_template) use ($sections) {
                         return $this->templates->get_front_page_template($frontpage_template, $sections);
                     });
@@ -57,7 +56,6 @@ class Router
             if (!empty($this->custom_pages_list)) {
                 foreach ($this->custom_pages_list as $custom_page) {
                     if (preg_match($custom_page['regex'], $path)) {
-
                         add_filter('template_include', function ($template_include) use ($custom_page) {
                             return $this->templates->get_custom_page_template($template_include, $custom_page);
                         });
@@ -68,7 +66,6 @@ class Router
             if (!empty($this->protected_pages_list)) {
                 foreach ($this->protected_pages_list as $protected_page) {
                     if (preg_match($protected_page['regex'], $path)) {
-
                         add_filter('template_include',  function ($template_include) use ($protected_page) {
                             return $this->templates->get_protected_page_template($template_include, $protected_page);
                         });
@@ -79,7 +76,6 @@ class Router
             if (!empty($this->pages)) {
                 foreach ($this->pages as $page) {
                     if (preg_match($page['regex'], $path)) {
-
                         add_filter('template_include', function ($template_include) use ($page) {
                             return $this->templates->get_page_template($template_include, $page);
                         });
@@ -90,7 +86,6 @@ class Router
             if (!empty($this->pages_list)) {
                 foreach ($this->pages_list as $page) {
                     if (preg_match($page['regex'], $path)) {
-
                         add_filter('template_include', function ($template_include) use ($page) {
                             return $this->templates->get_page_list_template($template_include, $page);
                         });
@@ -100,10 +95,9 @@ class Router
 
             if (!empty($this->taxonomies_list)) {
                 foreach ($this->taxonomies_list as $taxonomy) {
-                    if (is_tax($taxonomy['name'])) {
-
-                        add_filter('taxonomy_template', function ($taxonomy_template) use ($taxonomy) {
-                            return $this->templates->get_archive_page_template($taxonomy_template, $taxonomy);
+                    if (preg_match($taxonomy['regex'], $path)) {
+                        add_filter('template_include', function ($template_include) use ($taxonomy) {
+                            return $this->templates->get_taxonomy_page_template($template_include, $taxonomy);
                         });
                     }
                 }
@@ -111,21 +105,17 @@ class Router
 
             if (!empty($this->post_types_list)) {
                 foreach ($this->post_types_list as $post_type) {
-                    if (is_archive($post_type['name'])) {
-
-                        add_filter('archive_template', function ($archive_template) use ($post_type) {
-                            return $this->templates->get_archive_page_template($archive_template, $post_type);
-                        });
-                    }
+                    add_filter('archive_template', function ($archive_template) use ($post_type) {
+                        return $this->templates->get_archive_page_template($archive_template, $post_type);
+                    });
                 }
             }
 
             if (!empty($this->post_types_list)) {
                 foreach ($this->post_types_list as $post_type) {
-                    if (is_singular($post_type['name'])) {
-
-                        add_filter('single_template', function ($single_template) use ($post_type) {
-                            return $this->templates->get_single_page_template($single_template, $post_type);
+                    if (preg_match($post_type['regex'], $path)) {
+                        add_filter('template_include', function ($template_include) use ($post_type) {
+                            return $this->templates->get_single_page_template($template_include, $post_type);
                         });
                     }
                 }

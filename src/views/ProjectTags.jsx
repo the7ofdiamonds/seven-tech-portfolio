@@ -13,7 +13,6 @@ import ProjectTypes from './components/ProjectTypes';
 import ProjectTags from './components/ProjectTags';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
-import ErrorComponent from '../views/components/global/ErrorComponent';
 
 function ProjectTagsPage() {
   const { tag } = useParams();
@@ -46,12 +45,14 @@ function ProjectTagsPage() {
 
   return (
     <>
-      <h2 className="title">{tag} projects</h2>
-      <Projects projects={projects} />
+      <main className="project-tags">
+        <h2 className="title">{tag} projects</h2>
+        <Projects projects={projects} />
 
-      <ProjectTypes project_types={project_types} />
+        <ProjectTypes project_types={project_types} />
 
-      <ProjectTags project_tags={project_tags} />
+        <ProjectTags project_tags={project_tags} />
+      </main>
     </>
   );
 }

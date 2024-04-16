@@ -37,13 +37,7 @@ class Pages
             ],
         ];
 
-        $this->pages = [
-            [
-                'url' => '^portfolio/?',
-                'regex' => '#^/portfolio+#',
-                'file_name' => 'Portfolio'
-            ]
-        ];
+        $this->pages = [];
 
         $this->pages_list = [];
     }

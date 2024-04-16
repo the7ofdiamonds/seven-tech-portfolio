@@ -1,3 +1,11 @@
+section {
+  min-height: 100vh;
+
+  main.project-problem {
+    margin: 5rem 0;
+  }
+}
+
 .project-problem {
   display: flex;
   flex-direction: column;
@@ -7,7 +15,7 @@
   width: 100%;
   max-width: 1000px;
 
-  p{
+  p {
     width: 100%;
   }
 }

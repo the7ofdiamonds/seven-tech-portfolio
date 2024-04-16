@@ -145,16 +145,16 @@ class PostTypePortfolio
         ];
         $this->post_type = 'portfolio';
 
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
-        add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
+        // add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
+        // add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
-        // add_action('save_post', [$this, 'save_post_solution_gallery']);
+        add_action('save_post', [$this, 'save_post_solution_gallery']);
         // add_action('save_post', [$this, 'save_post_design_gallery']);
         // add_action('save_post', [$this, 'save_post_logos_gallery']);
         // add_action('save_post', [$this, 'save_post_icons_gallery']);
         // add_action('save_post', [$this, 'save_post_animations_gallery']);
         // add_action('save_post', [$this, 'save_post_uml_diagrams_gallery']);
-        add_action('save_post', [$this, 'save_project']);
+        // add_action('save_post', [$this, 'save_project']);
     }
 
     function get_project()

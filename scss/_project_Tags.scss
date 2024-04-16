@@ -1,3 +1,11 @@
+section {
+  min-height: 100vh;
+
+  main.project-tags {
+    margin: 5rem 0;
+  }
+}
+
 .project-tags {
   display: flex;
   flex-direction: column;

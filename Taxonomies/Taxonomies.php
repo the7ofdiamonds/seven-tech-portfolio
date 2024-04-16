@@ -19,7 +19,8 @@ class Taxonomies
                 'slug' => 'projects/type',
                 'menu_position' => 3,
                 'taxonomy' => 'project_types',
-                'post_type' => 'portfolio'
+                'post_type' => 'portfolio',
+                'regex' => '#^/projects/type/([a-zA-Z0-9-_]+)+#'
             ], [
                 'name' => 'Project Tags',
                 'singular' => 'Project Tags',
@@ -28,7 +29,8 @@ class Taxonomies
                 'slug' => 'projects/tag',
                 'menu_position' => 3,
                 'taxonomy' => 'project_tags',
-                'post_type' => 'portfolio'
+                'post_type' => 'portfolio',
+                'regex' => '#^/projects/tag/([a-zA-Z0-9-_]+)+#',
             ]
         ];
     }
