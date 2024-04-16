@@ -45,7 +45,7 @@ const initialState = {
 
 export const getProject = createAsyncThunk('portfolioProject/getProject', async (projectSlug) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/${projectSlug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -61,18 +61,14 @@ export const getProject = createAsyncThunk('portfolioProject/getProject', async 
   }
 });
 
-export const getProjectByClientID = createAsyncThunk('portfolioProject/getProjectByClientID', async (projectSlug, { getState }) => {
+export const getProjectByClientID = createAsyncThunk('portfolioProject/getProjectByClientID', async (client_id) => {
   try {
-    const { client_id } = getState().client;
 
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/${projectSlug}/id`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/client/${client_id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        client_id: client_id,
-      })
+      }
     });
 
     const responseData = await response.json();

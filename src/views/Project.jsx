@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getClient } from '../controllers/clientSlice';
 import { getProject } from '../controllers/projectSlice';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
-import ErrorComponent from '../views/components/global/ErrorComponent';
 import Card from '../views/components/global/Card';
 
 import ProjectTypes from './components/ProjectTypes';
@@ -68,8 +66,6 @@ function Project() {
   if (onboardingLoading) {
     return <LoadingComponent />;
   }
-
-  const handleClick = () => {};
 
   return (
     <>

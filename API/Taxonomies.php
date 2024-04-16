@@ -5,132 +5,125 @@ namespace SEVEN_TECH\Portfolio\API;
 use Exception;
 
 use WP_REST_Request;
-use WP_Query;
 
-use SEVEN_TECH\Portfolio\Media\Media;
-use SEVEN_TECH\Portfolio\Database\Database;
-use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTags;
+use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTypes;
 
 class Taxonomies
 {
     private $post_type;
-    private $media;
-    private $project_database;
+    private $projectTags;
+    private $projectTypes;
 
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        $this->media = new Media;
-        $database = new Database;
-
-        $this->project_database = new DatabaseProject($database->project_table);
+        
+        $this->projectTags = new TaxonomiesProjectTags;
+        $this->projectTypes = new TaxonomiesProjectTypes;
     }
 
-    public function get_projects_type(WP_REST_Request $request)
+    public function get_project_types()
     {
-        $slug = $request->get_param('slug');
+        try {
+            $project_types = $this->projectTypes->getProjectTypes($this->post_type);
 
-        $args = array(
-            'post_type' => array('post', $this->post_type),
-            'posts_per_page' => 10,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'project_types',
-                    'field' => 'slug',
-                    'terms' => $slug,
-                )
-            )
-        );
-
-        $query = new WP_Query($args);
-        $projects = [];
-        $posts = $query->posts;
-
-        if (is_array($posts) && !empty($posts)) {
-            foreach ($posts as $post) {
-                $project_id = $post->ID;
-                $project = $this->project_database->getProject($project_id);
-                $solution_gallery = $this->media->urls("portfolio/{$project_id}/solution-gallery", 'image/');
-
-                $project_data = array(
-                    'id' => $project_id,
-                    'post_status' => get_post_field('post_status', $project_id),
-                    'post_date' => get_post_field('post_date', $project_id),
-                    'title' => get_the_title($project_id),
-                    'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
-                    'project_status' => $project === 'Status not available' ? '0' : (isset($project['project_status']) ? $project['project_status'] : '0'),
-                );
-
-                $projects[] = $project_data;
+            if (empty($project_types)) {
+                throw new Exception('No portfolio types found', 404);
             }
 
-            return rest_ensure_response($projects);
-        } else {
-            $status_code = 404;
+            return rest_ensure_response($project_types);
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
             $response_data = [
-                'message' => 'No portfolio items found',
-                'status' => $status_code
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
+            $response->set_status($statusCode);
 
             return $response;
         }
-        return $projects;
     }
 
-    public function get_projects_tag(WP_REST_Request $request)
+    public function get_project_tags()
     {
-        $slug = $request->get_param('slug');
+        try {
+            $project_tags = $this->projectTags->getProjectTags($this->post_type);
 
-        $args = array(
-            'post_type' => array('post', $this->post_type),
-            'posts_per_page' => 10,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'project_tags',
-                    'field' => 'slug',
-                    'terms' => $slug,
-                )
-            )
-        );
-
-        $query = new WP_Query($args);
-        $projects = [];
-        $posts = $query->posts;
-
-        if (is_array($posts) && !empty($posts)) {
-            foreach ($posts as $post) {
-                $project_id = $post->ID;
-                $project = $this->project_database->getProject($project_id);
-                $solution_gallery = $this->media->urls("portfolio/{$project_id}/solution-gallery", 'image/');
-
-                $project_data = array(
-                    'id' => $project_id,
-                    'post_status' => get_post_field('post_status', $project_id),
-                    'post_date' => get_post_field('post_date', $project_id),
-                    'title' => get_the_title($project_id),
-                    'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
-                    'project_status' => $project === 'Status not available' ? '0' : (isset($project['project_status']) ? $project['project_status'] : '0'),
-                );
-
-                $projects[] = $project_data;
+            if (empty($project_tags)) {
+                throw new Exception('No Project Tags found', 404);
             }
 
-            return rest_ensure_response($projects);
-        } else {
-            $status_code = 404;
+            return rest_ensure_response($project_tags);
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
             $response_data = [
-                'message' => 'No portfolio items found',
-                'status' => $status_code
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
+            $response->set_status($statusCode);
 
             return $response;
         }
-        return $projects;
+    }
+
+    public function get_project_type(WP_REST_Request $request)
+    {
+        try {
+            $slug = $request->get_param('slug');
+
+            $project_type = $this->projectTypes->getProjectType($slug);
+
+            if (empty($project_type)) {
+                throw new Exception('No portfolio types found', 404);
+            }
+
+            return rest_ensure_response($project_type);
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
+            $response_data = [
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
+            ];
+
+            $response = rest_ensure_response($response_data);
+            $response->set_status($statusCode);
+
+            return $response;
+        }
+    }
+
+    public function get_project_tag(WP_REST_Request $request)
+    {
+        try {
+            $slug = $request->get_param('slug');
+
+            $project_tag = $this->projectTags->getProjectTag($slug);
+
+            if (empty($project_tag)) {
+                throw new Exception('No Project Tags found', 404);
+            }
+
+            return rest_ensure_response($project_tag);
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
+            $response_data = [
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
+            ];
+
+            $response = rest_ensure_response($response_data);
+            $response->set_status($statusCode);
+
+            return $response;
+        }
     }
 }

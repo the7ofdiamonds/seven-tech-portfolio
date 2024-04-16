@@ -14,7 +14,7 @@ function ProjectTags(props) {
             <button
               key={index}
               className="tag"
-              onClick={() => handleClick(project_tag.slug)}>
+              onClick={() => handleClick(project_tag.url)}>
               <h3>#{project_tag.name}</h3>
             </button>
           ))}

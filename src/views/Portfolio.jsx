@@ -1,27 +1,20 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {
-  getPortfolio,
-  getPortfolioTypes,
-  getPortfolioTags,
-} from '../controllers/portfolioSlice';
+import { getPortfolio } from '../controllers/portfolioSlice';
+import { getProjectTypes, getProjectTags } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
 import ProjectTypes from './components/ProjectTypes';
 import ProjectTags from './components/ProjectTags';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
-import ErrorComponent from '../views/components/global/ErrorComponent';
 
 function Portfolio() {
-  const {
-    portfolioLoading,
-    portfolioError,
-    projects,
-    project_types,
-    project_tags,
-  } = useSelector((state) => state.portfolio);
+  const { portfolioLoading, portfolioError, projects } = useSelector(
+    (state) => state.portfolio
+  );
+  const { tags, types } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
 
@@ -30,11 +23,11 @@ function Portfolio() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPortfolioTypes());
+    dispatch(getProjectTypes());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPortfolioTags());
+    dispatch(getProjectTags());
   }, [dispatch]);
 
   if (portfolioLoading) {
@@ -44,13 +37,13 @@ function Portfolio() {
   return (
     <>
       <main className="portfolio">
-        <h2 class="title">portfolio</h2>
+        <h1 class="title">portfolio</h1>
 
         <Projects projects={projects} />
 
-        <ProjectTypes project_types={project_types} />
+        <ProjectTypes project_types={types} />
 
-        <ProjectTags project_tags={project_tags} />
+        <ProjectTags project_tags={tags} />
       </main>
     </>
   );

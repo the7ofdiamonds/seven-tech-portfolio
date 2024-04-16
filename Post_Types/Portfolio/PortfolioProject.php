@@ -219,15 +219,11 @@ class PortfolioProject
     function getPortfolioProject($post_id)
     {
         try {
-            if ($post_id) {
+            if (empty($post_id)) {
                 throw new Exception('Post ID is required to get a project.', 400);
             }
 
             $project = $this->project_database->getProject($post_id);
-
-            if (empty($project)) {
-                return '';
-            }
 
             $solution_gallery = $this->media->urls("portfolio/{$post_id}/solution-gallery");
             $design_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery");

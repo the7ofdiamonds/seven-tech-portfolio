@@ -126,7 +126,7 @@ class Templates
 
         if (file_exists($custom_taxonomy_template)) {
             $filename = $taxonomy['file_name'];
-
+            
             add_action('wp_head', function () use ($filename) {
                 $this->css->load_pages_css($filename);
             });

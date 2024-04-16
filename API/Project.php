@@ -55,16 +55,15 @@ class Project
                 return rest_ensure_response($project_id);
             }
         } catch (Exception $e) {
-            $error_message = $e->getMessage();
-            $status_code = $e->getCode();
+            $statusCode = $e->getCode();
 
             $response_data = [
-                'message' => $error_message,
-                'status' => $status_code
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
+            $response->set_status($statusCode);
 
             return $response;
         }
@@ -109,38 +108,27 @@ class Project
             );
 
             $query = new WP_Query($args);
+            $results = $query->posts;
 
-            if ($query->have_posts()) {
-                $query->the_post();
-
-                $project_id = get_the_ID();
-
-                $project = $this->portfolio_project->getPortfolioProject($project_id);
-
-                return rest_ensure_response($project);
-            } else {
-                $status_code = 404;
-                $response_data = [
-                    'message' => 'Project not found',
-                    'status' => $status_code
-                ];
-
-                $response = rest_ensure_response($response_data);
-                $response->set_status($status_code);
-
-                return $response;
+            if (empty($results[0])) {
+                throw new Exception('Project does not exists.');
             }
+
+            $id = $results[0]->ID;
+
+            $project = $this->portfolio_project->getPortfolioProject($id);
+
+            return rest_ensure_response($project);
         } catch (Exception $e) {
-            $error_message = $e->getMessage();
-            $status_code = $e->getCode();
+            $statusCode = $e->getCode();
 
             $response_data = [
-                'message' => $error_message,
-                'status' => $status_code
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
+            $response->set_status($statusCode);
 
             return $response;
         }
