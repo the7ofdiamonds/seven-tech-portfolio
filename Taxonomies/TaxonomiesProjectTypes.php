@@ -29,6 +29,7 @@ class TaxonomiesProjectTypes
             foreach ($project_types as $projectType) {
                 $projectTypes[] = [
                     'name' => $projectType->name,
+                    'icon' => $projectType->slug,
                     'url' => "/project/type/{$projectType->slug}"
                 ];
             }
@@ -41,40 +42,53 @@ class TaxonomiesProjectTypes
 
     public function getProjectType($type)
     {
-        $args = array(
-            'post_type' => array('post', 'portfolio'),
-            'posts_per_page' => 10,
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'project_types',
-                    'field' => 'slug',
-                    'terms' => $type,
+        try {
+            $taxonomy = 'project_types';
+            $args = array(
+                'post_type' => array('post', 'portfolio'),
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => $taxonomy,
+                        'field' => 'slug',
+                        'terms' => $type,
+                    )
                 )
-            )
-        );
+            );
 
-        $query = new WP_Query($args);
-        $projects = [];
-        $posts = $query->posts;
+            $query = new WP_Query($args);
 
-        if (is_array($posts) && !empty($posts)) {
-            foreach ($posts as $post) {
-                $projects[] = $this->portfolio->getPortfolioProject($post->ID, $post->post_title, "/{$post->post_type}/{$post->post_name}");
+            $posts = $query->posts;
+
+            $projects = [];
+
+            if (empty($posts)) {
+                throw new Exception('No portfolio items found', 400);
             }
 
-            return rest_ensure_response($projects);
-        } else {
-            $status_code = 404;
-            $response_data = [
-                'message' => 'No portfolio items found',
-                'status' => $status_code
+            foreach ($posts as $post) {
+                $projects[] = $this->portfolio->getPortfolioProject($post->ID, $post->post_title, $post->post_excerpt, "/{$post->post_type}/{$post->post_name}");
+            }
+
+            $term = get_term_by('slug', $type, $taxonomy);
+
+            $icon = '';
+            $title = '';
+
+            if (is_object($term)) {
+                $icon = $term->slug;
+                $title = $term->name;
+            }
+
+            $projectTypes = [
+                'icon' => $icon,
+                'title' => $title,
+                'projects' => $projects
             ];
 
-            $response = rest_ensure_response($response_data);
-            $response->set_status($status_code);
-
-            return $response;
+            return rest_ensure_response($projectTypes);
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
-        return $projects;
     }
 }

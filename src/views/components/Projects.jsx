@@ -3,6 +3,7 @@ import React from 'react';
 import Gallery from './Gallery';
 import ProjectStatus from './ProjectStatus';
 import Technologies from './Technologies';
+import ProjectDescription from './ProjectDescription';
 
 function Projects(props) {
   const { projects } = props;
@@ -17,7 +18,10 @@ function Projects(props) {
                 <Gallery gallery={project.solution_gallery} />
 
                 <ProjectStatus project_status={project.project_status} />
+
                 <Technologies technologies={project.technologies} />
+
+                <ProjectDescription description={project.description} />
               </div>
             </a>
           ))

@@ -106,6 +106,7 @@ class DatabaseProject
 
             $project_data = [
                 'id' => $project->id,
+                'description' => $project->post_excerpt,
                 'project_id' => $project->project_id,
                 'project_title' => $project->project_title,
                 'project_slug' => $project->project_slug,

@@ -17,9 +17,16 @@ import LoadingComponent from '../views/components/global/LoadingComponent';
 function ProjectTypesPage() {
   const { type } = useParams();
 
-  const { taxonomiesLoading, taxonomiesErrorMessage, projects, types, tags } =
-    useSelector((state) => state.taxonomies);
-
+  const {
+    taxonomiesLoading,
+    taxonomiesErrorMessage,
+    icon,
+    title,
+    projects,
+    types,
+    tags,
+  } = useSelector((state) => state.taxonomies);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,7 +48,9 @@ function ProjectTypesPage() {
   return (
     <>
       <main className="project-types">
-        <h2 className="title">{type} projects</h2>
+        <h1 className="title">
+          <i className={`fa-solid fa-${icon}`}></i> {title} projects
+        </h1>
 
         <Projects projects={projects} />
 

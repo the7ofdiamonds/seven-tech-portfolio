@@ -1,12 +1,14 @@
+import { useSelector } from 'react-redux';
+
 function TheProblem(props) {
   const { the_problem } = props;
 
   return (
     <>
-      <div className="project-problem" id="project_problem">
-        <h3>THE PROBLEM</h3>
+      {the_problem && the_problem.length > 0 ? (
+        <div className="project-problem" id="project_problem">
+          <h3>THE PROBLEM</h3>
 
-        {the_problem && the_problem.length > 0 ? (
           <div className="card">
             {the_problem.customers_impacted ? (
               <p>{the_problem.customers_impacted}</p>
@@ -72,10 +74,10 @@ function TheProblem(props) {
               ''
             )}
           </div>
-        ) : (
-          ''
-        )}
-      </div>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 
 function Gallery(props) {
+  const { title, gallery } = props;
+
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const galleryRowRef = useRef(null);
 
@@ -41,39 +43,43 @@ function Gallery(props) {
 
   return (
     <>
-      {props.gallery && props.gallery.length > 0 ? (
-        <div className="gallery">
-          {currentPhotoIndex !== 0 ? (
-            <button className="arrow-left" onClick={previousPhoto}>
-              <h2>V</h2>
-            </button>
-          ) : (
-            ''
-          )}
+      {gallery && gallery.length > 0 ? (
+        <>
+          <h5 className='title'>{title}</h5>
 
-          <div
-            className="gallery-row"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            ref={galleryRowRef}>
-            {Array.isArray(props.gallery) && (
-              <span className="gallery-photo">
-                <img
-                  className="photo"
-                  src={props.gallery[currentPhotoIndex]}
-                  alt=""
-                />
-              </span>
+          <div className="gallery">
+            {currentPhotoIndex !== 0 ? (
+              <button className="arrow-left" onClick={previousPhoto}>
+                <h2>V</h2>
+              </button>
+            ) : (
+              ''
+            )}
+
+            <div
+              className="gallery-row"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              ref={galleryRowRef}>
+              {Array.isArray(props.gallery) && (
+                <span className="gallery-photo">
+                  <img
+                    className="photo"
+                    src={props.gallery[currentPhotoIndex]}
+                    alt=""
+                  />
+                </span>
+              )}
+            </div>
+            {currentPhotoIndex !== props.gallery.length - 1 ? (
+              <button className="arrow-right" onClick={nextPhoto}>
+                <h2>V</h2>
+              </button>
+            ) : (
+              ''
             )}
           </div>
-          {currentPhotoIndex !== props.gallery.length - 1 ? (
-            <button className="arrow-right" onClick={nextPhoto}>
-              <h2>V</h2>
-            </button>
-          ) : (
-            ''
-          )}
-        </div>
+        </>
       ) : (
         ''
       )}

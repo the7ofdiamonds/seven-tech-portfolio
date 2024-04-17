@@ -3,11 +3,12 @@ function ProjectTeam(props) {
 
   return (
     <>
-      <div className="project-team">
-        <h4 className="title">Project Team</h4>
-        <div className="project-team-list">
-          {Array.isArray(project_team) && project_team.length > 0
-            ? project_team.map((team_member, index) => (
+      {Array.isArray(project_team) && project_team.length > 0
+        ? project_team.map((team_member, index) => (
+            <div className="project-team">
+              <h4 className="title">Project Team</h4>
+
+              <div className="project-team-list">
                 <div key={index} class="author-card card">
                   <div className="author-pic">
                     <a href={team_member.author_url}>
@@ -31,10 +32,10 @@ function ProjectTeam(props) {
                     </a>
                   </div>
                 </div>
-              ))
-            : 'No Team Members have been assigned to this project yet.'}
-        </div>
-      </div>
+              </div>
+            </div>
+          ))
+        : ''}
     </>
   );
 }

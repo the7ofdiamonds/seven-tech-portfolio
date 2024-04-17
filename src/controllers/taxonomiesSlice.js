@@ -106,14 +106,18 @@ export const taxonomiesSlice = createSlice({
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
         state.taxonomiesStatusCode = action.payload.statusCode;
-        state.projects = action.payload;
+        state.icon = action.payload.icon
+        state.title = action.payload.title;
+        state.projects = action.payload.projects;
       })
       .addCase(getProjectTag.fulfilled, (state, action) => {
         state.taxonomiesLoading = false;
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
         state.taxonomiesStatusCode = action.payload.statusCode;
-        state.projects = action.payload;
+        state.icon = action.payload.icon
+        state.title = action.payload.title;
+        state.projects = action.payload.projects;
       })
       .addMatcher(isAnyOf(
         getProjectTypes.pending,

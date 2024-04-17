@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 function TheSolution(props) {
   const { the_solution } = props;
   

@@ -17,8 +17,15 @@ import LoadingComponent from '../views/components/global/LoadingComponent';
 function ProjectTagsPage() {
   const { tag } = useParams();
 
-  const { taxonomiesLoading, taxonomiesErrorMessage, projects, types, tags } =
-    useSelector((state) => state.taxonomies);
+  const {
+    taxonomiesLoading,
+    taxonomiesErrorMessage,
+    icon,
+    title,
+    projects,
+    types,
+    tags,
+  } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
 
@@ -41,7 +48,10 @@ function ProjectTagsPage() {
   return (
     <>
       <main className="project-tags">
-        <h2 className="title">{tag} projects</h2>
+        <h1 className="title">
+          <i className={`fa-brands fa-${icon}`}></i> {title} projects
+        </h1>
+
         <Projects projects={projects} />
 
         <ProjectTypes project_types={types} />

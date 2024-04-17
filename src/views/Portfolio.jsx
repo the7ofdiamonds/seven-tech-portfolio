@@ -11,7 +11,7 @@ import ProjectTags from './components/ProjectTags';
 import LoadingComponent from '../views/components/global/LoadingComponent';
 
 function Portfolio() {
-  const { portfolioLoading, portfolioError, projects } = useSelector(
+  const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
     (state) => state.portfolio
   );
   const { tags, types } = useSelector((state) => state.taxonomies);

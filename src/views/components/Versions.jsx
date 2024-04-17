@@ -1,5 +1,9 @@
-function Versions(props) {
-  const { project_versions } = props;
+import { useSelector } from 'react-redux';
+
+function Versions() {
+  const { project_versions } = useSelector(
+    (state) => state.project
+  );
 
   return (
     <>
