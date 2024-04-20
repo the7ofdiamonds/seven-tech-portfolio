@@ -41,7 +41,7 @@ class Templates
 
     function get_custom_page_template($template_include, $custom_page)
     {
-        $custom_template = $this->pluginDir . "Pages/page-{$custom_page['name']}.php";
+        $custom_template = "{$this->pluginDir}Pages/page-{$custom_page['name']}.php";
 
         if (file_exists($custom_template)) {
 
@@ -64,7 +64,7 @@ class Templates
 
     function get_protected_page_template($template_include, $protected_page)
     {
-        $template = $this->pluginDir . 'Pages/page-protected.php';
+        $template = "{$this->pluginDir}Pages/page-protected.php";
 
         if (file_exists($template)) {
             $filename = $protected_page['file_name'];
@@ -86,7 +86,7 @@ class Templates
 
     function get_page_template($template_include, $page)
     {
-        $template = $this->pluginDir . 'Pages/page.php';;
+        $template = "{$this->pluginDir}Pages/page.php";
 
         if (file_exists($template)) {
             $filename = $page['file_name'];
@@ -122,7 +122,7 @@ class Templates
 
     function get_taxonomy_page_template($taxonomy_template, $taxonomy)
     {
-        $custom_taxonomy_template = $this->pluginDir . "Taxonomies/taxonomy-{$taxonomy['file_name']}.php";
+        $custom_taxonomy_template = "{$this->pluginDir}Taxonomies/taxonomy-{$taxonomy['file_name']}.php";
 
         if (file_exists($custom_taxonomy_template)) {
             $filename = $taxonomy['file_name'];
@@ -143,7 +143,7 @@ class Templates
     function get_archive_page_template($archive_template, $post_type)
     {
         if (is_post_type_archive($post_type['name'])) {
-            $custom_archive_template = $this->pluginDir . 'Post_Types/' . $post_type['plural'] . '/archive-' . $post_type['name'] . '.php';
+            $custom_archive_template = "{$this->pluginDir}Post_Types/{$post_type['name']}/archive-{$post_type['name']}.php";
 
             if (file_exists($custom_archive_template)) {
                 $filename = $post_type['plural'];
@@ -164,7 +164,7 @@ class Templates
 
     function get_single_page_template($singular_template, $post_type)
     {
-        $custom_single_template = $this->pluginDir . 'Post_Types/' . $post_type['plural'] . '/single-' . $post_type['name'] . '.php';
+        $custom_single_template = "{$this->pluginDir}Post_Types/{$post_type['name']}/single-{$post_type['name']}.php";
 
         if (file_exists($custom_single_template)) {
             $filename = $post_type['singular'];

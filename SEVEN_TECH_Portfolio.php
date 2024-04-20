@@ -20,7 +20,7 @@ Text Domain: seven-tech-portfolio
 Licensing Info Here
 */
 
-defined('ABSPATH') or die('Hey, what are you doing here? You silly human!');
+// defined('ABSPATH') or die('Hey, what are you doing here? You silly human!');
 define('SEVEN_TECH_PORTFOLIO', WP_PLUGIN_DIR . '/seven-tech-portfolio/');
 define('SEVEN_TECH_PORTFOLIO_URL', WP_PLUGIN_URL . '/seven-tech-portfolio/');
 
@@ -34,6 +34,7 @@ use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\JS\JS;
 use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Pages\Pages;
+use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Portfolio;
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH\Portfolio\Roles\Roles;
 use SEVEN_TECH\Portfolio\Router\Router;
@@ -98,6 +99,10 @@ class SEVEN_TECH_Portfolio
             $templates
         );
         $this->pages = new Pages;
+
+        add_action('getPortfolioProduct', function ($id) {
+            return (new Portfolio)->getPortfolioProject($id);
+        });
     }
 
     function activate()

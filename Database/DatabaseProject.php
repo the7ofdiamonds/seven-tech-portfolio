@@ -49,6 +49,7 @@ class DatabaseProject
                 [
                     'project_id' => $project_id,
                     'project_title' => $project_title,
+                    'price' => !empty($project['price']) ? serialize($project['price']) : '',
                     'project_slug' => $project_slug,
                     'client_id' => $client_id,
                     'project_urls_list' => !empty($project['project_urls_list']) ? serialize($project['project_urls_list']) : '',
@@ -100,33 +101,34 @@ class DatabaseProject
                 )
             );
 
-            if (empty($project) && !is_object($project)) {
-                return '';
-            }
+            // if (empty($project) && !is_object($project)) {
+            //     return '';
+            // }
 
-            $project_data = [
-                'id' => $project->id,
-                'description' => $project->post_excerpt,
-                'project_id' => $project->project_id,
-                'project_title' => $project->project_title,
-                'project_slug' => $project->project_slug,
-                'client_id' => $project->client_id,
-                'project_urls_list' => $project->project_urls_list,
-                'project_details_list' => $project->project_details_list,
-                'project_status' => $project->project_status,
-                'project_versions_list' => $project->project_versions_list,
-                'design' => $project->design,
-                'design_check_list' => $project->design_check_list,
-                'colors_list' => $project->colors_list,
-                'development' => $project->development,
-                'development_check_list' => $project->development_check_list,
-                'git_repo' => $project->git_repo,
-                'delivery' => $project->delivery,
-                'delivery_check_list' => $project->delivery_check_list,
-                'project_team_list' => $project->project_team_list,
-            ];
-
-            return $project_data;
+            // $project_data = [
+            //     'id' => $project->id,
+            //     'description' => $project->post_excerpt,
+            //     'price' => $project->price,
+            //     'project_id' => $project->project_id,
+            //     'project_title' => $project->project_title,
+            //     'project_slug' => $project->project_slug,
+            //     'client_id' => $project->client_id,
+            //     'project_urls_list' => $project->project_urls_list,
+            //     'project_details_list' => $project->project_details_list,
+            //     'project_status' => $project->project_status,
+            //     'project_versions_list' => $project->project_versions_list,
+            //     'design' => $project->design,
+            //     'design_check_list' => $project->design_check_list,
+            //     'colors_list' => $project->colors_list,
+            //     'development' => $project->development,
+            //     'development_check_list' => $project->development_check_list,
+            //     'git_repo' => $project->git_repo,
+            //     'delivery' => $project->delivery,
+            //     'delivery_check_list' => $project->delivery_check_list,
+            //     'project_team_list' => $project->project_team_list,
+            // ];
+error_log(print_r($project, true));
+            return $project;
         } catch (Exception $e) {
             throw new Exception($e);
         }
@@ -157,6 +159,7 @@ class DatabaseProject
 
             $project_data = [
                 'id' => $project->id,
+                'price' => $project->price,
                 'project_id' => $project->project_id,
                 'project_title' => $project->project_title,
                 'project_slug' => $project->project_slug,
@@ -196,6 +199,7 @@ class DatabaseProject
             $project_title = $project['project_title'];
 
             $data = array(
+                'price' => $project['price'],
                 'project_title' => $project_title,
                 'project_slug' => $project['project_slug'],
                 'project_urls_list' => serialize($project['project_urls_list']),

@@ -7,7 +7,6 @@ use Exception;
 use WP_Query;
 
 use SEVEN_TECH\Portfolio\Media\Media;
-use SEVEN_TECH\Portfolio\Database\Database;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
@@ -22,23 +21,44 @@ class Portfolio
     {
         $this->post_type = 'portfolio';
         $this->media = new Media;
-        $database = new Database;
 
-        $this->project_database = new DatabaseProject($database->project_table);
+        $this->project_database = new DatabaseProject();
         $this->taxonomies = new Taxonomies;
     }
 
-    public function getPortfolioProject($id, $title, $description, $url)
+    public function getPortfolioProject($id, $title ='', $description = '', $url = '')
     {
         try {
+            if (empty($id)) {
+                throw new Exception('Post ID is required at getProduct');
+            }
+
+            if (empty($postType) || empty($created) || empty($updated) || empty($title) || empty($content) || empty($description) || empty($url)) {
+                $post = get_post($id);
+
+                if (empty($post)) {
+                    return '';
+                }
+
+                $id = $post->ID;
+                $postType = $post->post_type;
+                $created = $post->post_date;
+                $updated = $post->post_modified;
+                $title = $post->post_title;
+                $description = $post->post_excerpt;
+                $url = "/{$postType}/{$post->post_name}";
+            }
+
             $project_database = $this->project_database->getProject($id);
             $technologies = $this->taxonomies->getTaxTermLinks($id, 'project_tags');
             $solution_gallery = $this->media->urls("portfolio/{$id}/solution-gallery", 'image/');
+            error_log(print_r($project_database, true));
 
             $portfolio = [
                 'id' => $id,
                 'title' => $title,
                 'description' => $description,
+                'price' => isset($project_database['price']) ? $project_database['price'] : '',
                 'project_status' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
                 'technologies' => $technologies,
                 'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',

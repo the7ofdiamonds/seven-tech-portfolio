@@ -144,7 +144,7 @@ class Taxonomies
                     $term_links[] = [
                         'name' => $term->name,
                         'icon' => $term->slug,
-                        'slug' => $term_link
+                        'url' => $term_link
                     ];
                 }
             }
