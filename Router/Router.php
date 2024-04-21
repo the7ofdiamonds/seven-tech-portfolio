@@ -43,12 +43,15 @@ class Router
         try {
             $path = $_SERVER['REQUEST_URI'];
 
-            if (!empty($this->front_page_react)) {
-                $sections = $this->front_page_react;
+            if (preg_match('#^/$|^/index\.php(?:\?|$)#', $path)) {
 
-                add_filter('frontpage_template', function ($frontpage_template) use ($sections) {
-                    return $this->templates->get_front_page_template($frontpage_template, $sections);
-                });
+                if (!empty($this->front_page_react)) {
+                    $sections = $this->front_page_react;
+
+                    add_filter('frontpage_template', function ($frontpage_template) use ($sections) {
+                        return $this->templates->get_front_page_template($frontpage_template, $sections);
+                    });
+                }
             }
 
             if (!empty($this->custom_pages_list)) {
@@ -112,8 +115,8 @@ class Router
             if (!empty($this->post_types_list)) {
                 foreach ($this->post_types_list as $post_type) {
                     if (preg_match($post_type['regex'], $path)) {
-                        add_filter('template_include', function ($template_include) use ($post_type) {
-                            return $this->templates->get_single_page_template($template_include, $post_type);
+                        add_filter('single_template', function ($single_template) use ($post_type) {
+                            return $this->templates->get_single_page_template($single_template, $post_type);
                         });
                     }
                 }
@@ -132,7 +135,6 @@ class Router
     function react_rewrite_rules()
     {
         add_rewrite_rule('^founders/([a-zA-Z\-]+)/resume/?$', 'index.php?founder_name=$matches[1]', 'top');
-        add_rewrite_rule('^portfolio/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');

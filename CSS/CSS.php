@@ -89,7 +89,7 @@ class CSS
             if (!empty($page)) {
                 // $this->load_customization_css();
                 $this->load_index_css();
-
+                
                 $filename = $page . '.css';
                 $cssFilePath = $this->cssFolderPath . $filename;
                 $cssFilePathURL = $this->cssFolderPathURL . $filename;

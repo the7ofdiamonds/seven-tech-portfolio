@@ -31,18 +31,14 @@ use SEVEN_TECH\Portfolio\API\API;
 use SEVEN_TECH\Portfolio\CSS\CSS;
 use SEVEN_TECH\Portfolio\CSS\Customizer;
 use SEVEN_TECH\Portfolio\Database\Database;
-use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\JS\JS;
-use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Pages\Pages;
-use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Portfolio;
 use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH\Portfolio\Roles\Roles;
 use SEVEN_TECH\Portfolio\Router\Router;
 use SEVEN_TECH\Portfolio\Shortcodes\Shortcodes;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 use SEVEN_TECH\Portfolio\Templates\Templates;
-use SEVEN_TECH\Portfolio\Templates\TemplatesCustom;
 
 class SEVEN_TECH_Portfolio
 {

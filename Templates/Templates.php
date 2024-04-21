@@ -162,7 +162,7 @@ class Templates
         return $archive_template;
     }
 
-    function get_single_page_template($singular_template, $post_type)
+    function get_single_page_template($single_template, $post_type)
     {
         $custom_single_template = "{$this->pluginDir}Post_Types/{$post_type['name']}/single-{$post_type['name']}.php";
 
@@ -179,6 +179,6 @@ class Templates
             return $custom_single_template;
         }
 
-        return $singular_template;
+        return $single_template;
     }
 }
