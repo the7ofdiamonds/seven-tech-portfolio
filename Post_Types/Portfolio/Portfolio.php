@@ -26,7 +26,7 @@ class Portfolio
         $this->taxonomies = new Taxonomies;
     }
 
-    public function getPortfolioProject($id, $title ='', $description = '', $url = '')
+    public function getPortfolioProject($id, $postType = '', $created = '', $updated = '', $title ='', $description = '', $url = '')
     {
         try {
             if (empty($id)) {
@@ -52,20 +52,25 @@ class Portfolio
             $project_database = $this->project_database->getProject($id);
             $technologies = $this->taxonomies->getTaxTermLinks($id, 'project_tags');
             $solution_gallery = $this->media->urls("portfolio/{$id}/solution-gallery", 'image/');
-            error_log(print_r($project_database, true));
 
-            $portfolio = [
+            $project = [
                 'id' => $id,
+                'created' => $created,
+                'updated' => $updated,
                 'title' => $title,
                 'description' => $description,
-                'price' => isset($project_database['price']) ? $project_database['price'] : '',
+                'price' => !empty($project_database['price']) ? $project_database['price'] : '',
+                'features' => !empty($database['features']) ? $database['features'] : '',
+                'icon' => '',
+                'button_icon' => 'fa-solid fa-cart-shopping',
+                'action_word' => !empty($database['action_word']) ? $database['action_word'] : '',
                 'project_status' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
                 'technologies' => $technologies,
-                'solution_gallery' => !empty($solution_gallery) ? $solution_gallery : '',
+                'gallery' => !empty($solution_gallery) ? $solution_gallery : '',
                 'url' => $url,
             ];
 
-            return $portfolio;
+            return $project;
         } catch (Exception $e) {
             throw new Exception($e);
         }
@@ -89,7 +94,15 @@ class Portfolio
             $portfolio = [];
 
             foreach ($post_data as $project) {
-                $portfolio[] = $this->getPortfolioProject($project->ID, $project->post_title, $project->post_excerpt, "/{$project->post_type}/{$project->post_name}");
+                $id = $project->ID;
+                $postType = $project->post_type;
+                $created = $project->post_date;
+                $updated = $project->post_modified;
+                $title = $project->post_title;
+                $description = $project->post_excerpt;
+                $url = "/{$project->post_type}/{$project->post_name}";
+
+                $portfolio[] = $this->getPortfolioProject($id, $postType, $created, $updated, $title, $description, $url);
             }
 
             return $portfolio;

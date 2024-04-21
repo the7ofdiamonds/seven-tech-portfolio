@@ -31,6 +31,7 @@ use SEVEN_TECH\Portfolio\API\API;
 use SEVEN_TECH\Portfolio\CSS\CSS;
 use SEVEN_TECH\Portfolio\CSS\Customizer;
 use SEVEN_TECH\Portfolio\Database\Database;
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\JS\JS;
 use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Pages\Pages;
@@ -83,13 +84,14 @@ class SEVEN_TECH_Portfolio
             $taxonomies,
             $templates
         );
+        $shortcodes = new Shortcodes;
 
-        add_action('init', function () use ($posttypes, $taxonomies, $router) {
+        add_action('init', function () use ($posttypes, $taxonomies, $router, $shortcodes) {
             $posttypes->custom_post_types();
             $taxonomies->custom_taxonomy();
             $router->load_page();
             $router->react_rewrite_rules();
-            new Shortcodes;
+            $shortcodes;
         });
 
         $this->router = new Router(
@@ -99,10 +101,6 @@ class SEVEN_TECH_Portfolio
             $templates
         );
         $this->pages = new Pages;
-
-        add_action('getPortfolioProduct', function ($id) {
-            return (new Portfolio)->getPortfolioProject($id);
-        });
     }
 
     function activate()

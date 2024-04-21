@@ -17,9 +17,9 @@ class PostTypePortfolio
 
     public function __construct()
     {
-        add_action('load-post.php', [$this, 'get_project']);
+        // add_action('load-post.php', [$this, 'get_project']);
 
-        add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
+        // add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
 
         $this->inputs = [
             [
@@ -148,7 +148,7 @@ class PostTypePortfolio
         // add_action('wp_enqueue_scripts', [$this, 'enqueue_jquery']);
         // add_action('admin_enqueue_scripts', [$this, 'add_custom_js']);
 
-        add_action('save_post', [$this, 'save_post_solution_gallery']);
+        // add_action('save_post', [$this, 'save_post_solution_gallery']);
         // add_action('save_post', [$this, 'save_post_design_gallery']);
         // add_action('save_post', [$this, 'save_post_logos_gallery']);
         // add_action('save_post', [$this, 'save_post_icons_gallery']);
