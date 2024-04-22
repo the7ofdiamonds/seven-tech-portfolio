@@ -86,21 +86,23 @@ class CSS
     function load_pages_css($page)
     {
         try {
-            if (!empty($page)) {
-                // $this->load_customization_css();
-                $this->load_index_css();
-                
-                $filename = $page . '.css';
-                $cssFilePath = $this->cssFolderPath . $filename;
-                $cssFilePathURL = $this->cssFolderPathURL . $filename;
-
-                if (file_exists($cssFilePath)) {
-                    wp_register_style($this->handle_prefix . 'css',  $cssFilePathURL, array(), false, 'all');
-                    wp_enqueue_style($this->handle_prefix . 'css');
-                } else {
-                    throw new Exception('CSS file ' . $filename . ' is missing at :' . $this->cssFolderPath, 404);
-                }
+            if (empty($page)) {
+                return;
             }
+
+            // $this->load_customization_css();
+            $this->load_index_css();
+
+            $filename = $page . '.css';
+            $cssFilePath = $this->cssFolderPath . $filename;
+            $cssFilePathURL = $this->cssFolderPathURL . $filename;
+
+            if (!file_exists($cssFilePath)) {
+                throw new Exception('CSS file ' . $filename . ' is missing at :' . $this->cssFolderPath, 404);
+            }
+
+            wp_register_style($this->handle_prefix . 'css',  $cssFilePathURL, array(), false, 'all');
+            wp_enqueue_style($this->handle_prefix . 'css');
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();

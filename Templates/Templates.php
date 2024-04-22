@@ -41,24 +41,26 @@ class Templates
 
     function get_custom_page_template($template_include, $custom_page)
     {
-        $custom_template = "{$this->pluginDir}Pages/page-{$custom_page['name']}.php";
+        if (isset($custom_page['file_name'])) {
+            $filename = $custom_page['file_name'];
 
-        if (file_exists($custom_template)) {
-
-            if (isset($custom_page['file_name'])) {
-                $filename = $custom_page['file_name'];
-
-                add_action('wp_head', function () use ($filename) {
-                    $this->css->load_pages_css($filename);
-                });
-                add_action('wp_footer', function () use ($filename) {
-                    $this->js->load_pages_react($filename);
-                });
-            }
-
-            return $custom_template;
+            add_action('wp_head', function () use ($filename) {
+                $this->css->load_pages_css($filename);
+            });
+            add_action('wp_footer', function () use ($filename) {
+                $this->js->load_pages_react($filename);
+            });
         }
 
+        if (isset($custom_page['name'])) {
+            $custom_template = "{$this->pluginDir}Pages/page-{$custom_page['name']}.php";
+
+            if (file_exists($custom_template)) {
+
+                return $custom_template;
+            }
+        }
+        
         return $template_include;
     }
 
@@ -126,7 +128,7 @@ class Templates
 
         if (file_exists($custom_taxonomy_template)) {
             $filename = $taxonomy['file_name'];
-            
+
             add_action('wp_head', function () use ($filename) {
                 $this->css->load_pages_css($filename);
             });

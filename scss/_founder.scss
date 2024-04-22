@@ -1,0 +1,11 @@
+@use '_project_card.scss';
+@use '_project_tag.scss';
+@use '_project_type.scss';
+
+section {
+    min-height: fit-content;
+
+    main.founder-projects {
+      margin: 0 0 5rem;
+    }
+  }

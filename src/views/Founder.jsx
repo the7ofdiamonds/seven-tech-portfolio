@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { getPortfolio } from '../controllers/portfolioSlice';
+import { getPortfolioProjectsByUser } from '../controllers/portfolioSlice';
 import { getProjectTypes, getProjectTags } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
@@ -12,6 +12,8 @@ import ProjectTags from './components/ProjectTags';
 import LoadingComponent from '../views/components/global/LoadingComponent';
 
 function Portfolio() {
+  const { founder } = useParams();
+
   const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
     (state) => state.portfolio
   );
@@ -20,7 +22,7 @@ function Portfolio() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPortfolio());
+    dispatch(getPortfolioProjectsByUser(founder));
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ function Portfolio() {
 
   return (
     <>
-      <main className="portfolio">
+      <main className="founder-projects">
         <h1 class="title">portfolio</h1>
 
         <Projects projects={projects} />

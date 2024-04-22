@@ -1,8 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-const LoadingComponent = lazy(() => import('./views/components/global/LoadingComponent.jsx'));
+const LoadingComponent = lazy(() =>
+  import('./views/components/global/LoadingComponent.jsx')
+);
 
+const Founder = lazy(() => import('./views/Founder.jsx'));
 const Portfolio = lazy(() => import('./views/Portfolio'));
 const ProjectTypes = lazy(() => import('./views/ProjectTypes'));
 const ProjectTags = lazy(() => import('./views/ProjectTags'));
@@ -16,22 +19,18 @@ function App() {
       <Router basename="/">
         <Suspense fallback={<LoadingComponent />}>
           <Routes>
-            
             <Route
               path="project/onboarding/:project/"
               element={<ProjectOnboarding />}
             />
-                        <Route
-              path="project/onboarding/"
-              element={<ProjectOnboarding />}
-            />
+            <Route path="project/onboarding/" element={<ProjectOnboarding />} />
             <Route
               path="project/problem/:project/"
               element={<ProjectProblem />}
             />
             <Route index path="/" element={<Portfolio />} />
             <Route path="portfolio" element={<Portfolio />} />
-            <Route path="founder" element={<Portfolio />} />
+            <Route path="founders/:founder/" element={<Founder />} />
             <Route path="project/type/:type" element={<ProjectTypes />} />
             <Route path="project/tag/:tag" element={<ProjectTags />} />
             <Route path="portfolio/:project" element={<Project />} />

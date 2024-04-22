@@ -17,9 +17,9 @@ class PostTypePortfolio
 
     public function __construct()
     {
-        // add_action('load-post.php', [$this, 'get_project']);
+        add_action('load-post.php', [$this, 'get_project']);
 
-        // add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
+        add_action('add_meta_boxes', [$this, 'add_custom_meta_boxes']);
 
         $this->inputs = [
             [

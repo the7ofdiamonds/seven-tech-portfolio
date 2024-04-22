@@ -3,9 +3,11 @@
 namespace SEVEN_TECH\Portfolio\API;
 
 use Exception;
-use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+
 use WP_REST_Request;
 use WP_Query;
+
+use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 
 use SEVEN_TECH\Portfolio\Post_Types\Portfolio\PortfolioProject;
 

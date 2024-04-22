@@ -17,7 +17,12 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages_list = [];
+        $this->custom_pages_list = [
+            [
+                'regex' => '#^/founders/([a-zA-Z-]+)#',
+                'file_name' => 'Founder',
+            ]
+        ];
 
         $this->protected_pages_list = [
             [

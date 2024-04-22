@@ -26,7 +26,7 @@ class Portfolio
         $this->taxonomies = new Taxonomies;
     }
 
-    public function getPortfolioProject($id, $postType = '', $created = '', $updated = '', $title ='', $description = '', $url = '')
+    public function getPortfolioProject($id, $postType = '', $created = '', $updated = '', $title = '', $description = '', $url = '')
     {
         try {
             if (empty($id)) {
@@ -94,6 +94,49 @@ class Portfolio
             $portfolio = [];
 
             foreach ($post_data as $project) {
+                $id = $project->ID;
+                $postType = $project->post_type;
+                $created = $project->post_date;
+                $updated = $project->post_modified;
+                $title = $project->post_title;
+                $description = $project->post_excerpt;
+                $url = "/{$project->post_type}/{$project->post_name}";
+
+                $portfolio[] = $this->getPortfolioProject($id, $postType, $created, $updated, $title, $description, $url);
+            }
+
+            return $portfolio;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
+    public function getPortfolioProjectsByUser($nicename)
+    {
+        try {
+            $user = get_user_by('slug', $nicename);
+
+            if (empty($user)) {
+                throw new Exception('User could not be found.', 404);
+            }
+
+            $args = array(
+                'post_type'      => $this->post_type,
+                'author'         => $user->ID,
+                'posts_per_page' => -1,
+            );
+
+            $query = new WP_Query($args);
+
+            $projects = $query->posts;
+
+            if (empty($projects)) {
+                return '';
+            }
+
+            $portfolio = [];
+
+            foreach ($projects as $project) {
                 $id = $project->ID;
                 $postType = $project->post_type;
                 $created = $project->post_date;
