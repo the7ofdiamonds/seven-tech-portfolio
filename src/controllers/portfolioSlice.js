@@ -54,14 +54,14 @@ export const portfolioSlice = createSlice({
         state.portfolioError = '';
         state.portfolioErrorMessage = action.payload.errorMessage;
         state.portfolioStatusCode = action.payload.statusCode;
-        state.projects = action.payload;
+        state.projects = action.payload.projects;
       })
       .addCase(getPortfolioProjectsByUser.fulfilled, (state, action) => {
         state.portfolioLoading = false;
         state.portfolioError = '';
         state.portfolioErrorMessage = action.payload.errorMessage;
         state.portfolioStatusCode = action.payload.statusCode;
-        state.projects = action.payload;
+        state.projects = action.payload.projects;
       })
       .addMatcher(isAnyOf(
         getPortfolio.pending), (state) => {

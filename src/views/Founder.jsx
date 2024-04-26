@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getPortfolioProjectsByUser } from '../controllers/portfolioSlice';
-import { getProjectTypes, getProjectTags } from '../controllers/taxonomiesSlice';
+import {
+  getProjectTypes,
+  getProjectTags,
+} from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
 import ProjectTypes from './components/ProjectTypes';
@@ -39,15 +42,17 @@ function Portfolio() {
 
   return (
     <>
-      <main className="founder-projects">
-        <h1 class="title">portfolio</h1>
+      {projects && (
+        <main className="founder-projects">
+          <h1 class="title">portfolio</h1>
 
-        <Projects projects={projects} />
+          <Projects projects={projects} />
 
-        <ProjectTypes project_types={types} />
+          <ProjectTypes project_types={types} />
 
-        <ProjectTags project_tags={tags} />
-      </main>
+          <ProjectTags project_tags={tags} />
+        </main>
+      )}
     </>
   );
 }
