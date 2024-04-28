@@ -13,6 +13,7 @@ import ProjectTypes from './components/ProjectTypes';
 import ProjectTags from './components/ProjectTags';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
+import IconComponent from '../views/components/IconComponent';
 
 function ProjectTypesPage() {
   const { type } = useParams();
@@ -26,7 +27,7 @@ function ProjectTypesPage() {
     types,
     tags,
   } = useSelector((state) => state.taxonomies);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ function ProjectTypesPage() {
     <>
       <main className="project-types">
         <h1 className="title">
-          <i className={`fa-solid fa-${icon}`}></i> {title} projects
+          <IconComponent icon={icon} /> {title} projects
         </h1>
 
         <Projects projects={projects} />

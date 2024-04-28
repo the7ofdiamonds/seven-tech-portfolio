@@ -61,8 +61,18 @@ class Portfolio
                 'description' => $description,
                 'price' => !empty($project_database['price']) ? $project_database['price'] : '',
                 'features' => !empty($database['features']) ? $database['features'] : '',
-                'icon' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
-                'button_icon' => isset($project_database['button_icon']) ? $project_database['button_icon'] : 'fa-solid fa-cart-shopping',
+                'icon' => [
+                    'name' => 'icon1',
+                    'description' => '',
+                    'fa_icon' => '',
+                    'icon_url' => $this->media->getURL('icons', 'postgres.png')
+                ],
+                'button_icon' => [
+                    'name' => 'icon2',
+                    'description' => '',
+                    'fa_icon' => '',
+                    'icon_url' => $this->media->getURL('icons', 'postgres.png')
+                ],
                 'action_word' => !empty($database['action_word']) ? $database['action_word'] : '',
                 'project_status' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
                 'technologies' => $technologies,
@@ -85,11 +95,11 @@ class Portfolio
             );
             $query = new WP_Query($args);
 
-            if (!$query->have_posts()) {
+            $post_data = $query->posts;
+
+            if (!$post_data) {
                 return '';
             }
-
-            $post_data = $query->posts;
 
             $portfolio = [];
 

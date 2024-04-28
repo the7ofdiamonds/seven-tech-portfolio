@@ -6,8 +6,8 @@ use Exception;
 
 use WP_REST_Request;
 
-use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTags;
-use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTypes;
+use SEVEN_TECH\Portfolio\Taxonomies\ProjectTags;
+use SEVEN_TECH\Portfolio\Taxonomies\ProjectTypes;
 
 class Taxonomies
 {
@@ -19,8 +19,8 @@ class Taxonomies
     {
         $this->post_type = 'portfolio';
         
-        $this->projectTags = new TaxonomiesProjectTags;
-        $this->projectTypes = new TaxonomiesProjectTypes;
+        $this->projectTags = new ProjectTags;
+        $this->projectTypes = new ProjectTypes;
     }
 
     public function get_project_types()

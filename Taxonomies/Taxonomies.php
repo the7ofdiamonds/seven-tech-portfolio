@@ -4,9 +4,12 @@ namespace SEVEN_TECH\Portfolio\Taxonomies;
 
 use Exception;
 
+use SEVEN_TECH\Portfolio\Media\Media;
+
 class Taxonomies
 {
     public $taxonomies_list;
+    private $media;
 
     public function __construct()
     {
@@ -33,6 +36,8 @@ class Taxonomies
                 'regex' => '#^/project/tag/([a-zA-Z0-9-_]+)+#',
             ]
         ];
+
+        $this->media = new Media;
     }
 
     function custom_taxonomy()
@@ -78,6 +83,9 @@ class Taxonomies
 
                 register_taxonomy($taxonomy['taxonomy'], $taxonomy['post_type'], $args);
             }
+
+            new ProjectTags;
+            new ProjectTypes;
         }
     }
 
@@ -139,11 +147,20 @@ class Taxonomies
                 $term = get_term_by('slug', $term->slug, $taxonomy);
 
                 if ($term) {
+                    $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
+                    $iconURL = get_term_meta($term->term_id, 'icon_url', true);
+
                     $term_link = get_term_link($term);
 
                     $term_links[] = [
-                        'name' => $term->name,
-                        'icon' => $term->slug,
+                        'id' => $term->term_id,
+                        'title' => $term->name,
+                        'icon' => [
+                            'name' => $term->name,
+                            'description' => $term->description,
+                            'fa_icon' => $faIcon,
+                            'icon_url' => $this->media->getURL('icons', $iconURL)
+                        ],
                         'url' => $term_link
                     ];
                 }

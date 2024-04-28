@@ -86,6 +86,27 @@ class Media
         }
     }
 
+    function getURL($path, $file)
+    {
+        $upload_dir = wp_upload_dir();
+        $upload_dir_path = $upload_dir['basedir'] . '/' . $path;
+        $upload_url = $upload_dir['baseurl'] . '/' . $path;
+
+        if (!file_exists($upload_dir_path)) {
+            throw new Exception('File does not exists.', 404);
+        }
+
+        $url = '';
+
+        $file_extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+        if (in_array($file_extension, $this->valid_extensions())) {
+            $url = $upload_url . '/' . $file;
+        }
+
+        return $url;
+    }
+
     function urls($dir)
     {
         $upload_dir = wp_upload_dir();

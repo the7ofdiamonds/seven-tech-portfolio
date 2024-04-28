@@ -13,7 +13,7 @@ function ProjectType(props) {
         <div className="types-row">
           {project_types.map((project_type, index) => (
             <button onClick={() => handleClick(project_type.url)} key={index}>
-              <h3 className="title">{project_type.name}</h3>
+              <h3 className="title">{project_type.title}</h3>
             </button>
           ))}
         </div>

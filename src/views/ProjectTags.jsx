@@ -13,6 +13,7 @@ import ProjectTypes from './components/ProjectTypes';
 import ProjectTags from './components/ProjectTags';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
+import IconComponent from '../views/components/IconComponent';
 
 function ProjectTagsPage() {
   const { tag } = useParams();
@@ -49,7 +50,7 @@ function ProjectTagsPage() {
     <>
       <main className="project-tags">
         <h1 className="title">
-          <i className={`fa-brands fa-${icon}`}></i> {title} projects
+          <IconComponent icon={icon} /> {title} projects
         </h1>
 
         <Projects projects={projects} />

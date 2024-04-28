@@ -8,8 +8,8 @@ use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectOnboarding;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
-use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTags;
-use SEVEN_TECH\Portfolio\Taxonomies\TaxonomiesProjectTypes;
+use SEVEN_TECH\Portfolio\Taxonomies\ProjectTags;
+use SEVEN_TECH\Portfolio\Taxonomies\ProjectTypes;
 
 class PortfolioProject
 {
@@ -30,8 +30,8 @@ class PortfolioProject
         $this->onboarding_database = new DatabaseProjectOnboarding();
         $this->theproblem_database = new DatabaseProjectProblem();
 
-        $this->taxonomiesProjectTags = new TaxonomiesProjectTags;
-        $this->taxonomiesProjectTypes = new TaxonomiesProjectTypes;
+        $this->taxonomiesProjectTags = new ProjectTags;
+        $this->taxonomiesProjectTypes = new ProjectTypes;
     }
 
     function createPortfolioProject($project)
