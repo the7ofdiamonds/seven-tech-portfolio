@@ -65,7 +65,7 @@ class Post_Types
                         'revisions',
                         'page-attributes',
                     ],
-                    'taxonomies' => array('category', 'post_tag'),
+                    'taxonomies' => array('category', 'post_tag', 'project_types', 'skills'),
                     'menu_position' => $post_type['menu_position'],
                     'exclude_from_search' => false
                 );

@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import {
-  getProjectTag,
   getProjectTypes,
-  getProjectTags,
+  getSkills,
+  getFrameworks,
+  getTechnologies
 } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
-import ProjectTypes from './components/ProjectTypes';
-import ProjectTags from './components/ProjectTags';
+import TaxList from './components/TaxList';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
 import IconComponent from '../views/components/IconComponent';
@@ -55,9 +55,13 @@ function ProjectTagsPage() {
 
         <Projects projects={projects} />
 
-        <ProjectTypes project_types={types} />
+        <TaxList tax={projectTypes} />
 
-        <ProjectTags project_tags={tags} />
+        <TaxList tax={skills} />
+
+        <TaxList tax={frameworks} />
+
+        <TaxList tax={technologies} />
       </main>
     </>
   );

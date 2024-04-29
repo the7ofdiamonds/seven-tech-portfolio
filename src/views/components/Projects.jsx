@@ -2,7 +2,7 @@ import React from 'react';
 
 import Gallery from './Gallery';
 import ProjectStatus from './ProjectStatus';
-import Technologies from './Technologies';
+import ProjectSkills from './ProjectSkills';
 import ProjectDescription from './ProjectDescription';
 
 function Projects(props) {
@@ -19,7 +19,7 @@ function Projects(props) {
 
                 <ProjectStatus project_status={project.project_status} />
 
-                <Technologies technologies={project.technologies} />
+                <ProjectSkills skills={project.skills} />
 
                 <ProjectDescription description={project.description} />
               </div>

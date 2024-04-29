@@ -6,14 +6,13 @@ import { getProject } from '../controllers/projectSlice';
 
 import LoadingComponent from './components/global/LoadingComponent';
 
-import ProjectTypes from './components/ProjectTypes';
 import Gallery from './components/Gallery';
 import ProjectDetails from './components/ProjectDetails';
 import TheSolution from './components/TheSolution';
 import ProjectURLs from './components/ProjectURLs';
 import TheProblem from './components/TheProblem';
+import TaxList from './components/TaxList';
 import ProjectTeam from './components/ProjectTeam';
-import ProjectTags from './components/ProjectTags';
 import TheProcess from './components/TheProcess';
 
 function Project() {
@@ -61,9 +60,13 @@ function Project() {
 
         <TheProblem the_problem={the_problem} />
 
-        <ProjectTypes project_types={project_types} />
+        <TaxList tax={projectTypes} />
 
-        <ProjectTags project_tags={project_tags} />
+        <TaxList tax={skills} />
+
+        <TaxList tax={frameworks} />
+
+        <TaxList tax={technologies} />
 
         <ProjectTeam project_team={project_team} />
       </main>

@@ -1,22 +1,22 @@
-function ProjectTags(props) {
-  const { project_tags } = props;
+function TaxList(props) {
+  const { tax, title } = props;
 
   const handleClick = (slug) => {
     window.location.href = slug;
   };
 
   return (
-    Array.isArray(project_tags) && (
+    Array.isArray(tax) && (
       <div className="project-tags">
-        <h4 className="title">Project Tags</h4>
+        <h4 className="title">{title}</h4>
 
         <div className="tags-row">
-          {project_tags.map((project_tag, index) => (
+          {tax.map((project_tag, index) => (
             <button
               key={index}
               className="tag"
               onClick={() => handleClick(project_tag.url)}>
-              <h3>#{project_tag.title}</h3>
+              <h3>{project_tag.title}</h3>
             </button>
           ))}
         </div>
@@ -25,4 +25,4 @@ function ProjectTags(props) {
   );
 }
 
-export default ProjectTags;
+export default TaxList;

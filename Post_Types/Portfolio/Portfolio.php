@@ -50,7 +50,7 @@ class Portfolio
             }
 
             $project_database = $this->project_database->getProject($id);
-            $technologies = $this->taxonomies->getTaxTermLinks($id, 'project_tags');
+            $skills = $this->taxonomies->getPostTaxonomy($id, 'Skills');
             $solution_gallery = $this->media->urls("portfolio/{$id}/solution-gallery", 'image/');
 
             $project = [
@@ -75,7 +75,7 @@ class Portfolio
                 ],
                 'action_word' => !empty($database['action_word']) ? $database['action_word'] : '',
                 'project_status' => isset($project_database['project_status']) ? $project_database['project_status'] : '',
-                'technologies' => $technologies,
+                'skills' => $skills,
                 'gallery' => !empty($solution_gallery) ? $solution_gallery : '',
                 'url' => $url,
             ];

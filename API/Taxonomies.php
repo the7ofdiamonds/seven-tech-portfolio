@@ -6,33 +6,29 @@ use Exception;
 
 use WP_REST_Request;
 
-use SEVEN_TECH\Portfolio\Taxonomies\ProjectTags;
-use SEVEN_TECH\Portfolio\Taxonomies\ProjectTypes;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies as Tax;
 
 class Taxonomies
 {
     private $post_type;
-    private $projectTags;
-    private $projectTypes;
+    private $tax;
 
     public function __construct()
     {
         $this->post_type = 'portfolio';
-        
-        $this->projectTags = new ProjectTags;
-        $this->projectTypes = new ProjectTypes;
+        $this->tax = new Tax;
     }
 
     public function get_project_types()
     {
         try {
-            $project_types = $this->projectTypes->getProjectTypes($this->post_type);
+            $project_types = $this->tax->getPostTypeTaxonomies($this->post_type, 'project_type');
 
             if (empty($project_types)) {
-                throw new Exception('No portfolio types found', 404);
+                throw new Exception('No projects found with a Project Type.', 404);
             }
 
-            return rest_ensure_response($project_types);
+            return rest_ensure_response(['projectTypes' => $project_types]);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 
@@ -48,16 +44,16 @@ class Taxonomies
         }
     }
 
-    public function get_project_tags()
+    public function get_skills()
     {
         try {
-            $project_tags = $this->projectTags->getProjectTags($this->post_type);
+            $skills = $this->tax->getPostTypeTaxonomies($this->post_type, 'Skills');
 
-            if (empty($project_tags)) {
-                throw new Exception('No Project Tags found', 404);
+            if (empty($skills)) {
+                throw new Exception('No projects found with a Skill.', 404);
             }
 
-            return rest_ensure_response($project_tags);
+            return rest_ensure_response(['skills' => $skills]);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 
@@ -73,18 +69,16 @@ class Taxonomies
         }
     }
 
-    public function get_project_type(WP_REST_Request $request)
+    public function get_frameworks()
     {
         try {
-            $slug = $request->get_param('slug');
+            $frameworks = $this->tax->getPostTypeTaxonomies($this->post_type, 'frameworks');
 
-            $project_type = $this->projectTypes->getProjectType($slug);
-
-            if (empty($project_type)) {
-                throw new Exception('No portfolio types found', 404);
+            if (empty($frameworks)) {
+                throw new Exception('No projects found with a Framework.', 404);
             }
 
-            return rest_ensure_response($project_type);
+            return rest_ensure_response(['frameworks' => $frameworks]);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 
@@ -100,18 +94,16 @@ class Taxonomies
         }
     }
 
-    public function get_project_tag(WP_REST_Request $request)
+    public function get_technologies()
     {
         try {
-            $slug = $request->get_param('slug');
+            $skills = $this->tax->getPostTypeTaxonomies($this->post_type, 'technologies');
 
-            $project_tag = $this->projectTags->getProjectTag($slug);
-
-            if (empty($project_tag)) {
-                throw new Exception('No Project Tags found', 404);
+            if (empty($technologies)) {
+                throw new Exception('No projects found with a Technology.', 404);
             }
 
-            return rest_ensure_response($project_tag);
+            return rest_ensure_response(['technologies' => $technologies]);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 

@@ -6,13 +6,19 @@ const initialState = {
   taxonomiesErrorMessage: '',
   taxonomiesStatusCode: '',
   projects: '',
-  types: '',
-  tags: '',
+  projectTypes: '',
+  projectType: '',
+  skills: '',
+  skill: '',
+  frameworks: '',
+  framework: '',
+  technologies: '',
+  technology: ''
 };
 
 export const getProjectTypes = createAsyncThunk('taxonomies/getProjectTypes', async () => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project/types`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project-types`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -20,7 +26,7 @@ export const getProjectTypes = createAsyncThunk('taxonomies/getProjectTypes', as
     });
 
     const responseData = await response.json();
-    
+
     return responseData;
   } catch (error) {
     console.error(error);
@@ -28,9 +34,46 @@ export const getProjectTypes = createAsyncThunk('taxonomies/getProjectTypes', as
   }
 });
 
-export const getProjectTags = createAsyncThunk('taxonomies/getProjectTags', async () => {
+export const getSkills = createAsyncThunk('taxonomies/getSkills', async () => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project/tags`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/skills`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+});
+
+
+export const getFrameworks = createAsyncThunk('taxonomies/getFrameworks', async () => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/frameworks`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+});
+
+export const getTechnologies = createAsyncThunk('taxonomies/getTechnologies', async () => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/technologies`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -48,7 +91,7 @@ export const getProjectTags = createAsyncThunk('taxonomies/getProjectTags', asyn
 
 export const getProjectType = createAsyncThunk('taxonomies/getProjectType', async (projectType) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project/type/${projectType}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project-types/${projectType}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -56,7 +99,7 @@ export const getProjectType = createAsyncThunk('taxonomies/getProjectType', asyn
     });
 
     const responseData = await response.json();
-    
+
     return responseData;
   } catch (error) {
     console.error(error);
@@ -64,9 +107,46 @@ export const getProjectType = createAsyncThunk('taxonomies/getProjectType', asyn
   }
 });
 
-export const getProjectTag = createAsyncThunk('taxonomies/getProjectTag', async (projectTag) => {
+export const getSkill = createAsyncThunk('taxonomies/getSkill', async (skill) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/project/tag/${projectTag}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/skills/${skill}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+});
+
+
+export const getFramework = createAsyncThunk('taxonomies/getFramework', async (framework) => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/frameworks/${framework}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+});
+
+export const getTechnology = createAsyncThunk('taxonomies/getTechnology', async (technology) => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/technologies/${technology}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -92,25 +172,35 @@ export const taxonomiesSlice = createSlice({
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
         state.taxonomiesStatusCode = action.payload.statusCode;
-        state.types = action.payload;
+        state.projectTypes = action.payload.projectTypes;
       })
-      .addCase(getProjectTags.fulfilled, (state, action) => {
+      .addCase(getSkills.fulfilled, (state, action) => {
         state.taxonomiesLoading = false;
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
         state.taxonomiesStatusCode = action.payload.statusCode;
-        state.tags = action.payload;
+        state.skills = action.payload.skills;
       })
-      .addCase(getProjectType.fulfilled, (state, action) => {
+      .addCase(getFrameworks.fulfilled, (state, action) => {
         state.taxonomiesLoading = false;
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
         state.taxonomiesStatusCode = action.payload.statusCode;
-        state.icon = action.payload.icon
-        state.title = action.payload.title;
-        state.projects = action.payload.projects;
+        state.frameworks = action.payload.frameworks;
       })
-      .addCase(getProjectTag.fulfilled, (state, action) => {
+      .addCase(getTechnologies.fulfilled, (state, action) => {
+        state.taxonomiesLoading = false;
+        state.taxonomiesError = '';
+        state.taxonomiesErrorMessage = action.payload.errorMessage;
+        state.taxonomiesStatusCode = action.payload.statusCode;
+        state.technologies = action.payload.technologies;
+      })
+      .addMatcher(isAnyOf(
+        getProjectType.fulfilled,
+        getSkill.fulfilled,
+        getFramework.fulfilled,
+        getTechnology.fulfilled
+      ), (state, action) => {
         state.taxonomiesLoading = false;
         state.taxonomiesError = '';
         state.taxonomiesErrorMessage = action.payload.errorMessage;
@@ -121,24 +211,34 @@ export const taxonomiesSlice = createSlice({
       })
       .addMatcher(isAnyOf(
         getProjectTypes.pending,
-        getProjectTags.pending,
+        getSkills.pending,
+        getFrameworks.pending,
+        getTechnologies.pending,
         getProjectType.pending,
-        getProjectTag.pending), (state) => {
-          state.taxonomiesLoading = true;
-          state.taxonomiesError = '';
-          state.taxonomiesErrorMessage = '';
-          state.taxonomiesStatusCode = '';
-        })
+        getSkill.pending,
+        getFramework.pending,
+        getTechnology.pending
+      ), (state) => {
+        state.taxonomiesLoading = true;
+        state.taxonomiesError = '';
+        state.taxonomiesErrorMessage = '';
+        state.taxonomiesStatusCode = '';
+      })
       .addMatcher(isAnyOf(
         getProjectTypes.rejected,
-        getProjectTags.rejected,
+        getSkills.rejected,
+        getFrameworks.rejected,
+        getTechnologies.rejected,
         getProjectType.rejected,
-        getProjectTag.rejected), (state, action) => {
-          state.taxonomiesLoading = false;
-          state.taxonomiesError = action.error;
-          state.taxonomiesErrorMessage = action.error.message;
-          state.taxonomiesStatusCode = action.error.code;
-        })
+        getSkill.rejected,
+        getFramework.rejected,
+        getTechnology.rejected
+      ), (state, action) => {
+        state.taxonomiesLoading = false;
+        state.taxonomiesError = action.error;
+        state.taxonomiesErrorMessage = action.error.message;
+        state.taxonomiesStatusCode = action.error.code;
+      })
   }
 })
 

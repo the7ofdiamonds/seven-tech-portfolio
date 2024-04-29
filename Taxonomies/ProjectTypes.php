@@ -4,22 +4,17 @@ namespace SEVEN_TECH\Portfolio\Taxonomies;
 
 use Exception;
 
-use WP_Query;
-
-use SEVEN_TECH\Portfolio\Post_Types\Portfolio\Portfolio;
-use SEVEN_TECH\Portfolio\Media\Media;
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class ProjectTypes
 {
-    public $taxonomies;
-    public $portfolio;
-    private $media;
+    private $post_types;
+    private $taxonomies;
+    private $taxonomy;
 
     public function __construct()
     {
-        $this->taxonomies = new Taxonomies;
-        $this->portfolio = new Portfolio;
-        $this->media = new Media;
+        $this->post_types = ['portfolio', 'founders'];
 
         add_filter('manage_edit-project_types_columns', [$this, 'edit_columns']);
         add_action('manage_project_types_custom_column', [$this, 'manage_columns'], 10, 3);
@@ -27,6 +22,9 @@ class ProjectTypes
         add_action('project_types_edit_form_fields', [$this, 'edit_fields'], 10, 2);
         add_action('created_project_types', [$this, 'save_fields']);
         add_action('edited_project_types', [$this, 'save_fields']);
+
+        $this->taxonomies = new Taxonomies;
+        $this->taxonomy = 'project_types';
     }
 
     function edit_columns($columns)
@@ -102,90 +100,37 @@ class ProjectTypes
         }
     }
 
-    public function getProjectTypes($post_type)
+    function getProjectType($slug)
     {
-        try {
-            $project_types = $this->taxonomies->get_post_type_taxonomy($post_type, 'project_types');
-
-            $projectTypes = [];
-
-            foreach ($project_types as $term) {
-                $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-                $iconURL = get_term_meta($term->term_id, 'icon_url', true);
-
-                $projectTypes[] = [
-                    'id' =>$term->term_id,
-                    'title' =>$term->name,
-                    'icon' => [
-                        'name' =>$term->name,
-                        'description' =>$term->description,
-                        'fa_icon' => $faIcon,
-                        'icon_url' => $this->media->getURL('icons', $iconURL),
-                    ],
-                    'url' => "/project/type/{$term->slug}"
-                ];
-            }
-
-            return $projectTypes;
-        } catch (Exception $e) {
-            throw new Exception($e);
+        if (empty($slug)) {
+            throw new Exception('Slug is required to get skills.', 400);
         }
+
+        return $this->taxonomies->getTaxonomyTerm($slug, $this->taxonomy);
     }
 
-    public function getProjectType($type)
+    public function getProjectTypes($postType)
     {
-        try {
-            $taxonomy = 'project_types';
-            $args = array(
-                'post_type' => array('post', 'portfolio'),
-                'posts_per_page' => -1,
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => $taxonomy,
-                        'field' => 'slug',
-                        'terms' => $type,
-                    )
-                )
-            );
+        return $this->taxonomies->getPostTypeTaxonomies($postType, $this->taxonomy);
+    }
 
-            $query = new WP_Query($args);
-
-            $posts = $query->posts;
-
-            $projects = [];
-
-            if (empty($posts)) {
-                throw new Exception('No portfolio items found', 400);
-            }
-
-            foreach ($posts as $post) {
-                $projects[] = $this->portfolio->getPortfolioProject($post->ID, $post->post_title, $post->post_excerpt, "/{$post->post_type}/{$post->post_name}");
-            }
-
-            $term = get_term_by('slug', $type, $taxonomy);
-
-            if ($term == false) {
-                return '';
-            }
-
-            $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-            $iconURL = get_term_meta($term->term_id, 'icon_url', true);
-
-            $projectTypes = [
-                'id' =>$term->term_id,
-                'title' =>$term->name,
-                'icon' => [
-                    'name' =>$term->name,
-                    'description' =>$term->description,
-                    'fa_icon' => $faIcon,
-                    'icon_url' => $this->media->getURL('icons', $iconURL),
-                ],
-                'projects' => $projects
-            ];
-
-            return rest_ensure_response($projectTypes);
-        } catch (Exception $e) {
-            throw new Exception($e);
+    function getPostProjectTypes($post_id)
+    {
+        if (empty($post_id)) {
+            throw new Exception('Post ID is required to get skills.', 400);
         }
+
+        return $this->taxonomies->getPostTaxonomy($post_id, $this->taxonomy);
+    }
+
+    function getPostProjectTypesBySlug($slug)
+    {
+        $post = get_page_by_path($slug, OBJECT, $this->post_types);
+
+        if (empty($post)) {
+            return '';
+        }
+
+        return $this->getPostProjectTypes($post->ID);
     }
 }

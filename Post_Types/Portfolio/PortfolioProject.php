@@ -8,8 +8,8 @@ use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectOnboarding;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
-use SEVEN_TECH\Portfolio\Taxonomies\ProjectTags;
-use SEVEN_TECH\Portfolio\Taxonomies\ProjectTypes;
+
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class PortfolioProject
 {
@@ -18,8 +18,7 @@ class PortfolioProject
     public $project_database;
     public $onboarding_database;
     public $theproblem_database;
-    public $taxonomiesProjectTags;
-    public $taxonomiesProjectTypes;
+    public $taxonomies;
 
     public function __construct()
     {
@@ -30,8 +29,7 @@ class PortfolioProject
         $this->onboarding_database = new DatabaseProjectOnboarding();
         $this->theproblem_database = new DatabaseProjectProblem();
 
-        $this->taxonomiesProjectTags = new ProjectTags;
-        $this->taxonomiesProjectTypes = new ProjectTypes;
+        $this->taxonomies = new Taxonomies;
     }
 
     function createPortfolioProject($project)
@@ -238,8 +236,10 @@ class PortfolioProject
             $onboarding = $this->onboarding_database->getOnboarding($post_id);
             $the_problem = $this->theproblem_database->getProblem($post_id);
 
-            $project_types = $this->taxonomiesProjectTypes->getProjectTypes($this->post_type);
-            $project_tags = $this->taxonomiesProjectTags->getProjectTags($this->post_type);
+            $project_types = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'project_type');
+            $skills = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'skills');
+            $frameworks = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'frameworks');
+            $technologies = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'technologies');
 
             $team = isset($project['project_team_list']) && is_serialized($project['project_team_list']) ? unserialize($project['project_team_list']) : '';
             $project_team_list = $this->getProjectTeamList($team);
@@ -273,7 +273,9 @@ class PortfolioProject
                 'onboarding' => is_array($onboarding) ? $onboarding : '',
                 'the_problem' => is_array($the_problem) ? $the_problem : '',
                 'project_types' => is_array($project_types) ? $project_types : '',
-                'project_tags' => is_array($project_tags) ? $project_tags : '',
+                'skills' => is_array($skills) ? $skills : '',
+                'frameworks' => is_array($frameworks) ? $frameworks : '',
+                'technologies' => is_array($technologies) ? $technologies : '',
                 'project_team_list' => $project_team_list,
             ];
 

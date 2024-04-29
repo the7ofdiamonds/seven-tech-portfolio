@@ -13,6 +13,8 @@ class Taxonomies
 
     public function __construct()
     {
+        $post_types = ['portfolio', 'founders'];
+
         $this->taxonomies_list = [
             [
                 'name' => 'Project Types',
@@ -22,18 +24,8 @@ class Taxonomies
                 'slug' => 'projects/type',
                 'menu_position' => 3,
                 'taxonomy' => 'project_types',
-                'post_type' => 'portfolio',
+                'post_type' => $post_types,
                 'regex' => '#^/project/type/([a-zA-Z0-9-_]+)+#'
-            ], [
-                'name' => 'Project Tags',
-                'singular' => 'Project Tags',
-                'plural' => 'Project Tags',
-                'file_name' => 'ProjectTags',
-                'slug' => 'projects/tag',
-                'menu_position' => 3,
-                'taxonomy' => 'project_tags',
-                'post_type' => 'portfolio',
-                'regex' => '#^/project/tag/([a-zA-Z0-9-_]+)+#',
             ]
         ];
 
@@ -73,23 +65,23 @@ class Taxonomies
                     'publicly_queryable' => true,
                     'query_var' => true,
                     'rewrite' => array(
+                        'with_front' => false,
                         'slug' => $taxonomy['slug']
                     ),
                     'menu_position' => $taxonomy['menu_position'],
                     'exclude_from_search' => false,
                     'show_admin_column' => true,
-                    'update_count_callback' => '_update_post_term_count'
+                    'update_count_callback' => '_update_post_term_count',
                 );
 
-                register_taxonomy($taxonomy['taxonomy'], $taxonomy['post_type'], $args);
+                register_taxonomy($taxonomy['name'], $taxonomy['post_type'], $args);
             }
 
-            new ProjectTags;
             new ProjectTypes;
         }
     }
 
-    function get_post_type_taxonomy($post_type, $taxonomy)
+    function getPostTypeTaxonomies($post_type, $taxonomy)
     {
         try {
             if (empty($post_type)) {
@@ -112,7 +104,22 @@ class Taxonomies
 
                 if ($tax->name === $taxonomy) {
                     foreach ($terms as $term) {
-                        $taxonomy_data[] = $term;
+                        $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
+                        $iconURL = get_term_meta($term->term_id, 'icon_url', true);
+
+                        $term_link = get_term_link($term);
+
+                        $taxonomy_data[] = [
+                            'id' => $term->term_id,
+                            'title' => $term->name,
+                            'icon' => [
+                                'name' => $term->name,
+                                'description' => $term->description,
+                                'fa_icon' => $faIcon,
+                                'icon_url' => $this->media->getURL('icons', $iconURL)
+                            ],
+                            'url' => $term_link
+                        ];
                     }
                 }
             }
@@ -128,52 +135,69 @@ class Taxonomies
         }
     }
 
-    function getTaxTermLinks($post_id, $taxonomy)
+    function getPostTaxonomy($post_id, $taxonomy)
     {
         try {
             if (empty($post_id)) {
-                throw new Exception('Post ID is required.', 400);
+                throw new Exception('Post ID is required to get skills.', 400);
             }
-
-            if (empty($taxonomy)) {
-                throw new Exception('Taxonomy is required.', 400);
+    
+            $terms = get_the_terms($post_id, $taxonomy);
+    
+            if (!is_array($terms) || $terms == false || is_wp_error($terms)) {
+                return '';
             }
-
-            $terms = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'all'));
-
-            $term_links = [];
-
+    
             foreach ($terms as $term) {
-                $term = get_term_by('slug', $term->slug, $taxonomy);
-
-                if ($term) {
-                    $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-                    $iconURL = get_term_meta($term->term_id, 'icon_url', true);
-
-                    $term_link = get_term_link($term);
-
-                    $term_links[] = [
-                        'id' => $term->term_id,
-                        'title' => $term->name,
-                        'icon' => [
-                            'name' => $term->name,
-                            'description' => $term->description,
-                            'fa_icon' => $faIcon,
-                            'icon_url' => $this->media->getURL('icons', $iconURL)
-                        ],
-                        'url' => $term_link
-                    ];
-                }
+                $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
+                $iconURL = get_term_meta($term->term_id, 'icon_url', true);
+    
+                $skills[] = [
+                    'id' => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug,
+                    'fa_icon' => $faIcon,
+                    'icon_url' => $this->media->getURL('icons', $iconURL),
+                    'url' => "/skills/{$term->slug}"
+                ];
             }
-
-            return $term_links;
+    
+            return $skills;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             $response = $errorMessage . ' ' . $errorCode;
 
-            error_log($response . ' at get_post_type_taxonomy');
+            error_log($response . ' at getPostTaxonomies');
             return $response;
         }
+    }
+
+    function getTaxonomyTerm($slug, $taxonomy)
+    {
+        $term = get_term_by('slug', $slug, $taxonomy);
+
+        if ($term == false) {
+            return '';
+        }
+
+        $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
+        $iconURL = get_term_meta($term->term_id, 'icon_url', true);
+
+        $term_link = get_term_link($term);
+
+        $taxTerm = [
+            'id' => $term->term_id,
+            'title' => $term->name,
+            'description' => $term->description,
+            'icon' => [
+                'name' => $term->name,
+                'fa_icon' => $faIcon,
+                'icon_url' => $this->media->getURL('icons', $iconURL)
+            ],
+            'url' => $term_link
+        ];
+
+        return $taxTerm;
     }
 }

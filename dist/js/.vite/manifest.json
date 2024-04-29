@@ -13,19 +13,19 @@
       "src/index.jsx"
     ]
   },
-  "_ProjectTags2.js": {
-    "file": "ProjectTags2.js",
-    "name": "ProjectTags",
-    "imports": [
-      "src/index.jsx"
-    ]
-  },
   "_Projects.js": {
     "file": "Projects.js",
     "name": "Projects",
     "imports": [
       "src/index.jsx",
-      "_ProjectTags2.js"
+      "_TaxList.js"
+    ]
+  },
+  "_TaxList.js": {
+    "file": "TaxList.js",
+    "name": "TaxList",
+    "imports": [
+      "src/index.jsx"
     ]
   },
   "_useDispatch.js": {
@@ -59,7 +59,7 @@
     "imports": [
       "src/index.jsx",
       "_Projects.js",
-      "_ProjectTags2.js",
+      "_TaxList.js",
       "src/views/components/global/LoadingComponent.jsx",
       "_useDispatch.js"
     ]
@@ -72,7 +72,7 @@
     "imports": [
       "src/index.jsx",
       "_Projects.js",
-      "_ProjectTags2.js",
+      "_TaxList.js",
       "src/views/components/global/LoadingComponent.jsx",
       "_useDispatch.js"
     ]
@@ -85,7 +85,7 @@
     "imports": [
       "src/index.jsx",
       "src/views/components/global/LoadingComponent.jsx",
-      "_ProjectTags2.js",
+      "_TaxList.js",
       "_useDispatch.js"
     ]
   },
@@ -121,7 +121,7 @@
     "imports": [
       "src/index.jsx",
       "_Projects.js",
-      "_ProjectTags2.js",
+      "_TaxList.js",
       "src/views/components/global/LoadingComponent.jsx",
       "_useDispatch.js"
     ]
@@ -134,7 +134,7 @@
     "imports": [
       "src/index.jsx",
       "_Projects.js",
-      "_ProjectTags2.js",
+      "_TaxList.js",
       "src/views/components/global/LoadingComponent.jsx",
       "_useDispatch.js"
     ]

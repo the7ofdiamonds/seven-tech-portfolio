@@ -5,12 +5,13 @@ import { useParams } from 'react-router-dom';
 import { getPortfolioProjectsByUser } from '../controllers/portfolioSlice';
 import {
   getProjectTypes,
-  getProjectTags,
+  getSkills,
+  getFrameworks,
+  getTechnologies
 } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
-import ProjectTypes from './components/ProjectTypes';
-import ProjectTags from './components/ProjectTags';
+import TaxList from './components/TaxList';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
 
@@ -20,7 +21,7 @@ function Portfolio() {
   const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
     (state) => state.portfolio
   );
-  const { tags, types } = useSelector((state) => state.taxonomies);
+  const { projectTypes, skills, frameworks, technologies } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
 
@@ -33,7 +34,15 @@ function Portfolio() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getProjectTags());
+    dispatch(getSkills());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getFrameworks());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getTechnologies());
   }, [dispatch]);
 
   if (portfolioLoading) {
@@ -48,9 +57,13 @@ function Portfolio() {
 
           <Projects projects={projects} />
 
-          <ProjectTypes project_types={types} />
+          <TaxList tax={projectTypes} title={'project types'} />
 
-          <ProjectTags project_tags={tags} />
+          <TaxList tax={skills} title={'Skills'} />
+
+          <TaxList tax={frameworks} title={'frameworks'} />
+
+          <TaxList tax={technologies} title={'technologies'} />
         </main>
       )}
     </>
