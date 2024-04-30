@@ -1,11 +1,4 @@
 {
-  "_IconComponent.js": {
-    "file": "IconComponent.js",
-    "name": "IconComponent",
-    "imports": [
-      "src/index.jsx"
-    ]
-  },
   "_Modal.js": {
     "file": "Modal.js",
     "name": "Modal",

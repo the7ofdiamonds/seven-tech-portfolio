@@ -32,7 +32,7 @@ class Taxonomies
         $this->media = new Media;
     }
 
-    function custom_taxonomy()
+    function customTaxonomy()
     {
         if (is_array($this->taxonomies_list)) {
             foreach ($this->taxonomies_list as $taxonomy) {
