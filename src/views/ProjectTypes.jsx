@@ -24,8 +24,10 @@ function ProjectTypesPage() {
     icon,
     title,
     projects,
-    types,
-    tags,
+    projectTypes,
+    skills,
+    frameworks,
+    technologies
   } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
