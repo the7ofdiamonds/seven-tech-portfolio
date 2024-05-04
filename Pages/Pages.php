@@ -16,7 +16,38 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages = [];
+        $this->custom_pages = [
+            [
+                'url' => '^founders/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/founders/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ],
+            [
+                'url' => '^investors/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/investors/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ],
+            [
+                'url' => '^managing-members/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/managing-members/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ],
+            [
+                'url' => '^executives/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/executives/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ],
+            [
+                'url' => '^freelancers/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/freelancers/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ],
+            [
+                'url' => '^employees/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/employees/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'User'
+            ]
+        ];
 
         $this->protected_pages = [
             [
