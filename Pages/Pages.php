@@ -5,11 +5,10 @@ namespace SEVEN_TECH\Portfolio\Pages;
 class Pages
 {
     public $front_page_react;
-    public $custom_pages_list;
-    public $protected_pages_list;
+    public $custom_pages;
+    public $protected_pages;
     public $pages_list;
     public $pages;
-    public $page_titles;
 
     public function __construct()
     {
@@ -17,14 +16,9 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages_list = [
-            [
-                'regex' => '#^/founders/([a-zA-Z-]+)#',
-                'file_name' => 'Founder',
-            ]
-        ];
+        $this->custom_pages = [];
 
-        $this->protected_pages_list = [
+        $this->protected_pages = [
             [
                 'url' => '^project/onboarding/?',
                 'regex' => '#^/project/onboarding+#',

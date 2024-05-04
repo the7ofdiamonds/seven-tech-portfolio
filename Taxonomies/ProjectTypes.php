@@ -14,17 +14,17 @@ class ProjectTypes
 
     public function __construct()
     {
-        $this->post_types = ['portfolio', 'founders'];
+        $this->taxonomy = 'Project_Types';
 
-        add_filter('manage_edit-project_types_columns', [$this, 'edit_columns']);
-        add_action('manage_project_types_custom_column', [$this, 'manage_columns'], 10, 3);
-        add_action('project_types_add_form_fields', [$this, 'add_fields']);
-        add_action('project_types_edit_form_fields', [$this, 'edit_fields'], 10, 2);
-        add_action('created_project_types', [$this, 'save_fields']);
-        add_action('edited_project_types', [$this, 'save_fields']);
+        add_filter("manage_edit-{$this->taxonomy}_columns", [$this, 'edit_columns']);
+        add_action("manage_{$this->taxonomy}_custom_column", [$this, 'manage_columns'], 10, 3);
+        add_action("{$this->taxonomy}_add_form_fields", [$this, 'add_fields']);
+        add_action("{$this->taxonomy}_edit_form_fields", [$this, 'edit_fields'], 10, 2);
+        add_action("created_{$this->taxonomy}", [$this, 'save_fields']);
+        add_action("edited_{$this->taxonomy}", [$this, 'save_fields']);
 
         $this->taxonomies = new Taxonomies;
-        $this->taxonomy = 'project_types';
+        $this->post_types = ['portfolio', 'founders'];
     }
 
     function edit_columns($columns)
@@ -132,5 +132,13 @@ class ProjectTypes
         }
 
         return $this->getPostProjectTypes($post->ID);
+    }
+
+    function getProjectTypesByUser()
+    {
+    }
+
+    function getProjectTypeByUser()
+    {
     }
 }

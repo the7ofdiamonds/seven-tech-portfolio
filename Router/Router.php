@@ -12,10 +12,9 @@ use SEVEN_TECH\Portfolio\Templates\Templates;
 class Router
 {
     private $front_page_react;
-    private $custom_pages_list;
-    private $protected_pages_list;
+    private $custom_pages;
+    private $protected_pages;
     private $pages;
-    private $pages_list;
     private $post_types_list;
     private $taxonomies_list;
     private $templates;
@@ -24,13 +23,12 @@ class Router
         Pages $pages,
         Post_Types $posttypes,
         Taxonomies $taxonomies,
-        Templates $templates
+        Templates $templates,
     ) {
         $this->front_page_react = $pages->front_page_react;
-        $this->custom_pages_list = $pages->custom_pages_list;
-        $this->protected_pages_list = $pages->protected_pages_list;
+        $this->custom_pages = $pages->custom_pages;
+        $this->protected_pages = $pages->protected_pages;
         $this->pages = $pages->pages;
-        $this->pages_list = $pages->pages_list;
 
         $this->post_types_list = $posttypes->post_types_list;
         $this->taxonomies_list = $taxonomies->taxonomies_list;
@@ -54,70 +52,113 @@ class Router
                 }
             }
 
-            if (!empty($this->custom_pages_list)) {
-                foreach ($this->custom_pages_list as $custom_page) {
+            if (!empty($this->custom_pages)) {
+                foreach ($this->custom_pages as $custom_page) {
+                    if (!isset($custom_page['regex'])) {
+                        error_log('Regex is required for custom_pages at Pages.');
+                        break;
+                    }
+
                     if (preg_match($custom_page['regex'], $path)) {
                         add_filter('template_include', function ($template_include) use ($custom_page) {
                             return $this->templates->get_custom_page_template($template_include, $custom_page);
                         });
+                        break;
                     }
                 }
             }
 
-            if (!empty($this->protected_pages_list)) {
-                foreach ($this->protected_pages_list as $protected_page) {
+            if (!empty($this->protected_pages)) {
+                foreach ($this->protected_pages as $protected_page) {
+                    if (!isset($protected_page['regex'])) {
+                        error_log('Regex is required for protected_pages at Pages.');
+                        break;
+                    }
+
                     if (preg_match($protected_page['regex'], $path)) {
+
+                        if (!isset($protected_page['file_name'])) {
+                            error_log('Filename is required for protected_pages at Pages.');
+                            return;
+                        }
+
                         add_filter('template_include',  function ($template_include) use ($protected_page) {
                             return $this->templates->get_protected_page_template($template_include, $protected_page);
                         });
+                        break;
                     }
                 }
             }
 
             if (!empty($this->pages)) {
                 foreach ($this->pages as $page) {
+                    if (!isset($page['regex'])) {
+                        error_log('Regex is required for pages at Pages.');
+                        break;
+                    }
+
                     if (preg_match($page['regex'], $path)) {
+
+                        if (!isset($page['file_name'])) {
+                            error_log('Filename is required for pages at Pages.');
+                            return;
+                        }
+
                         add_filter('template_include', function ($template_include) use ($page) {
                             return $this->templates->get_page_template($template_include, $page);
                         });
-                    }
-                }
-            }
 
-            if (!empty($this->pages_list)) {
-                foreach ($this->pages_list as $page) {
-                    if (preg_match($page['regex'], $path)) {
-                        add_filter('template_include', function ($template_include) use ($page) {
-                            return $this->templates->get_page_list_template($template_include, $page);
-                        });
+                        break;
                     }
                 }
             }
 
             if (!empty($this->taxonomies_list)) {
                 foreach ($this->taxonomies_list as $taxonomy) {
-                    if (preg_match($taxonomy['regex'], $path)) {
-                        add_filter('template_include', function ($template_include) use ($taxonomy) {
-                            return $this->templates->get_taxonomy_page_template($template_include, $taxonomy);
+                    if (!isset($taxonomy['slug'])) {
+                        error_log('Regex is required for taxonomies at Taxonomies.');
+                        break;
+                    }
+
+                    if (preg_match("#^/{$taxonomy['slug']}/([a-zA-Z-]+)#", $path)) {
+                        $filename = $taxonomy['singular'];
+
+                        add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
+                            return $this->templates->get_taxonomy_page_template($template_include, $taxonomy, $filename);
                         });
+                        break;
+                    }
+
+                    if (preg_match("#^/{$taxonomy['slug']}#", $path)) {
+                        $filename = $taxonomy['plural'];
+
+                        add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
+                            return $this->templates->get_taxonomy_page_template($template_include, $taxonomy, $filename);
+                        });
+                        break;
                     }
                 }
             }
 
             if (!empty($this->post_types_list)) {
                 foreach ($this->post_types_list as $post_type) {
-                    add_filter('archive_template', function ($archive_template) use ($post_type) {
-                        return $this->templates->get_archive_page_template($archive_template, $post_type);
-                    });
-                }
-            }
+                    if (!isset($post_type['slug'])) {
+                        error_log('Regex is required for post types at Post_Types.');
+                        break;
+                    }
 
-            if (!empty($this->post_types_list)) {
-                foreach ($this->post_types_list as $post_type) {
-                    if (preg_match($post_type['regex'], $path)) {
+                    if (preg_match("#^/{$post_type['slug']}/([a-zA-Z-]+)#", $path)) {
                         add_filter('single_template', function ($single_template) use ($post_type) {
                             return $this->templates->get_single_page_template($single_template, $post_type);
                         });
+                        break;
+                    }
+
+                    if (preg_match("#^/{$post_type['slug']}#", $path)) {
+                        add_filter('archive_template', function ($archive_template) use ($post_type) {
+                            return $this->templates->get_archive_page_template($archive_template, $post_type);
+                        });
+                        break;
                     }
                 }
             }
@@ -134,7 +175,6 @@ class Router
 
     function react_rewrite_rules()
     {
-        add_rewrite_rule('^founders/([a-zA-Z\-]+)/resume/?$', 'index.php?founder_name=$matches[1]', 'top');
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');

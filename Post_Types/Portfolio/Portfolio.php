@@ -8,11 +8,13 @@ use WP_Query;
 
 use SEVEN_TECH\Portfolio\Media\Media;
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
+use SEVEN_TECH\Portfolio\Post_Types\Post_Types;
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
 class Portfolio
 {
     private $post_type;
+    private $post_types;
     private $media;
     private $project_database;
     private $taxonomies;
@@ -20,6 +22,7 @@ class Portfolio
     public function __construct()
     {
         $this->post_type = 'portfolio';
+        $this->post_types = new Post_Types;
         $this->media = new Media;
 
         $this->project_database = new DatabaseProject();
@@ -124,21 +127,7 @@ class Portfolio
     public function getPortfolioProjectsByUser($nicename)
     {
         try {
-            $user = get_user_by('slug', $nicename);
-
-            if (empty($user)) {
-                throw new Exception('User could not be found.', 404);
-            }
-
-            $args = array(
-                'post_type'      => $this->post_type,
-                'author'         => $user->ID,
-                'posts_per_page' => -1,
-            );
-
-            $query = new WP_Query($args);
-
-            $projects = $query->posts;
+            $projects = $this->post_types->getPostTypesByUser($nicename, $this->post_type);
 
             if (empty($projects)) {
                 return '';

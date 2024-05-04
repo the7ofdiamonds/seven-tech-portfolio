@@ -236,10 +236,10 @@ class PortfolioProject
             $onboarding = $this->onboarding_database->getOnboarding($post_id);
             $the_problem = $this->theproblem_database->getProblem($post_id);
 
-            $project_types = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'project_type');
-            $skills = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'skills');
-            $frameworks = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'frameworks');
-            $technologies = $this->taxonomies->get_post_type_taxonomy($this->post_type, 'technologies');
+            $project_types = $this->taxonomies->getPostTaxonomy($post_id, 'Project Types');
+            $skills = $this->taxonomies->getPostTaxonomy($post_id, 'Skills');
+            $frameworks = $this->taxonomies->getPostTaxonomy($post_id, 'Frameworks');
+            $technologies = $this->taxonomies->getPostTaxonomy($post_id, 'Technologies');
 
             $team = isset($project['project_team_list']) && is_serialized($project['project_team_list']) ? unserialize($project['project_team_list']) : '';
             $project_team_list = $this->getProjectTeamList($team);

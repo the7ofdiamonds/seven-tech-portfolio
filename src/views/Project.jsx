@@ -23,14 +23,16 @@ function Project() {
     projectErrorMessage,
     projectStatusCode,
     title,
-    project_types,
     solution_gallery,
     project_urls,
     project_details,
     the_solution,
     the_problem,
     project_team,
-    project_tags,
+    project_types,
+    skills,
+    frameworks,
+    technologies,
   } = useSelector((state) => state.project);
 
   const dispatch = useDispatch();
@@ -60,13 +62,13 @@ function Project() {
 
         <TheProblem the_problem={the_problem} />
 
-        <TaxList tax={projectTypes} />
+        <TaxList tax={project_types} title={'project types'} />
 
-        <TaxList tax={skills} />
+        <TaxList tax={skills} title={'skills'} />
 
-        <TaxList tax={frameworks} />
+        <TaxList tax={frameworks} title={'frameworks'} />
 
-        <TaxList tax={technologies} />
+        <TaxList tax={technologies} title={'technologies'} />
 
         <ProjectTeam project_team={project_team} />
       </main>

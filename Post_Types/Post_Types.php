@@ -2,12 +2,19 @@
 
 namespace SEVEN_TECH\Portfolio\Post_Types;
 
+use Exception;
+
+use  WP_Query;
+
+use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
+
 class Post_Types
 {
     public $post_types_list;
 
     public function __construct()
     {
+        $taxonomies = (new Taxonomies)->getTaxonomyNames();
         $this->post_types_list = [
             [
                 'name' => 'portfolio',
@@ -16,13 +23,16 @@ class Post_Types
                 'title' => 'PORTFOLIO',
                 'singular' => 'Project',
                 'plural' => 'Portfolio',
+                'archive_page' => 'Portfolio',
+                'single_page' => 'Project',
                 'slug' => 'portfolio',
-                'regex' => '#^/portfolio/([a-zA-Z0-9-_]+)+#',
+                'dir' => 'Portfolio',
+                'taxonomies' => $taxonomies
             ],
         ];
     }
 
-    function custom_post_types()
+    function customPostTypes()
     {
         if (is_array($this->post_types_list)) {
             foreach ($this->post_types_list as $post_type) {
@@ -36,7 +46,7 @@ class Post_Types
                     'new_item' => 'New ' . $post_type['singular'],
                     'view_item' => 'View ' . $post_type['singular'],
                     'search_item' => 'Search ' . $post_type['plural'],
-                    'not_found' => 'No ' . $post_type['plural'] . ' were Found',
+                    'not_found' => 'No ' . $post_type['plural'] . ' Found',
                     'not_found_in_trash' => 'No ' . $post_type['singular'] . ' found in trash',
                     'parent_item_colon' => 'Parent ' . $post_type['singular']
                 );
@@ -65,13 +75,65 @@ class Post_Types
                         'revisions',
                         'page-attributes',
                     ],
-                    'taxonomies' => array('category', 'post_tag', 'project_types', 'skills'),
+                    'taxonomies' => $post_type['taxonomies'],
                     'menu_position' => $post_type['menu_position'],
                     'exclude_from_search' => false
                 );
 
                 register_post_type($post_type['name'], $args);
             }
+        }
+    }
+
+    function getPostTypeWithTerm($post_type, $taxonomy, $term)
+    {
+        $args = array(
+            'post_type' => $post_type,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => $term
+                )
+            ),
+        );
+
+        $query = new WP_Query($args);
+        $posts = $query->posts;
+
+        if (empty($posts)) {
+            return '';
+        }
+
+        return $posts;
+    }
+
+    public function getPostTypesByUser($nicename, $postTypes)
+    {
+        try {
+            $user = get_user_by('slug', $nicename);
+
+            if (empty($user)) {
+                throw new Exception('User could not be found.', 404);
+            }
+
+            $args = array(
+                'post_type'      => $postTypes,
+                'author'         => $user->ID,
+                'posts_per_page' => -1,
+            );
+
+            $query = new WP_Query($args);
+
+            $post_types = $query->posts;
+
+            if (empty($post_types)) {
+                return '';
+            }
+
+            return $post_types;
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
     }
 }

@@ -35,13 +35,13 @@
     "isEntry": true,
     "dynamicImports": [
       "src/views/components/global/LoadingComponent.jsx",
-      "src/views/Founder.jsx",
       "src/views/Portfolio.jsx",
       "src/views/ProjectTypes.jsx",
       "src/views/ProjectTags.jsx",
       "src/views/Project.jsx",
       "src/views/ProjectOnboarding.jsx",
-      "src/views/ProjectProblem.jsx"
+      "src/views/ProjectProblem.jsx",
+      "src/views/User.jsx"
     ]
   },
   "src/views/Founder.jsx": {
@@ -129,6 +129,19 @@
       "_Projects.js",
       "_TaxList.js",
       "src/views/components/global/LoadingComponent.jsx",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/User.jsx": {
+    "file": "User.js",
+    "name": "User",
+    "src": "src/views/User.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.jsx",
+      "src/views/components/global/LoadingComponent.jsx",
+      "_Projects.js",
+      "_TaxList.js",
       "_useDispatch.js"
     ]
   },

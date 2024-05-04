@@ -40,7 +40,10 @@ const initialState = {
   onboarding: '',
   the_problem: '',
   project_team: '',
-  project_tags: '',
+  project_types: '',
+  skills: '',
+  frameworks: '',
+  technologies: ''
 };
 
 export const getProject = createAsyncThunk('portfolioProject/getProject', async (projectSlug) => {
@@ -126,7 +129,11 @@ export const portfolioProjectSlice = createSlice({
           state.onboarding = action.payload.onboarding;
           state.the_problem = action.payload.the_problem;
           state.project_team = action.payload.project_team_list;
-          state.project_tags = action.payload.project_tags;
+          state.project_types = action.payload.project_types;
+          state.skills = action.payload.skills;
+          state.frameworks = action.payload.frameworks;
+          state.technologies = action.payload.technologies;
+
         })
       .addMatcher(isAnyOf(
         getProject.pending,

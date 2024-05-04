@@ -10,7 +10,7 @@ function ProjectSkills(props) {
       {Array.isArray(skills) && skills.length > 0 && (
         <div className="technologies">
           {skills.map((tech, index) => (
-            <IconComponent key={index} icon={tech} />
+            <IconComponent key={index} icon={tech.icon} url={tech.url}/>
           ))}
         </div>
       )}

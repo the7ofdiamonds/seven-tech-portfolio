@@ -6,7 +6,7 @@ import {
   getProjectTypes,
   getSkills,
   getFrameworks,
-  getTechnologies
+  getTechnologies,
 } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
@@ -24,10 +24,10 @@ function ProjectTypesPage() {
     icon,
     title,
     projects,
-    projectTypes,
+    project_types,
     skills,
     frameworks,
-    technologies
+    technologies,
   } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
@@ -40,9 +40,9 @@ function ProjectTypesPage() {
     dispatch(getProjectTypes());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getProjectTags());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProjectTags());
+  // }, [dispatch]);
 
   if (taxonomiesLoading) {
     return <LoadingComponent />;
@@ -57,13 +57,13 @@ function ProjectTypesPage() {
 
         <Projects projects={projects} />
 
-        <TaxList tax={projectTypes} />
+        <TaxList tax={project_types} title={'project types'} />
 
-        <TaxList tax={skills} />
+        <TaxList tax={skills} title={'skills'} />
 
-        <TaxList tax={frameworks} />
+        <TaxList tax={frameworks} title={'frameworks'} />
 
-        <TaxList tax={technologies} />
+        <TaxList tax={technologies} title={'technologies'} />
       </main>
     </>
   );

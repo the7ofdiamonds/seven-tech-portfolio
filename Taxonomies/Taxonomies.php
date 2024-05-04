@@ -4,6 +4,8 @@ namespace SEVEN_TECH\Portfolio\Taxonomies;
 
 use Exception;
 
+use  WP_Query;
+
 use SEVEN_TECH\Portfolio\Media\Media;
 
 class Taxonomies
@@ -13,19 +15,24 @@ class Taxonomies
 
     public function __construct()
     {
-        $post_types = ['portfolio', 'founders'];
+        $post_types = [
+            'portfolio',
+            'employees',
+            'executives',
+            'founders',
+            'freelancers',
+            'investors',
+            'managing_members',
+        ];
 
         $this->taxonomies_list = [
             [
                 'name' => 'Project Types',
-                'singular' => 'Project Types',
+                'singular' => 'Project Type',
                 'plural' => 'Project Types',
-                'file_name' => 'ProjectTypes',
-                'slug' => 'projects/type',
+                'slug' => 'project-types',
                 'menu_position' => 3,
-                'taxonomy' => 'project_types',
-                'post_type' => $post_types,
-                'regex' => '#^/project/type/([a-zA-Z0-9-_]+)+#'
+                'post_types' => $post_types,
             ]
         ];
 
@@ -74,11 +81,76 @@ class Taxonomies
                     'update_count_callback' => '_update_post_term_count',
                 );
 
-                register_taxonomy($taxonomy['name'], $taxonomy['post_type'], $args);
+                register_taxonomy($taxonomy['name'], $taxonomy['post_types'], $args);
             }
-
-            new ProjectTypes;
         }
+    }
+
+    function getTaxonomyPostTypes($taxonomy)
+    {
+        try {
+            if (is_array($this->taxonomies_list)) {
+                $postTypes = [];
+
+                foreach ($this->taxonomies_list as $item) {
+                    if ($item['name'] === $taxonomy) {
+                        $postTypes = $item['post_types'];
+                        break;
+                    }
+                }
+
+                return $postTypes;
+            }
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getTaxonomyPostTypes');
+            return $response;
+        }
+    }
+
+    function getTaxonomyNames()
+    {
+        try {
+            $taxonomyNames = [];
+
+            foreach ($this->taxonomies_list as $taxonomy) {
+                $taxonomyNames[] = $taxonomy['name'];
+            };
+
+            return $taxonomyNames;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getTaxonomyNames');
+            return $response;
+        }
+    }
+
+    function getTaxonomy($term_id, $name, $description)
+    {
+        $faIcon = get_term_meta($term_id, 'fa_icon', true);
+        $iconURL = get_term_meta($term_id, 'icon_url', true);
+
+        $term_link = get_term_link($term_id);
+
+        $taxonomy = [
+            'id' => $term_id,
+            'title' => $name,
+            'icon' => [
+                'name' => $name,
+                'description' => $description,
+                'fa_icon' => $faIcon,
+                'icon_url' => $this->media->getURL('icons', $iconURL)
+            ],
+            'url' => $term_link
+        ];
+
+        return $taxonomy;
     }
 
     function getPostTypeTaxonomies($post_type, $taxonomy)
@@ -92,11 +164,11 @@ class Taxonomies
                 throw new Exception('Taxonomy is required.', 400);
             }
 
-            $taxonomies = get_object_taxonomies($post_type, 'objects');
+            $taxonomy_data = get_object_taxonomies($post_type, 'objects');
 
-            $taxonomy_data = [];
+            $taxonomies = [];
 
-            foreach ($taxonomies as $tax) {
+            foreach ($taxonomy_data as $tax) {
                 $terms = get_terms([
                     'taxonomy'   => $tax->name,
                     'hide_empty' => false,
@@ -104,33 +176,18 @@ class Taxonomies
 
                 if ($tax->name === $taxonomy) {
                     foreach ($terms as $term) {
-                        $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-                        $iconURL = get_term_meta($term->term_id, 'icon_url', true);
-
-                        $term_link = get_term_link($term);
-
-                        $taxonomy_data[] = [
-                            'id' => $term->term_id,
-                            'title' => $term->name,
-                            'icon' => [
-                                'name' => $term->name,
-                                'description' => $term->description,
-                                'fa_icon' => $faIcon,
-                                'icon_url' => $this->media->getURL('icons', $iconURL)
-                            ],
-                            'url' => $term_link
-                        ];
+                        $taxonomies[] = $this->getTaxonomy($term->term_id, $term->name, $term->description);
                     }
                 }
             }
 
-            return $taxonomy_data;
+            return $taxonomies;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
             $response = $errorMessage . ' ' . $errorCode;
 
-            error_log($response . ' at get_post_type_taxonomy');
+            error_log($response . ' at getPostTypeTaxonomies');
             return $response;
         }
     }
@@ -139,30 +196,22 @@ class Taxonomies
     {
         try {
             if (empty($post_id)) {
-                throw new Exception('Post ID is required to get skills.', 400);
+                throw new Exception('Post ID is required to get Taxonomy.', 400);
             }
-    
+
             $terms = get_the_terms($post_id, $taxonomy);
-    
+
             if (!is_array($terms) || $terms == false || is_wp_error($terms)) {
                 return '';
             }
-    
+
+            $taxonomy = [];
+
             foreach ($terms as $term) {
-                $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-                $iconURL = get_term_meta($term->term_id, 'icon_url', true);
-    
-                $skills[] = [
-                    'id' => $term->term_id,
-                    'name' => $term->name,
-                    'slug' => $term->slug,
-                    'fa_icon' => $faIcon,
-                    'icon_url' => $this->media->getURL('icons', $iconURL),
-                    'url' => "/skills/{$term->slug}"
-                ];
+                $taxonomy[] = $this->getTaxonomy($term->term_id, $term->name, $term->description);
             }
-    
-            return $skills;
+
+            return $taxonomy;
         } catch (Exception $e) {
             $errorMessage = $e->getMessage();
             $errorCode = $e->getCode();
@@ -175,29 +224,83 @@ class Taxonomies
 
     function getTaxonomyTerm($slug, $taxonomy)
     {
-        $term = get_term_by('slug', $slug, $taxonomy);
+        try {
+            $term = get_term_by('slug', $slug, $taxonomy);
 
-        if ($term == false) {
-            return '';
+            if ($term == false) {
+                return '';
+            }
+
+            $taxTerm = $this->getTaxonomy($term->term_id, $term->name, $term->description);
+
+            return $taxTerm;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getTaxonomyTerm');
+            return $response;
         }
+    }
 
-        $faIcon = get_term_meta($term->term_id, 'fa_icon', true);
-        $iconURL = get_term_meta($term->term_id, 'icon_url', true);
+    function getTaxonomyTermByUser($nicename, $taxonomy, $term)
+    {
+        try {
+            $user = get_user_by('slug', $nicename);
 
-        $term_link = get_term_link($term);
+            if (empty($user)) {
+                throw new Exception('User could not be found.', 404);
+            }
 
-        $taxTerm = [
-            'id' => $term->term_id,
-            'title' => $term->name,
-            'description' => $term->description,
-            'icon' => [
-                'name' => $term->name,
-                'fa_icon' => $faIcon,
-                'icon_url' => $this->media->getURL('icons', $iconURL)
-            ],
-            'url' => $term_link
-        ];
+            $args = array(
+                'taxonomy'      => $taxonomy,
+                'term' => $term,
+                'author'         => $user->ID,
+                'posts_per_page' => -1,
+            );
 
-        return $taxTerm;
+            $query = new WP_Query($args);
+
+            $post_types = $query->posts;
+
+            if (empty($post_types)) {
+                return '';
+            }
+
+            return $post_types;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
+    function getPostTypeTaxonomiesByUser($nicename, $postTypes, $taxonomy)
+    {
+        try {
+            $user = get_user_by('slug', $nicename);
+
+            if (empty($user)) {
+                throw new Exception('User could not be found.', 404);
+            }
+
+            $args = array(
+                'taxonomy' => $taxonomy,
+                'post_type'      => $postTypes,
+                'author'         => $user->ID,
+                'posts_per_page' => -1,
+            );
+
+            $query = new WP_Query($args);
+
+            $post_types = $query->posts;
+
+            if (empty($post_types)) {
+                return '';
+            }
+
+            return $post_types;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
     }
 }

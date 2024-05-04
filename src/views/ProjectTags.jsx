@@ -6,7 +6,7 @@ import {
   getProjectTypes,
   getSkills,
   getFrameworks,
-  getTechnologies
+  getTechnologies,
 } from '../controllers/taxonomiesSlice';
 
 import Projects from './components/Projects';
@@ -24,7 +24,10 @@ function ProjectTagsPage() {
     icon,
     title,
     projects,
-    types,
+    project_types,
+    skills,
+    frameworks,
+    technologies,
     tags,
   } = useSelector((state) => state.taxonomies);
 
@@ -55,13 +58,13 @@ function ProjectTagsPage() {
 
         <Projects projects={projects} />
 
-        <TaxList tax={projectTypes} />
+        <TaxList tax={project_types} title={'project types'} />
 
-        <TaxList tax={skills} />
+        <TaxList tax={skills} title={'skills'} />
 
-        <TaxList tax={frameworks} />
+        <TaxList tax={frameworks} title={'frameworks'} />
 
-        <TaxList tax={technologies} />
+        <TaxList tax={technologies} title={'technologies'} />
       </main>
     </>
   );
