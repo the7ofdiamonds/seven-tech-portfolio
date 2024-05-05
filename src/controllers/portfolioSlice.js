@@ -10,7 +10,7 @@ const initialState = {
 
 export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/all`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -28,7 +28,7 @@ export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () 
 
 export const getPortfolioProjectsByUser = createAsyncThunk('portfolio/getPortfolioProjectsByUser', async (nicename) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/user/${nicename}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/user/${nicename}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ export const getPortfolioProjectsByUser = createAsyncThunk('portfolio/getPortfol
 
 export const getPortfolioProjectsByTaxonomy = createAsyncThunk('portfolio/getPortfolioProjectsByTaxonomy', async (taxonomy) => {
   try {
-    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/taxonomies/${taxonomy}`, {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/taxonomies/${taxonomy}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

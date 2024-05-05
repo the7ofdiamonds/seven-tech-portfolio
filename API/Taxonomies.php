@@ -133,7 +133,7 @@ class Taxonomies
                 throw new Exception('No projects found with a Project Type.', 404);
             }
 
-            return rest_ensure_response(['projectType' => $project_type]);
+            return rest_ensure_response($project_type);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 

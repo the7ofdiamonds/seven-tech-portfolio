@@ -1,6 +1,7 @@
 @use '_project_card.scss';
 @use '_project_type.scss';
-@use './_tax_table.scss';
+@use '_tax_table.scss';
+@use '_portfolio.scss';
 
 section {
   min-height: 100vh;

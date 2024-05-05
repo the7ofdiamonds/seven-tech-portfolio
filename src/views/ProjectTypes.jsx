@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 import { getProjectTypes } from '../controllers/taxonomiesSlice';
 import { getPortfolioProjectsByTaxonomy } from '../controllers/portfolioSlice';
@@ -9,17 +8,15 @@ import Projects from './components/Projects';
 import TaxList from './components/TaxList';
 
 import LoadingComponent from '../views/components/global/LoadingComponent';
-import IconComponent from '../views/components/IconComponent';
+import TaxTableComponent from './components/TaxTableComponent';
 
-function ProjectTypesPage() {
-  const { type } = useParams();
-
+function ProjectTypes() {
   const {
     taxonomiesLoading,
     taxonomiesErrorMessage,
     icon,
     title,
-    project_types,
+    projectTypes,
   } = useSelector((state) => state.taxonomies);
   const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
     (state) => state.portfolio
@@ -42,14 +39,20 @@ function ProjectTypesPage() {
   return (
     <>
       <main className="project-types">
-        <h1 className="title">
-          <IconComponent icon={icon} /> {title} projects
-        </h1>
+        <h1 className="title">project types</h1>
 
-        <Projects projects={projects} />
+        <TaxTableComponent terms={projectTypes} />
       </main>
+      
+      {projects && (
+        <main className="portfolio">
+          <h1 class="title">portfolio</h1>
+
+          <Projects projects={projects} />
+        </main>
+      )}
     </>
   );
 }
 
-export default ProjectTypesPage;
+export default ProjectTypes;

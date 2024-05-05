@@ -1,0 +1,2 @@
+import{j as c}from"./index.js";function a(r){var n=r.icon,i=r.url;return c.jsx(c.Fragment,{children:n instanceof Object&&c.jsx(c.Fragment,{children:c.jsx("div",{className:"icon",children:n.icon_url?c.jsx("a",{href:"".concat(i),children:c.jsx("img",{src:"".concat(n.icon_url)})}):n.fa_icon&&c.jsx("a",{href:"".concat(i),children:c.jsx("i",{className:"".concat(n.fa_icon)})})})})})}export{a as I};
+//# sourceMappingURL=IconComponent.js.map
