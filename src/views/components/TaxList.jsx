@@ -7,10 +7,10 @@ function TaxList(props) {
 
   return (
     Array.isArray(tax) && (
-      <div className="project-tags">
+      <div className="tax-list">
         <h4 className="title">{title}</h4>
 
-        <div className="tags-row">
+        <div className="tax-row">
           {tax.map((project_tag, index) => (
             <button
               key={index}

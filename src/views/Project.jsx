@@ -44,7 +44,7 @@ function Project() {
   if (projectLoading) {
     return <LoadingComponent />;
   }
-
+  
   return (
     <>
       <main className="project">

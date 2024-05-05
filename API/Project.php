@@ -110,15 +110,13 @@ class Project
             );
 
             $query = new WP_Query($args);
-            $results = $query->posts;
+            $project_post = $query->posts[0];
 
-            if (empty($results[0])) {
+            if (empty($project_post)) {
                 throw new Exception('Project does not exists.');
             }
-
-            $id = $results[0]->ID;
-
-            $project = $this->portfolio_project->getPortfolioProject($id);
+error_log(print_r($project_post, true));
+            $project = $this->portfolio_project->getPortfolioProject($project_post);
 
             return rest_ensure_response($project);
         } catch (Exception $e) {

@@ -1,4 +1,8 @@
 @use '_project_status.scss';
+@use '_versions.scss';
+@use '_design.scss';
+@use '_development.scss';
+@use '_delivery.scss';
 
 .project-process {
   display: flex;

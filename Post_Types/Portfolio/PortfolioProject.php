@@ -189,13 +189,13 @@ class PortfolioProject
         }
     }
 
-    function getProjectTeamList($team)
+    function getProjectTeamList($team_ids)
     {
         $project_team = [];
 
-        if (isset($team) && is_array($team) && !isset($member['id'])) {
-            foreach ($team as $member) {
-                $user_data = get_userdata($member['id']);
+        if (isset($team_ids) && is_array($team_ids)) {
+            foreach ($team_ids as $member_id) {
+                $user_data = get_userdata($member_id);
 
                 if ($user_data) {
 
@@ -217,9 +217,16 @@ class PortfolioProject
         return $project_team;
     }
 
-    function getPortfolioProject($post_id)
+    function getPortfolioProject($project)
     {
         try {
+            $post_id = $project->ID;
+            $title = $project->post_title;
+            $post_status = $project->post_status;
+            $post_date = $project->post_date;
+            $author = $project->post_author;
+            $content = $project->post_content;
+
             if (empty($post_id)) {
                 throw new Exception('Post ID is required to get a project.', 400);
             }
@@ -236,25 +243,30 @@ class PortfolioProject
             $onboarding = $this->onboarding_database->getOnboarding($post_id);
             $the_problem = $this->theproblem_database->getProblem($post_id);
 
-            $project_types = $this->taxonomies->getPostTaxonomy($post_id, 'Project Types');
+            $project_types = $this->taxonomies->getPostTaxonomy($post_id, 'ProjectTypes');
             $skills = $this->taxonomies->getPostTaxonomy($post_id, 'Skills');
             $frameworks = $this->taxonomies->getPostTaxonomy($post_id, 'Frameworks');
             $technologies = $this->taxonomies->getPostTaxonomy($post_id, 'Technologies');
 
-            $team = isset($project['project_team_list']) && is_serialized($project['project_team_list']) ? unserialize($project['project_team_list']) : '';
+            $team = [];
+            $team[] = $author;
+            $team[] = isset($project['project_team_list']) && is_serialized($project['project_team_list'])
+                ? unserialize($project['project_team_list']) : (isset($project['project_team_list'])
+                    ? $project['project_team_list']
+                    : "");
             $project_team_list = $this->getProjectTeamList($team);
 
             $project_data = [
                 'id' => $post_id,
-                'title' => get_the_title($post_id),
+                'title' => $title,
                 'project_slug' => isset($project['project_slug']) ? $project['project_slug'] : '',
-                'post_status' => get_post_field('post_status', $post_id),
-                'post_date' => get_post_field('post_date', $post_id),
+                'post_status' => $post_status,
+                'post_date' => $post_date,
                 'client_id' => isset($project['client_id']) ? $project['client_id'] : '',
                 'solution_gallery' => is_array($solution_gallery) ? $solution_gallery : '',
                 'project_urls_list' => isset($project['project_urls_list']) && is_serialized($project['project_urls_list']) ? unserialize($project['project_urls_list']) : '',
                 'project_details_list' => isset($project['project_details_list']) && is_serialized($project['project_details_list']) ? unserialize($project['project_details_list']) : '',
-                'the_solution' => get_post_field('post_content', $post_id),
+                'the_solution' => $content,
                 'project_status' => isset($project['project_status']) ? $project['project_status'] : '',
                 'project_versions_list' => isset($project['project_versions_list']) && is_serialized($project['project_versions_list']) ? unserialize($project['project_versions_list']) : '',
                 'design' => isset($project['design']) ? $project['design'] : '',

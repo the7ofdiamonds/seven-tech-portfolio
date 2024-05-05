@@ -68,6 +68,7 @@ class Post_Types
                     'hierarchical' => true,
                     'supports' => [
                         'title',
+                        'author',
                         'editor',
                         'excerpt',
                         'thumbnail',
