@@ -68,4 +68,31 @@ class Portfolio
             return $response;
         }
     }
+
+    public function get_portfolio_by_taxonomy(WP_REST_Request $request)
+    {
+        try {
+            $taxonomy = $request->get_param('slug');
+
+            $portfolio = $this->portfolio->getPortfolioProjectsByTaxonomy($taxonomy);
+
+            if (empty($portfolio)) {
+                throw new Exception('No projects were found', 404);
+            }
+
+            return rest_ensure_response(['projects' => $portfolio]);
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
+            $response_data = [
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
+            ];
+
+            $response = rest_ensure_response($response_data);
+            $response->set_status($statusCode);
+
+            return $response;
+        }
+    }
 }

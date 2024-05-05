@@ -2,12 +2,15 @@
 
 namespace SEVEN_TECH\Portfolio\Admin;
 
+use SEVEN_TECH\Portfolio\Taxonomies\ProjectTypes;
 
 class Admin
 {
     public function __construct()
     {
         add_action('admin_menu', [$this, 'register_custom_menu_page']);
+
+        new ProjectTypes;
     }
 
     public function register_custom_menu_page()

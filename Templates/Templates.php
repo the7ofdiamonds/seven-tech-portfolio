@@ -10,6 +10,8 @@ class Templates
     private $css;
     private $js;
     private $pluginDir;
+    private $cssDir;
+    private $jsDir;
 
     public function __construct(
         CSS $css,
@@ -18,6 +20,8 @@ class Templates
         $this->css = $css;
         $this->js = $js;
         $this->pluginDir = SEVEN_TECH_PORTFOLIO;
+        $this->cssDir = SEVEN_TECH_PORTFOLIO . 'dist/css/';
+        $this->jsDir = SEVEN_TECH_PORTFOLIO . 'dist/js/';
     }
 
     function get_front_page_template($frontpage_template, $sections)
@@ -38,45 +42,58 @@ class Templates
         return $frontpage_template;
     }
 
-
-    function get_custom_page_template($template_include, $custom_page)
+    function get_custom_page_template($template, $custom_page)
     {
+
         if (isset($custom_page['file_name'])) {
             $filename = $custom_page['file_name'];
+            $filename_css = "{$this->cssDir}{$filename}.css";
+            $filename_js = "{$this->jsDir}{$filename}.js";
 
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
-        }
+            if (file_exists($filename_css)) {
+                add_action('wp_head', function () use ($filename) {
+                    $this->css->load_pages_css($filename);
+                });
+            }
 
-        if (isset($custom_page['name'])) {
-            $custom_template = "{$this->pluginDir}Pages/page-{$custom_page['name']}.php";
-
-            if (file_exists($custom_template)) {
-
-                return $custom_template;
+            if (file_exists($filename_js)) {
+                add_action('wp_footer', function () use ($filename) {
+                    $this->js->load_pages_react($filename);
+                });
             }
         }
-        
-        return $template_include;
+
+        if (isset($custom_page['page_name'])) {
+            $template = "{$this->pluginDir}Pages/page-{$custom_page['page_name']}.php";
+
+            if (file_exists($template)) {
+                return $template;
+            }
+        }
+
+        return $template;
     }
 
     function get_protected_page_template($template_include, $protected_page)
     {
-        $template = "{$this->pluginDir}Pages/page-protected.php";
+        $template = $this->pluginDir . 'Pages/page-protected.php';
 
         if (file_exists($template)) {
             $filename = $protected_page['file_name'];
+            $filename_css = "{$this->cssDir}{$filename}.css";
+            $filename_js = "{$this->jsDir}{$filename}.js";
 
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
+            if (file_exists($filename_css)) {
+                add_action('wp_head', function () use ($filename) {
+                    $this->css->load_pages_css($filename);
+                });
+            }
+
+            if (file_exists($filename_js)) {
+                add_action('wp_footer', function () use ($filename) {
+                    $this->js->load_pages_react($filename);
+                });
+            }
 
             return $template;
         } else {
@@ -88,76 +105,84 @@ class Templates
 
     function get_page_template($template_include, $page)
     {
-        $template = "{$this->pluginDir}Pages/page.php";
+        $filename = $page['file_name'];
+        $filename_css = "{$this->cssDir}{$filename}.css";
+        $filename_js = "{$this->jsDir}{$filename}.js";
+
+        if (file_exists($filename_css)) {
+            add_action('wp_head', function () use ($filename) {
+                $this->css->load_pages_css($filename);
+            });
+        }
+
+        if (file_exists($filename_js)) {
+            add_action('wp_footer', function () use ($filename) {
+                $this->js->load_pages_react($filename);
+            });
+        }
+
+        $template = $this->pluginDir . 'Pages/page.php';;
 
         if (file_exists($template)) {
-            $filename = $page['file_name'];
-
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
-
             return $template;
+        }
+
+        return $template_include;
+    }
+
+    public function get_taxonomy_page_template($template_include, $taxonomy, $filename)
+    {
+        $taxonomy_template = "{$this->pluginDir}Taxonomies/Taxonomy-{$taxonomy['name']}.php";
+
+        if (file_exists($taxonomy_template)) {
+            $filename_css = "{$this->cssDir}{$filename}.css";
+            $filename_js = "{$this->jsDir}{$filename}.js";
+
+            if (file_exists($filename_css)) {
+                add_action('wp_head', function () use ($filename) {
+                    $this->css->load_pages_css($filename);
+                });
+            }
+
+            if (file_exists($filename_js)) {
+                add_action('wp_footer', function () use ($filename) {
+                    $this->js->load_pages_react($filename);
+                });
+            }
+
+            return $taxonomy_template;
         } else {
-            error_log('Page Template does not exist.');
+            error_log('Taxonomy Page Template does not exist.');
         }
 
         return $template_include;
-    }
-
-    function get_page_list_template($template_include, $page)
-    {
-        $filename = $page['file_name'];
-
-        add_action('wp_head', function () use ($filename) {
-            $this->css->load_pages_css($filename);
-        });
-        add_action('wp_footer', function () use ($filename) {
-            $this->js->load_pages_react($filename);
-        });
-
-        return $template_include;
-    }
-
-    function get_taxonomy_page_template($taxonomy_template, $taxonomy)
-    {
-        $custom_taxonomy_template = "{$this->pluginDir}Taxonomies/taxonomy-{$taxonomy['file_name']}.php";
-
-        if (file_exists($custom_taxonomy_template)) {
-            $filename = $taxonomy['file_name'];
-
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
-
-            return $custom_taxonomy_template;
-        }
-
-        return $taxonomy_template;
     }
 
     function get_archive_page_template($archive_template, $post_type)
     {
         if (is_post_type_archive($post_type['name'])) {
-            $custom_archive_template = "{$this->pluginDir}Post_Types/{$post_type['name']}/archive-{$post_type['name']}.php";
+            $archive_template = "{$this->pluginDir}Post_Types/{$post_type['dir']}/archive-{$post_type['slug']}.php";
 
-            if (file_exists($custom_archive_template)) {
-                $filename = $post_type['plural'];
+            if (file_exists($archive_template)) {
+                $filename = $post_type['archive_page'];
+                $filename_css = "{$this->cssDir}{$filename}.css";
+                $filename_js = "{$this->jsDir}{$filename}.js";
 
-                add_action('wp_head', function () use ($filename) {
-                    $this->css->load_pages_css($filename);
-                });
-                add_action('wp_footer', function () use ($filename) {
-                    $this->js->load_pages_react($filename);
-                });
+                if (file_exists($filename_css)) {
+                    add_action('wp_head', function () use ($filename) {
+                        $this->css->load_pages_css($filename);
+                    });
+                }
 
-                return $custom_archive_template;
+                if (file_exists($filename_js)) {
+                    add_action('wp_footer', function () use ($filename) {
+                        $this->js->load_pages_react($filename);
+                    });
+                }
+
+                return $archive_template;
+            } else {
+                error_log('Archive Page Template does not exist.');
             }
         }
 
@@ -166,19 +191,30 @@ class Templates
 
     function get_single_page_template($single_template, $post_type)
     {
-        $custom_single_template = "{$this->pluginDir}Post_Types/{$post_type['name']}/single-{$post_type['name']}.php";
+        if (is_singular($post_type['name'])) {
+            $single_template = "{$this->pluginDir}Post_Types/{$post_type['dir']}/single-{$post_type['slug']}.php";
 
-        if (file_exists($custom_single_template)) {
-            $filename = $post_type['singular'];
+            if (file_exists($single_template)) {
+                $filename = $post_type['single_page'];
+                $filename_css = "{$this->cssDir}{$filename}.css";
+                $filename_js = "{$this->jsDir}{$filename}.js";
 
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-            add_action('wp_footer', function () use ($filename) {
-                $this->js->load_pages_react($filename);
-            });
+                if (file_exists($filename_css)) {
+                    add_action('wp_head', function () use ($filename) {
+                        $this->css->load_pages_css($filename);
+                    });
+                }
 
-            return $custom_single_template;
+                if (file_exists($filename_js)) {
+                    add_action('wp_footer', function () use ($filename) {
+                        $this->js->load_pages_react($filename);
+                    });
+                }
+
+                return $single_template;
+            } else {
+                error_log("{$post_type['name']} Single Page Template does not exist.");
+            }
         }
 
         return $single_template;

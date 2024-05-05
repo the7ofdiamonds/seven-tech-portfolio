@@ -152,4 +152,33 @@ class Portfolio
             throw new Exception($e);
         }
     }
+
+    public function getPortfolioProjectsByTaxonomy($taxonomy)
+    {
+        try {
+            $projects = $this->post_types->getPostTypesByTaxonomy($taxonomy, $this->post_type);
+
+            if (empty($projects)) {
+                return '';
+            }
+
+            $portfolio = [];
+
+            foreach ($projects as $project) {
+                $id = $project->ID;
+                $postType = $project->post_type;
+                $created = $project->post_date;
+                $updated = $project->post_modified;
+                $title = $project->post_title;
+                $description = $project->post_excerpt;
+                $url = "/{$project->post_type}/{$project->post_name}";
+
+                $portfolio[] = $this->getPortfolioProject($id, $postType, $created, $updated, $title, $description, $url);
+            }
+
+            return $portfolio;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
 }

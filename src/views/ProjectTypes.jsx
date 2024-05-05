@@ -2,12 +2,8 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import {
-  getProjectTypes,
-  getSkills,
-  getFrameworks,
-  getTechnologies,
-} from '../controllers/taxonomiesSlice';
+import { getProjectTypes } from '../controllers/taxonomiesSlice';
+import { getPortfolioProjectsByTaxonomy } from '../controllers/portfolioSlice';
 
 import Projects from './components/Projects';
 import TaxList from './components/TaxList';
@@ -23,26 +19,21 @@ function ProjectTypesPage() {
     taxonomiesErrorMessage,
     icon,
     title,
-    projects,
     project_types,
-    skills,
-    frameworks,
-    technologies,
   } = useSelector((state) => state.taxonomies);
+  const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
+    (state) => state.portfolio
+  );
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getProjectType(type));
-  }, [dispatch, type]);
 
   useEffect(() => {
     dispatch(getProjectTypes());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(getProjectTags());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getPortfolioProjectsByTaxonomy('ProjectTypes'));
+  }, [dispatch]);
 
   if (taxonomiesLoading) {
     return <LoadingComponent />;
@@ -56,14 +47,6 @@ function ProjectTypesPage() {
         </h1>
 
         <Projects projects={projects} />
-
-        <TaxList tax={project_types} title={'project types'} />
-
-        <TaxList tax={skills} title={'skills'} />
-
-        <TaxList tax={frameworks} title={'frameworks'} />
-
-        <TaxList tax={technologies} title={'technologies'} />
       </main>
     </>
   );

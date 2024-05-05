@@ -14,7 +14,7 @@ class ProjectTypes
 
     public function __construct()
     {
-        $this->taxonomy = 'Project_Types';
+        $this->taxonomy = 'ProjectTypes';
 
         add_filter("manage_edit-{$this->taxonomy}_columns", [$this, 'edit_columns']);
         add_action("manage_{$this->taxonomy}_custom_column", [$this, 'manage_columns'], 10, 3);

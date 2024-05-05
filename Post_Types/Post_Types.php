@@ -136,4 +136,44 @@ class Post_Types
             throw new Exception($e);
         }
     }
+
+    public function getPostTypesByTaxonomy($taxonomy, $postType)
+    {
+        try {
+            if (!taxonomy_exists($taxonomy)) {
+                throw new Exception('Taxonomy does not exists.', 404);
+            }
+
+            if (!post_type_exists($postType)) {
+                throw new Exception('Post type does not exists.', 404);
+            }
+
+            $args = array(
+                'post_type' => $postType,
+                'posts_per_page' => -1,
+            );
+
+            $query = new WP_Query($args);
+
+            $posts = $query->posts;
+
+            if (empty($posts)) {
+                return '';
+            }
+
+            $post_types = [];
+
+            foreach ($posts as $post) {
+                $terms = wp_get_post_terms($post->ID, $taxonomy);
+
+                if (!empty($terms)) {
+                    $post_types[] = $post;
+                }
+            }
+
+            return $post_types;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
 }

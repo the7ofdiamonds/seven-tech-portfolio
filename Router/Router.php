@@ -41,15 +41,12 @@ class Router
         try {
             $path = $_SERVER['REQUEST_URI'];
 
-            if (preg_match('#^/$|^/index\.php(?:\?|$)#', $path)) {
+            if (!empty($this->front_page_react) && preg_match("#^/$#", $path)) {
+                $sections = $this->front_page_react;
 
-                if (!empty($this->front_page_react)) {
-                    $sections = $this->front_page_react;
-
-                    add_filter('frontpage_template', function ($frontpage_template) use ($sections) {
-                        return $this->templates->get_front_page_template($frontpage_template, $sections);
-                    });
-                }
+                add_filter('frontpage_template', function ($frontpage_template) use ($sections) {
+                    return $this->templates->get_front_page_template($frontpage_template, $sections);
+                });
             }
 
             if (!empty($this->custom_pages)) {
@@ -121,7 +118,7 @@ class Router
                     }
 
                     if (preg_match("#^/{$taxonomy['slug']}/([a-zA-Z-]+)#", $path)) {
-                        $filename = $taxonomy['singular'];
+                        $filename = str_replace(' ', '', $taxonomy['singular']);
 
                         add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
                             return $this->templates->get_taxonomy_page_template($template_include, $taxonomy, $filename);
@@ -130,7 +127,7 @@ class Router
                     }
 
                     if (preg_match("#^/{$taxonomy['slug']}#", $path)) {
-                        $filename = $taxonomy['plural'];
+                        $filename = str_replace(' ', '', $taxonomy['plural']);
 
                         add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
                             return $this->templates->get_taxonomy_page_template($template_include, $taxonomy, $filename);
@@ -178,5 +175,6 @@ class Router
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
+        add_rewrite_rule('^project-types?$', 'index.php', 'top');
     }
 }

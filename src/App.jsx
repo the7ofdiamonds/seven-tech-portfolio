@@ -31,7 +31,8 @@ function App() {
             />
             <Route index path="/" element={<Portfolio />} />
             <Route path="portfolio" element={<Portfolio />} />
-            <Route path="project/type/:type" element={<ProjectTypes />} />
+            <Route path="project-types/:type" element={<ProjectTypes />} />
+            <Route path="project-types" element={<ProjectTypes />} />
             <Route path="project/tag/:tag" element={<ProjectTags />} />
             <Route path="portfolio/:project" element={<Project />} />
             <Route path="founders/:user/" element={<User />} />

@@ -27,7 +27,7 @@ class Taxonomies
 
         $this->taxonomies_list = [
             [
-                'name' => 'Project Types',
+                'name' => 'ProjectTypes',
                 'singular' => 'Project Type',
                 'plural' => 'Project Types',
                 'slug' => 'project-types',
