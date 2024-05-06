@@ -5,7 +5,7 @@ const initialState = {
   portfolioError: '',
   portfolioErrorMessage: '',
   portfolioStatusCode: '',
-  projects: '',
+  portfolio: '',
 };
 
 export const getPortfolio = createAsyncThunk('portfolio/getPortfolio', async () => {
@@ -62,6 +62,27 @@ export const getPortfolioProjectsByTaxonomy = createAsyncThunk('portfolio/getPor
   }
 });
 
+export const getPortfolioProjectsWithTerm = createAsyncThunk('portfolio/getPortfolioProjectsWithTerm', async ({taxonomy, term}) => {
+  try {
+    const response = await fetch(`/wp-json/seven-tech/portfolio/v1/projects/taxonomies/${taxonomy}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          term: term
+      })
+    });
+
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+});
+
 export const portfolioSlice = createSlice({
   name: 'portfolio',
   initialState,
@@ -70,18 +91,20 @@ export const portfolioSlice = createSlice({
       .addMatcher(isAnyOf(
         getPortfolio.fulfilled,
         getPortfolioProjectsByUser.fulfilled,
-        getPortfolioProjectsByTaxonomy.fulfilled
+        getPortfolioProjectsByTaxonomy.fulfilled,
+        getPortfolioProjectsWithTerm.fulfilled
       ), (state, action) => {
         state.portfolioLoading = false;
         state.portfolioError = '';
         state.portfolioErrorMessage = action.payload.errorMessage;
         state.portfolioStatusCode = action.payload.statusCode;
-        state.projects = action.payload.projects;
+        state.portfolio = action.payload.portfolio;
       })
       .addMatcher(isAnyOf(
         getPortfolio.pending,
         getPortfolioProjectsByUser.pending,
-        getPortfolioProjectsByTaxonomy.pending
+        getPortfolioProjectsByTaxonomy.pending,
+        getPortfolioProjectsWithTerm.pending
       ), (state) => {
           state.portfolioLoading = true;
           state.portfolioError = '';
@@ -91,7 +114,8 @@ export const portfolioSlice = createSlice({
       .addMatcher(isAnyOf(
         getPortfolio.rejected,
         getPortfolioProjectsByUser.rejected,
-        getPortfolioProjectsByTaxonomy.rejected
+        getPortfolioProjectsByTaxonomy.rejected,
+        getPortfolioProjectsWithTerm.rejected
       ), (state, action) => {
           state.portfolioLoading = false;
           state.portfolioError = action.error;

@@ -6,19 +6,19 @@ import {
   getProjectTypes,
   getSkills,
   getFrameworks,
-  getTechnologies
+  getTechnologies,
 } from '../controllers/taxonomiesSlice';
 
-import Projects from './components/Projects';
-import TaxList from './components/TaxList';
-
-import LoadingComponent from '../views/components/global/LoadingComponent';
+import LoadingComponent from './components/global/LoadingComponent';
+import PortfolioComponent from './components/PortfolioComponent';
 
 function Portfolio() {
-  const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
+  const { portfolioLoading, portfolioErrorMessage, portfolio } = useSelector(
     (state) => state.portfolio
   );
-  const { projectTypes, skills, frameworks, technologies } = useSelector((state) => state.taxonomies);
+  const { projectTypes, skills, frameworks, technologies } = useSelector(
+    (state) => state.taxonomies
+  );
 
   const dispatch = useDispatch();
 
@@ -48,19 +48,13 @@ function Portfolio() {
 
   return (
     <>
-      <main className="portfolio">
-        <h1 class="title">portfolio</h1>
-
-        <Projects projects={projects} />
-
-        <TaxList tax={projectTypes} title={'project types'} />
-
-        <TaxList tax={skills} title={'skills'} />
-
-        <TaxList tax={frameworks} title={'frameworks'} />
-
-        <TaxList tax={technologies} title={'technologies'} />
-      </main>
+      <PortfolioComponent
+        projects={portfolio}
+        projectTypes={projectTypes}
+        skills={skills}
+        frameworks={frameworks}
+        technologies={technologies}
+      />
     </>
   );
 }

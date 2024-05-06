@@ -66,6 +66,12 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
+        register_rest_route('seven-tech/portfolio/v1', '/projects/taxonomies/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'POST',
+            'callback' => [$portfolio, 'get_portfolio_with_term'],
+            'permission_callback' => '__return_true',
+        ]);
+
         register_rest_route('seven-tech/portfolio/v1', '/projects/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
             'callback' => [$project, 'get_project'],

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { getProjectType } from '../controllers/taxonomiesSlice';
+import { getPortfolioProjectsWithTerm } from '../controllers/portfolioSlice';
 import {
   getFoundersWithTerm,
   getExecutivesWithTerm,
@@ -14,6 +15,7 @@ import {
 import LoadingComponent from './components/LoadingComponent';
 import ErrorComponent from './components/ErrorComponent';
 import HeaderIconComponent from './components/HeaderIconComponent';
+import Projects from './components/Projects';
 import GroupMembers from './components/GroupMembers';
 
 function ProjectType() {
@@ -23,6 +25,10 @@ function ProjectType() {
 
   useEffect(() => {
     dispatch(getProjectType(projectType));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getPortfolioProjectsWithTerm({ taxonomy: 'ProjectTypes', term: projectType }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -66,6 +72,7 @@ function ProjectType() {
     description,
     url,
   } = useSelector((state) => state.taxonomies);
+  const { portfolio } = useSelector((state) => state.portfolio);
   const { founders, executives, managingMembers, freelancers, employees } =
     useSelector((state) => state.postType);
 
@@ -87,6 +94,8 @@ function ProjectType() {
         </div>
       )}
 
+      <Projects projects={portfolio} />
+      
       <GroupMembers group={founders} />
       <GroupMembers group={executives} />
       <GroupMembers group={managingMembers} />

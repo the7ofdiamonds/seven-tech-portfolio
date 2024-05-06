@@ -181,4 +181,29 @@ class Portfolio
             throw new Exception($e);
         }
     }
+
+    public function getPortfolioProjectsWithTerm($taxonomy, $term)
+    {
+        $projects = $this->post_types->getPostTypeWithTerm($this->post_type, $taxonomy, $term);
+
+        if (empty($projects)) {
+            return '';
+        }
+
+        $portfolio = [];
+
+        foreach ($projects as $project) {
+            $id = $project->ID;
+            $postType = $project->post_type;
+            $created = $project->post_date;
+            $updated = $project->post_modified;
+            $title = $project->post_title;
+            $description = $project->post_excerpt;
+            $url = "/{$project->post_type}/{$project->post_name}";
+
+            $portfolio[] = $this->getPortfolioProject($id, $postType, $created, $updated, $title, $description, $url);
+        }
+
+        return $portfolio;
+    }
 }

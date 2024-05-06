@@ -1,0 +1,1 @@
+{"version":3,"file":"Term.js","sources":["../../src/views/Term.jsx"],"sourcesContent":["import React from 'react'\n\nfunction Term() {\n  return (\n    <div>Term</div>\n  )\n}\n\nexport default Term"],"names":["Term","jsx","children"],"mappings":"+BAEA,SAASA,GAAO,CAEZ,OAAAC,EAAAA,IAAC,OAAIC,SAAI,MAAA,CAAA,CAEb"}

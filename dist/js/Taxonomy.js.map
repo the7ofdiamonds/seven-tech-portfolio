@@ -1,0 +1,1 @@
+{"version":3,"file":"Taxonomy.js","sources":["../../src/views/Taxonomy.jsx"],"sourcesContent":["import React from 'react'\n\nfunction Taxonomy() {\n  return (\n    <div>Taxonomy</div>\n  )\n}\n\nexport default Taxonomy"],"names":["Taxonomy","jsx","children"],"mappings":"+BAEA,SAASA,GAAW,CAEhB,OAAAC,EAAAA,IAAC,OAAIC,SAAQ,UAAA,CAAA,CAEjB"}

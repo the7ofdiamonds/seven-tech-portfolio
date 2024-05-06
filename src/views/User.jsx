@@ -17,10 +17,10 @@ import PortfolioComponent from './components/PortfolioComponent';
 function User() {
   const { user } = useParams();
 
-  const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
+  const { portfolioLoading, portfolioErrorMessage, portfolio } = useSelector(
     (state) => state.portfolio
   );
-  const { project_types, skills, frameworks, technologies } = useSelector(
+  const { projectTypes, skills, frameworks, technologies } = useSelector(
     (state) => state.taxonomies
   );
 
@@ -53,8 +53,8 @@ function User() {
   return (
     <>
       <PortfolioComponent
-        projects={projects}
-        project_types={project_types}
+        projects={portfolio}
+        projectTypes={projectTypes}
         skills={skills}
         frameworks={frameworks}
         technologies={technologies}

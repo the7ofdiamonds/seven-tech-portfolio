@@ -18,7 +18,7 @@ function ProjectTypes() {
     title,
     projectTypes,
   } = useSelector((state) => state.taxonomies);
-  const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
+  const { portfolioLoading, portfolioErrorMessage, portfolio } = useSelector(
     (state) => state.portfolio
   );
 
@@ -44,11 +44,11 @@ function ProjectTypes() {
         <TaxTableComponent terms={projectTypes} />
       </main>
       
-      {projects && (
+      {portfolio && (
         <main className="portfolio">
           <h1 class="title">portfolio</h1>
 
-          <Projects projects={projects} />
+          <Projects projects={portfolio} />
         </main>
       )}
     </>
