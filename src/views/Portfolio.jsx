@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 import { getPortfolio } from '../controllers/portfolioSlice';
 import {
@@ -19,7 +18,7 @@ function Portfolio() {
   const { portfolioLoading, portfolioErrorMessage, projects } = useSelector(
     (state) => state.portfolio
   );
-  const { project_types, skills, frameworks, technologies } = useSelector((state) => state.taxonomies);
+  const { projectTypes, skills, frameworks, technologies } = useSelector((state) => state.taxonomies);
 
   const dispatch = useDispatch();
 
@@ -54,7 +53,7 @@ function Portfolio() {
 
         <Projects projects={projects} />
 
-        <TaxList tax={project_types} title={'project types'} />
+        <TaxList tax={projectTypes} title={'project types'} />
 
         <TaxList tax={skills} title={'skills'} />
 

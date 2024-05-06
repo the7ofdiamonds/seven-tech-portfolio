@@ -1,0 +1,1 @@
+.versions{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;width:100%}.versions h4{text-transform:uppercase}.versions .current-version{text-align:center}.versions .upcoming-versions{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}.versions .feature{text-align:right}

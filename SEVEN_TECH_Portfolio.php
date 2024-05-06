@@ -102,7 +102,7 @@ class SEVEN_TECH_Portfolio
     function activate()
     {
         (new Database)->createTables();
-        (new Roles)->add_roles();
+        (new Roles)->addRoles();
         $this->pages->add_pages();
         $this->router->react_rewrite_rules();
     }

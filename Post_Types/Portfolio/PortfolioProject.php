@@ -5,20 +5,24 @@ namespace SEVEN_TECH\Portfolio\Post_Types\Portfolio;
 use Exception;
 
 use SEVEN_TECH\Portfolio\Media\Media;
+
 use SEVEN_TECH\Portfolio\Database\DatabaseProject;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectOnboarding;
 use SEVEN_TECH\Portfolio\Database\DatabaseProjectProblem;
 
 use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
 
+use SEVEN_TECH\Portfolio\User\User;
+
 class PortfolioProject
 {
-    public $post_type;
-    public $media;
-    public $project_database;
-    public $onboarding_database;
-    public $theproblem_database;
-    public $taxonomies;
+    private $post_type;
+    private $media;
+    private $project_database;
+    private $onboarding_database;
+    private $theproblem_database;
+    private $taxonomies;
+    private $user;
 
     public function __construct()
     {
@@ -30,6 +34,7 @@ class PortfolioProject
         $this->theproblem_database = new DatabaseProjectProblem();
 
         $this->taxonomies = new Taxonomies;
+        $this->user = new User;
     }
 
     function createPortfolioProject($project)
@@ -195,22 +200,7 @@ class PortfolioProject
 
         if (isset($team_ids) && is_array($team_ids)) {
             foreach ($team_ids as $member_id) {
-                $user_data = get_userdata($member_id);
-
-                if ($user_data) {
-
-                    $member = [
-                        'id' => $user_data->ID,
-                        'first_name' => $user_data->first_name,
-                        'last_name' => $user_data->last_name,
-                        'email' => $user_data->user_email,
-                        'role' => isset($member['role']) ? $member['role'] : '',
-                        'author_url' => $user_data->user_url,
-                        'avatar_url' => get_avatar_url($user_data->ID, ['size' => 384])
-                    ];
-
-                    $project_team[] = $member;
-                }
+                $project_team[] = $this->user->getUser($member_id);
             }
         }
 

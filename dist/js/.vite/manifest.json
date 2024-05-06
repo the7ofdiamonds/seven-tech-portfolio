@@ -6,6 +6,13 @@
       "src/index.jsx"
     ]
   },
+  "_Member.js": {
+    "file": "Member.js",
+    "name": "Member",
+    "imports": [
+      "src/index.jsx"
+    ]
+  },
   "_Modal.js": {
     "file": "Modal.js",
     "name": "Modal",
@@ -84,6 +91,7 @@
       "src/views/components/global/LoadingComponent.jsx",
       "_ProjectStatus.js",
       "_TaxList.js",
+      "_Member.js",
       "_useDispatch.js"
     ]
   },
@@ -119,6 +127,7 @@
     "imports": [
       "src/index.jsx",
       "_IconComponent.js",
+      "_Member.js",
       "_useDispatch.js"
     ]
   },
