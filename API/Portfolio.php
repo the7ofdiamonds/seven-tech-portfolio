@@ -105,7 +105,7 @@ class Portfolio
             $portfolio = $this->portfolio->getPortfolioProjectsWithTerm($taxonomy, $term);
 
             if (empty($portfolio)) {
-                throw new Exception('There are no employees to show.', 404);
+                throw new Exception('No projects were found', 404);
             }
 
             return rest_ensure_response(['portfolio' => $portfolio]);

@@ -1,7 +1,21 @@
 {
+  "_ErrorComponent.js": {
+    "file": "ErrorComponent.js",
+    "name": "ErrorComponent",
+    "imports": [
+      "src/index.jsx"
+    ]
+  },
   "_IconComponent.js": {
     "file": "IconComponent.js",
     "name": "IconComponent",
+    "imports": [
+      "src/index.jsx"
+    ]
+  },
+  "_LoadingComponent2.js": {
+    "file": "LoadingComponent2.js",
+    "name": "LoadingComponent",
     "imports": [
       "src/index.jsx"
     ]
@@ -136,6 +150,7 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.jsx",
+      "_ErrorComponent.js",
       "_Projects.js",
       "_Member.js",
       "_useDispatch.js",
@@ -161,7 +176,11 @@
     "src": "src/views/Taxonomy.jsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx"
+      "src/index.jsx",
+      "_ErrorComponent.js",
+      "_Projects.js",
+      "_useDispatch.js",
+      "_ProjectStatus.js"
     ]
   },
   "src/views/Term.jsx": {
@@ -170,7 +189,11 @@
     "src": "src/views/Term.jsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx"
+      "src/index.jsx",
+      "_ErrorComponent.js",
+      "_Projects.js",
+      "_useDispatch.js",
+      "_ProjectStatus.js"
     ]
   },
   "src/views/User.jsx": {

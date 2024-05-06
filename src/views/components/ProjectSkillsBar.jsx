@@ -8,7 +8,7 @@ function ProjectSkills(props) {
   return (
     <>
       {Array.isArray(skills) && skills.length > 0 && (
-        <div className="technologies">
+        <div className="project-skills-bar">
           {skills.map((tech, index) => (
             <IconComponent key={index} icon={tech.icon} url={tech.url}/>
           ))}

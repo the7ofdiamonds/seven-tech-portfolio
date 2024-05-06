@@ -46,6 +46,36 @@ class Pages
                 'url' => '^employees/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/employees/([a-zA-Z0-9-_]+)+#',
                 'file_name' => 'User'
+            ],
+            [
+                'url' => '^frameworks/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/frameworks/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'Term'
+            ],
+            [
+                'url' => '^frameworks?',
+                'regex' => '#^/frameworks#',
+                'file_name' => 'Taxonomy'
+            ],
+            [
+                'url' => '^skills/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/skills/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'Term'
+            ],
+            [
+                'url' => '^skills?',
+                'regex' => '#^/skills#',
+                'file_name' => 'Taxonomy'
+            ],
+            [
+                'url' => '^technologies/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/technologies/([a-zA-Z0-9-_]+)+#',
+                'file_name' => 'Term'
+            ],
+            [
+                'url' => '^technologies?',
+                'regex' => '#^/technologies#',
+                'file_name' => 'Taxonomy'
             ]
         ];
 

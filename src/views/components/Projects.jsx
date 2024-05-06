@@ -2,7 +2,7 @@ import React from 'react';
 
 import Gallery from './Gallery';
 import ProjectStatus from './ProjectStatus';
-import ProjectSkills from './ProjectSkills';
+import ProjectSkillsBar from './ProjectSkillsBar';
 import ProjectDescription from './ProjectDescription';
 
 function Projects(props) {
@@ -10,7 +10,7 @@ function Projects(props) {
 
   return (
     <>
-      {projects && projects.length > 0
+      {Array.isArray(projects)
         ? projects.map((project, index) => (
             <a href={`${project.url}`}>
               <div key={index} className="project-card card">
@@ -19,7 +19,7 @@ function Projects(props) {
 
                 <ProjectStatus project_status={project.project_status} />
 
-                <ProjectSkills skills={project.skills} />
+                <ProjectSkillsBar skills={project.skills} />
 
                 <ProjectDescription description={project.description} />
               </div>
