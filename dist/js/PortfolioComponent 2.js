@@ -1,0 +1,2 @@
+import{j as t}from"./index.js";import{P as x}from"./Projects.js";import{T as s}from"./TaxList.js";function n(o){var e=o.portfolio,r=o.projectTypes,i=o.skills,l=o.frameworks,a=o.technologies;return t.jsx(t.Fragment,{children:e&&t.jsxs("main",{className:"portfolio",children:[t.jsx("h1",{class:"title",children:"portfolio"}),t.jsx(x,{projects:e}),t.jsx(s,{tax:r,title:"Project Types"}),t.jsx(s,{tax:i,title:"Skills"}),t.jsx(s,{tax:l,title:"Frameworks"}),t.jsx(s,{tax:a,title:"Technologies"})]})})}export{n as P};
+//# sourceMappingURL=PortfolioComponent.js.map

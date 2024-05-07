@@ -1,0 +1,1 @@
+.overlay{width:100%;height:100%;background-color:rgba(0,0,0,.7);position:fixed;top:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center}.overlay .modal h4{color:#fff}.overlay .card.modal{position:unset}

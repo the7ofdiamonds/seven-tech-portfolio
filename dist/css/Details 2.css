@@ -1,0 +1,1 @@
+﻿details summary{display:flex;justify-content:center;align-items:center;gap:.75rem}details summary::after{content:"►";margin-left:5px}details summary::after{display:none}
