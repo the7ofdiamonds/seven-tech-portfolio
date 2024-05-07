@@ -26,7 +26,7 @@ class Portfolio
                 throw new Exception('No projects were found', 404);
             }
 
-            return rest_ensure_response(['projects' => $portfolio]);
+            return rest_ensure_response(['portfolio' => $portfolio]);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 

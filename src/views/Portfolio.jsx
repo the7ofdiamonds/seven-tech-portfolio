@@ -49,7 +49,7 @@ function Portfolio() {
   return (
     <>
       <PortfolioComponent
-        projects={portfolio}
+        portfolio={portfolio}
         projectTypes={projectTypes}
         skills={skills}
         frameworks={frameworks}
