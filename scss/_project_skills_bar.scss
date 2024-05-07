@@ -1,12 +1,16 @@
-.project-skills-bar{
+.project-skills-bar {
   display: flex;
+  justify-content: center;
   gap: 1rem;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
 
   i {
     font-size: 2rem;
   }
 
-  img{
+  img {
     width: auto;
     height: 2rem;
   }

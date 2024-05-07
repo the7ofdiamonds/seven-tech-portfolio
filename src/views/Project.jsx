@@ -48,7 +48,7 @@ function Project() {
   return (
     <>
       <main className="project">
-        <h2 class="title">{title}</h2>
+        <h1 class="title">{title}</h1>
 
         <Gallery gallery={solution_gallery} />
 
