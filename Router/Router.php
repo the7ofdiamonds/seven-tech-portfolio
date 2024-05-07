@@ -55,7 +55,6 @@ class Router
                         error_log('Regex is required for custom_pages at Pages.');
                         break;
                     }
-
                     if (preg_match($custom_page['regex'], $path)) {
                         add_filter('template_include', function ($template_include) use ($custom_page) {
                             return $this->templates->get_custom_page_template($template_include, $custom_page);

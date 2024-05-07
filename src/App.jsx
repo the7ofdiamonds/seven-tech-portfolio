@@ -5,6 +5,8 @@ const LoadingComponent = lazy(() =>
   import('./views/components/global/LoadingComponent.jsx')
 );
 
+const Dashboard = lazy(() => import('./views/Dashboard.jsx'));
+
 const Portfolio = lazy(() => import('./views/Portfolio.jsx'));
 const Project = lazy(() => import('./views/Project.jsx'));
 
@@ -34,6 +36,7 @@ function App() {
               element={<ProjectProblem />}
             />
             <Route index path="/" element={<Portfolio />} />
+            <Route index path="dashboard" element={<Dashboard />} />
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="portfolio/:project" element={<Project />} />
             <Route path="founders/:user/" element={<User />} />

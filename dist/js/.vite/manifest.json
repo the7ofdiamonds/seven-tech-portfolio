@@ -65,6 +65,7 @@
     "isEntry": true,
     "dynamicImports": [
       "src/views/components/global/LoadingComponent.jsx",
+      "src/views/Dashboard.jsx",
       "src/views/Portfolio.jsx",
       "src/views/Project.jsx",
       "src/views/ProjectOnboarding.jsx",
@@ -74,6 +75,15 @@
       "src/views/ProjectTypes.jsx",
       "src/views/Term.jsx",
       "src/views/Taxonomy.jsx"
+    ]
+  },
+  "src/views/Dashboard.jsx": {
+    "file": "Dashboard.js",
+    "name": "Dashboard",
+    "src": "src/views/Dashboard.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.jsx"
     ]
   },
   "src/views/Portfolio.jsx": {

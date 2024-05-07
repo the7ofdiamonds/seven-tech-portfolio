@@ -76,7 +76,12 @@ class Pages
                 'url' => '^technologies?',
                 'regex' => '#^/technologies#',
                 'file_name' => 'Taxonomy'
-            ]
+            ],
+            [
+                'url' => '^dashboard?',
+                'regex' => '#^/dashboard#',
+                'file_name' => 'Dashboard'
+            ],
         ];
 
         $this->protected_pages = [
