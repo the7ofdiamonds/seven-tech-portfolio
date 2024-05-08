@@ -115,7 +115,7 @@ class Project
             if (empty($project_post)) {
                 throw new Exception('Project does not exists.');
             }
-error_log(print_r($project_post, true));
+
             $project = $this->portfolio_project->getPortfolioProject($project_post);
 
             return rest_ensure_response($project);

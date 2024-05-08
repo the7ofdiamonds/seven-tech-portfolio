@@ -7,6 +7,9 @@ const initialState = {
   projectStatusCode: '',
   id: '',
   title: '',
+  description: '',
+  currency: '',
+  price: '',
   client_id: '',
   post_id: '',
   post_status: '',
@@ -96,6 +99,9 @@ export const portfolioProjectSlice = createSlice({
           state.projectStatusCode = action.payload.statusCode;
           state.id = action.payload.id;
           state.title = action.payload.title;
+          state.description = action.payload.description;
+          state.currency = action.payload.currency;
+          state.price = action.payload.price;
           state.post_id = action.payload.post_id;
           state.client_id = action.payload.client_id;
           state.post_status = action.payload.post_status;

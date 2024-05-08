@@ -216,12 +216,16 @@ class PortfolioProject
             $post_date = $project->post_date;
             $author = $project->post_author;
             $content = $project->post_content;
+            $description = $project->post_excerpt;
 
             if (empty($post_id)) {
                 throw new Exception('Post ID is required to get a project.', 400);
             }
 
             $project = $this->project_database->getProject($post_id);
+
+            $currency = !empty($project['currency']) ? $project['currency'] : 'USD';
+            $price = !empty($project['price']) ? intval($project['price']) : 0;
 
             $solution_gallery = $this->media->urls("portfolio/{$post_id}/solution-gallery");
             $design_gallery = $this->media->urls("portfolio/{$post_id}/design-gallery");
@@ -252,6 +256,9 @@ class PortfolioProject
                 'project_slug' => isset($project['project_slug']) ? $project['project_slug'] : '',
                 'post_status' => $post_status,
                 'post_date' => $post_date,
+                'description' => $description,
+                'currency' => $currency,
+                'price' => $price,
                 'client_id' => isset($project['client_id']) ? $project['client_id'] : '',
                 'solution_gallery' => is_array($solution_gallery) ? $solution_gallery : '',
                 'project_urls_list' => isset($project['project_urls_list']) && is_serialized($project['project_urls_list']) ? unserialize($project['project_urls_list']) : '',

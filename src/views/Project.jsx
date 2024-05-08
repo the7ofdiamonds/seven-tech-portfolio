@@ -7,6 +7,7 @@ import { getProject } from '../controllers/projectSlice';
 import LoadingComponent from './components/global/LoadingComponent';
 
 import Gallery from './components/Gallery';
+import Description from './components/DescriptionComponent';
 import ProjectDetails from './components/ProjectDetails';
 import TheSolution from './components/TheSolution';
 import ProjectURLs from './components/ProjectURLs';
@@ -23,6 +24,10 @@ function Project() {
     projectErrorMessage,
     projectStatusCode,
     title,
+    description,
+    features,
+    currency,
+    price,
     solution_gallery,
     project_urls,
     project_details,
@@ -44,7 +49,7 @@ function Project() {
   if (projectLoading) {
     return <LoadingComponent />;
   }
-  
+
   return (
     <>
       <main className="project">
@@ -52,11 +57,14 @@ function Project() {
 
         <Gallery gallery={solution_gallery} />
 
+        <Description description={description} />
+
+        <TheSolution features={features} currency={'USD'} price={price} the_solution={the_solution} />
+
         <ProjectURLs project_urls={project_urls} />
 
+        {/* Project details is for clients only */}
         <ProjectDetails project_details={project_details} />
-
-        <TheSolution the_solution={the_solution} />
 
         <TheProcess />
 
