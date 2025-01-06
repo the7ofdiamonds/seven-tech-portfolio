@@ -1,12 +1,12 @@
 function CheckList(props) {
-  const { checklist } = props;
+  const { checkList } = props;
 
   return (
     <>
-      {checklist ? (
+      {checkList ? (
         <div className="checklist">
-          {Array.isArray(checklist) &&
-            checklist.map((task, index) => (
+          {Array.isArray(checkList) &&
+            checkList.map((task, index) => (
               <span key={index}>
                 <input
                   type="checkbox"

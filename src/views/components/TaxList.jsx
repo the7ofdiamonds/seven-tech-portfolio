@@ -1,6 +1,6 @@
 function TaxList(props) {
   const { tax, title } = props;
-
+console.log(tax);
   const handleClick = (slug) => {
     window.location.href = slug;
   };

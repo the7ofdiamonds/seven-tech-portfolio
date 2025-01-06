@@ -6,6 +6,8 @@
   "author": "THE7OFDIAMONDS.TECH",
   "license": "ISC",
   "scripts": {
+    "refactor": "./refactor.sh && npm run push",
+    "push": "npm run update-prod",
     "build": "vite build",
     "dev": "npm-run-all --parallel build gulp sync",
     "sync": "browser-sync start --config browsersync.config.js",

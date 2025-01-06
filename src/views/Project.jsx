@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getProject } from '../controllers/projectSlice';
@@ -38,7 +38,7 @@ function Project() {
     skills,
     frameworks,
     technologies,
-  } = useSelector((state) => state.project);
+  } = useSelector((state) => state.portfolio);
 
   const dispatch = useDispatch();
 
