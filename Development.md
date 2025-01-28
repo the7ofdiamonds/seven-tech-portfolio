@@ -1,21 +1,21 @@
-#Table of Contents
+# Table of Contents
 
-##API
+## API
 1. Portfolio
 2. Project
 3. Taxonomies
 4. Team
 
-##CSS
+## CSS
 
-##Database
+## Database
 1. On Boarding
 2. Project
 3. The Problem
 
-##JS
+## JS
 
-##Pages/Views
+## Pages/Views
 1. Portfolio
 2. Project
 3. On Boarding
@@ -23,12 +23,12 @@
 5. Tags
 6. Types
 
-##Post Types
+## Post Types
 1. Portfolio
 
-##Resume?
+## Resume?
 
-##Role (Job Title ?)
+## Role (Job Title ?)
 1. Scrum Master
 2. Software Development Engineer
 3. Full Stack Web Developer
@@ -38,10 +38,10 @@
 7. Development/Operations (DevOps)
 8. Artist
 
-##Shortcakes
+## Shortcakes
 
-##Taxonomies
+## Taxonomies
 1. Types
 2. Tags
 
-##Templates
+## Templates
