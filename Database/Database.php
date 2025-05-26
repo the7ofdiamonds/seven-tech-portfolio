@@ -42,7 +42,7 @@ class Database
                 $this->db_host = $wpdb->dbhost;
                 $this->db_user = $wpdb->dbuser;
                 $this->db_password = $wpdb->dbpassword;
-                $this->db_name = get_option('DB_NAME', 'seven_tech');
+                $this->db_name = get_option('DB_NAME', 'wordpress');
 
                 $this->dsn = "mysql:host=$this->db_host;dbname=$this->db_name;charset=$this->db_charset";
                 $this->connection = new PDO($this->dsn, $this->db_user, $this->db_password);

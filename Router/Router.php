@@ -111,12 +111,12 @@ class Router
 
             if (!empty($this->taxonomies_list)) {
                 foreach ($this->taxonomies_list as $taxonomy) {
-                    if (!isset($taxonomy['slug'])) {
+                    if (!isset($taxonomy->slug)) {
                         error_log('Regex is required for taxonomies at Taxonomies.');
                         break;
                     }
 
-                    if (preg_match("#^/{$taxonomy['slug']}/([a-zA-Z-]+)#", $path)) {
+                    if (preg_match("#^/{$taxonomy->slug}/([a-zA-Z-]+)#", $path)) {
                         $filename = str_replace(' ', '', $taxonomy['singular']);
 
                         add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
@@ -125,7 +125,7 @@ class Router
                         break;
                     }
 
-                    if (preg_match("#^/{$taxonomy['slug']}#", $path)) {
+                    if (preg_match("#^/{$taxonomy->slug}#", $path)) {
                         $filename = str_replace(' ', '', $taxonomy['plural']);
 
                         add_filter('template_include', function ($template_include) use ($taxonomy, $filename) {
@@ -171,6 +171,7 @@ class Router
 
     function react_rewrite_rules()
     {
+        add_rewrite_rule('^dashboard/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');

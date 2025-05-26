@@ -1,13 +1,13 @@
 module.exports = {
     browser: "firefox",
-    proxy: "https://the7ofdiamonds.development",
+    proxy: "https://seventech.local",
     open: 'external',
     ws: true,
     cors: true,
     files: ['**/*.php', '**/*.js', '**/*.css'],
     https: {
-        cert: '/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/THE7OFDIAMONDS.TECH/Development/nginx/ssl/certs/nginx-selfsigned.crt',
-        key: '/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/THE7OFDIAMONDS.TECH/Development/nginx/ssl/private/nginx-selfsigned.key',
+        cert: '/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/SEVEN_TECH/Development/nginx/ssl/certs/nginx-selfsigned.crt',
+        key: '/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/SEVEN_TECH/Development/nginx/ssl/private/nginx-selfsigned.key',
     },
     middleware: [
         function (req, res, next) {

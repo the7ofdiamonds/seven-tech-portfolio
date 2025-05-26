@@ -44,6 +44,13 @@
       "_ProjectStatus.js"
     ]
   },
+  "_StatusBarComponent.js": {
+    "file": "StatusBarComponent.js",
+    "name": "StatusBarComponent",
+    "imports": [
+      "src/index.jsx"
+    ]
+  },
   "_TaxList.js": {
     "file": "TaxList.js",
     "name": "TaxList",
@@ -66,6 +73,9 @@
     "dynamicImports": [
       "src/views/components/global/LoadingComponent.jsx",
       "src/views/Dashboard.jsx",
+      "src/views/SkillAdd.jsx",
+      "src/views/ProjectsEdit.jsx",
+      "src/views/ProjectUpdate.jsx",
       "src/views/Portfolio.jsx",
       "src/views/Project.jsx",
       "src/views/ProjectOnboarding.jsx",
@@ -164,6 +174,36 @@
       "src/views/components/global/LoadingComponent.jsx",
       "_useDispatch.js",
       "_ProjectStatus.js"
+    ]
+  },
+  "src/views/ProjectUpdate.jsx": {
+    "file": "ProjectUpdate.js",
+    "name": "ProjectUpdate",
+    "src": "src/views/ProjectUpdate.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.jsx",
+      "_StatusBarComponent.js",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/ProjectsEdit.jsx": {
+    "file": "ProjectsEdit.js",
+    "name": "ProjectsEdit",
+    "src": "src/views/ProjectsEdit.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.jsx"
+    ]
+  },
+  "src/views/SkillAdd.jsx": {
+    "file": "SkillAdd.js",
+    "name": "SkillAdd",
+    "src": "src/views/SkillAdd.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.jsx",
+      "_StatusBarComponent.js"
     ]
   },
   "src/views/Taxonomy.jsx": {

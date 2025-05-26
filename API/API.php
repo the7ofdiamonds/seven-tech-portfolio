@@ -90,9 +90,9 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/services', [
             'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_skills'],
+            'callback' => [$taxonomies, 'get_services'],
             'permission_callback' => '__return_true',
         ]);
 
@@ -111,6 +111,12 @@ class API
         register_rest_route('seven-tech/portfolio/v1', '/taxonomies/project-types/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
             'callback' => [$taxonomies, 'get_project_type'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills', [
+            'methods' => 'POST',
+            'callback' => [$taxonomies, 'add_skill'],
             'permission_callback' => '__return_true',
         ]);
 

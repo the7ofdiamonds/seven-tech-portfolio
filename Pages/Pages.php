@@ -80,7 +80,26 @@ class Pages
             [
                 'url' => '^dashboard?',
                 'regex' => '#^/dashboard#',
-                'file_name' => 'Dashboard'
+                'file_name' => 'Dashboard',
+                'page_name' => 'Protected'
+            ],
+            [
+                'url' => '^projects/edit?',
+                'regex' => '#^/projects/edit#',
+                'file_name' => 'ProjectsEdit',
+                'page_name' => 'Protected'
+            ],
+            [
+                'url' => '^dashboard?',
+                'regex' => '#^/dashboard#',
+                'file_name' => 'Dashboard',
+                'page_name' => 'Protected'
+            ],
+            [
+                'url' => '^add/skill?',
+                'regex' => '#^/add/skill#',
+                'file_name' => 'SkillAdd',
+                'page_name' => 'Protected'
             ],
         ];
 

@@ -22,6 +22,36 @@ class Taxonomies
         $this->project_types = new ProjectTypes;
     }
 
+    public function add_skill(WP_REST_Request $request)
+    {
+        try {
+            $body = $request->get_json_params();
+
+            $term_name = $body['title'];
+            $taxonomy = $body['type'];
+            $description = $body['description'];
+            $slug = $body['path'];
+
+            error_log(print_r($body, true));
+
+            $addSkill = $this->tax->addTerm($term_name, $taxonomy, $description, $slug);
+            error_log(print_r($addSkill, true));
+            return rest_ensure_response("A new skill of type $taxonomy was added with the title of $term_name successfully.");
+        } catch (Exception $e) {
+            $statusCode = $e->getCode();
+
+            $response_data = [
+                'errorMessage' => $e->getMessage(),
+                'statusCode' => $statusCode
+            ];
+
+            $response = rest_ensure_response($response_data);
+            $response->set_status($statusCode);
+
+            return $response;
+        }
+    }
+
     public function get_project_types()
     {
         try {
@@ -47,22 +77,22 @@ class Taxonomies
         }
     }
 
-    public function get_skills()
+    public function get_services()
     {
         try {
-            $skills = $this->tax->getPostTypeTaxonomies($this->post_type, 'Skills');
+            $services = $this->tax->getPostTypeTaxonomies($this->post_type, 'Services');
 
-            if (empty($skills)) {
-                throw new Exception('No projects found with a Skill.', 404);
+            if (empty($services)) {
+                throw new Exception('No projects found with a Service.', 404);
             }
 
-            return rest_ensure_response(['skills' => $skills]);
+            return rest_ensure_response($services);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);

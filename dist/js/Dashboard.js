@@ -1,2 +1,2 @@
-import{j as r}from"./index.js";function o(){return r.jsx("div",{children:"Dashboard"})}export{o as default};
+import{u as t,j as a}from"./index.js";function n(){var e=t(),s=function(){e("/dashboard/add/skill")},d=function(){e("/dashboard/update/portfolio")};return a.jsx("section",{children:a.jsxs("main",{children:[a.jsx("h2",{className:"title",children:"Dashboard"}),a.jsxs("div",{className:"options",children:[a.jsx("button",{onClick:s,children:a.jsx("h3",{className:"title",children:"add skill"})}),a.jsx("button",{onClick:d,children:a.jsx("h3",{className:"title",children:"update projects"})})]})]})})}export{n as default};
 //# sourceMappingURL=Dashboard.js.map

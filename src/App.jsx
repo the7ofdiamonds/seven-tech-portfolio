@@ -6,6 +6,9 @@ const LoadingComponent = lazy(() =>
 );
 
 const Dashboard = lazy(() => import('./views/Dashboard.jsx'));
+const AddSkill = lazy(() => import('./views/SkillAdd.jsx'));
+const ProjectsEdit = lazy(() => import('./views/ProjectsEdit.jsx'));
+const ProjectUpdate = lazy(() => import('./views/ProjectUpdate.jsx'));
 
 const Portfolio = lazy(() => import('./views/Portfolio.jsx'));
 const Project = lazy(() => import('./views/Project.jsx'));
@@ -36,7 +39,18 @@ function App() {
               element={<ProjectProblem />}
             />
             <Route index path="/" element={<Portfolio />} />
-            <Route index path="dashboard" element={<Dashboard />} />
+
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard/add/skill" element={<AddSkill />} />
+            <Route
+              path="dashboard/projects/edit"
+              element={<ProjectsEdit />}
+            />
+            <Route
+              path="dashboard/update/project/:project"
+              element={<ProjectUpdate />}
+            />
+
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="portfolio/:project" element={<Project />} />
             <Route path="founders/:user/" element={<User />} />

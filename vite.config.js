@@ -5,16 +5,17 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 import rollupConfig from './rollup.config.js';
 
 export default defineConfig({
+    define: {
+        'import.meta.env': process.env,
+    },
     server: {
-        proxy: "https://the7ofdiamonds.development",
+        proxy: "https://seventech.local",
         hmr: {
             protocol: 'ws',
-            host: 'the7ofdiamonds.development',
+            host: 'seventech.local',
         },
         watch: {
-            //     usePolling: true,
-            //     interval: 100,
-            include: ['src/**/*.jsx', 'src/**/*.js'],
+            include: ['src/**/*.jsx', 'src/**/*.js', '/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/github-portfolio/**/*'],
         },
     },
     publicDir: false,
@@ -36,6 +37,7 @@ export default defineConfig({
         reactRefresh(),
     ],
     resolve: {
+        preserveSymlinks: true,
         alias: {
             '/@/': new URL('src/', import.meta.url).pathname + '/',
         },

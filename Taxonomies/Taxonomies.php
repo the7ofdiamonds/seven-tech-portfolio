@@ -3,7 +3,7 @@
 namespace SEVEN_TECH\Portfolio\Taxonomies;
 
 use Exception;
-
+use SEVEN_TECH\Portfolio\Model\WPTaxonomy;
 use  WP_Query;
 
 use SEVEN_TECH\Portfolio\Media\Media;
@@ -26,14 +26,46 @@ class Taxonomies
         ];
 
         $this->taxonomies_list = [
-            [
-                'name' => 'ProjectTypes',
-                'singular' => 'Project Type',
-                'plural' => 'Project Types',
-                'slug' => 'project-types',
-                'menu_position' => 3,
-                'post_types' => $post_types,
-            ]
+            new WPTaxonomy(
+                'Project Types',
+                'Project Type',
+                'Project Types',
+                'project-types',
+                3,
+                $post_types
+            ),
+            new WPTaxonomy(
+                'Languages',
+                'Language',
+                'Languages',
+                'languages',
+                4,
+                $post_types
+            ),
+            new WPTaxonomy(
+                'Frameworks',
+                'Framework',
+                'Frameworks',
+                'frameworks',
+                5,
+                $post_types
+            ),
+            new WPTaxonomy(
+                'Technologies',
+                'Technology',
+                'Technologies',
+                'technologies',
+                6,
+                $post_types
+            ),
+            new WPTaxonomy(
+                'Services',
+                'Service',
+                'Services',
+                'services',
+                7,
+                $post_types
+            ),
         ];
 
         $this->media = new Media;
@@ -43,46 +75,29 @@ class Taxonomies
     {
         if (is_array($this->taxonomies_list)) {
             foreach ($this->taxonomies_list as $taxonomy) {
-                $labels = array(
-                    'name' => $taxonomy['name'],
-                    'singular_name' => $taxonomy['singular'],
-                    'search_items' => 'Search ' . $taxonomy['plural'],
-                    'add_new_item' => 'Add ' . $taxonomy['singular'],
-                    'all_items' => 'All ' . $taxonomy['plural'],
-                    'new_item_name' => $taxonomy['singular'] . ' Name',
-                    'not_found' => $taxonomy['singular'] . ' Not Found',
-                    'not_found_in_trash' => 'No ' . $taxonomy['plural'] . ' found in trash',
-                    'parent_item' => null,
-                    'parent_item_colon' => null,
-                    'edit_item' => 'Edit ' . $taxonomy['singular'],
-                    'update_item' => 'Update ' . $taxonomy['singular'],
-                    'add_new_item' => 'Add New ' . $taxonomy['singular'],
-                    'add_or_remove_items' => 'Add or remove ' . $taxonomy['plural'],
-                    'choose_from_most_used' => 'Choose from most used ' . $taxonomy['plural']
-                );
-
-                $args = array(
-                    'hierarchical' => false,
-                    'labels' => $labels,
-                    'show_ui' => true,
-                    'show_in_rest' => true,
-                    'show_in_nav_menus' => true,
-                    'public' => true,
-                    'has_archive' => true,
-                    'publicly_queryable' => true,
-                    'query_var' => true,
-                    'rewrite' => array(
-                        'with_front' => false,
-                        'slug' => $taxonomy['slug']
-                    ),
-                    'menu_position' => $taxonomy['menu_position'],
-                    'exclude_from_search' => false,
-                    'show_admin_column' => true,
-                    'update_count_callback' => '_update_post_term_count',
-                );
-
-                register_taxonomy($taxonomy['name'], $taxonomy['post_types'], $args);
+                register_taxonomy($taxonomy->name, $taxonomy->post_types, $taxonomy->getArgs());
             }
+        }
+    }
+
+    function addTerm(string $term, string $taxonomy, string $description = '', string $slug = '')
+    {
+        try {
+            $args = array(
+                'description' => $description,
+                'slug' => $slug
+            );
+
+            $result = wp_insert_term($term, $taxonomy, $args);
+
+            return $result;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at addTerm');
+            return $response;
         }
     }
 
@@ -117,7 +132,7 @@ class Taxonomies
             $taxonomyNames = [];
 
             foreach ($this->taxonomies_list as $taxonomy) {
-                $taxonomyNames[] = $taxonomy['name'];
+                $taxonomyNames[] = $taxonomy->name;
             };
 
             return $taxonomyNames;

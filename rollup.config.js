@@ -1,5 +1,7 @@
 import babel from '@rollup/plugin-babel';
 
+import pkg from './package.json';
+
 const rollupConfig = {
     input: './src/index.jsx',
     output: {
@@ -9,7 +11,7 @@ const rollupConfig = {
         chunkFileNames: '[name].js',
         assetFileNames: '[name].[ext]',
     },
-    plugins: [babel({ babelHelpers: 'bundled' })],
+    plugins: [babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' })],
 };
 
 export default rollupConfig;
