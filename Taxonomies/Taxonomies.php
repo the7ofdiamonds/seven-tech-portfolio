@@ -90,14 +90,14 @@ class Taxonomies
 
             $result = wp_insert_term($term, $taxonomy, $args);
 
+            if (is_wp_error($result)) {
+                $errorMessage = $result->get_error_message();
+                throw new Exception($errorMessage, 400);
+            }
+
             return $result;
         } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            $errorCode = $e->getCode();
-            $response = $errorMessage . ' ' . $errorCode;
-
-            error_log($response . ' at addTerm');
-            return $response;
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 

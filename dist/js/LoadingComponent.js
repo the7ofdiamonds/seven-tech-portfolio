@@ -1,2 +1,2 @@
-import{j as n}from"./index.js";function i(){return n.jsx("div",{className:"loading",children:n.jsx("h1",{children:"Loading......"})})}export{i as default};
+import{j as o}from"./index.js";import{S as n}from"./StatusBarComponent.js";const r=()=>o.jsxs("main",{className:"loading",children:[o.jsx("h1",{children:"Loading..."}),o.jsx(n,{})]});export{r as L};
 //# sourceMappingURL=LoadingComponent.js.map

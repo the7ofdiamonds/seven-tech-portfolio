@@ -1,0 +1,2 @@
+import{r as l,j as s}from"./index.js";const d=({show:a,messageType:r,message:t})=>{const[e,i]=l.useState(a),c=()=>{a=="show"&&i("hide")};return t&&s.jsx("span",{className:`modal-overlay ${e}`,children:s.jsxs("div",{className:"status",children:[s.jsx("div",{className:"close",children:s.jsx("button",{onClick:c,children:s.jsx("i",{className:"fa-solid fa-circle-xmark"})})}),s.jsx("div",{className:`status-bar card ${r}`,id:"status_bar",children:s.jsx("span",{children:t})})]})})};export{d as S};
+//# sourceMappingURL=StatusBar.js.map

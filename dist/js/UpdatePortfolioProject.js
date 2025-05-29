@@ -1,0 +1,2 @@
+import{r as t,j as s}from"./index.js";import{P as c}from"./ProjectCard.js";const m=({project:e})=>{const[r,a]=t.useState(null),[n,o]=t.useState(null);return t.useEffect(()=>{a(e.name)},[e,a]),t.useEffect(()=>{o(e.owner)},[e,o]),s.jsx(s.Fragment,{children:n&&r&&s.jsx("a",{className:"project",href:`/#/admin/update/project/${n.login}/${r}`,children:s.jsx(c,{project:e})})})};export{m as U};
+//# sourceMappingURL=UpdatePortfolioProject.js.map

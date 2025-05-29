@@ -32,21 +32,25 @@ class Taxonomies
             $description = $body['description'];
             $slug = $body['path'];
 
-            error_log(print_r($body, true));
+            $this->tax->addTerm($term_name, $taxonomy, $description, $slug);
 
-            $addSkill = $this->tax->addTerm($term_name, $taxonomy, $description, $slug);
-            error_log(print_r($addSkill, true));
-            return rest_ensure_response("A new skill of type $taxonomy was added with the title of $term_name successfully.");
+            $response = [
+                'success_message' => "A new skill of type $taxonomy was added with the title of $term_name successfully.",
+                'type' => $taxonomy
+            ];
+
+            return rest_ensure_response($response);
         } catch (Exception $e) {
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
             $response->set_status($statusCode);
+            error_log(print_r($response, true));
 
             return $response;
         }

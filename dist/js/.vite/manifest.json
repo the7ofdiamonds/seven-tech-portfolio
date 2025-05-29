@@ -1,259 +1,385 @@
 {
-  "_ErrorComponent.js": {
-    "file": "ErrorComponent.js",
-    "name": "ErrorComponent",
+  "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js": {
+    "file": "index2.js",
+    "name": "index",
+    "src": "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js",
+    "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx",
+      "_hooks.js",
+      "_useDispatch.js",
+      "_StatusBar.js",
+      "_ProjectComponent.js",
+      "_PortfolioComponent.js",
+      "_LoadingComponent.js",
+      "_StatusBarComponent.js",
+      "_UpdatePortfolioProject.js",
+      "_EditProject.js",
+      "_IconComponent.js",
+      "_AddTechnologies.js",
+      "_Modal.js",
+      "_Status.js",
+      "_TaxListIcon.js",
+      "_ProjectCard.js"
     ]
   },
-  "_Member.js": {
-    "file": "Member.js",
-    "name": "Member",
+  "_AddTechnologies.js": {
+    "file": "AddTechnologies.js",
+    "name": "AddTechnologies",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx",
+      "_StatusBar.js",
+      "_useDispatch.js"
+    ]
+  },
+  "_EditProject.js": {
+    "file": "EditProject.js",
+    "name": "EditProject",
+    "imports": [
+      "src/index.tsx",
+      "_hooks.js",
+      "_StatusBar.js",
+      "_Status.js",
+      "_useDispatch.js",
+      "_StatusBarComponent.js"
+    ]
+  },
+  "_IconComponent.js": {
+    "file": "IconComponent.js",
+    "name": "IconComponent",
+    "imports": [
+      "src/index.tsx"
+    ]
+  },
+  "_LoadingComponent.js": {
+    "file": "LoadingComponent.js",
+    "name": "LoadingComponent",
+    "imports": [
+      "src/index.tsx",
+      "_StatusBarComponent.js"
     ]
   },
   "_Modal.js": {
     "file": "Modal.js",
     "name": "Modal",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx"
     ]
   },
   "_PortfolioComponent.js": {
     "file": "PortfolioComponent.js",
     "name": "PortfolioComponent",
     "imports": [
-      "src/index.jsx",
-      "_Projects.js",
-      "_TaxList.js"
+      "src/index.tsx",
+      "_LoadingComponent.js",
+      "_TaxListIcon.js",
+      "_useDispatch.js",
+      "_ProjectCard.js"
     ]
   },
-  "_ProjectStatus.js": {
-    "file": "ProjectStatus.js",
-    "name": "ProjectStatus",
+  "_ProjectCard.js": {
+    "file": "ProjectCard.js",
+    "name": "ProjectCard",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx"
+    ]
+  },
+  "_ProjectComponent.js": {
+    "file": "ProjectComponent.js",
+    "name": "ProjectComponent",
+    "imports": [
+      "src/index.tsx",
+      "_hooks.js",
+      "_IconComponent.js",
+      "_Status.js",
+      "_TaxListIcon.js",
+      "_StatusBar.js"
     ]
   },
   "_Projects.js": {
     "file": "Projects.js",
     "name": "Projects",
     "imports": [
-      "src/index.jsx",
-      "_ProjectStatus.js"
+      "src/index.tsx"
+    ]
+  },
+  "_Status.js": {
+    "file": "Status.js",
+    "name": "Status",
+    "imports": [
+      "src/index.tsx"
+    ]
+  },
+  "_StatusBar.js": {
+    "file": "StatusBar.js",
+    "name": "StatusBar",
+    "imports": [
+      "src/index.tsx"
     ]
   },
   "_StatusBarComponent.js": {
     "file": "StatusBarComponent.js",
     "name": "StatusBarComponent",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx",
+      "_StatusBar.js"
     ]
   },
-  "_TaxList.js": {
-    "file": "TaxList.js",
-    "name": "TaxList",
+  "_TaxListIcon.js": {
+    "file": "TaxListIcon.js",
+    "name": "TaxListIcon",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx",
+      "_IconComponent.js"
+    ]
+  },
+  "_UpdatePortfolioProject.js": {
+    "file": "UpdatePortfolioProject.js",
+    "name": "UpdatePortfolioProject",
+    "imports": [
+      "src/index.tsx",
+      "_ProjectCard.js"
+    ]
+  },
+  "_hooks.js": {
+    "file": "hooks.js",
+    "name": "hooks",
+    "imports": [
+      "src/index.tsx",
+      "_useDispatch.js"
+    ]
+  },
+  "_hooks2.js": {
+    "file": "hooks2.js",
+    "name": "hooks",
+    "imports": [
+      "src/index.tsx"
+    ]
+  },
+  "_portfolioSlice.js": {
+    "file": "portfolioSlice.js",
+    "name": "portfolioSlice",
+    "imports": [
+      "src/index.tsx"
     ]
   },
   "_useDispatch.js": {
     "file": "useDispatch.js",
     "name": "useDispatch",
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx"
     ]
   },
-  "src/index.jsx": {
+  "src/index.tsx": {
     "file": "index.js",
     "name": "index",
-    "src": "src/index.jsx",
+    "src": "src/index.tsx",
     "isEntry": true,
     "dynamicImports": [
-      "src/views/components/global/LoadingComponent.jsx",
-      "src/views/Dashboard.jsx",
-      "src/views/SkillAdd.jsx",
-      "src/views/ProjectsEdit.jsx",
-      "src/views/ProjectUpdate.jsx",
-      "src/views/Portfolio.jsx",
-      "src/views/Project.jsx",
-      "src/views/ProjectOnboarding.jsx",
-      "src/views/ProjectProblem.jsx",
-      "src/views/User.jsx",
-      "src/views/ProjectType.jsx",
-      "src/views/ProjectTypes.jsx",
-      "src/views/Term.jsx",
-      "src/views/Taxonomy.jsx"
+      "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js",
+      "src/views/Dashboard.tsx",
+      "src/views/SkillAdd.tsx",
+      "src/views/ProjectsEdit.tsx",
+      "src/views/ProjectUpdate.tsx",
+      "src/views/Portfolio.tsx",
+      "src/views/ProjectPage.tsx",
+      "src/views/ProjectOnboarding.tsx",
+      "src/views/ProjectProblem.tsx",
+      "src/views/User.tsx",
+      "src/views/ProjectType.tsx",
+      "src/views/ProjectTypes.tsx",
+      "src/views/Term.tsx",
+      "src/views/Taxonomy.tsx"
     ]
   },
-  "src/views/Dashboard.jsx": {
+  "src/views/Dashboard.tsx": {
     "file": "Dashboard.js",
     "name": "Dashboard",
-    "src": "src/views/Dashboard.jsx",
+    "src": "src/views/Dashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx"
+      "src/index.tsx"
     ]
   },
-  "src/views/Portfolio.jsx": {
+  "src/views/Portfolio.tsx": {
     "file": "Portfolio.js",
     "name": "Portfolio",
-    "src": "src/views/Portfolio.jsx",
+    "src": "src/views/Portfolio.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx",
-      "src/views/components/global/LoadingComponent.jsx",
+      "src/index.tsx",
       "_PortfolioComponent.js",
+      "_LoadingComponent.js",
+      "_StatusBarComponent.js",
+      "_StatusBar.js",
+      "_TaxListIcon.js",
+      "_IconComponent.js",
       "_useDispatch.js",
-      "_Projects.js",
-      "_ProjectStatus.js",
-      "_TaxList.js"
+      "_ProjectCard.js"
     ]
   },
-  "src/views/Project.jsx": {
-    "file": "Project.js",
-    "name": "Project",
-    "src": "src/views/Project.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
-      "src/views/components/global/LoadingComponent.jsx",
-      "_ProjectStatus.js",
-      "_TaxList.js",
-      "_Member.js",
-      "_useDispatch.js"
-    ]
-  },
-  "src/views/ProjectOnboarding.jsx": {
+  "src/views/ProjectOnboarding.tsx": {
     "file": "ProjectOnboarding.js",
     "name": "ProjectOnboarding",
-    "src": "src/views/ProjectOnboarding.jsx",
+    "src": "src/views/ProjectOnboarding.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx",
-      "src/views/components/global/LoadingComponent.jsx",
+      "src/index.tsx",
+      "_StatusBar.js",
+      "_LoadingComponent.js",
       "_Modal.js",
-      "_useDispatch.js"
-    ]
-  },
-  "src/views/ProjectProblem.jsx": {
-    "file": "ProjectProblem.js",
-    "name": "ProjectProblem",
-    "src": "src/views/ProjectProblem.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
-      "src/views/components/global/LoadingComponent.jsx",
-      "_Modal.js",
-      "_useDispatch.js"
-    ]
-  },
-  "src/views/ProjectType.jsx": {
-    "file": "ProjectType.js",
-    "name": "ProjectType",
-    "src": "src/views/ProjectType.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
-      "_ErrorComponent.js",
-      "_Projects.js",
-      "_Member.js",
-      "_useDispatch.js",
-      "_ProjectStatus.js"
-    ]
-  },
-  "src/views/ProjectTypes.jsx": {
-    "file": "ProjectTypes.js",
-    "name": "ProjectTypes",
-    "src": "src/views/ProjectTypes.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
-      "_Projects.js",
-      "src/views/components/global/LoadingComponent.jsx",
-      "_useDispatch.js",
-      "_ProjectStatus.js"
-    ]
-  },
-  "src/views/ProjectUpdate.jsx": {
-    "file": "ProjectUpdate.js",
-    "name": "ProjectUpdate",
-    "src": "src/views/ProjectUpdate.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
-      "_StatusBarComponent.js",
-      "_useDispatch.js"
-    ]
-  },
-  "src/views/ProjectsEdit.jsx": {
-    "file": "ProjectsEdit.js",
-    "name": "ProjectsEdit",
-    "src": "src/views/ProjectsEdit.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx"
-    ]
-  },
-  "src/views/SkillAdd.jsx": {
-    "file": "SkillAdd.js",
-    "name": "SkillAdd",
-    "src": "src/views/SkillAdd.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx",
       "_StatusBarComponent.js"
     ]
   },
-  "src/views/Taxonomy.jsx": {
+  "src/views/ProjectPage.tsx": {
+    "file": "ProjectPage.js",
+    "name": "ProjectPage",
+    "src": "src/views/ProjectPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_hooks.js",
+      "_LoadingComponent.js",
+      "_ProjectComponent.js",
+      "_StatusBarComponent.js",
+      "_useDispatch.js",
+      "_IconComponent.js",
+      "_Status.js",
+      "_TaxListIcon.js",
+      "_StatusBar.js"
+    ]
+  },
+  "src/views/ProjectProblem.tsx": {
+    "file": "ProjectProblem.js",
+    "name": "ProjectProblem",
+    "src": "src/views/ProjectProblem.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_StatusBar.js",
+      "_LoadingComponent.js",
+      "_Modal.js",
+      "_StatusBarComponent.js"
+    ]
+  },
+  "src/views/ProjectType.tsx": {
+    "file": "ProjectType.js",
+    "name": "ProjectType",
+    "src": "src/views/ProjectType.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_LoadingComponent.js",
+      "_portfolioSlice.js",
+      "_Projects.js",
+      "_StatusBarComponent.js",
+      "_StatusBar.js"
+    ]
+  },
+  "src/views/ProjectTypes.tsx": {
+    "file": "ProjectTypes.js",
+    "name": "ProjectTypes",
+    "src": "src/views/ProjectTypes.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_hooks.js",
+      "_LoadingComponent.js",
+      "_portfolioSlice.js",
+      "_Projects.js",
+      "_IconComponent.js",
+      "_useDispatch.js",
+      "_StatusBarComponent.js",
+      "_StatusBar.js"
+    ]
+  },
+  "src/views/ProjectUpdate.tsx": {
+    "file": "ProjectUpdate.js",
+    "name": "ProjectUpdate",
+    "src": "src/views/ProjectUpdate.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_hooks.js",
+      "_EditProject.js",
+      "_useDispatch.js",
+      "_StatusBar.js",
+      "_Status.js",
+      "_StatusBarComponent.js"
+    ]
+  },
+  "src/views/ProjectsEdit.tsx": {
+    "file": "ProjectsEdit.js",
+    "name": "ProjectsEdit",
+    "src": "src/views/ProjectsEdit.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_UpdatePortfolioProject.js",
+      "_ProjectCard.js"
+    ]
+  },
+  "src/views/SkillAdd.tsx": {
+    "file": "SkillAdd.js",
+    "name": "SkillAdd",
+    "src": "src/views/SkillAdd.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_AddTechnologies.js",
+      "_StatusBar.js",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/Taxonomy.tsx": {
     "file": "Taxonomy.js",
     "name": "Taxonomy",
-    "src": "src/views/Taxonomy.jsx",
+    "src": "src/views/Taxonomy.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx",
-      "_ErrorComponent.js",
-      "_Projects.js",
+      "src/index.tsx",
+      "_hooks.js",
+      "_PortfolioComponent.js",
+      "_LoadingComponent.js",
+      "_portfolioSlice.js",
       "_useDispatch.js",
-      "_ProjectStatus.js"
+      "_TaxListIcon.js",
+      "_IconComponent.js",
+      "_ProjectCard.js",
+      "_StatusBarComponent.js",
+      "_StatusBar.js"
     ]
   },
-  "src/views/Term.jsx": {
+  "src/views/Term.tsx": {
     "file": "Term.js",
     "name": "Term",
-    "src": "src/views/Term.jsx",
+    "src": "src/views/Term.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx",
-      "_ErrorComponent.js",
+      "src/index.tsx",
+      "_portfolioSlice.js",
+      "_LoadingComponent.js",
       "_Projects.js",
-      "_useDispatch.js",
-      "_ProjectStatus.js"
+      "_StatusBarComponent.js",
+      "_StatusBar.js"
     ]
   },
-  "src/views/User.jsx": {
+  "src/views/User.tsx": {
     "file": "User.js",
     "name": "User",
-    "src": "src/views/User.jsx",
+    "src": "src/views/User.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.jsx",
-      "src/views/components/global/LoadingComponent.jsx",
+      "src/index.tsx",
+      "_portfolioSlice.js",
       "_PortfolioComponent.js",
+      "_LoadingComponent.js",
+      "_TaxListIcon.js",
+      "_IconComponent.js",
       "_useDispatch.js",
-      "_Projects.js",
-      "_ProjectStatus.js",
-      "_TaxList.js"
-    ]
-  },
-  "src/views/components/global/LoadingComponent.jsx": {
-    "file": "LoadingComponent.js",
-    "name": "LoadingComponent",
-    "src": "src/views/components/global/LoadingComponent.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.jsx"
+      "_ProjectCard.js",
+      "_StatusBarComponent.js",
+      "_StatusBar.js"
     ]
   }
 }

@@ -1,0 +1,120 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '@the7ofdiamonds/github-portfolio';
+
+import { getProject, setMessageType, setMessage, setShowStatusBar } from '@the7ofdiamonds/github-portfolio';
+
+import {
+  LoadingComponent,
+  ProjectComponent,
+  StatusBarComponent
+} from '@the7ofdiamonds/github-portfolio';
+
+import { Account, GitHubRepoQuery, Project } from '@the7ofdiamonds/github-portfolio';
+
+interface ProjectProps {
+  account: Account;
+}
+
+const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
+  const dispatch = useAppDispatch();
+
+  const { owner, projectID } = useParams<string>();
+
+  const { githubLoading, githubErrorMessage } = useAppSelector(
+    (state) => state.github
+  );
+  const { projectLoading, projectErrorMessage, projectObject } = useAppSelector(
+    (state) => state.project
+  );
+
+  const [repoQuery, setRepoQuery] = useState<GitHubRepoQuery | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
+  const [title, setTitle] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [projectID]);
+
+  useEffect(() => {
+    if (account.portfolio && account.portfolio.projects.size > 0 && projectID) {
+      const selectedProject = account.portfolio.filterProject(projectID);
+      if (selectedProject) {
+        setTitle(selectedProject.title);
+      }
+    }
+  }, [account?.portfolio?.projects, projectID]);
+
+  useEffect(() => {
+    if (title) {
+      document.title = title;
+    }
+  }, [title]);
+
+  useEffect(() => {
+    if (owner && owner !== 'null' && projectID) {
+      setRepoQuery(new GitHubRepoQuery(owner, projectID))
+    }
+  }, [owner, projectID]);
+
+  useEffect(() => {
+    if (repoQuery) {
+      dispatch(getProject(repoQuery));
+    }
+  }, [repoQuery]);
+
+  useEffect(() => {
+    if (projectObject) {
+      setProject(new Project(projectObject));
+    }
+  }, [projectObject]);
+
+  useEffect(() => {
+    if (githubErrorMessage) {
+      dispatch(setMessageType('error'));
+      dispatch(setMessage(githubErrorMessage));
+      dispatch(setShowStatusBar(true));
+    }
+  }, [githubErrorMessage]);
+
+  useEffect(() => {
+    if (projectErrorMessage) {
+      dispatch(setMessageType('error'));
+      dispatch(setMessage(projectErrorMessage));
+      dispatch(setShowStatusBar(true));
+    }
+  }, [projectErrorMessage]);
+
+  useEffect(() => {
+    if (title && (githubLoading || projectLoading)) {
+      dispatch(setMessageType('caution'));
+      dispatch(setMessage(`Now Loading ${title}`));
+      dispatch(setShowStatusBar(true));
+    }
+  }, [githubLoading, projectLoading, title]);
+
+  if (githubLoading || projectLoading) {
+    return <section className='loading'>
+      <LoadingComponent />
+    </section>;
+  }
+
+  if (githubErrorMessage || projectErrorMessage) {
+    return <section className='error-page'>
+      <main>
+        <StatusBarComponent />
+      </main>
+    </section>;
+  }
+
+  return (
+    <>
+      {project &&
+        <ProjectComponent account={account} project={project} />
+      }
+    </>
+  );
+}
+
+export default ProjectPage;
