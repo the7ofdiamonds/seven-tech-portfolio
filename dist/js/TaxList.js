@@ -1,0 +1,2 @@
+import{j as t}from"./index.js";function o(a){var l=a.tax,r=a.title,e=function(n){window.location.href=n};return Array.isArray(l)&&t.jsxs("div",{className:"tax-list",children:[t.jsx("h4",{className:"title",children:r}),t.jsx("div",{className:"tax-row",children:l.map(function(i,n){return t.jsx("button",{className:"tag",onClick:function(){return e(i.url)},children:t.jsx("h3",{children:i.title})},n)})})]})}export{o as T};
+//# sourceMappingURL=TaxList.js.map

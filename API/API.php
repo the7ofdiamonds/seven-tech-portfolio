@@ -12,20 +12,20 @@ class API
         $project = new Project;
         $taxonomies = new Taxonomies;
 
-        register_rest_route('seven-tech/portfolio/v1', '/portfolio/onboarding', [
+        register_rest_route('seven-tech/portfolio/v1', '/project/onboarding', [
             'methods' => 'POST',
             'callback' => [$onboarding, 'create_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);
 
         register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'POST',
+            'methods' => 'GET',
             'callback' => [$onboarding, 'get_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);
 
         register_rest_route('seven-tech/portfolio/v1', '/project/onboarding/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'PATCH',
+            'methods' => 'PUT',
             'callback' => [$onboarding, 'update_project_onboarding'],
             'permission_callback' => '__return_true',
         ]);
@@ -37,7 +37,7 @@ class API
         ]);
 
         register_rest_route('seven-tech/portfolio/v1', '/project/problem/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'POST',
+            'methods' => 'GET',
             'callback' => [$problem, 'get_project_problem'],
             'permission_callback' => '__return_true',
         ]);
@@ -48,7 +48,7 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/projects', [
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio', [
             'methods' => 'GET',
             'callback' => [$portfolio, 'get_portfolio'],
             'permission_callback' => '__return_true',
@@ -72,7 +72,7 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/projects/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/portfolio/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
             'callback' => [$project, 'get_project'],
             'permission_callback' => '__return_true',
@@ -84,57 +84,39 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/project-types', [
-            'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_project_types'],
-            'permission_callback' => '__return_true',
-        ]);
-
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/services', [
-            'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_services'],
-            'permission_callback' => '__return_true',
-        ]);
-
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/frameworks', [
-            'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_frameworks'],
-            'permission_callback' => '__return_true',
-        ]);
-
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/technologies', [
-            'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_technologies'],
-            'permission_callback' => '__return_true',
-        ]);
-
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/project-types/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_project_type'],
-            'permission_callback' => '__return_true',
-        ]);
-
         register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills', [
             'methods' => 'POST',
             'callback' => [$taxonomies, 'add_skill'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
             'callback' => [$taxonomies, 'get_skill'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/frameworks/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_framework'],
+            'callback' => [$taxonomies, 'get_skill_type'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/technologies/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills', [
             'methods' => 'GET',
-            'callback' => [$taxonomies, 'get_technology'],
+            'callback' => [$taxonomies, 'get_skills'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'PUT',
+            'callback' => [$taxonomies, 'update_skill'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
+            'methods' => 'DELETE',
+            'callback' => [$taxonomies, 'delete_skill'],
             'permission_callback' => '__return_true',
         ]);
     }
