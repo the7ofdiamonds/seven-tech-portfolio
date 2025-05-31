@@ -59,7 +59,7 @@ class Problem
             $status_code = $e->getCode();
 
             $response_data = [
-                'message' => $error_message,
+                'error_message' => $error_message,
                 'status' => $status_code
             ];
 
@@ -90,7 +90,7 @@ class Problem
             $status_code = $e->getCode();
 
             $response_data = [
-                'message' => $error_message,
+                'error_message' => $error_message,
                 'status' => $status_code
             ];
 
@@ -144,7 +144,7 @@ class Problem
             $status_code = $e->getCode();
 
             $response_data = [
-                'message' => $error_message,
+                'error_message' => $error_message,
                 'status' => $status_code
             ];
 

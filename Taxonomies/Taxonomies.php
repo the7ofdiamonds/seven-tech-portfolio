@@ -2,11 +2,14 @@
 
 namespace SEVEN_TECH\Portfolio\Taxonomies;
 
-use Exception;
 use SEVEN_TECH\Portfolio\Model\WPTaxonomy;
-use  WP_Query;
+use SEVEN_TECH\Portfolio\Model\Term;
 
 use SEVEN_TECH\Portfolio\Media\Media;
+
+use Exception;
+
+use  WP_Query;
 
 class Taxonomies
 {
@@ -80,27 +83,6 @@ class Taxonomies
         }
     }
 
-    function addTerm(string $term, string $taxonomy, string $description = '', string $slug = '')
-    {
-        try {
-            $args = array(
-                'description' => $description,
-                'slug' => $slug
-            );
-
-            $result = wp_insert_term($term, $taxonomy, $args);
-
-            if (is_wp_error($result)) {
-                $errorMessage = $result->get_error_message();
-                throw new Exception($errorMessage, 400);
-            }
-
-            return $result;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
-        }
-    }
-
     function getTaxonomyPostTypes($taxonomy)
     {
         try {
@@ -143,6 +125,27 @@ class Taxonomies
 
             error_log($response . ' at getTaxonomyNames');
             return $response;
+        }
+    }
+
+    function addTerm(Term $term)
+    {
+        try {
+            $args = array(
+                'description' => $term->description,
+                'slug' => $term->path
+            );
+
+            $result = wp_insert_term($term->title, $term->type, $args);
+
+            if (is_wp_error($result)) {
+                $errorMessage = $result->get_error_message();
+                throw new Exception($errorMessage, 400);
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 
@@ -237,7 +240,7 @@ class Taxonomies
         }
     }
 
-    function getTaxonomyTerm($slug, $taxonomy)
+    function getTaxonomyTerm(string $taxonomy, string $slug)
     {
         try {
             $term = get_term_by('slug', $slug, $taxonomy);
@@ -256,6 +259,92 @@ class Taxonomies
 
             error_log($response . ' at getTaxonomyTerm');
             return $response;
+        }
+    }
+
+    function getTaxonomyTerms(string $taxonomy)
+    {
+        try {
+            $terms = get_terms([
+                'taxonomy' => $taxonomy,
+                'hide_empty' => false,
+            ]);
+
+            if (is_wp_error($terms)) {
+                $errorMessage = $terms->get_error_message();
+                throw new Exception($errorMessage, 400);
+            }
+
+            return $terms;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getTaxonomyTerm');
+            return $response;
+        }
+    }
+
+    function getTaxonomies()
+    {
+        try {
+            $taxonomies = [];
+
+            foreach ($this->taxonomies_list as $taxonomy) {
+                $taxonomies[] = $this->getTaxonomyTerms($taxonomy->name);
+            }
+
+            return $taxonomies;
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            $errorCode = $e->getCode();
+            $response = $errorMessage . ' ' . $errorCode;
+
+            error_log($response . ' at getTaxonomyTerm');
+            return $response;
+        }
+    }
+
+    function updateTerm(string $taxonomy, string $slug, Term $term)
+    {
+        try {
+            $queriedTerm = get_term_by('slug', $slug, $taxonomy);
+
+            $args = array(
+                'name'        => $term->title,
+                'description' => $term->description,
+                'slug' => $term->path
+            );
+
+            $result = wp_update_term($queriedTerm->term_id, $taxonomy, $args);
+
+            if (is_wp_error($result)) {
+                $errorMessage = $result->get_error_message();
+                throw new Exception($errorMessage, 400);
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    function deleteTerm(string $taxonomy, string $slug)
+    {
+        try {
+            $queriedTerm = get_term_by('slug', $slug, $taxonomy);
+
+            $result = wp_delete_term($queriedTerm->term_id, $taxonomy);
+
+            if (is_wp_error($result)) {
+                $errorMessage = $result->get_error_message();
+                throw new Exception($errorMessage, 400);
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
         }
     }
 

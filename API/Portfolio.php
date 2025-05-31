@@ -31,8 +31,8 @@ class Portfolio
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
@@ -58,8 +58,8 @@ class Portfolio
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
@@ -85,8 +85,8 @@ class Portfolio
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
 
             $response = rest_ensure_response($response_data);
@@ -112,8 +112,8 @@ class Portfolio
         } catch (Exception $e) {
             $statusCode = $e->getCode();
             $response_data = [
-                'errorMessage' => $e->getMessage(),
-                'statusCode' => $statusCode
+                'error_message' => $e->getMessage(),
+                'status_code' => $statusCode
             ];
             $response = rest_ensure_response($response_data);
             $response->set_status($statusCode);

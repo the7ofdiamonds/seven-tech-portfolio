@@ -10,7 +10,7 @@ class API
         $portfolio = new Portfolio;
         $problem = new Problem;
         $project = new Project;
-        $taxonomies = new Taxonomies;
+        $taxonomies = new Skills;
 
         register_rest_route('seven-tech/portfolio/v1', '/project/onboarding', [
             'methods' => 'POST',
@@ -90,13 +90,13 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<tax>[a-zA-Z0-9-_]+)/(?P<term>[a-zA-Z0-9-_]+)', [
             'methods' => 'GET',
             'callback' => [$taxonomies, 'get_skill'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<tax>[a-zA-Z0-9_-]+)', [
             'methods' => 'GET',
             'callback' => [$taxonomies, 'get_skill_type'],
             'permission_callback' => '__return_true',
@@ -108,13 +108,13 @@ class API
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<tax>[a-zA-Z0-9-_]+)/(?P<term>[a-zA-Z0-9-_]+)', [
             'methods' => 'PUT',
             'callback' => [$taxonomies, 'update_skill'],
             'permission_callback' => '__return_true',
         ]);
 
-        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<slug>[a-zA-Z0-9-_]+)/(?P<slug>[a-zA-Z0-9-_]+)', [
+        register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<tax>[a-zA-Z0-9-_]+)/(?P<term>[a-zA-Z0-9-_]+)', [
             'methods' => 'DELETE',
             'callback' => [$taxonomies, 'delete_skill'],
             'permission_callback' => '__return_true',

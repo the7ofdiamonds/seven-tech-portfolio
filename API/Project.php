@@ -60,7 +60,7 @@ class Project
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
+                'error_message' => $e->getMessage(),
                 'statusCode' => $statusCode
             ];
 
@@ -123,7 +123,7 @@ class Project
             $statusCode = $e->getCode();
 
             $response_data = [
-                'errorMessage' => $e->getMessage(),
+                'error_message' => $e->getMessage(),
                 'statusCode' => $statusCode
             ];
 
