@@ -84,7 +84,7 @@ class SEVEN_TECH_Portfolio
 
         add_action('init', function () use ($posttypes, $taxonomies, $router, $shortcodes) {
             $posttypes->customPostTypes();
-            $taxonomies->customTaxonomy();
+            $taxonomies->register();
             $router->react_rewrite_rules();
             $router->load_page();
             $shortcodes;

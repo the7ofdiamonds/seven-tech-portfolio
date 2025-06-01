@@ -6,9 +6,8 @@ use Exception;
 
 use WP_REST_Request;
 
-use SEVEN_TECH\Portfolio\Taxonomies\Taxonomies;
+use SEVEN_TECH\Portfolio\Taxonomies\Skills as ProjectSkills;
 
-use SEVEN_TECH\Portfolio\Model\Image;
 use SEVEN_TECH\Portfolio\Model\Term;
 
 class Skills
@@ -17,7 +16,7 @@ class Skills
 
     public function __construct()
     {
-        $this->tax = new Taxonomies;
+        $this->tax = new ProjectSkills;
     }
 
     public function add_skill(WP_REST_Request $request)
@@ -31,7 +30,7 @@ class Skills
             $tax = $request->get_param('tax');
             $taxonomy = ucfirst($tax);
 
-            $newTerm = $this->tax->addTerm($term);
+            $newTerm = $this->tax->createSkill($term);
 
             $response = [
                 'success_message' => "A new skill of type $taxonomy was added with the title of $term->title successfully.",
@@ -62,7 +61,7 @@ class Skills
             $taxonomy = ucfirst($tax);
             $term = $request->get_param('term');
 
-            $skill = $this->tax->getTaxonomyTerm($taxonomy, $term);
+            $skill = $this->tax->getSkillTerm($taxonomy, $term);
 
             if (empty($skill)) {
                 throw new Exception("No skill of type $taxonomy could be found with the name $term.", 404);
@@ -90,7 +89,7 @@ class Skills
             $tax = $request->get_param('tax');
             $taxonomy = ucfirst($tax);
 
-            $skills = $this->tax->getTaxonomyTerms($taxonomy);
+            $skills = $this->tax->getSkillTerms($taxonomy);
 
             if (empty($skills)) {
                 throw new Exception('No projects found with a Skill.', 404);
@@ -115,7 +114,7 @@ class Skills
     public function get_skills(WP_REST_Request $request)
     {
         try {
-            $skills = $this->tax->getTaxonomies();
+            $skills = $this->tax->getAll();
 
             if (empty($skills)) {
                 throw new Exception('No projects found with a Skill.', 404);
@@ -146,30 +145,10 @@ class Skills
 
             $body = $request->get_json_params();
 
-            $title = isset($body['title']) ? $body['title'] : '';
-            $type = isset($body['type']) ? $body['type'] : '';
-            $description = isset($body['description']) ? $body['description'] : '';
-            $path = isset($body['path']) ? $body['path'] : '';
-            $usage = isset($body['usage']) ? $body['usage'] : 0;
-
             $termChange = new Term();
-            $termChange->setTitle($title);
-            $termChange->setType($type);
-            $termChange->setDescription($description);
-            $termChange->setPath($path);
+            $termChange->fromJSON($body);
 
-            if (isset($body['image'])) {
-                $image = new Image();
-                $image->fromJSON($body['image']);
-
-                if (isset($image) && $image instanceof Image) {
-                    $termChange->setImage($image);
-                }
-            }
-
-            $termChange->setUsage($usage);
-
-            $updatedTerm = $this->tax->updateTerm($taxonomy, $term, $termChange);
+            $updatedTerm = $this->tax->updateSkill($taxonomy, $term, $termChange);
 
             $response = [
                 'success_message' => "A skill of type $tax was updated called $term successfully.",
@@ -199,7 +178,7 @@ class Skills
             $taxonomy = ucfirst($tax);
             $term = $request->get_param('term');
 
-            $this->tax->deleteTerm($taxonomy, $term);
+            $this->tax->deleteSkill($taxonomy, $term);
 
             $response = [
                 'success_message' => "A skill of type $tax was deleted called $term successfully."

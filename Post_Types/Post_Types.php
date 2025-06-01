@@ -14,7 +14,7 @@ class Post_Types
 
     public function __construct()
     {
-        $taxonomies = (new Taxonomies)->getTaxonomyNames();
+        $taxonomies = (new Taxonomies)->getNames();
         $this->post_types_list = [
             [
                 'name' => 'portfolio',

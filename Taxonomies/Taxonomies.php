@@ -74,7 +74,7 @@ class Taxonomies
         $this->media = new Media;
     }
 
-    function customTaxonomy()
+    function register()
     {
         if (is_array($this->taxonomies_list)) {
             foreach ($this->taxonomies_list as $taxonomy) {
@@ -108,7 +108,7 @@ class Taxonomies
         }
     }
 
-    function getTaxonomyNames()
+    function getNames()
     {
         try {
             $taxonomyNames = [];
@@ -128,27 +128,6 @@ class Taxonomies
         }
     }
 
-    function addTerm(Term $term)
-    {
-        try {
-            $args = array(
-                'description' => $term->description,
-                'slug' => $term->path
-            );
-
-            $result = wp_insert_term($term->title, $term->type, $args);
-
-            if (is_wp_error($result)) {
-                $errorMessage = $result->get_error_message();
-                throw new Exception($errorMessage, 400);
-            }
-
-            return $result;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
-        }
-    }
-
     function getTaxonomy($term_id, $name, $description)
     {
         $faIcon = get_term_meta($term_id, 'fa_icon', true);
@@ -159,13 +138,8 @@ class Taxonomies
         $taxonomy = [
             'id' => $term_id,
             'title' => $name,
-            'icon' => [
-                'name' => $name,
-                'description' => $description,
-                'fa_icon' => $faIcon,
-                'icon_url' => $this->media->getURL('icons', $iconURL)
-            ],
-            'url' => $term_link
+            'description' => $description,
+            'slug'=> $term_link,
         ];
 
         return $taxonomy;
