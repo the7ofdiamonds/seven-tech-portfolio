@@ -11,7 +11,8 @@ class API
         $problem = new Problem;
         $project = new Project;
         $taxonomies = new Skills;
-
+        $user = new User;
+        
         register_rest_route('seven-tech/portfolio/v1', '/project/onboarding', [
             'methods' => 'POST',
             'callback' => [$onboarding, 'create_project_onboarding'],
@@ -117,6 +118,12 @@ class API
         register_rest_route('seven-tech/portfolio/v1', '/taxonomies/skills/(?P<tax>[a-zA-Z0-9-_]+)/(?P<term>[a-zA-Z0-9-_]+)', [
             'methods' => 'DELETE',
             'callback' => [$taxonomies, 'delete_skill'],
+            'permission_callback' => '__return_true',
+        ]);
+
+        register_rest_route('seven-tech/portfolio/v1', '/user/github/(?P<id>[a-zA-Z0-9-_]+)', [
+            'methods' => 'GET',
+            'callback' => [$user, 'get_user_by_github_id'],
             'permission_callback' => '__return_true',
         ]);
     }

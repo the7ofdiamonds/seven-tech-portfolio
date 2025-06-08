@@ -89,11 +89,11 @@
     "name": "ProjectComponent",
     "imports": [
       "src/index.tsx",
-      "_hooks.js",
       "_IconComponent.js",
       "_Status.js",
       "_TaxListIcon.js",
-      "_StatusBar.js"
+      "_StatusBar.js",
+      "_hooks.js"
     ]
   },
   "_Projects.js": {
@@ -147,13 +147,6 @@
     "imports": [
       "src/index.tsx",
       "_useDispatch.js"
-    ]
-  },
-  "_hooks2.js": {
-    "file": "hooks2.js",
-    "name": "hooks",
-    "imports": [
-      "src/index.tsx"
     ]
   },
   "_portfolioSlice.js": {

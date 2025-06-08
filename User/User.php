@@ -102,4 +102,13 @@ class User
 
         return $count_posts;
     }
+
+    public function getUserByGithubID($github_id)
+    {
+        try {
+            return $github_id;
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
 }

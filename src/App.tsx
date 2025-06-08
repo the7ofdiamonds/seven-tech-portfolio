@@ -113,7 +113,7 @@ const App: React.FC = () => {
             />
 
             <Route path="portfolio" element={<Portfolio account={account} />} />
-            <Route path="portfolio/:project" element={<Project account={account} />} />
+            <Route path="portfolio/:owner/:projectID" element={<Project account={account} />} />
 
             <Route path="founders/:user/" element={<User />} />
             <Route path="managing-members/:user/" element={<User />} />

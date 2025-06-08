@@ -172,6 +172,8 @@ class Router
     function react_rewrite_rules()
     {
         add_rewrite_rule('^dashboard/?', 'index.php?', 'top');
+        add_rewrite_rule('^portfolio/?', 'index.php?', 'top');
+        add_rewrite_rule('^portfolio/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');

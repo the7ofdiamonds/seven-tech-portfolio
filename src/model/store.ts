@@ -6,7 +6,8 @@ import {
   projectSlice,
   portfolioSlice,
   taxonomiesSlice,
-  userSlice
+  userSlice,
+  githubSlice
 } from '@the7ofdiamonds/github-portfolio';
 
 import { portfolioClientSlice } from '../controllers/clientSlice';
@@ -18,6 +19,7 @@ const store = configureStore({
   reducer: {
     add: addSlice.reducer,
     client: portfolioClientSlice.reducer,
+    github: githubSlice.reducer,
     message: messageSlice.reducer,
     project: projectSlice.reducer,
     portfolio: portfolioSlice.reducer,

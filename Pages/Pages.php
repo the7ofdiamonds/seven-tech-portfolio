@@ -121,7 +121,18 @@ class Pages
             ],
         ];
 
-        $this->pages = [];
+        $this->pages = [
+            [
+                'url' => '^portfolio/?',
+                'regex' => '#^/portfolio/?$#',
+                'file_name' => 'Portfolio'
+            ],
+            [
+                'url' => '^portfolio/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/portfolio/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/?$#',
+                'file_name' => 'ProjectPage'
+            ]
+        ];
 
         $this->pages_list = [];
     }

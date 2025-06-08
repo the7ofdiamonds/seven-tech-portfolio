@@ -20,4 +20,6 @@ if (portfolio) {
       </Provider>
     </React.StrictMode>
   );
+} else {
+  console.error('Element with ID seven_tech_portfolio not available.')
 }
