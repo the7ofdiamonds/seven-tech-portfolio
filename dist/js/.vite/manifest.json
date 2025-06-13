@@ -1,62 +1,22 @@
 {
-  "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js": {
-    "file": "index2.js",
-    "name": "index",
-    "src": "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_hooks.js",
-      "_useDispatch.js",
-      "_StatusBar.js",
-      "_ProjectComponent.js",
-      "_PortfolioComponent.js",
-      "_LoadingComponent.js",
-      "_StatusBarComponent.js",
-      "_UpdatePortfolioProject.js",
-      "_EditProject.js",
-      "_IconComponent.js",
-      "_AddTechnologies.js",
-      "_Modal.js",
-      "_Status.js",
-      "_TaxListIcon.js",
-      "_ProjectCard.js"
-    ]
-  },
-  "_AddTechnologies.js": {
-    "file": "AddTechnologies.js",
-    "name": "AddTechnologies",
-    "imports": [
-      "src/index.tsx",
-      "_StatusBar.js",
-      "_useDispatch.js"
-    ]
+  "_Add.module.js": {
+    "file": "Add.module.js",
+    "name": "Add.module"
   },
   "_EditProject.js": {
     "file": "EditProject.js",
     "name": "EditProject",
     "imports": [
       "src/index.tsx",
-      "_hooks.js",
-      "_StatusBar.js",
       "_Status.js",
-      "_useDispatch.js",
-      "_StatusBarComponent.js"
+      "_useDispatch.js"
     ]
   },
-  "_IconComponent.js": {
-    "file": "IconComponent.js",
-    "name": "IconComponent",
+  "_ImageComponent.js": {
+    "file": "ImageComponent.js",
+    "name": "ImageComponent",
     "imports": [
       "src/index.tsx"
-    ]
-  },
-  "_LoadingComponent.js": {
-    "file": "LoadingComponent.js",
-    "name": "LoadingComponent",
-    "imports": [
-      "src/index.tsx",
-      "_StatusBarComponent.js"
     ]
   },
   "_Modal.js": {
@@ -71,10 +31,7 @@
     "name": "PortfolioComponent",
     "imports": [
       "src/index.tsx",
-      "_LoadingComponent.js",
-      "_TaxListIcon.js",
-      "_useDispatch.js",
-      "_ProjectCard.js"
+      "_ProjectsComponent.js"
     ]
   },
   "_ProjectCard.js": {
@@ -84,74 +41,26 @@
       "src/index.tsx"
     ]
   },
-  "_ProjectComponent.js": {
-    "file": "ProjectComponent.js",
-    "name": "ProjectComponent",
+  "_ProjectsComponent.js": {
+    "file": "ProjectsComponent.js",
+    "name": "ProjectsComponent",
     "imports": [
       "src/index.tsx",
-      "_IconComponent.js",
-      "_Status.js",
       "_TaxListIcon.js",
-      "_StatusBar.js",
-      "_hooks.js"
-    ]
-  },
-  "_Projects.js": {
-    "file": "Projects.js",
-    "name": "Projects",
-    "imports": [
-      "src/index.tsx"
+      "_ProjectCard.js"
     ]
   },
   "_Status.js": {
     "file": "Status.js",
     "name": "Status",
     "imports": [
-      "src/index.tsx"
-    ]
-  },
-  "_StatusBar.js": {
-    "file": "StatusBar.js",
-    "name": "StatusBar",
-    "imports": [
-      "src/index.tsx"
-    ]
-  },
-  "_StatusBarComponent.js": {
-    "file": "StatusBarComponent.js",
-    "name": "StatusBarComponent",
-    "imports": [
       "src/index.tsx",
-      "_StatusBar.js"
+      "_useDispatch.js"
     ]
   },
   "_TaxListIcon.js": {
     "file": "TaxListIcon.js",
     "name": "TaxListIcon",
-    "imports": [
-      "src/index.tsx",
-      "_IconComponent.js"
-    ]
-  },
-  "_UpdatePortfolioProject.js": {
-    "file": "UpdatePortfolioProject.js",
-    "name": "UpdatePortfolioProject",
-    "imports": [
-      "src/index.tsx",
-      "_ProjectCard.js"
-    ]
-  },
-  "_hooks.js": {
-    "file": "hooks.js",
-    "name": "hooks",
-    "imports": [
-      "src/index.tsx",
-      "_useDispatch.js"
-    ]
-  },
-  "_portfolioSlice.js": {
-    "file": "portfolioSlice.js",
-    "name": "portfolioSlice",
     "imports": [
       "src/index.tsx"
     ]
@@ -169,20 +78,17 @@
     "src": "src/index.tsx",
     "isEntry": true,
     "dynamicImports": [
-      "../../../../../node_modules/@the7ofdiamonds/github-portfolio/dist/src/index.js",
       "src/views/Dashboard.tsx",
-      "src/views/SkillAdd.tsx",
+      "src/views/OrganizationPage.tsx",
+      "src/views/Portfolio.tsx",
+      "src/views/ProjectAdd.tsx",
+      "src/views/ProjectOnboarding.tsx",
+      "src/views/ProjectPage.tsx",
+      "src/views/ProjectProblem.tsx",
       "src/views/ProjectsEdit.tsx",
       "src/views/ProjectUpdate.tsx",
-      "src/views/Portfolio.tsx",
-      "src/views/ProjectPage.tsx",
-      "src/views/ProjectOnboarding.tsx",
-      "src/views/ProjectProblem.tsx",
-      "src/views/User.tsx",
-      "src/views/ProjectType.tsx",
-      "src/views/ProjectTypes.tsx",
-      "src/views/Term.tsx",
-      "src/views/Taxonomy.tsx"
+      "src/views/Search.tsx",
+      "src/views/SkillAdd.tsx"
     ]
   },
   "src/views/Dashboard.tsx": {
@@ -194,6 +100,20 @@
       "src/index.tsx"
     ]
   },
+  "src/views/OrganizationPage.tsx": {
+    "file": "OrganizationPage.js",
+    "name": "OrganizationPage",
+    "src": "src/views/OrganizationPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_ProjectCard.js",
+      "_ImageComponent.js",
+      "_PortfolioComponent.js",
+      "_ProjectsComponent.js",
+      "_TaxListIcon.js"
+    ]
+  },
   "src/views/Portfolio.tsx": {
     "file": "Portfolio.js",
     "name": "Portfolio",
@@ -202,13 +122,22 @@
     "imports": [
       "src/index.tsx",
       "_PortfolioComponent.js",
-      "_LoadingComponent.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js",
+      "_ProjectsComponent.js",
       "_TaxListIcon.js",
-      "_IconComponent.js",
-      "_useDispatch.js",
       "_ProjectCard.js"
+    ]
+  },
+  "src/views/ProjectAdd.tsx": {
+    "file": "ProjectAdd.js",
+    "name": "ProjectAdd",
+    "src": "src/views/ProjectAdd.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Add.module.js",
+      "_Status.js",
+      "_EditProject.js",
+      "_useDispatch.js"
     ]
   },
   "src/views/ProjectOnboarding.tsx": {
@@ -218,10 +147,7 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_StatusBar.js",
-      "_LoadingComponent.js",
-      "_Modal.js",
-      "_StatusBarComponent.js"
+      "_Modal.js"
     ]
   },
   "src/views/ProjectPage.tsx": {
@@ -231,15 +157,10 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_hooks.js",
-      "_LoadingComponent.js",
-      "_ProjectComponent.js",
-      "_StatusBarComponent.js",
-      "_useDispatch.js",
-      "_IconComponent.js",
       "_Status.js",
       "_TaxListIcon.js",
-      "_StatusBar.js"
+      "_ImageComponent.js",
+      "_useDispatch.js"
     ]
   },
   "src/views/ProjectProblem.tsx": {
@@ -249,41 +170,7 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_StatusBar.js",
-      "_LoadingComponent.js",
-      "_Modal.js",
-      "_StatusBarComponent.js"
-    ]
-  },
-  "src/views/ProjectType.tsx": {
-    "file": "ProjectType.js",
-    "name": "ProjectType",
-    "src": "src/views/ProjectType.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_LoadingComponent.js",
-      "_portfolioSlice.js",
-      "_Projects.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js"
-    ]
-  },
-  "src/views/ProjectTypes.tsx": {
-    "file": "ProjectTypes.js",
-    "name": "ProjectTypes",
-    "src": "src/views/ProjectTypes.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_hooks.js",
-      "_LoadingComponent.js",
-      "_portfolioSlice.js",
-      "_Projects.js",
-      "_IconComponent.js",
-      "_useDispatch.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js"
+      "_Modal.js"
     ]
   },
   "src/views/ProjectUpdate.tsx": {
@@ -293,12 +180,9 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_hooks.js",
-      "_EditProject.js",
-      "_useDispatch.js",
-      "_StatusBar.js",
       "_Status.js",
-      "_StatusBarComponent.js"
+      "_EditProject.js",
+      "_useDispatch.js"
     ]
   },
   "src/views/ProjectsEdit.tsx": {
@@ -308,7 +192,18 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_UpdatePortfolioProject.js",
+      "_ProjectCard.js"
+    ]
+  },
+  "src/views/Search.tsx": {
+    "file": "Search.js",
+    "name": "Search",
+    "src": "src/views/Search.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_TaxListIcon.js",
+      "_ProjectsComponent.js",
       "_ProjectCard.js"
     ]
   },
@@ -319,60 +214,8 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_AddTechnologies.js",
-      "_StatusBar.js",
+      "_Add.module.js",
       "_useDispatch.js"
-    ]
-  },
-  "src/views/Taxonomy.tsx": {
-    "file": "Taxonomy.js",
-    "name": "Taxonomy",
-    "src": "src/views/Taxonomy.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_hooks.js",
-      "_PortfolioComponent.js",
-      "_LoadingComponent.js",
-      "_portfolioSlice.js",
-      "_useDispatch.js",
-      "_TaxListIcon.js",
-      "_IconComponent.js",
-      "_ProjectCard.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js"
-    ]
-  },
-  "src/views/Term.tsx": {
-    "file": "Term.js",
-    "name": "Term",
-    "src": "src/views/Term.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_portfolioSlice.js",
-      "_LoadingComponent.js",
-      "_Projects.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js"
-    ]
-  },
-  "src/views/User.tsx": {
-    "file": "User.js",
-    "name": "User",
-    "src": "src/views/User.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "src/index.tsx",
-      "_portfolioSlice.js",
-      "_PortfolioComponent.js",
-      "_LoadingComponent.js",
-      "_TaxListIcon.js",
-      "_IconComponent.js",
-      "_useDispatch.js",
-      "_ProjectCard.js",
-      "_StatusBarComponent.js",
-      "_StatusBar.js"
     ]
   }
 }

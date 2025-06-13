@@ -109,11 +109,11 @@ class Templates
         $filename_css = "{$this->cssDir}{$filename}.css";
         $filename_js = "{$this->jsDir}{$filename}.js";
 
-        if (file_exists($filename_css)) {
-            add_action('wp_head', function () use ($filename) {
-                $this->css->load_pages_css($filename);
-            });
-        }
+        // if (file_exists($filename_css)) {
+        //     add_action('wp_head', function () use ($filename) {
+        //         $this->css->load_pages_css($filename);
+        //     });
+        // }
 
         if (file_exists($filename_js)) {
             add_action('wp_footer', function () use ($filename) {

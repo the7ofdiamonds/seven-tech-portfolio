@@ -94,7 +94,6 @@ class Router
                     }
 
                     if (preg_match($page['regex'], $path)) {
-
                         if (!isset($page['file_name'])) {
                             error_log('Filename is required for pages at Pages.');
                             return;
@@ -172,11 +171,12 @@ class Router
     function react_rewrite_rules()
     {
         add_rewrite_rule('^dashboard/?', 'index.php?', 'top');
+        add_rewrite_rule('^organization/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^portfolio/?', 'index.php?', 'top');
         add_rewrite_rule('^portfolio/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/?', 'index.php?', 'top');
         add_rewrite_rule('^project/onboarding/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
         add_rewrite_rule('^project/problem/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
-        add_rewrite_rule('^project-types?$', 'index.php', 'top');
+        add_rewrite_rule('^projects/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?', 'index.php?', 'top');
     }
 }

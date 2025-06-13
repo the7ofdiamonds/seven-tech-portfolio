@@ -1,2 +1,0 @@
-import{u as n,r as s,j as S}from"./index.js";import{S as p}from"./StatusBar.js";const x=()=>{const{message:e,messageType:t,visibility:a}=n(o=>o.message),[r,u]=s.useState(a),[i,m]=s.useState(e),[c,f]=s.useState(t);return s.useEffect(()=>{if(a){u("show");const o=setTimeout(()=>{u("hide")},5e3);return()=>clearTimeout(o)}},[a]),s.useEffect(()=>{e&&m(e)},[e]),s.useEffect(()=>{t&&f(t)},[t]),S.jsx(p,{show:r,message:i,messageType:c})};export{x as S};
-//# sourceMappingURL=StatusBarComponent.js.map

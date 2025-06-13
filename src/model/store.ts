@@ -7,7 +7,8 @@ import {
   portfolioSlice,
   taxonomiesSlice,
   userSlice,
-  githubSlice
+  githubSlice,
+  organizationSlice,
 } from '@the7ofdiamonds/github-portfolio';
 
 import { portfolioClientSlice } from '../controllers/clientSlice';
@@ -28,6 +29,7 @@ const store = configureStore({
     taxonomies: taxonomiesSlice.reducer,
     user: userSlice.reducer,
     postType: postTypeSlice.reducer,
+    organization: organizationSlice.reducer,
   },
 });
 

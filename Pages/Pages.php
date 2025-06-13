@@ -123,15 +123,25 @@ class Pages
 
         $this->pages = [
             [
-                'url' => '^portfolio/?',
-                'regex' => '#^/portfolio/?$#',
-                'file_name' => 'Portfolio'
+                'url' => '^organization/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/organization/[a-zA-Z0-9-_]+/?$#',
+                'file_name' => 'OrganizationPage'
             ],
             [
                 'url' => '^portfolio/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/portfolio/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/?$#',
                 'file_name' => 'ProjectPage'
-            ]
+            ],
+            [
+                'url' => '^portfolio/?',
+                'regex' => '#^/portfolio/?$#',
+                'file_name' => 'Portfolio'
+            ],
+            [
+                'url' => '^projects/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?',
+                'regex' => '#^/projects/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/?$#',
+                'file_name' => 'Search'
+            ],
         ];
 
         $this->pages_list = [];

@@ -13,8 +13,10 @@ import {
 
 import { Account, GitHubRepoQuery, Project } from '@the7ofdiamonds/github-portfolio';
 
+import styles from '@/views/components/Project.module.scss';
+
 interface ProjectProps {
-  account: Account;
+  account: Account | null;
 }
 
 const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
@@ -38,10 +40,10 @@ const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
   }, [projectID]);
 
   useEffect(() => {
-    if (account.portfolio && account.portfolio.projects.size > 0 && projectID) {
+    if (account && account.portfolio && account.portfolio.projects.size > 0 && projectID) {
       const selectedProject = account.portfolio.filterProject(projectID);
       if (selectedProject) {
-        setTitle(selectedProject.title);
+        setTitle(selectedProject.title)
       }
     }
   }, [account?.portfolio?.projects, projectID]);
@@ -80,8 +82,8 @@ const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
 
   useEffect(() => {
     if (projectErrorMessage) {
-      dispatch(setMessageType('error'));
-      dispatch(setMessage(projectErrorMessage));
+      dispatch(setMessageType('error'))
+      dispatch(setMessage(projectErrorMessage))
       dispatch(setShowStatusBar(true));
     }
   }, [projectErrorMessage]);
@@ -89,8 +91,8 @@ const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
   useEffect(() => {
     if (title && (githubLoading || projectLoading)) {
       dispatch(setMessageType('caution'));
-      dispatch(setMessage(`Now Loading ${title}`));
-      dispatch(setShowStatusBar(true));
+      dispatch(setMessage(`Now Loading ${title}`))
+      dispatch(setShowStatusBar(true))
     }
   }, [githubLoading, projectLoading, title]);
 
@@ -109,11 +111,14 @@ const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
   }
 
   return (
-    <>
-      {project &&
-        <ProjectComponent account={account} project={project} />
-      }
-    </>
+    <section className={styles.section}>
+      <>
+        {project &&
+          <ProjectComponent account={account} project={project} />
+        }
+      </>
+    </section>
+
   );
 }
 

@@ -7,8 +7,11 @@ import { Account, Portfolio, Skills } from '@the7ofdiamonds/github-portfolio';
 
 import { setMessage, setMessageType, setShowStatusBar } from '@the7ofdiamonds/github-portfolio';
 
+import styles from '@/views/components/Portfolio.module.scss';
+import skillsJson from '../../skills.json';
+
 interface PortfolioProps {
-  account: Account;
+  account: Account | null;
 }
 
 const PortfolioPage: React.FC<PortfolioProps> = ({ account }) => {
@@ -24,49 +27,55 @@ const PortfolioPage: React.FC<PortfolioProps> = ({ account }) => {
   } = useAppSelector((state) => state.portfolio);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, []);
 
   useEffect(() => {
     if (portfolioLoading) {
-      dispatch(setMessage('Now Loading Portfolio'));
-      dispatch(setShowStatusBar('show'));
+      dispatch(setMessage('Now Loading Portfolio'))
+      dispatch(setShowStatusBar('show'))
     }
   }, [portfolioLoading]);
 
   useEffect(() => {
     if (portfolioLoading) {
-      dispatch(setMessageType('info'));
-      dispatch(setMessage('Now Loading Portfolio'));
+      dispatch(setMessageType('info'))
+      dispatch(setMessage('Now Loading Portfolio'))
     }
   }, [portfolioLoading]);
 
   useEffect(() => {
     if (portfolioErrorMessage) {
-      dispatch(setMessage(portfolioErrorMessage));
-      dispatch(setMessageType('error'));
+      dispatch(setMessage(portfolioErrorMessage))
+      dispatch(setMessageType('error'))
       dispatch(setShowStatusBar(Date.now()));
     }
   }, [portfolioErrorMessage]);
 
   useEffect(() => {
-    document.title = `Portfolio - ${account.name}`;
+    document.title = `Portfolio`;
   }, []);
 
   useEffect(() => {
-    if (account.portfolio && account.portfolio.projects.size > 0) {
-      setPortfolio(account.portfolio);
+    if (account && account.portfolio && account.portfolio.projects.size > 0) {
+      setPortfolio(account.portfolio)
     }
   }, [account]);
 
-  useEffect(() => {
-    if (account.skills && account.skills) {
-      setSkills(account.skills);
-    }
-  }, [account]);
+  // useEffect(() => {
+  //   if (account && account.skills) {
+  //     console.log(account.skills)
+  //     setSkills(account.skills);
+  //   }
+  // }, [account]);
 
+    useEffect(() => {
+      if (account && skillsJson) {
+        setSkills(new Skills(skillsJson));
+      }
+    }, [account]);
   return (
-    <section className="portfolio">
+    <section className={styles.section}>
       <>
         <PortfolioComponent portfolio={portfolio} skills={skills} />
       </>

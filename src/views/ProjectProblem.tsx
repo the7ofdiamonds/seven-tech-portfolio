@@ -12,6 +12,8 @@ import {
 
 import { LoadingComponent, StatusBar, Modal } from '@the7ofdiamonds/github-portfolio';
 
+import styles from '@/views/components/Problem.module.scss';
+
 const ProjectProblem: React.FC = () => {
   const { project } = useParams();
   const dispatch = useAppDispatch();
@@ -134,13 +136,13 @@ const ProjectProblem: React.FC = () => {
 
   return (
     <>
-      <main className="project-problem">
-        <h2 className="title">THE PROBLEM</h2>
+      <main className={styles['project-problem']}>
+        <h2 className={styles.title}>THE PROBLEM</h2>
 
         <StatusBar show={show} message={message} messageType={messageType} />
 
-        <div className="card">
-          <form className="the-problem" action="">
+        <div className={styles.card}>
+          <form className={styles['the-problem']} action="">
             <table>
               <tbody>
                 <tr>
@@ -223,7 +225,7 @@ const ProjectProblem: React.FC = () => {
                     <input
                       type="date"
                       name="first_notice_date"
-                      className="input-date"
+                      className={styles['input-date']}
                       onChange={handleInputChange}
                       value={formData.first_notice_date}
                     />
@@ -240,7 +242,7 @@ const ProjectProblem: React.FC = () => {
                           type="radio"
                           id="recurring_issue_yes"
                           name="recurring_issue"
-                          className="input-radio"
+                          className={styles['input-radio']}
                           value={'yes'}
                           onChange={handleInputChange}
                           checked={formData.recurring_issue === 'yes'}
@@ -252,7 +254,7 @@ const ProjectProblem: React.FC = () => {
                           type="radio"
                           id="recurring_issue_no"
                           name="recurring_issue"
-                          className="input-radio"
+                          className={styles['input-radio']}
                           value={'no'}
                           onChange={handleInputChange}
                           checked={formData.recurring_issue === 'no'}
@@ -286,7 +288,7 @@ const ProjectProblem: React.FC = () => {
                         id="tried_solutions_yes"
                         name="tried_solutions"
                         value="yes"
-                        className="input-radio"
+                        className={styles['input-radio']}
                         onChange={handleInputChange}
                         checked={formData.tried_solutions === 'yes'}
                       />
@@ -298,7 +300,7 @@ const ProjectProblem: React.FC = () => {
                         id="tried_solutions_no"
                         name="tried_solutions"
                         value="no"
-                        className="input-radio"
+                        className={styles['input-radio']}
                         onChange={handleInputChange}
                         checked={formData.tried_solutions === 'no'}
                       />

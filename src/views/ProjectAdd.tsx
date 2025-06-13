@@ -17,6 +17,8 @@ import {
 
 import { Project, Owner, User, GitHubRepoQuery, Portfolio, RepoURL } from '@the7ofdiamonds/github-portfolio'
 
+import styles from '@/views/components/Add.module.scss';
+
 interface ProjectAddProps {
     user: User;
 }
@@ -174,8 +176,8 @@ const ProjectAdd: React.FC<ProjectAddProps> = ({ user }) => {
     };
 
     return (
-        <section className="update-project">
-            <h1 className="title">update project</h1>
+        <section className={styles['update-project']}>
+            <h1 className={styles.title}>update project</h1>
             <EditProject project={project} change={handleAddProject} />
         </section>
     );

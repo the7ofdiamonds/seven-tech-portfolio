@@ -12,6 +12,8 @@ import {
 
 import { LoadingComponent, StatusBar, Modal } from '@the7ofdiamonds/github-portfolio';
 
+import styles from '@/views/components/Onboarding.module.scss';
+
 const OnBoardingComponent: React.FC = () => {
   const { project } = useParams();
   const dispatch = useAppDispatch();
@@ -176,25 +178,25 @@ const OnBoardingComponent: React.FC = () => {
 
   return (
     <>
-      <main className="project-onboarding">
-        <h2 className="title">CLIENT ONBOARDING</h2>
+      <main className={styles['project-onboarding']}>
+        <h2 className={styles.title}>CLIENT ONBOARDING</h2>
 
         <StatusBar message={message} messageType={messageType} />
 
-        <div className="card">
-          <form className="on-boarding" action="">
+        <div className={styles.card}>
+          <form className={styles['on-boarding']} action="">
             <table>
               <tbody>
                 <tr id="project_title">
                   <label htmlFor="project_title">Project title</label>
-                  <div className="options-column">
-                    <span className="option">
+                  <div className={styles['options-column']}>
+                    <span className={styles.option}>
                       <input
                         type="text"
                         id="project_title"
                         name="project_title"
                         value={project_title}
-                        className="input-radio"
+                        className={styles['input-radio']}
                         onChange={handleInputChange}
                       />
                     </span>
@@ -206,14 +208,14 @@ const OnBoardingComponent: React.FC = () => {
                       Does (your company or organization) have a specific
                       deadline that it needs to meet? If Yes, provide it below.
                     </label>
-                    <div className="options-column">
-                      <span className="option">
+                    <div className={styles['options-column']}>
+                      <span className={styles.option}>
                         <input
                           type="date"
                           id="deadline_date"
                           name="deadline"
                           value={formData.deadline}
-                          className="input-date"
+                          className={styles['input-date']}
                           onChange={handleInputChange}
                         />
                       </span>
@@ -233,7 +235,7 @@ const OnBoardingComponent: React.FC = () => {
                           id="where_business_online"
                           name="where_business"
                           value="online"
-                          className="input-radio"
+                          className={styles['input-radio']}
                           onChange={handleInputChange}
                           checked={formData.where_business === 'online'}
                         />
@@ -245,7 +247,7 @@ const OnBoardingComponent: React.FC = () => {
                           id="where_business_brick"
                           name="where_business"
                           value="brick and mortar"
-                          className="input-radio"
+                          className={styles['input-radio']}
                           onChange={handleInputChange}
                           checked={
                             formData.where_business === 'brick and mortar'
@@ -259,7 +261,7 @@ const OnBoardingComponent: React.FC = () => {
                           id="where_business_both"
                           name="where_business"
                           value="both"
-                          className="input-radio"
+                          className={styles['input-radio']}
                           onChange={handleInputChange}
                           checked={formData.where_business === 'both'}
                         />
@@ -280,7 +282,7 @@ const OnBoardingComponent: React.FC = () => {
                           type="url"
                           id="website"
                           name="website"
-                          className="input-url"
+                          className={styles['input-url']}
                           value={formData.website}
                           onChange={handleInputChange}
                         />
@@ -304,7 +306,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="hosting_aws"
                               name="hosting"
                               value="aws"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'aws'}
                             />
@@ -316,7 +318,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="hosting_azure"
                               name="hosting"
                               value="azure"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'azure'}
                             />
@@ -328,7 +330,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="hosting_google"
                               name="hosting"
                               value="google"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'google'}
                             />
@@ -340,7 +342,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="hosting_godaddy"
                               name="hosting"
                               value="godaddy"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'godaddy'}
                             />
@@ -352,7 +354,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="hosting_other"
                               name="hosting"
                               value="other"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'other'}
                             />
@@ -362,7 +364,7 @@ const OnBoardingComponent: React.FC = () => {
                                 type="text"
                                 id="hosting_other"
                                 name="hosting_other"
-                                className="other"
+                          className={styles.other}
                                 value={formData.hosting_other}
                                 onChange={handleInputChange}
                               />
@@ -384,7 +386,7 @@ const OnBoardingComponent: React.FC = () => {
                               id="satisfied_yes"
                               name="satisfied"
                               value="yes"
-                              className="input-radio"
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.satisfied === 'yes'}
                             />
@@ -423,7 +425,7 @@ const OnBoardingComponent: React.FC = () => {
                               type="url"
                               id="signage"
                               name="signage"
-                              className="input-url"
+                          className={styles['input-url']}
                               value={formData.signage}
                               onChange={handleInputChange}
                             />
@@ -453,7 +455,7 @@ const OnBoardingComponent: React.FC = () => {
                               type="url"
                               id={`social_networks_${social_network}_link`}
                               name={`social_networks_${social_network}_link`}
-                              className="input-url"
+                          className={styles['input-url']}
                               value={
                                 formData.social_networks[social_network].link
                               }
@@ -483,7 +485,7 @@ const OnBoardingComponent: React.FC = () => {
                           type="url"
                           id="logo"
                           name="logo"
-                          className="input-url"
+                          className={styles['input-url']}
                           value={formData.logo}
                           onChange={handleInputChange}
                         />
@@ -528,7 +530,7 @@ const OnBoardingComponent: React.FC = () => {
                           type="url"
                           id="plan"
                           name="plan"
-                          className="input-url"
+                          className={styles['input-url']}
                           value={formData.plan}
                           onChange={handleInputChange}
                         />

@@ -17,8 +17,10 @@ import {
 
 import { Project, Owner, Account, GitHubRepoQuery, Portfolio, RepoURL } from '@the7ofdiamonds/github-portfolio'
 
+import styles from '@/views/components/Update.module.scss';
+
 interface ProjectUpdateProps {
-  account: Account;
+  account: Account | null;
 }
 
 const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ account }) => {
@@ -37,7 +39,7 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ account }) => {
     (state) => state.update
   );
 
-  const [portfolio, setPortfolio] = useState<Portfolio | null>(account.portfolio);
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
 
   const [owner, setOwner] = useState<Owner>(new Owner());
   const [id, setId] = useState<string>();
@@ -60,7 +62,7 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ account }) => {
   }, [projectID]);
 
   useEffect(() => {
-    if (account.portfolio) {
+    if (account && account.portfolio) {
       setPortfolio(account.portfolio);
     }
   }, [account?.portfolio]);
@@ -169,8 +171,8 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ account }) => {
   };
 
   return (
-    <section className="update-project">
-      <h1 className="title">update project</h1>
+    <section className={styles['update-project']}>
+      <h1 className={styles.title}>update project</h1>
       <EditProject project={project} change={handleUpdateProject} />
     </section>
   );
