@@ -60,7 +60,7 @@ const OrganizationPage: React.FC = () => {
     }, [organization?.skills]);
 
     return (
-        <section className={styles.organization} id='top'>
+        <section className={styles.section} id='top'>
             <>
                 {organization && <OrganizationComponent organization={organization} />}
 

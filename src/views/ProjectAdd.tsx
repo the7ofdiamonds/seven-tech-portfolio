@@ -176,7 +176,7 @@ const ProjectAdd: React.FC<ProjectAddProps> = ({ user }) => {
     };
 
     return (
-        <section className={styles['update-project']}>
+        <section className={styles.section}>
             <h1 className={styles.title}>update project</h1>
             <EditProject project={project} change={handleAddProject} />
         </section>
