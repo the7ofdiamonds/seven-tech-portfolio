@@ -20,6 +20,7 @@ const ProjectsEdit = lazy(() => import('@/views/ProjectsEdit'));
 const ProjectUpdate = lazy(() => import('@/views/ProjectUpdate'));
 const Search = lazy(() => import('@/views/Search'));
 const SkillAdd = lazy(() => import('@/views/SkillAdd'));
+import skillsJson from '../skills.json';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ const App: React.FC = () => {
   const [account, setAccount] = useState<Account | null>(null);
   const [user, setUser] = useState<User>(new User);
   const [avatarURL, setAvatarURL] = useState<string | null>(null);
-  const [skills, setSkills] = useState<Skills>(new Skills());
+  const [skills, setSkills] = useState<Skills | null>(null);
 
   useEffect(() => {
     if (authenticatedUserObject) {
@@ -80,6 +81,12 @@ const App: React.FC = () => {
     }
   }, [avatarURL]);
 
+  useEffect(() => {
+    if (account && skillsJson) {
+      setSkills(new Skills(skillsJson));
+    }
+  }, [account]);
+
   return (
     <>
       <Router basename="/">
@@ -109,7 +116,7 @@ const App: React.FC = () => {
             <Route path="portfolio" element={<Portfolio account={account} />} />
             <Route path="portfolio/:owner/:projectID" element={<ProjectPage account={account} />} />
 
-            <Route path="/projects/:taxonomy/:term" element={<Search user={user} skills={skills} />} />
+            <Route path="/projects/:taxonomy/:term" element={<Search account={account} skills={skills} />} />
           </Routes>
         </Suspense>
       </Router>

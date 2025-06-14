@@ -8,7 +8,6 @@ import { Account, Portfolio, Skills } from '@the7ofdiamonds/github-portfolio';
 import { setMessage, setMessageType, setShowStatusBar } from '@the7ofdiamonds/github-portfolio';
 
 import styles from '@/views/components/Portfolio.module.scss';
-import skillsJson from '../../skills.json';
 
 interface PortfolioProps {
   account: Account | null;
@@ -62,18 +61,12 @@ const PortfolioPage: React.FC<PortfolioProps> = ({ account }) => {
     }
   }, [account]);
 
-  // useEffect(() => {
-  //   if (account && account.skills) {
-  //     console.log(account.skills)
-  //     setSkills(account.skills);
-  //   }
-  // }, [account]);
+  useEffect(() => {
+    if (account && account.skills) {
+      setSkills(account.skills);
+    }
+  }, [account]);
 
-    useEffect(() => {
-      if (account && skillsJson) {
-        setSkills(new Skills(skillsJson));
-      }
-    }, [account]);
   return (
     <section className={styles.section}>
       <>

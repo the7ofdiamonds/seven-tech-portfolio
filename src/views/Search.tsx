@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/model/hooks';
-import { Portfolio, Skills, User, Project } from '@the7ofdiamonds/github-portfolio';
+import { Portfolio, Skills, Project, Account } from '@the7ofdiamonds/github-portfolio';
 
 import { getPortfolioDetails } from '@the7ofdiamonds/github-portfolio';
 
@@ -13,11 +13,11 @@ import { HeaderTaxonomyComponent } from '@the7ofdiamonds/github-portfolio';
 import styles from '@/views/components/Search.module.scss';
 
 interface SearchProps {
-  user: User;
-  skills: Skills
+  account: Account | null;
+  skills: Skills | null;
 }
 
-const Search: React.FC<SearchProps> = ({ user, skills }) => {
+const Search: React.FC<SearchProps> = ({ account, skills }) => {
   const dispatch = useAppDispatch();
 
   const { taxonomy, term } = useParams<string>();
@@ -26,7 +26,7 @@ const Search: React.FC<SearchProps> = ({ user, skills }) => {
     (state) => state.portfolio
   );
 
-  const [portfolio, setPortfolio] = useState<Portfolio | null>(user.portfolio);
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [projects, setProjects] = useState<Set<Project>>(new Set);
 
   useEffect(() => {
@@ -42,16 +42,16 @@ const Search: React.FC<SearchProps> = ({ user, skills }) => {
   }, [term]);
 
   useEffect(() => {
-    if (user.repos) {
-      dispatch(getPortfolioDetails(user.repos))
+    if (account && account.repos) {
+      dispatch(getPortfolioDetails(account.repos))
     }
-  }, [user?.repos]);
+  }, [account?.repos]);
 
   useEffect(() => {
-    if (user.portfolio) {
-      setPortfolio(user.portfolio)
+    if (account && account.portfolio) {
+      setPortfolio(account.portfolio)
     }
-  }, [user.portfolio]);
+  }, [account?.portfolio]);
 
   useEffect(() => {
     if (portfolioObject) {
@@ -68,7 +68,8 @@ const Search: React.FC<SearchProps> = ({ user, skills }) => {
   return (
     <section className={styles.section} id="top">
       <>
-        {taxonomy && term && <HeaderTaxonomyComponent skill={skills.filter(taxonomy, term)} />}
+        {skills && taxonomy && term &&
+          <HeaderTaxonomyComponent skill={skills.filter(taxonomy, term)} />}
 
         {portfolio &&
           projects &&
@@ -76,7 +77,7 @@ const Search: React.FC<SearchProps> = ({ user, skills }) => {
           <ProjectsComponent projects={projects} />
         }
 
-        <SkillsComponent pSkills={user.skills ?? skills} />
+        <SkillsComponent skills={skills} />
       </>
     </section>
   );
