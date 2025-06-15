@@ -31,6 +31,7 @@
     "name": "PortfolioComponent",
     "imports": [
       "src/index.tsx",
+      "_SkillsComponent.js",
       "_ProjectsComponent.js"
     ]
   },
@@ -46,8 +47,14 @@
     "name": "ProjectsComponent",
     "imports": [
       "src/index.tsx",
-      "_TaxListIcon.js",
       "_ProjectCard.js"
+    ]
+  },
+  "_SkillsComponent.js": {
+    "file": "SkillsComponent.js",
+    "name": "SkillsComponent",
+    "imports": [
+      "src/index.tsx"
     ]
   },
   "_Status.js": {
@@ -58,11 +65,12 @@
       "_useDispatch.js"
     ]
   },
-  "_TaxListIcon.js": {
-    "file": "TaxListIcon.js",
-    "name": "TaxListIcon",
+  "_hooks.js": {
+    "file": "hooks.js",
+    "name": "hooks",
     "imports": [
-      "src/index.tsx"
+      "src/index.tsx",
+      "_useDispatch.js"
     ]
   },
   "_useDispatch.js": {
@@ -110,8 +118,8 @@
       "_ProjectCard.js",
       "_ImageComponent.js",
       "_PortfolioComponent.js",
-      "_ProjectsComponent.js",
-      "_TaxListIcon.js"
+      "_SkillsComponent.js",
+      "_ProjectsComponent.js"
     ]
   },
   "src/views/Portfolio.tsx": {
@@ -122,8 +130,8 @@
     "imports": [
       "src/index.tsx",
       "_PortfolioComponent.js",
+      "_SkillsComponent.js",
       "_ProjectsComponent.js",
-      "_TaxListIcon.js",
       "_ProjectCard.js"
     ]
   },
@@ -158,7 +166,7 @@
     "imports": [
       "src/index.tsx",
       "_Status.js",
-      "_TaxListIcon.js",
+      "_SkillsComponent.js",
       "_ImageComponent.js",
       "_useDispatch.js"
     ]
@@ -202,7 +210,7 @@
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
-      "_TaxListIcon.js",
+      "_SkillsComponent.js",
       "_ProjectsComponent.js",
       "_ProjectCard.js"
     ]

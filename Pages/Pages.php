@@ -16,112 +16,110 @@ class Pages
             'Portfolio',
         ];
 
-        $this->custom_pages = [
-            [
-                'url' => '^founders/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/founders/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^investors/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/investors/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^managing-members/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/managing-members/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^executives/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/executives/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^freelancers/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/freelancers/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^employees/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/employees/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'User'
-            ],
-            [
-                'url' => '^frameworks/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/frameworks/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'Term'
-            ],
-            [
-                'url' => '^frameworks?',
-                'regex' => '#^/frameworks#',
-                'file_name' => 'Taxonomy'
-            ],
-            [
-                'url' => '^skills/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/skills/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'Term'
-            ],
-            [
-                'url' => '^skills?',
-                'regex' => '#^/skills#',
-                'file_name' => 'Taxonomy'
-            ],
-            [
-                'url' => '^technologies/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/technologies/([a-zA-Z0-9-_]+)+#',
-                'file_name' => 'Term'
-            ],
-            [
-                'url' => '^technologies?',
-                'regex' => '#^/technologies#',
-                'file_name' => 'Taxonomy'
-            ],
-            [
-                'url' => '^dashboard?',
-                'regex' => '#^/dashboard#',
-                'file_name' => 'Dashboard',
-                'page_name' => 'Protected'
-            ],
-            [
-                'url' => '^projects/edit?',
-                'regex' => '#^/projects/edit#',
-                'file_name' => 'ProjectsEdit',
-                'page_name' => 'Protected'
-            ],
-            [
-                'url' => '^dashboard?',
-                'regex' => '#^/dashboard#',
-                'file_name' => 'Dashboard',
-                'page_name' => 'Protected'
-            ],
-            [
-                'url' => '^add/skill?',
-                'regex' => '#^/add/skill#',
-                'file_name' => 'SkillAdd',
-                'page_name' => 'Protected'
-            ],
-        ];
+        // $this->custom_pages = [
+        //     [
+        //         'url' => '^founders/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/founders/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^investors/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/investors/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^managing-members/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/managing-members/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^executives/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/executives/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^freelancers/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/freelancers/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^employees/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/employees/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'User'
+        //     ],
+        //     [
+        //         'url' => '^frameworks/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/frameworks/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'Term'
+        //     ],
+        //     [
+        //         'url' => '^frameworks?',
+        //         'regex' => '#^/frameworks#',
+        //         'file_name' => 'Taxonomy'
+        //     ],
+        //     [
+        //         'url' => '^skills/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/skills/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'Term'
+        //     ],
+        //     [
+        //         'url' => '^skills?',
+        //         'regex' => '#^/skills#',
+        //         'file_name' => 'Taxonomy'
+        //     ],
+        //     [
+        //         'url' => '^technologies/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/technologies/([a-zA-Z0-9-_]+)+#',
+        //         'file_name' => 'Term'
+        //     ],
+        //     [
+        //         'url' => '^technologies?',
+        //         'regex' => '#^/technologies#',
+        //         'file_name' => 'Taxonomy'
+        //     ],
+        //     [
+        //         'url' => '^dashboard?',
+        //         'regex' => '#^/dashboard#',
+        //         'file_name' => 'Dashboard',
+        //         'page_name' => 'Protected'
+        //     ],
+        //     [
+        //         'url' => '^projects/edit?',
+        //         'regex' => '#^/projects/edit#',
+        //         'file_name' => 'ProjectsEdit',
+        //         'page_name' => 'Protected'
+        //     ],
+        //     [
+        //         'url' => '^add/skill?',
+        //         'regex' => '#^/add/skill#',
+        //         'file_name' => 'SkillAdd',
+        //         'page_name' => 'Protected'
+        //     ],
+        // ];
 
-        $this->protected_pages = [
-            [
-                'url' => '^project/onboarding/?',
-                'regex' => '#^/project/onboarding+#',
-                'file_name' => 'ProjectOnboarding'
-            ],
-            [
-                'url' => '^project/onboarding/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/project/onboarding/[^/]+#',
-                'file_name' => 'ProjectOnboarding'
-            ],
-            [
-                'url' => '^project/problem/([a-zA-Z0-9-_]+)/?',
-                'regex' => '#^/project/problem/[^/]+#',
-                'file_name' => 'ProjectProblem'
-            ],
-        ];
+        // $this->protected_pages = [
+        //     [
+        //         'url' => '^project/onboarding/?',
+        //         'regex' => '#^/project/onboarding+#',
+        //         'file_name' => 'ProjectOnboarding'
+        //     ],
+        //     [
+        //         'url' => '^project/onboarding/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/project/onboarding/[^/]+#',
+        //         'file_name' => 'ProjectOnboarding'
+        //     ],
+        //     [
+        //         'url' => '^project/problem/([a-zA-Z0-9-_]+)/?',
+        //         'regex' => '#^/project/problem/[^/]+#',
+        //         'file_name' => 'ProjectProblem'
+        //     ],
+        // ];
 
         $this->pages = [
+            [
+                'url' => '^dashboard?',
+                'regex' => '#^/dashboard#',
+                'file_name' => 'Dashboard'            ],
             [
                 'url' => '^organization/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/organization/[a-zA-Z0-9-_]+/?$#',

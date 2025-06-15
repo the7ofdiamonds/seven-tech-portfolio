@@ -134,11 +134,11 @@ const ProjectAdd: React.FC<ProjectAddProps> = ({ user }) => {
         }
     }, [addSuccessMessage]);
 
-    useEffect(() => {
-        if (addStatusCode === 403) {
-            navigate('/login');
-        }
-    }, [addStatusCode]);
+    // useEffect(() => {
+    //     if (addStatusCode === 403) {
+    //         navigate('/login');
+    //     }
+    // }, [addStatusCode]);
 
     useEffect(() => {
         if (project && project.title) {
@@ -150,23 +150,7 @@ const ProjectAdd: React.FC<ProjectAddProps> = ({ user }) => {
         e.preventDefault();
 
         try {
-            dispatch(addProject(project))
-                .then((res) => {
-                    console.log(res);
-                    // if (res.meta.requestStatus === 'fulfilled') {
-                    //     let id = res.payload.id;
-                    //     let repoURL = new RepoURL(res.payload.repo_url);
-
-                    //     dispatch(setMessageType('success'));
-                    //     dispatch(setMessage(res.payload.success_message));
-                    //     dispatch(setShowStatusBar(Date.now()));
-
-                    //     if (repoURL.owner) {
-                    //         const repoQuery = new GitHubRepoQuery(repoURL.owner, id);
-                    //         dispatch(getProject(repoQuery));
-                    //     }
-                    // }
-                });
+            dispatch(addProject(project));
         } catch (error) {
             const err = error as Error;
             dispatch(setMessageType('error'));

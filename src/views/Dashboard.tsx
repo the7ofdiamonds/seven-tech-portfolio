@@ -19,18 +19,22 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!checkHeaders()) {
-      navigate('/login');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!checkHeaders()) {
+  //     navigate('/login');
+  //   }
+  // }, []);
 
   const handleSkillAdd = () => {
     navigate('/dashboard/add/skill');
   };
 
-  const handleUpdateProject = () => {
-    navigate('/dashboard/update/portfolio');
+  const handleProjectAdd = () => {
+    navigate('/dashboard/add/project');
+  };
+
+  const handleEditProject = () => {
+    navigate('/dashboard/edit/projects');
   };
 
   const handleLogout = async () => {
@@ -52,16 +56,20 @@ const Dashboard: React.FC = () => {
         <h2 className={styles.title}>Dashboard</h2>
 
         <div className={styles.options}>
-          <button onClick={handleSkillAdd}>
+          <button className={styles.button} onClick={handleSkillAdd}>
             <h3 className={styles.title}>add skill</h3>
           </button>
 
-          <button onClick={handleUpdateProject}>
-            <h3 className={styles.title}>update projects</h3>
+          <button className={styles.button} onClick={handleProjectAdd}>
+            <h3 className={styles.title}>add project</h3>
+          </button>
+
+          <button className={styles.button} onClick={handleEditProject}>
+            <h3 className={styles.title}>edit projects</h3>
           </button>
         </div>
 
-        <button onClick={handleLogout}>
+        <button className={styles.button} onClick={handleLogout}>
           <h3 className={styles.title}>logout</h3>
         </button>
       </main>
