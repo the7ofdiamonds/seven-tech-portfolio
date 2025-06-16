@@ -9,17 +9,18 @@ import { Account, User, Skills } from '@the7ofdiamonds/github-portfolio';
 
 import { LoadingComponent } from '@the7ofdiamonds/github-portfolio';
 
-const Dashboard = lazy(() => import('@/views/Dashboard'));
+const Dashboard = lazy(() => import('@/views/DashboardPage'));
 const OrganizationPage = lazy(() => import('@/views/OrganizationPage'));
-const Portfolio = lazy(() => import('@/views/Portfolio'));
-const ProjectAdd = lazy(() => import('@/views/ProjectAdd'));
-const ProjectOnboarding = lazy(() => import('@/views/ProjectOnboarding'));
+const Portfolio = lazy(() => import('@/views/PortfolioPage'));
+const ProjectAdd = lazy(() => import('@/views/ProjectAddPage'));
+const ProjectOnboarding = lazy(() => import('@/views/ProjectOnboardingPage'));
 const ProjectPage = lazy(() => import('@/views/ProjectPage'));
-const ProjectProblem = lazy(() => import('@/views/ProjectProblem'));
-const ProjectsEdit = lazy(() => import('@/views/ProjectsEdit'));
-const ProjectUpdate = lazy(() => import('@/views/ProjectUpdate'));
-const Search = lazy(() => import('@/views/Search'));
-const SkillAdd = lazy(() => import('@/views/SkillAdd'));
+const ProjectProblem = lazy(() => import('@/views/ProjectProblemPage'));
+const ProjectsEdit = lazy(() => import('@/views/PortfolioEditPage'));
+const ProjectUpdate = lazy(() => import('@/views/ProjectEditPage'));
+const Search = lazy(() => import('@/views/SearchPage'));
+const SkillAdd = lazy(() => import('@/views/SkillAddPage'));
+
 import skillsJson from '../skills.json';
 
 const App: React.FC = () => {
@@ -107,7 +108,7 @@ const App: React.FC = () => {
               element={<ProjectOnboarding />} />
             <Route path="dashboard/edit/problem/project/:project"
               element={<ProjectProblem />} />
-            <Route path="dashboard/update/project/:project"
+            <Route path="dashboard/edit/project/:project"
               element={<ProjectUpdate account={account} />}
             />
 

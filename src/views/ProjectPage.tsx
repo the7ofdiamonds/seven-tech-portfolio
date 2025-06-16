@@ -15,11 +15,11 @@ import { Account, GitHubRepoQuery, Project } from '@the7ofdiamonds/github-portfo
 
 import styles from '@/views/components/Project.module.scss';
 
-interface ProjectProps {
+interface ProjectPageProps {
   account: Account | null;
 }
 
-const ProjectPage: React.FC<ProjectProps> = ({ account }) => {
+const ProjectPage: React.FC<ProjectPageProps> = ({ account }) => {
   const dispatch = useAppDispatch();
 
   const { owner, projectID } = useParams<string>();

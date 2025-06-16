@@ -3,6 +3,19 @@
     "file": "Add.module.js",
     "name": "Add.module"
   },
+  "_Edit.module.js": {
+    "file": "Edit.module.js",
+    "name": "Edit.module"
+  },
+  "_EditProblem.js": {
+    "file": "EditProblem.js",
+    "name": "EditProblem",
+    "imports": [
+      "src/index.tsx",
+      "_Status.js",
+      "_useDispatch.js"
+    ]
+  },
   "_EditProject.js": {
     "file": "EditProject.js",
     "name": "EditProject",
@@ -86,23 +99,32 @@
     "src": "src/index.tsx",
     "isEntry": true,
     "dynamicImports": [
-      "src/views/Dashboard.tsx",
+      "src/views/DashboardPage.tsx",
       "src/views/OrganizationPage.tsx",
-      "src/views/Portfolio.tsx",
-      "src/views/ProjectAdd.tsx",
-      "src/views/ProjectOnboarding.tsx",
+      "src/views/PortfolioPage.tsx",
+      "src/views/ProjectAddPage.tsx",
+      "src/views/ProjectOnboardingPage.tsx",
       "src/views/ProjectPage.tsx",
-      "src/views/ProjectProblem.tsx",
-      "src/views/ProjectsEdit.tsx",
-      "src/views/ProjectUpdate.tsx",
-      "src/views/Search.tsx",
-      "src/views/SkillAdd.tsx"
+      "src/views/ProjectProblemPage.tsx",
+      "src/views/PortfolioEditPage.tsx",
+      "src/views/ProjectEditPage.tsx",
+      "src/views/SearchPage.tsx",
+      "src/views/SkillAddPage.tsx"
     ]
   },
   "src/views/Dashboard.tsx": {
     "file": "Dashboard.js",
     "name": "Dashboard",
     "src": "src/views/Dashboard.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx"
+    ]
+  },
+  "src/views/DashboardPage.tsx": {
+    "file": "DashboardPage.js",
+    "name": "DashboardPage",
+    "src": "src/views/DashboardPage.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx"
@@ -135,6 +157,30 @@
       "_ProjectCard.js"
     ]
   },
+  "src/views/PortfolioEditPage.tsx": {
+    "file": "PortfolioEditPage.js",
+    "name": "PortfolioEditPage",
+    "src": "src/views/PortfolioEditPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Edit.module.js",
+      "_ProjectCard.js"
+    ]
+  },
+  "src/views/PortfolioPage.tsx": {
+    "file": "PortfolioPage.js",
+    "name": "PortfolioPage",
+    "src": "src/views/PortfolioPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_PortfolioComponent.js",
+      "_SkillsComponent.js",
+      "_ProjectsComponent.js",
+      "_ProjectCard.js"
+    ]
+  },
   "src/views/ProjectAdd.tsx": {
     "file": "ProjectAdd.js",
     "name": "ProjectAdd",
@@ -148,10 +194,58 @@
       "_useDispatch.js"
     ]
   },
+  "src/views/ProjectAddPage.tsx": {
+    "file": "ProjectAddPage.js",
+    "name": "ProjectAddPage",
+    "src": "src/views/ProjectAddPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Add.module.js",
+      "_EditProblem.js",
+      "_Status.js",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/ProjectEdit.tsx": {
+    "file": "ProjectEdit.js",
+    "name": "ProjectEdit",
+    "src": "src/views/ProjectEdit.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Status.js",
+      "_EditProject.js",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/ProjectEditPage.tsx": {
+    "file": "ProjectEditPage.js",
+    "name": "ProjectEditPage",
+    "src": "src/views/ProjectEditPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Edit.module.js",
+      "_Status.js",
+      "_EditProblem.js",
+      "_useDispatch.js"
+    ]
+  },
   "src/views/ProjectOnboarding.tsx": {
     "file": "ProjectOnboarding.js",
     "name": "ProjectOnboarding",
     "src": "src/views/ProjectOnboarding.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Modal.js"
+    ]
+  },
+  "src/views/ProjectOnboardingPage.tsx": {
+    "file": "ProjectOnboardingPage.js",
+    "name": "ProjectOnboardingPage",
+    "src": "src/views/ProjectOnboardingPage.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",
@@ -181,6 +275,16 @@
       "_Modal.js"
     ]
   },
+  "src/views/ProjectProblemPage.tsx": {
+    "file": "ProjectProblemPage.js",
+    "name": "ProjectProblemPage",
+    "src": "src/views/ProjectProblemPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Modal.js"
+    ]
+  },
   "src/views/ProjectUpdate.tsx": {
     "file": "ProjectUpdate.js",
     "name": "ProjectUpdate",
@@ -203,6 +307,16 @@
       "_ProjectCard.js"
     ]
   },
+  "src/views/ProjectsEditPage.tsx": {
+    "file": "ProjectsEditPage.js",
+    "name": "ProjectsEditPage",
+    "src": "src/views/ProjectsEditPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_ProjectCard.js"
+    ]
+  },
   "src/views/Search.tsx": {
     "file": "Search.js",
     "name": "Search",
@@ -215,10 +329,33 @@
       "_ProjectCard.js"
     ]
   },
+  "src/views/SearchPage.tsx": {
+    "file": "SearchPage.js",
+    "name": "SearchPage",
+    "src": "src/views/SearchPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_SkillsComponent.js",
+      "_ProjectsComponent.js",
+      "_ProjectCard.js"
+    ]
+  },
   "src/views/SkillAdd.tsx": {
     "file": "SkillAdd.js",
     "name": "SkillAdd",
     "src": "src/views/SkillAdd.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/index.tsx",
+      "_Add.module.js",
+      "_useDispatch.js"
+    ]
+  },
+  "src/views/SkillAddPage.tsx": {
+    "file": "SkillAddPage.js",
+    "name": "SkillAddPage",
+    "src": "src/views/SkillAddPage.tsx",
     "isDynamicEntry": true,
     "imports": [
       "src/index.tsx",

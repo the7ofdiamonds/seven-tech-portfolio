@@ -86,13 +86,13 @@ class Pages
         //     [
         //         'url' => '^projects/edit?',
         //         'regex' => '#^/projects/edit#',
-        //         'file_name' => 'ProjectsEdit',
+        //         'file_name' => 'PortfolioEditPage',
         //         'page_name' => 'Protected'
         //     ],
         //     [
         //         'url' => '^add/skill?',
         //         'regex' => '#^/add/skill#',
-        //         'file_name' => 'SkillAdd',
+        //         'file_name' => 'SkillAddPage',
         //         'page_name' => 'Protected'
         //     ],
         // ];
@@ -101,17 +101,17 @@ class Pages
         //     [
         //         'url' => '^project/onboarding/?',
         //         'regex' => '#^/project/onboarding+#',
-        //         'file_name' => 'ProjectOnboarding'
+        //         'file_name' => 'ProjectOnboardingPage'
         //     ],
         //     [
         //         'url' => '^project/onboarding/([a-zA-Z0-9-_]+)/?',
         //         'regex' => '#^/project/onboarding/[^/]+#',
-        //         'file_name' => 'ProjectOnboarding'
+        //         'file_name' => 'ProjectOnboardingPage'
         //     ],
         //     [
         //         'url' => '^project/problem/([a-zA-Z0-9-_]+)/?',
         //         'regex' => '#^/project/problem/[^/]+#',
-        //         'file_name' => 'ProjectProblem'
+        //         'file_name' => 'ProjectProblemPage'
         //     ],
         // ];
 
@@ -119,7 +119,7 @@ class Pages
             [
                 'url' => '^dashboard?',
                 'regex' => '#^/dashboard#',
-                'file_name' => 'Dashboard'            ],
+                'file_name' => 'DashboardPage'            ],
             [
                 'url' => '^organization/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/organization/[a-zA-Z0-9-_]+/?$#',
@@ -133,12 +133,12 @@ class Pages
             [
                 'url' => '^portfolio/?',
                 'regex' => '#^/portfolio/?$#',
-                'file_name' => 'Portfolio'
+                'file_name' => 'PortfolioPage'
             ],
             [
                 'url' => '^projects/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?',
                 'regex' => '#^/projects/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/?$#',
-                'file_name' => 'Search'
+                'file_name' => 'SearchPage'
             ],
         ];
 
