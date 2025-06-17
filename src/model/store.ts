@@ -14,7 +14,6 @@ import {
 import { portfolioClientSlice } from '../controllers/clientSlice';
 import { projectOnboardingSlice } from '../controllers/projectOnboardingSlice';
 import { projectProblemSlice } from '../controllers/projectProblemSlice';
-import { postTypeSlice } from '../controllers/postTypeSlice';
 
 const store = configureStore({
   reducer: {
@@ -28,7 +27,6 @@ const store = configureStore({
     problem: projectProblemSlice.reducer,
     taxonomies: taxonomiesSlice.reducer,
     user: userSlice.reducer,
-    postType: postTypeSlice.reducer,
     organization: organizationSlice.reducer,
   },
 });

@@ -12,77 +12,56 @@ import {
 
 import { LoadingComponent, StatusBar, Modal } from '@the7ofdiamonds/github-portfolio';
 
+import { ProjectOnboarding } from '@the7ofdiamonds/github-portfolio';
+
 import styles from '@/views/components/Onboarding.module.scss';
 
 const ProjectOnBoardingPage: React.FC = () => {
-  const { project } = useParams();
+  const { projectID } = useParams();
+
   const dispatch = useAppDispatch();
 
-  const [messageType, setMessageType] = useState('info');
-  const [message, setMessage] = useState(
+  const [show, setShow] = useState<string>('hide');
+  const [messageType, setMessageType] = useState<string>('info');
+  const [message, setMessage] = useState<string>(
     'To better serve your needs and wants, please fill out the onboarding form.'
   );
+  const [projectOnboarding, setProjectOnboarding] = useState<ProjectOnboarding>(new ProjectOnboarding());
+  const [onboardingID, setOnboardingID] = useState<string | null>(null);
 
   const { user_email, first_name, client_id } = useAppSelector(
     (state) => state.client
   );
   const {
     onboardingLoading,
-    onboardingError,
-    project_title,
-    project_slug,
-    deadline,
-    where_business,
-    website,
-    hosting,
-    satisfied,
-    signage,
-    social_networks,
-    logo,
-    colors,
-    plan,
-    onboardingID,
-    onboardingMessage,
+    onboardingSuccessMessage,
+    onboardingErrorMessage,
+    projectOnboardingObject,
   } = useAppSelector((state) => state.onboarding);
 
-  const [formData, setFormData] = useState({
-    client_id: client_id,
-    project_slug: project,
-    project_title: project_title,
-    deadline: deadline,
-    where_business: where_business,
-    website: website,
-    hosting: hosting,
-    satisfied: satisfied,
-    signage: signage,
-    social_networks: social_networks,
-    logo: logo,
-    colors: colors,
-    plan: plan,
-  });
+  useEffect(() => {
+    if (projectOnboardingObject) {
+      setProjectOnboarding(new ProjectOnboarding(projectOnboardingObject))
+    }
+  }, [projectOnboardingObject]);
+
+  useEffect(() => {
+    if (projectOnboarding.id) {
+      setOnboardingID(projectOnboarding.id)
+    }
+  }, [projectOnboarding]);
 
   useEffect(() => {
     if (user_email) {
-      dispatch(getClient()).then((response) => {
-        if (response.error !== undefined) {
-          console.error(response.error.message);
-          setMessageType('error');
-          setMessage(response.error.message);
-        } else {
-          setFormData((prevData) => ({
-            ...prevData,
-            client_id: response.payload.id,
-          }));
-        }
-      });
+      dispatch(getClient());
     }
   }, [user_email, dispatch]);
 
   useEffect(() => {
-    if (project) {
-      dispatch(getProjectOnboarding(formData));
+    if (onboardingID) {
+      dispatch(getProjectOnboarding(onboardingID));
     }
-  }, [project, dispatch]);
+  }, [onboardingID]);
 
   if (onboardingLoading) {
     return <LoadingComponent />;
@@ -90,10 +69,7 @@ const ProjectOnBoardingPage: React.FC = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setProjectOnboarding(projectOnboarding)
   };
 
   const handleSocialLinkChange = (e, platform) => {
@@ -306,7 +282,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_aws"
                               name="hosting"
                               value="aws"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'aws'}
                             />
@@ -318,7 +294,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_azure"
                               name="hosting"
                               value="azure"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'azure'}
                             />
@@ -330,7 +306,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_google"
                               name="hosting"
                               value="google"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'google'}
                             />
@@ -342,7 +318,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_godaddy"
                               name="hosting"
                               value="godaddy"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'godaddy'}
                             />
@@ -354,7 +330,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_other"
                               name="hosting"
                               value="other"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.hosting === 'other'}
                             />
@@ -364,7 +340,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                                 type="text"
                                 id="hosting_other"
                                 name="hosting_other"
-                          className={styles.other}
+                                className={styles.other}
                                 value={formData.hosting_other}
                                 onChange={handleInputChange}
                               />
@@ -386,7 +362,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="satisfied_yes"
                               name="satisfied"
                               value="yes"
-                          className={styles['input-radio']}
+                              className={styles['input-radio']}
                               onChange={handleInputChange}
                               checked={formData.satisfied === 'yes'}
                             />
@@ -425,7 +401,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               type="url"
                               id="signage"
                               name="signage"
-                          className={styles['input-url']}
+                              className={styles['input-url']}
                               value={formData.signage}
                               onChange={handleInputChange}
                             />
@@ -455,7 +431,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                               type="url"
                               id={`social_networks_${social_network}_link`}
                               name={`social_networks_${social_network}_link`}
-                          className={styles['input-url']}
+                              className={styles['input-url']}
                               value={
                                 formData.social_networks[social_network].link
                               }
@@ -543,9 +519,7 @@ const ProjectOnBoardingPage: React.FC = () => {
           </form>
         </div>
 
-        <Modal message={onboardingMessage} />
-
-        <StatusBar message={onboardingError} messageType={'error'} />
+        <StatusBar show={show} message={message} messageType={messageType} />
 
         <button type="submit" onClick={handleSubmit}>
           <h3>{onboardingID ? 'UPDATE' : 'SAVE'}</h3>

@@ -1,182 +1,163 @@
-import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  isAnyOf,
+  CreateSliceOptions,
+} from '@reduxjs/toolkit';
 
-const initialState = {
-    onboardingLoading: false,
-    onboardingError: '',
-    project_title: '',
-    project_slug: '',
-    deadline: '',
-    where_business: '',
-    website: '',
-    hosting: '',
-    satisfied: '',
-    signage: '',
-    social_networks: [
-        { platform: 'facebook', link: '' },
-        { platform: 'x', link: '' },
-        { platform: 'linkedin', link: '' },
-        { platform: 'instagram', link: '' },
-    ],
-    logo: '',
-    colors: [
-        { title: 'colors_primary', value: '#000000' },
-        { title: 'colors_secondary', value: '#000000' },
-        { title: 'colors_tertiary', value: '#000000' }
-    ],
-    plan: '',
-    onboardingID: '',
-    onboardingMessage: '',
-    onboardingResults: ''
+import {
+  ProjectOnboarding,
+  ProjectOnboardingObject,
+} from '@the7ofdiamonds/github-portfolio';
+
+export type ProjectOnboardingState = {
+  onboardingLoading: boolean;
+  onboardingSuccessMessage: string | null;
+  onboardingErrorMessage: string | null;
+  onboardingError: Error | null;
+  projectOnboardingObject: ProjectOnboardingObject | null;
+  onboardingID: string | null;
 };
 
-export const createProjectOnboarding = createAsyncThunk('projectOnboarding/createProjectOnboarding', async (formData, { getState }) => {
+const initialState: ProjectOnboardingState = {
+  onboardingLoading: false,
+  onboardingSuccessMessage: null,
+  onboardingErrorMessage: null,
+  onboardingError: null,
+  projectOnboardingObject: null,
+  onboardingID: null,
+};
+
+export const createProjectOnboarding = createAsyncThunk(
+  'projectOnboarding/createProjectOnboarding',
+  async (projectOnboarding: ProjectOnboarding) => {
     try {
-        const { client_id } = getState().client;
-
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/portfolio/onboarding`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                client_id: client_id,
-                ...formData
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            const errorMessage = errorData.message;
-            throw new Error(errorMessage);
+      const response = await fetch(
+        `/wp-json/seven-tech/portfolio/v1/portfolio/onboarding`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(projectOnboarding.toProjectOnboardingObject()),
         }
+      );
 
-        const responseData = await response.json();
-        return responseData;
+      if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData.message;
+        throw new Error(errorMessage);
+      }
+
+      const responseData = await response.json();
+      return responseData;
     } catch (error) {
-        throw error;
+      throw error;
     }
-});
+  }
+);
 
-export const getProjectOnboarding = createAsyncThunk('projectOnboarding/getProjectOnboarding', async (formData, { getState }) => {
+export const getProjectOnboarding = createAsyncThunk(
+  'projectOnboarding/getProjectOnboarding',
+  async (onboardingID: string) => {
     try {
-        const { client_id } = getState().client;
-
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                client_id: client_id,
-                project_title: formData?.project_title
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            const errorMessage = errorData.message;
-            throw new Error(errorMessage);
+      const response = await fetch(
+        `/wp-json/seven-tech/portfolio/v1/project/onboarding/${onboardingID}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
+      );
 
-        const responseData = await response.json();
-        return responseData;
+      if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData.message;
+        throw new Error(errorMessage);
+      }
+
+      const responseData = await response.json();
+      return responseData;
     } catch (error) {
-        throw error;
+      throw error;
     }
-});
+  }
+);
 
-export const updateProjectOnboarding = createAsyncThunk('projectOnboarding/updateProjectOnboarding', async (formData, { getState }) => {
+export const updateProjectOnboarding = createAsyncThunk(
+  'projectOnboarding/updateProjectOnboarding',
+  async (projectOnboarding: ProjectOnboarding) => {
     try {
-        const { client_id } = getState().client;
-
-        const response = await fetch(`/wp-json/seven-tech/portfolio/v1/project/onboarding/${formData?.project_slug}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                client_id: client_id,
-                project_title: formData?.project_title,
-                deadline: formData?.deadline,
-                where_business: formData?.where_business,
-                website: formData?.website,
-                hosting: formData?.hosting,
-                satisfied: formData?.satisfied,
-                signage: formData?.signage,
-                social_networks: formData?.social_networks,
-                logo: formData?.logo,
-                colors: formData?.colors,
-                plan: formData?.plan,
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            const errorMessage = errorData.message;
-            throw new Error(errorMessage);
+      const response = await fetch(
+        `/wp-json/seven-tech/portfolio/v1/project/onboarding/${projectOnboarding.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(projectOnboarding.toProjectOnboardingObject()),
         }
+      );
 
-        const responseData = await response.json();
-        return responseData;
+      if (!response.ok) {
+        const errorData = await response.json();
+        const errorMessage = errorData.message;
+        throw new Error(errorMessage);
+      }
+
+      const responseData = await response.json();
+      return responseData;
     } catch (error) {
-        throw error;
+      throw error;
     }
-});
+  }
+);
 
-export const projectOnboardingSlice = createSlice({
-    name: 'projectOnboarding',
-    initialState,
-    extraReducers: (builder) => {
-        builder
-            .addCase(createProjectOnboarding.fulfilled, (state, action) => {
-                state.onboardingLoading = false
-                state.onboardingError = ''
-                state.onboardingID = action.payload.id
-                state.onboardingMessage = action.payload.message
-                state.project_slug = action.payload.project_slug
-            })
-            .addCase(getProjectOnboarding.fulfilled, (state, action) => {
-                state.onboardingLoading = false
-                state.onboardingError = ''
-                state.project_title = action.payload.project_title
-                state.project_slug = action.payload.project_slug
-                state.deadline = action.payload.deadline
-                state.where_business = action.payload.where_business
-                state.website = action.payload.website
-                state.hosting = action.payload.hosting
-                state.satisfied = action.payload.satisfied
-                state.signage = action.payload.signage
-                state.social_networks = action.payload.social_networks
-                state.logo = action.payload.logo
-                state.colors = action.payload.colors
-                state.plan = action.payload.plan
-                state.onboardingID = action.payload.id
-            })
-            .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
-                state.onboardingLoading = false
-                state.onboardingError = ''
-                state.project_slug = action.payload.project_slug
-                state.onboardingMessage = action.payload.message
-                state.onboardingResults = action.payload.results
-            })
-            .addMatcher(isAnyOf(
-                createProjectOnboarding.pending,
-                getProjectOnboarding.pending,
-                updateProjectOnboarding.pending,
-            ), (state) => {
-                state.onboardingLoading = true
-                state.onboardingError = null
-            })
-            .addMatcher(isAnyOf(
-                createProjectOnboarding.rejected,
-                getProjectOnboarding.rejected,
-                updateProjectOnboarding.rejected,
-            ),
-                (state, action) => {
-                    state.onboardingLoading = false
-                    state.onboardingError = action.error.message
-                });
-    }
-})
+const projectOnboardingOptions: CreateSliceOptions<ProjectOnboardingState> = {
+  name: 'projectOnboarding',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createProjectOnboarding.fulfilled, (state, action) => {
+        state.onboardingLoading = false;
+        state.onboardingID = action.payload.id;
+        state.onboardingSuccessMessage = action.payload.success_message;
+      })
+      .addCase(getProjectOnboarding.fulfilled, (state, action) => {
+        state.onboardingLoading = false;
+        state.projectOnboardingObject = action.payload;
+      })
+      .addCase(updateProjectOnboarding.fulfilled, (state, action) => {
+        state.onboardingLoading = false;
+        state.onboardingSuccessMessage = action.payload.success_message;
+      })
+      .addMatcher(
+        isAnyOf(
+          createProjectOnboarding.pending,
+          getProjectOnboarding.pending,
+          updateProjectOnboarding.pending
+        ),
+        (state) => {
+          state.onboardingLoading = true;
+          state.onboardingError = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          createProjectOnboarding.rejected,
+          getProjectOnboarding.rejected,
+          updateProjectOnboarding.rejected
+        ),
+        (state, action) => {
+          state.onboardingLoading = false;
+          state.onboardingError = action.error as Error;
+        }
+      );
+  },
+};
+
+export const projectOnboardingSlice = createSlice(projectOnboardingOptions);
 
 export default projectOnboardingSlice;
