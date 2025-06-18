@@ -125,13 +125,14 @@ const ProjectOnBoardingPage: React.FC = () => {
 
   return (
     <>
-      <main className={styles['project-onboarding']}>
+    <section className={styles.section}>
+      <main className={styles.main}>
         <h2 className={styles.title}>CLIENT ONBOARDING</h2>
 
         <StatusBar show={show} message={message} messageType={messageType} />
 
         <div className={styles.card}>
-          <form className={styles['on-boarding']} action="">
+          <form className={styles.form} action="">
             <table>
               <tbody>
                 <tr id="project_title">
@@ -422,6 +423,7 @@ const ProjectOnBoardingPage: React.FC = () => {
           <h3>{onboardingID ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </main>
+    </section>
     </>
   );
 }

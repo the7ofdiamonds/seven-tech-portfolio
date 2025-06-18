@@ -4,6 +4,8 @@ import { Contact, ContactMethods } from '@the7ofdiamonds/github-portfolio';
 
 import OptionInput from '../OptionInput';
 
+import styles from './SocialNetworks.module.scss';
+
 interface SocialNetworksProps {
     socialNetworks: ContactMethods | null;
 }
@@ -80,7 +82,7 @@ const SocialNetworks: React.FC<SocialNetworksProps> = ({ socialNetworks }) => {
                     Does (your company or organization) have social media
                     pages? If Yes, provide a link to them below.
                 </label>
-                <div className="options-column">
+                <div className={styles.options}>
 
                     <OptionInput
                         id={`social_networks_${linkedin.id}`}
