@@ -1,4 +1,4 @@
-import React, { useState, useEffect, MouseEvent, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/model/hooks';
@@ -12,79 +12,125 @@ import {
 
 import { LoadingComponent, StatusBar, Modal } from '@the7ofdiamonds/github-portfolio';
 
-import { ProjectProblem } from '@the7ofdiamonds/github-portfolio';
+import styles from '@/views/components/Problem.module.scss';
 
-import styles from '@/views/components/problem/Problem.module.scss';
-
-const ProjectProblemPage: React.FC = () => {
-  const { projectID } = useParams();
-
+const ProjectProblem: React.FC = () => {
+  const { project } = useParams();
   const dispatch = useAppDispatch();
 
   const [show, setShow] = useState<string>('');
-  const [messageType, setMessageType] = useState<string>('info');
-  const [message, setMessage] = useState<string>(
+  const [messageType, setMessageType] = useState('info');
+  const [message, setMessage] = useState(
     'To come up with the best solution, we must first define the problem below.'
   );
-  const [projectProblem, setProjectProblem] = useState<ProjectProblem>(new ProjectProblem);
-  const [problemID, setProblemID] = useState<string | null>(null);
 
   const { user_email, first_name, client_id } = useAppSelector(
     (state) => state.client
   );
   const {
     problemLoading,
-    problemSuccessMessage,
-    problemErrorMessage,
-    projectProblemObject
+    problemError,
+    summary,
+    summary_url,
+    customers_impacted,
+    problem_affected,
+    challenges,
+    affected_operations,
+    change_event,
+    factors_contributed,
+    patterns_trends,
+    first_notice_date,
+    recurring_issue,
+    tried_solutions,
+    tried_solutions_results,
+    ideal_resolution,
+    problemID,
+    problemMessage,
   } = useAppSelector((state) => state.problem);
 
-  useEffect(() => {
-    if (projectProblemObject) {
-      setProjectProblem(new ProjectProblem(projectProblemObject))
-    }
-  }, [projectProblemObject]);
-
-  useEffect(() => {
-    if (projectProblem.id) {
-      setProblemID(projectProblem.id);
-    }
-  }, [projectProblem?.id]);
+  const [formData, setFormData] = useState({
+    project_slug: project,
+    client_id: client_id,
+    summary: summary,
+    summary_url: summary_url,
+    customers_impacted: customers_impacted,
+    problem_affected: problem_affected,
+    challenges: challenges,
+    affected_operations: affected_operations,
+    change_event: change_event,
+    factors_contributed: factors_contributed,
+    patterns_trends: patterns_trends,
+    first_notice_date: first_notice_date,
+    recurring_issue: recurring_issue,
+    tried_solutions: tried_solutions,
+    tried_solutions_results: tried_solutions_results,
+    ideal_resolution: ideal_resolution,
+  });
 
   useEffect(() => {
     if (user_email) {
-      dispatch(getClient());
+      dispatch(getClient()).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            client_id: response.payload.id,
+          }));
+        }
+      });
     }
-  }, [user_email]);
+  }, [user_email, dispatch]);
 
   useEffect(() => {
-    if (projectID) {
-      dispatch(getProjectProblem(projectID));
+    if (project) {
+      dispatch(getProjectProblem(project)).then((response) => {
+        if (response.error) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            ...response.payload,
+          }));
+        }
+      });
     }
-  }, [projectID]);
+  }, [project, dispatch]);
 
   if (problemLoading) {
     return <LoadingComponent />;
   }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    setProjectProblem(projectProblem);
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-
-    setProjectProblem(projectProblem);
-  };
-
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (problemID) {
-      dispatch(updateProjectProblem(projectProblem));
+      dispatch(updateProjectProblem(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.results)) {
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 5000);
+        }
+      });
     } else {
-      dispatch(createProjectProblem(projectProblem));
+      dispatch(createProjectProblem(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.id)) {
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 5000);
+        }
+      });
     }
   };
 
@@ -107,8 +153,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="customers_impacted"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.customersImpacted ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.customers_impacted}></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -118,9 +164,9 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="problem_affected"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.problemAffected ?? ''}>
-                      {projectProblem.problemAffected ?? ''}
+                      onChange={handleInputChange}
+                      value={formData.problem_affected}>
+                      {formData.problem_affected}
                     </textarea>
                   </td>
                 </tr>
@@ -132,8 +178,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="challenges"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.challenges ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.challenges}></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -144,8 +190,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="affected_operations"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.affectedOperations ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.affected_operations}></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -155,8 +201,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="factors_contributed"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.factorsContributed ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.factors_contributed}></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -167,8 +213,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="change_event"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.changeEvent ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.change_event}></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -181,7 +227,7 @@ const ProjectProblemPage: React.FC = () => {
                       name="first_notice_date"
                       className={styles['input-date']}
                       onChange={handleInputChange}
-                      value={projectProblem.firstNoticeDate ?? ''}
+                      value={formData.first_notice_date}
                     />
                   </td>
                 </tr>
@@ -199,7 +245,7 @@ const ProjectProblemPage: React.FC = () => {
                           className={styles['input-radio']}
                           value={'yes'}
                           onChange={handleInputChange}
-                          checked={projectProblem.recurringIssue === 'yes'}
+                          checked={formData.recurring_issue === 'yes'}
                         />
                         <label htmlFor="recurring_issue_yes">Yes</label>
                       </span>
@@ -211,7 +257,7 @@ const ProjectProblemPage: React.FC = () => {
                           className={styles['input-radio']}
                           value={'no'}
                           onChange={handleInputChange}
-                          checked={projectProblem.recurringIssue === 'no'}
+                          checked={formData.recurring_issue === 'no'}
                         />
                         <label htmlFor="recurring_issue_no">No</label>
                       </span>
@@ -226,8 +272,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="patterns_trends"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.patternsTrends ?? ''}></textarea>{' '}
+                      onChange={handleInputChange}
+                      value={formData.patterns_trends}></textarea>{' '}
                   </td>
                 </tr>
                 <tr>
@@ -244,7 +290,7 @@ const ProjectProblemPage: React.FC = () => {
                         value="yes"
                         className={styles['input-radio']}
                         onChange={handleInputChange}
-                        checked={projectProblem.triedSolutions === 'yes'}
+                        checked={formData.tried_solutions === 'yes'}
                       />
                       <label htmlFor="tried_solutions_yes">Yes</label>
                     </span>
@@ -256,20 +302,20 @@ const ProjectProblemPage: React.FC = () => {
                         value="no"
                         className={styles['input-radio']}
                         onChange={handleInputChange}
-                        checked={projectProblem.triedSolutions === 'no'}
+                        checked={formData.tried_solutions === 'no'}
                       />
                       <label htmlFor="tried_solutions_no">No</label>
                     </span>
                   </td>
                 </tr>
-                {projectProblem.triedSolutions === 'yes' && (
+                {formData.tried_solutions === 'yes' && (
                   <tr>
                     <td>
                       <label htmlFor="">What were the results?</label>
                       <textarea
                         name="tried_solutions_results"
-                        onChange={handleTextAreaChange}
-                        value={projectProblem.triedSolutionsResults ?? ''}></textarea>
+                        onChange={handleInputChange}
+                        value={formData.tried_solutions_results}></textarea>
                     </td>
                   </tr>
                 )}
@@ -281,8 +327,8 @@ const ProjectProblemPage: React.FC = () => {
                     </label>
                     <textarea
                       name="ideal_resolution"
-                      onChange={handleTextAreaChange}
-                      value={projectProblem.idealResolution ?? ''}></textarea>
+                      onChange={handleInputChange}
+                      value={formData.ideal_resolution}></textarea>
                   </td>
                 </tr>
               </tbody>
@@ -290,7 +336,9 @@ const ProjectProblemPage: React.FC = () => {
           </form>
         </div>
 
-        <StatusBar show={show} message={message} messageType={messageType} />
+        <Modal message={problemMessage} />
+
+        <StatusBar show={show} message={problemError} messageType={'error'} />
 
         <button type="submit" onClick={handleSubmit}>
           <h3>{problemID ? 'UPDATE' : 'SAVE'}</h3>
@@ -300,4 +348,4 @@ const ProjectProblemPage: React.FC = () => {
   );
 }
 
-export default ProjectProblemPage;
+export default ProjectProblem;

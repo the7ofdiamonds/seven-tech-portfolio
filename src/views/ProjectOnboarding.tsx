@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/model/hooks';
@@ -10,74 +10,127 @@ import {
   updateProjectOnboarding,
 } from '../controllers/projectOnboardingSlice';
 
-import SocialNetworks from './components/onboarding/SocialNetworks';
-import Logos from './components/onboarding/Logos';
-import Colors from './components/onboarding/Colors';
-
 import { LoadingComponent, StatusBar, Modal } from '@the7ofdiamonds/github-portfolio';
 
-import { ProjectOnboarding } from '@the7ofdiamonds/github-portfolio';
+import styles from '@/views/components/Onboarding.module.scss';
 
-import styles from '@/views/components/onboarding/Onboarding.module.scss';
-
-
-const ProjectOnBoardingPage: React.FC = () => {
-  const { projectID } = useParams();
-
+const OnBoardingComponent: React.FC = () => {
+  const { project } = useParams();
   const dispatch = useAppDispatch();
 
-  const [show, setShow] = useState<string>('hide');
-  const [messageType, setMessageType] = useState<string>('info');
-  const [message, setMessage] = useState<string>(
+  const [messageType, setMessageType] = useState('info');
+  const [message, setMessage] = useState(
     'To better serve your needs and wants, please fill out the onboarding form.'
   );
-  const [projectOnboarding, setProjectOnboarding] = useState<ProjectOnboarding>(new ProjectOnboarding());
-  const [onboardingID, setOnboardingID] = useState<string | null>(null);
 
   const { user_email, first_name, client_id } = useAppSelector(
     (state) => state.client
   );
   const {
     onboardingLoading,
-    onboardingSuccessMessage,
-    onboardingErrorMessage,
-    projectOnboardingObject,
+    onboardingError,
+    project_title,
+    project_slug,
+    deadline,
+    where_business,
+    website,
+    hosting,
+    satisfied,
+    signage,
+    social_networks,
+    logo,
+    colors,
+    plan,
+    onboardingID,
+    onboardingMessage,
   } = useAppSelector((state) => state.onboarding);
 
-  useEffect(() => {
-    if (projectOnboardingObject) {
-      setProjectOnboarding(new ProjectOnboarding(projectOnboardingObject))
-    }
-  }, [projectOnboardingObject]);
-
-  useEffect(() => {
-    if (projectOnboarding.id) {
-      setOnboardingID(projectOnboarding.id)
-    }
-  }, [projectOnboarding]);
+  const [formData, setFormData] = useState({
+    client_id: client_id,
+    project_slug: project,
+    project_title: project_title,
+    deadline: deadline,
+    where_business: where_business,
+    website: website,
+    hosting: hosting,
+    satisfied: satisfied,
+    signage: signage,
+    social_networks: social_networks,
+    logo: logo,
+    colors: colors,
+    plan: plan,
+  });
 
   useEffect(() => {
     if (user_email) {
-      dispatch(getClient());
+      dispatch(getClient()).then((response) => {
+        if (response.error !== undefined) {
+          console.error(response.error.message);
+          setMessageType('error');
+          setMessage(response.error.message);
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            client_id: response.payload.id,
+          }));
+        }
+      });
     }
   }, [user_email, dispatch]);
 
   useEffect(() => {
-    if (onboardingID) {
-      dispatch(getProjectOnboarding(onboardingID));
+    if (project) {
+      dispatch(getProjectOnboarding(formData));
     }
-  }, [onboardingID]);
+  }, [project, dispatch]);
 
   if (onboardingLoading) {
     return <LoadingComponent />;
   }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProjectOnboarding(projectOnboarding)
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const scrollToQuestion = (id: string) => {
+  const handleSocialLinkChange = (e, platform) => {
+    const updatedSocialNetworks = formData.social_networks.map((social) => {
+      if (social.platform === platform) {
+        return {
+          ...social,
+          link: e.target.value,
+        };
+      }
+      return social;
+    });
+
+    setFormData({
+      ...formData,
+      social_networks: updatedSocialNetworks,
+    });
+  };
+
+  const handleColorInputChange = (e, color_title) => {
+    const updatedColorInputs = formData.colors.map((color) => {
+      if (color.title === color_title) {
+        return {
+          ...color,
+          value: e.target.value,
+        };
+      }
+      return color;
+    });
+
+    setFormData({
+      ...formData,
+      colors: updatedColorInputs,
+    });
+  };
+
+  const scrollToQuestion = (id) => {
     const question = document.getElementById(`${id}`);
 
     if (question) {
@@ -85,50 +138,50 @@ const ProjectOnBoardingPage: React.FC = () => {
     }
   };
 
-  // const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  //   const unansweredQuestions = Object.keys(projectOnboarding).filter(
-  //     (question) => projectOnboarding[question] === null || projectOnboarding[question] === ''
-  //   );
+    const unansweredQuestions = Object.keys(formData).filter(
+      (question) => formData[question] === null || formData[question] === ''
+    );
 
-  //   if (unansweredQuestions.length > 0) {
-  //     return scrollToQuestion(unansweredQuestions[0]);
-  //   }
+    if (unansweredQuestions.length > 0) {
+      return scrollToQuestion(unansweredQuestions[0]);
+    }
 
-  //   if (onboardingID) {
-  //     dispatch(updateProjectOnboarding(projectOnboarding)).then((response) => {
-  //       if (response.payload && !isNaN(response.payload.results)) {
-  //         setTimeout(() => {
-  //           if (projectOnboarding?.plan === '') {
-  //             window.location.href = `/project/problem/${projectID}`;
-  //           } else if (projectOnboarding?.plan !== '') {
-  //             window.location.href = '/dashboard';
-  //           }
-  //         }, 5000);
-  //       }
-  //     });
-  //   } else {
-  //     dispatch(createProjectOnboarding(projectOnboarding)).then((response) => {
-  //       if (response.payload && !isNaN(response.payload.id)) {
-  //         setTimeout(() => {
-  //           if (projectOnboarding?.plan === '') {
-  //             window.location.href = `/project/problem/${projectID}`;
-  //           } else if (projectOnboarding?.plan !== '') {
-  //             window.location.href = '/dashboard';
-  //           }
-  //         }, 5000);
-  //       }
-  //     });
-  //   }
-  // };
+    if (onboardingID) {
+      dispatch(updateProjectOnboarding(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.results)) {
+          setTimeout(() => {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
+    } else {
+      dispatch(createProjectOnboarding(formData)).then((response) => {
+        if (response.payload && !isNaN(response.payload.id)) {
+          setTimeout(() => {
+            if (formData?.plan === '') {
+              window.location.href = `/project/problem/${project_slug}`;
+            } else if (formData?.plan !== '') {
+              window.location.href = '/dashboard';
+            }
+          }, 5000);
+        }
+      });
+    }
+  };
 
   return (
     <>
       <main className={styles['project-onboarding']}>
         <h2 className={styles.title}>CLIENT ONBOARDING</h2>
 
-        <StatusBar show={show} message={message} messageType={messageType} />
+        <StatusBar message={message} messageType={messageType} />
 
         <div className={styles.card}>
           <form className={styles['on-boarding']} action="">
@@ -142,7 +195,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                         type="text"
                         id="project_title"
                         name="project_title"
-                        value={projectOnboarding.projectTitle ?? ''}
+                        value={project_title}
                         className={styles['input-radio']}
                         onChange={handleInputChange}
                       />
@@ -161,7 +214,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                           type="date"
                           id="deadline_date"
                           name="deadline"
-                          value={projectOnboarding.deadline ?? ''}
+                          value={formData.deadline}
                           className={styles['input-date']}
                           onChange={handleInputChange}
                         />
@@ -184,7 +237,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                           value="online"
                           className={styles['input-radio']}
                           onChange={handleInputChange}
-                          checked={projectOnboarding.location === 'online'}
+                          checked={formData.where_business === 'online'}
                         />
                         <label htmlFor="where_business_online">Online</label>
                       </span>
@@ -197,10 +250,10 @@ const ProjectOnBoardingPage: React.FC = () => {
                           className={styles['input-radio']}
                           onChange={handleInputChange}
                           checked={
-                            projectOnboarding.location === 'brick and mortar'
+                            formData.where_business === 'brick and mortar'
                           }
                         />
-                        <label htmlFor="where_business_brick">Brick & Mortar</label>
+                        <label for="where_business_brick">Brick & Mortar</label>
                       </span>
                       <span className="option">
                         <input
@@ -210,14 +263,13 @@ const ProjectOnBoardingPage: React.FC = () => {
                           value="both"
                           className={styles['input-radio']}
                           onChange={handleInputChange}
-                          checked={projectOnboarding.location === 'both'}
+                          checked={formData.where_business === 'both'}
                         />
                         <label htmlFor="where_business_brick">Both</label>
                       </span>
                     </div>
                   </td>
                 </tr>
-
                 <tr>
                   <td id="website">
                     <label htmlFor="website">
@@ -231,7 +283,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                           id="website"
                           name="website"
                           className={styles['input-url']}
-                          value={projectOnboarding.website ?? ''}
+                          value={formData.website}
                           onChange={handleInputChange}
                         />
                       </span>
@@ -239,7 +291,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                   </td>
                 </tr>
 
-                {projectOnboarding.website !== '' && projectOnboarding.website !== null && (
+                {formData.website !== '' && formData.website !== null && (
                   <>
                     <tr id="hosting">
                       <td>
@@ -254,11 +306,11 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_aws"
                               name="hosting"
                               value="aws"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.hosting === 'aws'}
+                              checked={formData.hosting === 'aws'}
                             />
-                            <label htmlFor="hosting_aws">AWS</label>
+                            <label for="hosting_aws">AWS</label>
                           </span>
                           <span className="option">
                             <input
@@ -266,11 +318,11 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_azure"
                               name="hosting"
                               value="azure"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.hosting === 'azure'}
+                              checked={formData.hosting === 'azure'}
                             />
-                            <label htmlFor="hosting_azure">Azure</label>
+                            <label for="hosting_azure">Azure</label>
                           </span>
                           <span className="option">
                             <input
@@ -278,11 +330,11 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_google"
                               name="hosting"
                               value="google"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.hosting === 'google'}
+                              checked={formData.hosting === 'google'}
                             />
-                            <label htmlFor="hosting_google">Google</label>
+                            <label for="hosting_google">Google</label>
                           </span>
                           <span className="option">
                             <input
@@ -290,11 +342,11 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_godaddy"
                               name="hosting"
                               value="godaddy"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.hosting === 'godaddy'}
+                              checked={formData.hosting === 'godaddy'}
                             />
-                            <label htmlFor="hosting_godaddy">GoDaddy</label>
+                            <label for="hosting_godaddy">GoDaddy</label>
                           </span>
                           <span className="option">
                             <input
@@ -302,18 +354,18 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="hosting_other"
                               name="hosting"
                               value="other"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.hosting === 'other'}
+                              checked={formData.hosting === 'other'}
                             />
-                            <label htmlFor="hosting_other">Other</label>
-                            {projectOnboarding.hosting === 'other' && (
+                            <label for="hosting_other">Other</label>
+                            {formData.hosting === 'other' && (
                               <input
                                 type="text"
                                 id="hosting_other"
                                 name="hosting_other"
-                                className={styles.other}
-                                value={projectOnboarding.hosting}
+                          className={styles.other}
+                                value={formData.hosting_other}
                                 onChange={handleInputChange}
                               />
                             )}
@@ -321,7 +373,6 @@ const ProjectOnBoardingPage: React.FC = () => {
                         </div>
                       </td>
                     </tr>
-
                     <tr>
                       <td id="satisfied">
                         <label htmlFor="satisfied">
@@ -335,11 +386,11 @@ const ProjectOnBoardingPage: React.FC = () => {
                               id="satisfied_yes"
                               name="satisfied"
                               value="yes"
-                              className={styles['input-radio']}
+                          className={styles['input-radio']}
                               onChange={handleInputChange}
-                              checked={projectOnboarding.satisfied === 'yes'}
+                              checked={formData.satisfied === 'yes'}
                             />
-                            <label htmlFor="satisfied_yes">Yes</label>
+                            <label for="satisfied_yes">Yes</label>
                           </span>
                           <span className="option">
                             <input
@@ -349,9 +400,9 @@ const ProjectOnBoardingPage: React.FC = () => {
                               value="no"
                               className="input-radio"
                               onChange={handleInputChange}
-                              checked={projectOnboarding.satisfied === 'no'}
+                              checked={formData.satisfied === 'no'}
                             />
-                            <label htmlFor="satisfied_no">No</label>
+                            <label for="satisfied_no">No</label>
                           </span>
                         </div>
                       </td>
@@ -359,8 +410,8 @@ const ProjectOnBoardingPage: React.FC = () => {
                   </>
                 )}
 
-                {projectOnboarding.location === 'brick and mortar' ||
-                  (projectOnboarding.location === 'both' && (
+                {formData.where_business === 'brick and mortar' ||
+                  (formData.where_business === 'both' && (
                     <tr id="signage">
                       <td>
                         <label htmlFor="signage">
@@ -374,8 +425,8 @@ const ProjectOnBoardingPage: React.FC = () => {
                               type="url"
                               id="signage"
                               name="signage"
-                              className={styles['input-url']}
-                              value={projectOnboarding.signage ?? ''}
+                          className={styles['input-url']}
+                              value={formData.signage}
                               onChange={handleInputChange}
                             />
                           </span>
@@ -383,13 +434,89 @@ const ProjectOnBoardingPage: React.FC = () => {
                       </td>
                     </tr>
                   ))}
-
-                <SocialNetworks socialNetworks={projectOnboarding.socialNetworks} />
-
-                <Logos projectOnboarding={projectOnboarding} setVal={setProjectOnboarding} />
-
-                <Colors projectOnboarding={projectOnboarding} setVal={setProjectOnboarding} />
-
+                <tr id="social_networks">
+                  <td>
+                    <label htmlFor="social_networks">
+                      Does (your company or organization) have social media
+                      pages? If Yes, provide a link to them below.
+                    </label>
+                    <div className="options-column">
+                      {Object.keys(formData.social_networks).map(
+                        (social_network) => (
+                          <span className="option" key={social_network}>
+                            <label
+                              htmlFor={`social_networks_${formData.social_networks[social_network].platform}`}>
+                              {
+                                formData.social_networks[social_network]
+                                  .platform
+                              }
+                            </label>
+                            <input
+                              type="url"
+                              id={`social_networks_${social_network}_link`}
+                              name={`social_networks_${social_network}_link`}
+                          className={styles['input-url']}
+                              value={
+                                formData.social_networks[social_network].link
+                              }
+                              onChange={(e) =>
+                                handleSocialLinkChange(
+                                  e,
+                                  formData.social_networks[social_network]
+                                    .platform
+                                )
+                              }
+                            />
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </td>
+                </tr>
+                <tr id="logo">
+                  <td>
+                    <label htmlFor="logo">
+                      Does (your company or organization) have a logo? If Yes,
+                      provide a link to it below.
+                    </label>
+                    <div className="options-column">
+                      <span className="option">
+                        <input
+                          type="url"
+                          id="logo"
+                          name="logo"
+                          className={styles['input-url']}
+                          value={formData.logo}
+                          onChange={handleInputChange}
+                        />
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+                <tr id="colors">
+                  <td>
+                    <label htmlFor="colors">
+                      Does (your company or organization) have colors? If Yes,
+                      provide them below.
+                    </label>
+                    <div className="options-column">
+                      {formData.colors.map((color) => (
+                        <div key={color.title} className="color-input">
+                          <label htmlFor={color.title}>{color.title}</label>
+                          <input
+                            type="color"
+                            id={color.title}
+                            name={color.title}
+                            value={color.value}
+                            onChange={(e) =>
+                              handleColorInputChange(e, color.title)
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
                 <tr id="plan">
                   <td>
                     <label htmlFor="plan">
@@ -404,7 +531,7 @@ const ProjectOnBoardingPage: React.FC = () => {
                           id="plan"
                           name="plan"
                           className={styles['input-url']}
-                          value={projectOnboarding.plan ?? ''}
+                          value={formData.plan}
                           onChange={handleInputChange}
                         />
                       </span>
@@ -416,9 +543,11 @@ const ProjectOnBoardingPage: React.FC = () => {
           </form>
         </div>
 
-        <StatusBar show={show} message={message} messageType={messageType} />
+        <Modal message={onboardingMessage} />
 
-        <button type="submit">
+        <StatusBar message={onboardingError} messageType={'error'} />
+
+        <button type="submit" onClick={handleSubmit}>
           <h3>{onboardingID ? 'UPDATE' : 'SAVE'}</h3>
         </button>
       </main>
@@ -426,4 +555,4 @@ const ProjectOnBoardingPage: React.FC = () => {
   );
 }
 
-export default ProjectOnBoardingPage;
+export default OnBoardingComponent;
