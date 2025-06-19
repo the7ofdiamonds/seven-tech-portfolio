@@ -12,9 +12,9 @@ import {
 
 import SocialNetworks from './components/onboarding/SocialNetworks';
 import Logos from './components/onboarding/Logos';
-import Colors from './components/onboarding/Colors';
+import ColorSelection from './components/onboarding/ColorSelection';
 
-import { LoadingComponent, StatusBar, Modal, ContactMethods } from '@the7ofdiamonds/github-portfolio';
+import { LoadingComponent, StatusBar, ContactMethods } from '@the7ofdiamonds/github-portfolio';
 
 import { ProjectOnboarding } from '@the7ofdiamonds/github-portfolio';
 
@@ -296,162 +296,120 @@ const ProjectOnBoardingPage: React.FC = () => {
                     />
                   </tr>
                   <tr>
-                    <label htmlFor="project_title">Project Title</label>
-                    <div className={styles.options}>
-                      <span className={styles.option}>
-                        <input
-                          type="text"
-                          id="project_title"
-                          name="project_title"
-                          value={projectTitle}
-                          className={styles.input}
-                          onChange={handleInputChange}
-                        />
-                      </span>
+                    <OptionInput
+                      id={`project_title`}
+                      label={'Project Title'}
+                      type={'text'}
+                      value={projectTitle}
+                      changeFunc={handleInputChange}
+                    />
+                  </tr>
+                  <tr>
+                    <OptionInput
+                      id={`deadline_date`}
+                      label="Does (your company or organization) have a specific
+                        deadline that it needs to meet? If Yes, provide it below."
+                      type={'date'}
+                      value={deadline}
+                      changeFunc={handleInputChange}
+                    />
+                  </tr>
+                  <tr>
+                    <label htmlFor="where_business">
+                      How does (your company or organization) currently do
+                      business?
+                    </label>
+                    <div className="options">
+                      <select
+                        id='where_business'
+                        name='where_business'
+                        value={location}
+                        onChange={handleLocationChange}>
+                        <option value="online">Online</option>
+                        <option value="brick and mortar">Brick & Mortar</option>
+                        <option value="both">Both</option>
+                      </select>
                     </div>
                   </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="deadline_date">
-                        Does (your company or organization) have a specific
-                        deadline that it needs to meet? If Yes, provide it below.
-                      </label>
-                      <div className={styles.options}>
-                        <span className={styles.option}>
-                          <input
-                            type="date"
-                            id="deadline_date"
-                            name="deadline_date"
-                            value={deadline}
-                            className={styles['input-date']}
-                            onChange={handleInputChange}
-                          />
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="where_business">
-                        How does (your company or organization) currently do
-                        business?
-                      </label>
-                      <div className="options">
-                        <select
-                          id='where_business'
-                          name='where_business'
-                          value={location}
-                          onChange={handleLocationChange}>
-                          <option value="online">Online</option>
-                          <option value="brick and mortar">Brick & Mortar</option>
-                          <option value="both">Both</option>
-                        </select>
-                      </div>
-                    </td>
-                  </tr>
 
                   <tr>
-                    <td id="website">
-                      <label htmlFor="website">
-                        Does (your company or organization) have a website? If
-                        Yes, provide a link to it below.
-                      </label>
-                      <div className="options-column">
-                        <span className="option">
-                          <input
-                            type="url"
-                            id="website"
-                            name="website"
-                            className={styles['input-url']}
-                            value={website}
-                            onChange={handleInputChange}
-                          />
-                        </span>
-                      </div>
-                    </td>
+                    <OptionInput
+                      id={`website`}
+                      label="Does (your company or organization) have a website? If
+                        Yes, provide a link to it below."
+                      type={'url'}
+                      value={website}
+                      changeFunc={handleInputChange}
+                    />
                   </tr>
 
-                  {projectOnboarding?.contacts?.website?.url !== '' && projectOnboarding?.contacts?.website !== null && (
+                  {website && website !== '' && (
                     <>
                       <tr>
-                        <td>
-                          <label htmlFor="hosting">
-                            What hosting service does (your company or
-                            organization) currently use?
-                          </label>
-                          <div className="options">
-                            <select
-                              id='hosting'
-                              name='hosting'
-                              value={isKnownHostingProvider(hosting) ? hosting : ''}
-                              onChange={handleHostingChange}
-                            >
-                              <option value="aws">AWS</option>
-                              <option value="google">Google Cloud</option>
-                              <option value="azure">Azure</option>
-                              <option value="godaddy">GoDaddy</option>
-                              <option value=''>Custom</option>
-                            </select>
+                        <label htmlFor="hosting">
+                          What hosting service does (your company or
+                          organization) currently use?
+                        </label>
+                        <div className="options">
+                          <select
+                            id='hosting'
+                            name='hosting'
+                            value={isKnownHostingProvider(hosting) ? hosting : ''}
+                            onChange={handleHostingChange}
+                          >
+                            <option value="aws">AWS</option>
+                            <option value="google">Google Cloud</option>
+                            <option value="azure">Azure</option>
+                            <option value="godaddy">GoDaddy</option>
+                            <option value=''>Custom</option>
+                          </select>
 
-                            {!isKnownHostingProvider(hosting) && (
-                              <input
-                                type="text"
-                                id="hosting"
-                                name="hosting"
-                                className={styles.input}
-                                value={hosting}
-                                onChange={(e) => setHosting(e.target.value)}
-                                placeholder="Enter hosting provider"
-                              />
-                            )}
-                          </div>
-                        </td>
+                          {!isKnownHostingProvider(hosting) && (
+                            <input
+                              type="text"
+                              id="hosting"
+                              name="hosting"
+                              className={styles.input}
+                              value={hosting}
+                              onChange={(e) => setHosting(e.target.value)}
+                              placeholder="Enter hosting provider"
+                            />
+                          )}
+                        </div>
                       </tr>
 
                       <tr>
-                        <td>
-                          <label htmlFor="satisfied">
-                            Is (your company or organization) satisfied with the
-                            hosting service?
-                          </label>
-                          <div className="options">
-                            <select
-                              id='satisfied'
-                              name='satisfied'
-                              value={String(satisfied)}
-                              onChange={(e) => setSatisfied(e.target.value === 'true')}
-                            >
-                              <option value="true">Yes</option>
-                              <option value="false">No</option>
-                            </select>
-                          </div>
-                        </td>
+                        <label htmlFor="satisfied">
+                          Is (your company or organization) satisfied with the
+                          hosting service?
+                        </label>
+                        <div className="options">
+                          <select
+                            id='satisfied'
+                            name='satisfied'
+                            value={String(satisfied)}
+                            onChange={(e) => setSatisfied(e.target.value === 'true')}
+                          >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        </div>
                       </tr>
                     </>
                   )}
 
                   {location === 'brick and mortar' ||
                     (location === 'both' && (
-                      <tr id="signage">
-                        <td>
-                          <label htmlFor="signage">
-                            Does your brick & mortar location(s) of (your company
+                      <tr>
+                        <OptionInput
+                          id={`signage`}
+                          label="Does your brick & mortar location(s) of (your company
                             or organization) have signage? If Yes, provide a link
-                            to a picture of them below.
-                          </label>
-                          <div className="options-column">
-                            <span className="option">
-                              <input
-                                type="url"
-                                id="signage"
-                                name="signage"
-                                className={styles['input-url']}
-                                value={signage}
-                                onChange={handleInputChange}
-                              />
-                            </span>
-                          </div>
-                        </td>
+                            to a picture of them below."
+                          type={'url'}
+                          value={signage}
+                          changeFunc={handleInputChange}
+                        />
                       </tr>
                     ))}
 
@@ -459,28 +417,18 @@ const ProjectOnBoardingPage: React.FC = () => {
 
                   <Logos projectOnboarding={projectOnboarding} setVal={setProjectOnboarding} />
 
-                  <Colors projectOnboarding={projectOnboarding} setVal={setProjectOnboarding} />
+                  <ColorSelection projectOnboarding={projectOnboarding} setVal={setProjectOnboarding} />
 
-                  <tr id="plan">
-                    <td>
-                      <label htmlFor="plan">
-                        Does (your company or organization) have a one-page or
+                  <tr>
+                    <OptionInput
+                      id={`plan`}
+                      label="Does (your company or organization) have a one-page or
                         full business plan that can be provided to define the
-                        problem? If Yes, provide a link to it below.
-                      </label>
-                      <div className="options-column">
-                        <span className="option">
-                          <input
-                            type="url"
-                            id="plan"
-                            name="plan"
-                            className={styles['input-url']}
-                            value={plan}
-                            onChange={handleInputChange}
-                          />
-                        </span>
-                      </div>
-                    </td>
+                        problem? If Yes, provide a link to it below."
+                      type={'url'}
+                      value={plan}
+                      changeFunc={handleInputChange}
+                    />
                   </tr>
                 </tbody>
               </table>

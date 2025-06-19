@@ -7,12 +7,21 @@
     "file": "Edit.module.js",
     "name": "Edit.module"
   },
+  "_EditColorsList.js": {
+    "file": "EditColorsList.js",
+    "name": "EditColorsList",
+    "imports": [
+      "src/index.tsx",
+      "_useDispatch.js"
+    ]
+  },
   "_EditProblem.js": {
     "file": "EditProblem.js",
     "name": "EditProblem",
     "imports": [
       "src/index.tsx",
       "_Status.js",
+      "_EditColorsList.js",
       "_useDispatch.js"
     ]
   },
@@ -145,6 +154,7 @@
       "_Add.module.js",
       "_EditProblem.js",
       "_Status.js",
+      "_EditColorsList.js",
       "_useDispatch.js"
     ]
   },
@@ -158,7 +168,8 @@
       "_Edit.module.js",
       "_Status.js",
       "_EditProblem.js",
-      "_useDispatch.js"
+      "_useDispatch.js",
+      "_EditColorsList.js"
     ]
   },
   "src/views/ProjectOnboardingPage.tsx": {
@@ -167,7 +178,9 @@
     "src": "src/views/ProjectOnboardingPage.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "src/index.tsx"
+      "src/index.tsx",
+      "_EditColorsList.js",
+      "_useDispatch.js"
     ]
   },
   "src/views/ProjectPage.tsx": {
