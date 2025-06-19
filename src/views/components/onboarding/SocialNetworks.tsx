@@ -1,78 +1,98 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
-import { Contact, ContactMethods } from '@the7ofdiamonds/github-portfolio';
+import { ContactMethods } from '@the7ofdiamonds/github-portfolio';
+import { ProjectOnboarding } from '@the7ofdiamonds/github-portfolio';
 
 import OptionInput from '../OptionInput';
 
 import styles from './SocialNetworks.module.scss';
 
 interface SocialNetworksProps {
-    socialNetworks: ContactMethods | null;
+    projectOnboarding: ProjectOnboarding | null;
+    setVal: (value: ProjectOnboarding) => void;
 }
 
-const SocialNetworks: React.FC<SocialNetworksProps> = ({ socialNetworks }) => {
+const SocialNetworks: React.FC<SocialNetworksProps> = ({ projectOnboarding, setVal }) => {
+    const [onboarding, setOnboarding] = useState<ProjectOnboarding>(new ProjectOnboarding);
     const [contacts, setContacts] = useState<ContactMethods>(new ContactMethods);
-    const [linkedin, setLinkedin] = useState<Contact>(new Contact({ id: 'linkedIn', title: 'LinkedIn' }));
-    const [x, setX] = useState<Contact>(new Contact({ id: 'x', title: 'X' }));
-    const [instagram, setInstagram] = useState<Contact>(new Contact({ id: 'instagram', title: 'Instagram' }));
-    const [github, setGithub] = useState<Contact>(new Contact({ id: 'gitHub', title: 'GitHub' }));
-    const [youtube, setYoutube] = useState<Contact>(new Contact({ id: 'youtube', title: 'YouTube' }));
-    const [website, setWebsite] = useState<Contact>(new Contact({ id: 'website', title: 'Website' }));
-    const [email, setEmail] = useState<Contact>(new Contact({ id: 'email', title: 'Email' }));
-    const [phone, setPhone] = useState<Contact>(new Contact({ id: 'phone', title: 'Phone' }));
+    const [linkedin, setLinkedin] = useState<string>(contacts.linkedin.url);
+    const [x, setX] = useState<string>(contacts.x.url);
+    const [instagram, setInstagram] = useState<string>(contacts.instagram.url);
+    const [github, setGithub] = useState<string>(contacts.github.url);
+    const [youtube, setYoutube] = useState<string>(contacts.youtube.url);
+
+    useEffect(() => {
+        if (projectOnboarding) {
+            setOnboarding(projectOnboarding);
+        }
+    }, [projectOnboarding]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts) {
+            setContacts(projectOnboarding.contacts);
+        }
+    }, [projectOnboarding?.contacts]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts?.linkedin?.url) {
+            setLinkedin(projectOnboarding.contacts.linkedin.url);
+        }
+    }, [projectOnboarding?.contacts?.linkedin?.url]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts?.x?.url) {
+            setX(projectOnboarding.contacts.x.url);
+        }
+    }, [projectOnboarding?.contacts?.x?.url]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts?.instagram?.url) {
+            setInstagram(projectOnboarding.contacts.instagram.url);
+        }
+    }, [projectOnboarding?.contacts?.instagram?.url]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts?.github?.url) {
+            setGithub(projectOnboarding.contacts.github.url);
+        }
+    }, [projectOnboarding?.contacts?.github?.url]);
+
+    useEffect(() => {
+        if (projectOnboarding?.contacts?.youtube?.url) {
+            setYoutube(projectOnboarding.contacts.youtube.url);
+        }
+    }, [projectOnboarding?.contacts?.youtube?.url]);
 
     const handleSocialLinkChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        if (name === `social_networks_${linkedin.id}`) {
-            linkedin.setURL(value);
-            setLinkedin(linkedin);
+        if (name === `${contacts.linkedin.id}`) {
+            setLinkedin(value)
             contacts.setContactLinkedIn(value)
         }
 
-        if (name === `social_networks_${x.id}`) {
-            x.setURL(value); instagram
-            setX(x);
+        if (name === `${contacts.x.id}`) {
+            setX(value)
             contacts.setContactX(value)
         }
 
-        if (name === `social_networks_${instagram.id}`) {
-            instagram.setURL(value);
-            setInstagram(instagram);
+        if (name === `${contacts.instagram.id}`) {
+            setInstagram(value)
             contacts.setContactInstagram(value)
         }
 
-        if (name === `social_networks_${github.id}`) {
-            github.setURL(value);
-            setGithub(github);
+        if (name === `${contacts.github.id}`) {
+            setGithub(value)
             contacts.setContactGitHub(value);
         }
 
-        if (name === `social_networks_${youtube.id}`) {
-            youtube.setURL(value);
-            setYoutube(youtube);
+        if (name === `${contacts.youtube.id}`) {
+            setYoutube(value)
             contacts.setContactYoutube(value)
         }
 
-        if (name === `social_networks_${website.id}`) {
-            website.setURL(value);
-            setWebsite(website);
-            contacts.setContactWebsite(value)
-        }
-
-        if (name === `social_networks_${email.id}`) {
-            email.setURL(value);
-            setEmail(email);
-            contacts.setContactEmail(value)
-        }
-
-        if (name === `social_networks_${phone.id}`) {
-            phone.setURL(value);
-            setPhone(phone);
-            contacts.setContactPhone(value)
-        }
-
-        setContacts(contacts);
+        onboarding.setContacts(contacts)
+        setVal(onboarding);
     };
 
     return (
@@ -85,66 +105,42 @@ const SocialNetworks: React.FC<SocialNetworksProps> = ({ socialNetworks }) => {
                 <div className={styles.options}>
 
                     <OptionInput
-                        id={`social_networks_${linkedin.id}`}
-                        label={linkedin.title ?? ''}
-                        type={'url'}
-                        value={linkedin.url ?? ''}
+                        id={`${contacts.linkedin.id}`}
+                        label={contacts.linkedin.title}
+                        type={contacts.linkedin.type}
+                        value={linkedin}
                         changeFunc={handleSocialLinkChange}
                     />
 
                     <OptionInput
-                        id={`social_networks_${x.id}`}
-                        label={x.title ?? ''}
-                        type={'url'}
-                        value={x.url ?? ''}
+                        id={`${contacts.x.id}`}
+                        label={contacts.x.title}
+                        type={contacts.x.type}
+                        value={x}
                         changeFunc={handleSocialLinkChange}
                     />
 
                     <OptionInput
-                        id={`social_networks_${instagram.id}`}
-                        label={instagram.title ?? ''}
-                        type={'url'}
-                        value={instagram.url ?? ''}
+                        id={`${contacts.instagram.id}`}
+                        label={contacts.instagram.title}
+                        type={contacts.instagram.type}
+                        value={instagram}
                         changeFunc={handleSocialLinkChange}
                     />
 
                     <OptionInput
-                        id={`social_networks_${github.id}`}
-                        label={github.title ?? ''}
-                        type={'url'}
-                        value={github.url ?? ''}
+                        id={`${contacts.github.id}`}
+                        label={contacts.github.title}
+                        type={contacts.github.type}
+                        value={github}
                         changeFunc={handleSocialLinkChange}
                     />
 
                     <OptionInput
-                        id={`social_networks_${youtube.id}`}
-                        label={youtube.title ?? ''}
-                        type={'url'}
-                        value={youtube.url ?? ''}
-                        changeFunc={handleSocialLinkChange}
-                    />
-
-                    <OptionInput
-                        id={`social_networks_${website.id}`}
-                        label={website.title ?? ''}
-                        type={'url'}
-                        value={website.url ?? ''}
-                        changeFunc={handleSocialLinkChange}
-                    />
-
-                    <OptionInput
-                        id={`social_networks_${email.id}`}
-                        label={email.title ?? ''}
-                        type={'email'}
-                        value={email.url ?? ''}
-                        changeFunc={handleSocialLinkChange}
-                    />
-
-                    <OptionInput
-                        id={`social_networks_${phone.id}`}
-                        label={phone.title ?? ''}
-                        type={'phone'}
-                        value={phone.url ?? ''}
+                        id={`${contacts.youtube.id}`}
+                        label={contacts.youtube.title}
+                        type={contacts.youtube.type}
+                        value={youtube}
                         changeFunc={handleSocialLinkChange}
                     />
                 </div>
